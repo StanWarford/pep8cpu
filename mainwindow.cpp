@@ -7,6 +7,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    mainMemory = new MainMemory(ui->splitter);
+    delete ui->memoryFrame;
+    microcode = new Microcode(ui->splitter);
+    delete ui->microcodeFrame;
+
+    helpDialog = new HelpDialog(this);
+
     // Byte converter setup
     byteConverterDec = new ByteConverterDec();
     ui->byteConverterToolBar->addWidget(byteConverterDec);
@@ -40,6 +47,75 @@ void MainWindow::changeEvent(QEvent *e)
     }
 }
 
+// File MainWindow triggers
+void MainWindow::on_actionFile_New_triggered()
+{
+
+}
+
+void MainWindow::on_actionFile_Open_triggered()
+{
+
+}
+
+bool MainWindow::on_actionFile_Save_triggered()
+{
+    return true;
+}
+
+bool MainWindow::on_actionFile_Save_As_triggered()
+{
+    return true;
+}
+
+// Edit MainWindow triggers
+void MainWindow::on_actionEdit_Undo_triggered()
+{
+
+}
+
+void MainWindow::on_actionEdit_Redo_triggered()
+{
+
+}
+
+void MainWindow::on_actionEdit_Cut_triggered()
+{
+
+}
+
+void MainWindow::on_actionEdit_Copy_triggered()
+{
+
+}
+
+void MainWindow::on_actionEdit_Paste_triggered()
+{
+
+}
+
+void MainWindow::on_actionEdit_Font_triggered()
+{
+
+}
+
+// System MainWindow triggers
+void MainWindow::on_actionSystem_Clear_CPU_triggered()
+{
+
+}
+
+void MainWindow::on_actionSystem_Clear_Memory_triggered()
+{
+
+}
+
+void MainWindow::on_actionHelp_CPU_triggered()
+{
+    helpDialog->show();
+}
+
+// Byte Converter slots
 void MainWindow::slotByteConverterDecEdited(const QString &str)
 {
     if (str.length() > 0) {

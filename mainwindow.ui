@@ -18,6 +18,9 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+    <property name="margin">
+     <number>0</number>
+    </property>
     <item row="0" column="0">
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
@@ -87,6 +90,11 @@
     <property name="title">
      <string>System</string>
     </property>
+    <addaction name="actionLoad_Microcode"/>
+    <addaction name="actionSystem_Run"/>
+    <addaction name="actionSystem_Start_Debugging"/>
+    <addaction name="actionSystem_Stop_Debugging"/>
+    <addaction name="separator"/>
     <addaction name="actionSystem_Clear_CPU"/>
     <addaction name="actionSystem_Clear_Memory"/>
    </widget>
@@ -120,9 +128,10 @@
    <addaction name="actionFile_Save"/>
    <addaction name="actionEdit_Undo"/>
    <addaction name="actionEdit_Redo"/>
-   <addaction name="actionEdit_Cut"/>
-   <addaction name="actionEdit_Copy"/>
-   <addaction name="actionEdit_Paste"/>
+   <addaction name="actionHelp_CPU"/>
+   <addaction name="actionSystem_Run"/>
+   <addaction name="actionSystem_Start_Debugging"/>
+   <addaction name="actionSystem_Stop_Debugging"/>
   </widget>
   <widget class="QToolBar" name="byteConverterToolBar">
    <property name="movable">
@@ -267,6 +276,10 @@
    </property>
   </action>
   <action name="actionHelp_CPU">
+   <property name="icon">
+    <iconset resource="pep8cpuresources.qrc">
+     <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
+   </property>
    <property name="text">
     <string>CPU</string>
    </property>
@@ -274,6 +287,50 @@
   <action name="actionHelp_Microcode">
    <property name="text">
     <string>Microcode</string>
+   </property>
+  </action>
+  <action name="actionSystem_Run">
+   <property name="icon">
+    <iconset resource="pep8cpuresources.qrc">
+     <normaloff>:/images/run.png</normaloff>:/images/run.png</iconset>
+   </property>
+   <property name="text">
+    <string>Run</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionSystem_Start_Debugging">
+   <property name="icon">
+    <iconset resource="pep8cpuresources.qrc">
+     <normaloff>:/images/debugger_start.png</normaloff>:/images/debugger_start.png</iconset>
+   </property>
+   <property name="text">
+    <string>Start Debugging</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionSystem_Stop_Debugging">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="pep8cpuresources.qrc">
+     <normaloff>:/images/stop.png</normaloff>:/images/stop.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stop Debugging</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+.</string>
+   </property>
+  </action>
+  <action name="actionLoad_Microcode">
+   <property name="text">
+    <string>Load Microcode</string>
    </property>
   </action>
  </widget>

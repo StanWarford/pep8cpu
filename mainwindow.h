@@ -8,6 +8,12 @@
 #include "byteconverterbin.h"
 #include "byteconverterchar.h"
 
+#include "microcode.h"
+#include "pep.h"
+#include "sim.h"
+#include "mainmemory.h"
+#include "helpdialog.h"
+
 namespace Ui {
     class MainWindow;
 }
@@ -30,7 +36,31 @@ private:
     ByteConverterBin *byteConverterBin;
     ByteConverterChar *byteConverterChar;
 
+    // Main Memory
+    MainMemory *mainMemory;
+    Microcode *microcode;
+
+    HelpDialog *helpDialog;
+
 private slots:
+
+    // File
+    void on_actionFile_New_triggered();
+    void on_actionFile_Open_triggered();
+    bool on_actionFile_Save_triggered();
+    bool on_actionFile_Save_As_triggered();
+    // Edit
+    void on_actionEdit_Undo_triggered();
+    void on_actionEdit_Redo_triggered();
+    void on_actionEdit_Cut_triggered();
+    void on_actionEdit_Copy_triggered();
+    void on_actionEdit_Paste_triggered();
+    void on_actionEdit_Font_triggered();
+    // System
+    void on_actionSystem_Clear_CPU_triggered();
+    void on_actionSystem_Clear_Memory_triggered();
+    // Help
+    void on_actionHelp_CPU_triggered();
 
     // Byte converter
     void slotByteConverterDecEdited(const QString &);

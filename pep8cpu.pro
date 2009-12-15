@@ -3,21 +3,39 @@
 # -------------------------------------------------
 TARGET = pep8cpu
 TEMPLATE = app
+QT += webkit
 SOURCES += main.cpp \
     mainwindow.cpp \
     byteconverterhex.cpp \
     byteconverterdec.cpp \
     byteconverterchar.cpp \
-    byteconverterbin.cpp
+    byteconverterbin.cpp \
+    mainmemory.cpp \
+    sim.cpp \
+    pep.cpp \
+    microcode.cpp \
+    cpupane.cpp \
+    helpdialog.cpp
 HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
     byteconverterchar.h \
-    byteconverterbin.h
+    byteconverterbin.h \
+    mainmemory.h \
+    sim.h \
+    pep.h \
+    microcode.h \
+    cpupane.h \
+    helpdialog.h
 FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \
     byteconverterchar.ui \
-    byteconverterbin.ui
+    byteconverterbin.ui \
+    mainmemory.ui \
+    microcode.ui \
+    cpupane.ui \
+    helpdialog.ui
 OTHER_FILES += 
-RESOURCES += pep8cpuresources.qrc
+RESOURCES += pep8cpuresources.qrc \
+    helpresources.qrc
