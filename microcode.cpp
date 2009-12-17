@@ -6,11 +6,19 @@ Microcode::Microcode(QWidget *parent) :
     ui(new Ui::Microcode)
 {
     ui->setupUi(this);
+
+    highlighter = new PepHighlighter(ui->textEdit->document());
+
 }
 
 Microcode::~Microcode()
 {
     delete ui;
+}
+
+void Microcode::setMicrocode(QString microcode)
+{
+    ui->textEdit->setText(microcode);
 }
 
 void Microcode::changeEvent(QEvent *e)

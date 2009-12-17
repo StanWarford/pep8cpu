@@ -1,19 +1,22 @@
 #include "cpupane.h"
 #include "ui_cpupane.h"
+#include "enu.h"
 
-cpuPane::cpuPane(QWidget *parent) :
+using namespace Enu;
+
+CpuPane::CpuPane(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::cpuPane)
+    ui(new Ui::CpuPane)
 {
     ui->setupUi(this);
 }
 
-cpuPane::~cpuPane()
+CpuPane::~CpuPane()
 {
     delete ui;
 }
 
-void cpuPane::changeEvent(QEvent *e)
+void CpuPane::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
     switch (e->type()) {

@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>747</width>
-    <height>521</height>
+    <width>866</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Pep/8 CPU</string>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
@@ -59,7 +59,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>747</width>
+     <width>866</width>
      <height>22</height>
     </rect>
    </property>
@@ -128,7 +128,7 @@
    <addaction name="actionFile_Save"/>
    <addaction name="actionEdit_Undo"/>
    <addaction name="actionEdit_Redo"/>
-   <addaction name="actionHelp_CPU"/>
+   <addaction name="actionHelp"/>
    <addaction name="actionSystem_Run"/>
    <addaction name="actionSystem_Start_Debugging"/>
    <addaction name="actionSystem_Stop_Debugging"/>
@@ -331,6 +331,18 @@
   <action name="actionLoad_Microcode">
    <property name="text">
     <string>Load Microcode</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="icon">
+    <iconset resource="pep8cpuresources.qrc">
+     <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>Help</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
  </widget>

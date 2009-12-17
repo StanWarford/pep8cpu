@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     pep.cpp \
     microcode.cpp \
     cpupane.cpp \
-    helpdialog.cpp
+    helpdialog.cpp \
+    pephighlighter.cpp
 HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
@@ -26,7 +27,9 @@ HEADERS += mainwindow.h \
     pep.h \
     microcode.h \
     cpupane.h \
-    helpdialog.h
+    helpdialog.h \
+    pephighlighter.h \
+    enu.h
 FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \

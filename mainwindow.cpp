@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mainMemory = new MainMemory(ui->splitter);
     delete ui->memoryFrame;
+    cpuPane = new CpuPane(ui->splitter);
+    delete ui->cpuFrame;
     microcode = new Microcode(ui->splitter);
     delete ui->microcodeFrame;
 
@@ -27,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(byteConverterHex, SIGNAL(textEdited(const QString &)), this, SLOT(slotByteConverterHexEdited(const QString &)));
     connect(byteConverterBin, SIGNAL(textEdited(const QString &)), this, SLOT(slotByteConverterBinEdited(const QString &)));
     connect(byteConverterChar, SIGNAL(textEdited(const QString &)), this, SLOT(slotByteConverterCharEdited(const QString &)));
+
+    connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToMicrocodeButtonClicked()));
 
 }
 
@@ -110,7 +114,7 @@ void MainWindow::on_actionSystem_Clear_Memory_triggered()
 
 }
 
-void MainWindow::on_actionHelp_CPU_triggered()
+void MainWindow::on_actionHelp_triggered()
 {
     helpDialog->show();
 }
@@ -174,4 +178,10 @@ void MainWindow::slotByteConverterCharEdited(const QString &str)
         byteConverterHex->setValue(data);
         byteConverterBin->setValue(data);
     }
+}
+
+void MainWindow::helpCopyToMicrocodeButtonClicked()
+{
+    microcode->setMicrocode(helpDialog->getExampleText());
+    helpDialog->hide();
 }

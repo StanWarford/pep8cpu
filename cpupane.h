@@ -4,20 +4,20 @@
 #include <QWidget>
 
 namespace Ui {
-    class cpuPane;
+    class CpuPane;
 }
 
-class cpuPane : public QWidget {
+class CpuPane : public QWidget {
     Q_OBJECT
 public:
-    cpuPane(QWidget *parent = 0);
-    ~cpuPane();
+    CpuPane(QWidget *parent = 0);
+    ~CpuPane();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::cpuPane *ui;
+    Ui::CpuPane *ui;
 };
 
 #endif // CPUPANE_H

@@ -12,16 +12,23 @@ HelpDialog::HelpDialog(QWidget *parent) :
     connect(ui->helpTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this,
             SLOT(onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
     // Forward the helpCopyToSourceButton_clicked() signal from this to the main window
-    connect(ui->helpCopyToSourceButton, SIGNAL(clicked()), this, SIGNAL(clicked()));
+    connect(ui->helpCopyToMicrocodeButton, SIGNAL(clicked()), this, SIGNAL(clicked()));
 
     ui->helpSplitter->widget(1)->hide();
     ui->helpTreeWidget->expandAll();
+
+    leftHighlighter = new PepHighlighter(ui->helpTextEdit->document());
 
 }
 
 HelpDialog::~HelpDialog()
 {
     delete ui;
+}
+
+QString HelpDialog::getExampleText()
+{
+    return ui->helpTextEdit->toPlainText();
 }
 
 void HelpDialog::changeEvent(QEvent *e)
@@ -78,42 +85,29 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
         else {
             ui->helpSplitter->widget(0)->hide();
             ui->helpSplitter->widget(1)->show();
-            ui->helpCopyToSourceButton->setText("Copy to Source");
             if (row == eFIG1205) {
-                ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig1205.pepcpu"));
+                ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1205.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Figure 12.5</b><code>  </code> Yadda yadda<code>yadda</code>.");
-                ui->helpRightPepTextEdit->hide();
-                ui->helpRightCppTextEdit->hide();
             }
             else if (row == eFIG1205B) {
-                ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Figure 12.5b</b><code>  </code> Yadda yadda<code>yadda</code>.");
-                ui->helpRightPepTextEdit->hide();
-                ui->helpRightCppTextEdit->hide();
             }
             else if (row == eFIG1208) {
-                ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig1208.pepcpu"));
+                ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1208.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Figure 12.8</b><code>  </code> Yadda yadda<code>yadda</code>.");
-                ui->helpRightPepTextEdit->hide();
-                ui->helpRightCppTextEdit->hide();
             }
             else if (row == eFIG1209) {
-                ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig1209.pepcpu"));
+                ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1209.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Figure 12.9</b><code>  </code> Yadda yadda<code>yadda</code>.");
-                ui->helpRightPepTextEdit->hide();
-                ui->helpRightCppTextEdit->hide();
             }
             else if (row == eFIG1210) {
-                ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig1210.pepcpu"));
+                ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1210.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Figure 12.10</b><code>  </code> Yadda yadda<code>yadda</code>.");
-                ui->helpRightPepTextEdit->hide();
-                ui->helpRightCppTextEdit->hide();
             }
             else if (row == eFIG1212) {
-                ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig1212.pepcpu"));
+                ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1212.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Figure 12.12</b><code>  </code> Yadda yadda<code>yadda</code>.");
-                ui->helpRightPepTextEdit->hide();
-                ui->helpRightCppTextEdit->hide();
             }
         }
     }

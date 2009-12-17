@@ -12,6 +12,7 @@
 #include "pep.h"
 #include "sim.h"
 #include "mainmemory.h"
+#include "cpupane.h"
 #include "helpdialog.h"
 
 namespace Ui {
@@ -38,6 +39,7 @@ private:
 
     // Main Memory
     MainMemory *mainMemory;
+    CpuPane *cpuPane;
     Microcode *microcode;
 
     HelpDialog *helpDialog;
@@ -60,7 +62,7 @@ private slots:
     void on_actionSystem_Clear_CPU_triggered();
     void on_actionSystem_Clear_Memory_triggered();
     // Help
-    void on_actionHelp_CPU_triggered();
+    void on_actionHelp_triggered();
 
     // Byte converter
     void slotByteConverterDecEdited(const QString &);
@@ -68,6 +70,7 @@ private slots:
     void slotByteConverterBinEdited(const QString &);
     void slotByteConverterCharEdited(const QString &);
 
+    void helpCopyToMicrocodeButtonClicked();
 };
 
 #endif // MAINWINDOW_H

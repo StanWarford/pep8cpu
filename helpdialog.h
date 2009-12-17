@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QTreeWidgetItem>
+#include "pephighlighter.h"
 
 namespace Ui {
     class HelpDialog;
@@ -14,6 +15,8 @@ public:
     HelpDialog(QWidget *parent = 0);
     ~HelpDialog();
 
+    QString getExampleText();
+
 protected:
     void changeEvent(QEvent *e);
 
@@ -21,6 +24,8 @@ private:
     Ui::HelpDialog *ui;
 
     void selectItem(QString string);
+
+    PepHighlighter *leftHighlighter;
 
     enum Row {
         eCPU = 0,
