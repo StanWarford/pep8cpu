@@ -14,5 +14,6 @@ namespace Enu
         eNONUNARY = 0x00,
         eUNARY = 0x01,
     };
+}
 
 #endif // ENU_H

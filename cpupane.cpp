@@ -27,3 +27,4 @@ void CpuPane::changeEvent(QEvent *e)
         break;
     }
 }
+
