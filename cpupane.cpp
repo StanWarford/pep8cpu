@@ -4,11 +4,27 @@
 
 using namespace Enu;
 
+struct Bus
+{
+    int value;
+    enum BusState state;
+};
+
+struct MainBus
+{
+    int addr;
+    int data;
+    enum MainBusState state;
+    enum MainBusState prevState;
+};
+
 CpuPane::CpuPane(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CpuPane)
 {
     ui->setupUi(this);
+
+
 }
 
 CpuPane::~CpuPane()

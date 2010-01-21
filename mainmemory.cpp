@@ -16,46 +16,45 @@ MainMemory::~MainMemory()
     delete ui;
 }
 
-void MainMemory::ShowAddress(int nAddress)
+void MainMemory::showAddress(int address)
 {
-    Q_ASSERT(0x0000 <= nAddress && nAddress <= 0xffff);
+    Q_ASSERT(0x0000 <= address && address <= 0xffff);
 
-    if (0 > nAddress - m_nCurrentMemoryOffset || nAddress - m_nCurrentMemoryOffset >= ui->tableWidget->rowCount()) {
+    if (0 > address - currentMemoryOffset || address - currentMemoryOffset >= ui->tableWidget->rowCount()) {
         // Only move the slider when necessary.
         int min = ui->tableWidget->verticalScrollBar()->minimum();
         int max = ui->tableWidget->verticalScrollBar()->maximum();
         // Something like this. Lifted from pep8-1, so the values here may be somewhat different.
-        ui->tableWidget->verticalScrollBar()->setValue(min + static_cast<int>(8 * (nAddress / 4096 - 8) + ((nAddress - nAddress % 8) / 65536.0) * (max - min)));
+        ui->tableWidget->verticalScrollBar()->setValue(min + static_cast<int>(8 * (address / 4096 - 8) + ((address - address % 8) / 65536.0) * (max - min)));
     }
 
-    SetHighlight(nAddress);
+    setHighlight(address);
 }
 
-
-void MainMemory::SetValue(int nAddress, int nValue)
+void MainMemory::setValue(int address, int value)
 {
-    Q_ASSERT(0x0000 <= nAddress && nAddress <= 0xffff);
-    Q_ASSERT(0x00 <= nValue && nValue <= 0xff);
+    Q_ASSERT(0x0000 <= address && address <= 0xffff);
+    Q_ASSERT(0x00 <= value && value <= 0xff);
 
-    QChar xChar = '0';
+    QChar character = '0'; // Buh? I don't think he uses this in his code anywhere.
 
-    qDebug("Set Value: Mem[0x%.4x]=0x%.2x",	nAddress, nValue);
+    qDebug("Set Value: Mem[0x%.4x]=0x%.2x",	address, value);
 
-    m_chMem[nAddress] = (char)nValue;
+    mem[address] = (char)value;
 
     // Force the table contents to be refreshed so that the updated value is displayed.
-    if (0 <= nAddress - m_nCurrentMemoryOffset || nAddress - m_nCurrentMemoryOffset < ui->tableWidget->rowCount()) {
-        RepositionTable(m_nCurrentMemoryOffset);
+    if (0 <= address - currentMemoryOffset || address - currentMemoryOffset < ui->tableWidget->rowCount()) {
+        repositionTable(currentMemoryOffset);
     }
     else {
-        RepositionTable(nAddress);
+        repositionTable(address);
     }
 
-    ShowAddress(nAddress);
+    showAddress(address);
 }
 
 
-void MainMemory::LoadMemory(const unsigned char **ppchValues)
+void MainMemory::loadMemory(const unsigned char **ppchValues)
 {
 #warning Implement
 }
@@ -72,86 +71,86 @@ QString MainMemory::fillHexValue(int value, int pad, int base)
     return retString;
 }
 
-void MainMemory::ResetHighlight()
+void MainMemory::resetHighlight()
 {
-    QTableWidgetItem *pxItem;
+    QTableWidgetItem *item;
 
     // Table could have been resized and the index might not be valid.
-    if (-1 != m_nHighlightedIndex && m_nHighlightedIndex < ui->tableWidget->rowCount()) {
-//        ui->tableWidget = ui->tableWidget->item(m_nHighlightedIndex, 0);
-        Q_ASSERT(pxItem);
-        if (NULL != pxItem)
+    if (-1 != highlightedIndex && highlightedIndex < ui->tableWidget->rowCount()) {
+//        ui->tableWidget = ui->tableWidget->item(highlightedIndex, 0);
+        Q_ASSERT(item);
+        if (NULL != item)
         {
-            pxItem->setBackground(QBrush(Qt::white));
+            item->setBackground(QBrush(Qt::white));
         }
 
-        pxItem = ui->tableWidget->item(m_nHighlightedIndex, 1);
-        Q_ASSERT(pxItem);
-        if (NULL != pxItem)
+        item = ui->tableWidget->item(highlightedIndex, 1);
+        Q_ASSERT(item);
+        if (NULL != item)
         {
-            pxItem->setBackground(QBrush(Qt::white));
+            item->setBackground(QBrush(Qt::white));
         }
 
-        pxItem = ui->tableWidget->item(m_nHighlightedIndex, 2);
-        Q_ASSERT(pxItem);
-        if (NULL != pxItem)
+        item = ui->tableWidget->item(highlightedIndex, 2);
+        Q_ASSERT(item);
+        if (NULL != item)
         {
-            pxItem->setBackground(QBrush(Qt::white));
+            item->setBackground(QBrush(Qt::white));
         }
     }
 
-    m_nHighlightedIndex = -1;
+    highlightedIndex = -1;
 }
 
-void MainMemory::SetHighlight(int nAddress)
+void MainMemory::setHighlight(int address)
 {
-    QTableWidgetItem *pxItem;
-    Q_ASSERT(0 <= (nAddress - m_nCurrentMemoryOffset) && (nAddress - m_nCurrentMemoryOffset) < ui->tableWidget->rowCount());
-    ResetHighlight();
-    m_nHighlightedIndex = nAddress - m_nCurrentMemoryOffset;
+    QTableWidgetItem *item;
+    Q_ASSERT(0 <= (address - currentMemoryOffset) && (address - currentMemoryOffset) < ui->tableWidget->rowCount());
+    resetHighlight();
+    highlightedIndex = address - currentMemoryOffset;
 
-    pxItem = ui->tableWidget->item(m_nHighlightedIndex, 0);
-    Q_ASSERT(pxItem);
-    if (NULL != pxItem)
+    item = ui->tableWidget->item(highlightedIndex, 0);
+    Q_ASSERT(item);
+    if (NULL != item)
     {
-        pxItem->setBackground(QBrush(Qt::yellow));
+        item->setBackground(QBrush(Qt::yellow));
     }
 
-    pxItem = ui->tableWidget->item(m_nHighlightedIndex, 1);
-    Q_ASSERT(pxItem);
-    if (NULL != pxItem)
+    item = ui->tableWidget->item(highlightedIndex, 1);
+    Q_ASSERT(item);
+    if (NULL != item)
     {
-        pxItem->setBackground(QBrush(Qt::yellow));
+        item->setBackground(QBrush(Qt::yellow));
     }
 
-    pxItem = ui->tableWidget->item(m_nHighlightedIndex, 2);
-    Q_ASSERT(pxItem);
-    if (NULL != pxItem)
+    item = ui->tableWidget->item(highlightedIndex, 2);
+    Q_ASSERT(item);
+    if (NULL != item)
     {
-        pxItem->setBackground(QBrush(Qt::yellow));
+        item->setBackground(QBrush(Qt::yellow));
     }
 }
 
-void MainMemory::RepositionTable(int nAddress)
+void MainMemory::repositionTable(int address)
 {
-    Q_ASSERT(0 <= nAddress && nAddress <= 0x10000);
+    Q_ASSERT(0 <= address && address <= 0x10000);
 
-    QChar cxChar = '0';
-    QString cxHex = "0x%1";
-    QString cxDec = "%1";
+    QChar character = '0';
+    QString hex = "0x%1";
+    QString dec = "%1";
 
-    ResetHighlight();
+    resetHighlight();
 
-    m_nCurrentMemoryOffset = nAddress > (0x10000 - ui->tableWidget->rowCount()) ? (0x10000 - ui->tableWidget->rowCount()) : nAddress;
+    currentMemoryOffset = address > (0x10000 - ui->tableWidget->rowCount()) ? (0x10000 - ui->tableWidget->rowCount()) : address;
 
     for (int i = 0; i < ui->tableWidget->rowCount(); i++)
     {
         // Set the value of the address cell.
-        ui->tableWidget->item(i, 0)->setText(cxHex.arg(m_nCurrentMemoryOffset+i, 4, 16, cxChar));
+        ui->tableWidget->item(i, 0)->setText(hex.arg(currentMemoryOffset+i, 4, 16, character));
         // Set the value of the hex cell.
-        ui->tableWidget->item(i, 1)->setText(cxHex.arg((int)m_chMem[m_nCurrentMemoryOffset+i]&0xff, 2, 16, cxChar));
+        ui->tableWidget->item(i, 1)->setText(hex.arg((int)mem[currentMemoryOffset+i]&0xff, 2, 16, character));
         // Set the value of the dec cell.
-        ui->tableWidget->item(i, 2)->setText(cxDec.arg((int)m_chMem[m_nCurrentMemoryOffset+i]&0xff));
+        ui->tableWidget->item(i, 2)->setText(dec.arg((int)mem[currentMemoryOffset+i]&0xff));
     }
 
     ui->tableWidget->verticalScrollBar()->setRange(0, 0x10000-(ui->tableWidget->rowCount()));
@@ -162,50 +161,50 @@ void MainMemory::RepositionTable(int nAddress)
 }
 
 // slots:
-void MainMemory::SlotItemChanged(QTableWidgetItem *pxItem)
+void MainMemory::slotItemChanged(QTableWidgetItem *item)
 {
-    qDebug("Memory cell changed: %d,%d", pxItem->row(), pxItem->column());
-    QTableWidgetItem *pxPeerItem;
-    int nValue;
-    bool bOk;
-    QChar xChar = '0';
+    qDebug("Memory cell changed: %d,%d", item->row(), item->column());
+    QTableWidgetItem *peerItem;
+    int value;
+    bool ok;
+    QChar character = '0';
 
-    if (pxItem->isSelected())
+    if (item->isSelected())
     {
-        pxItem->setSelected(false);
-        switch(pxItem->column())
+        item->setSelected(false);
+        switch(item->column())
         {
         case(1):
-            pxPeerItem = ui->tableWidget->item(pxItem->row(), 2);
-            nValue = pxItem->text().toInt(&bOk, 16);
-            if (bOk && 0xff >= nValue)
+            peerItem = ui->tableWidget->item(item->row(), 2);
+            value = item->text().toInt(&ok, 16);
+            if (ok && 0xff >= value)
             {
-                pxPeerItem->setText(QString("%1").arg(nValue));
-                pxItem->setText(QString("0x%1").arg(nValue, 2, 16, xChar));
+                peerItem->setText(QString("%1").arg(value));
+                item->setText(QString("0x%1").arg(value, 2, 16, character));
             }
             else
             {
-                nValue = pxPeerItem->text().toInt(&bOk, 10);
-                pxItem->setText(QString("0x%1").arg(nValue, 2, 16, xChar));
+                value = peerItem->text().toInt(&ok, 10);
+                item->setText(QString("0x%1").arg(value, 2, 16, character));
             }
             break;
                 case(2):
-            pxPeerItem = ui->tableWidget->item(pxItem->row(), 1);
-            nValue = pxItem->text().toInt(&bOk, 10);
-            if (bOk & 0xff >= nValue)
+            peerItem = ui->tableWidget->item(item->row(), 1);
+            value = item->text().toInt(&ok, 10);
+            if (ok & 0xff >= value)
             {
-                pxPeerItem->setText(QString("0x%1").arg(nValue, 2, 16, xChar));
+                peerItem->setText(QString("0x%1").arg(value, 2, 16, character));
             }
             else
             {
-                nValue = pxPeerItem->text().toInt(&bOk, 16);
-                pxItem->setText(QString("%1").arg(nValue));
+                value = peerItem->text().toInt(&ok, 16);
+                item->setText(QString("%1").arg(value));
             }
             break;
         }
-        ResetHighlight();
+        resetHighlight();
 
-        m_chMem[m_nCurrentMemoryOffset+pxItem->row()] = (char)nValue;
+        mem[currentMemoryOffset+item->row()] = (char)value;
     }
 
     ui->tableWidget->resizeColumnToContents(0);
@@ -213,11 +212,10 @@ void MainMemory::SlotItemChanged(QTableWidgetItem *pxItem)
     ui->tableWidget->resizeColumnToContents(2);
 }
 
-void MainMemory::SlotSliderChanged(int nValue)
+void MainMemory::slotSliderChanged(int value)
 {
-    RepositionTable(nValue);
+    repositionTable(value);
 }
-
 
 void MainMemory::changeEvent(QEvent *e)
 {

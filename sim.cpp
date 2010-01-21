@@ -1,5 +1,6 @@
 #include "sim.h"
+#include "enu.h"
 
-sim::sim()
-{
-}
+using namespace Enu;
+
+QVector<int> Sim::Mem(65536);

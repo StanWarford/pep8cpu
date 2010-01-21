@@ -14,50 +14,44 @@ public:
     MainMemory(QWidget *parent = 0);
     ~MainMemory();
 
-    // Ensure that the specified memory address
-    // is visible.
-    // @param nAddress Address of memory to display.
-    void ShowAddress(int nAddress);
+    // Ensure that the specified memory address is visible.
+    void showAddress(int address);
 
     // Return the value of a byte of memory.
-    // @param nAddress The address to read.
-    // @return int
-    int GetValue(int nAddress);
+    int getValue(int address);
 
     // Set the value of a byte of memory.
-    // @param nAddress The address to of memory to set.
-    // @param nValue The byte value to set.
-    void SetValue(int nAddress, int nValue);
+    void setValue(int address, int value);
 
     // Reset all memory to zero.
-    void ClearMemory();
+    void clearMemory();
 
     // Randomize the contents of main memory.
-    void PopulateMemory();
+    void populateMemory();
 
     // Load the contents of main memory.
-    // @param ppchValues Array of bytes to load into memory.
-    void LoadMemory(const unsigned char **ppchValues);
+    // @param values Array of bytes to load into memory.
+    void loadMemory(const unsigned char **values);
 
-    static QString fillHexValue( int, int, int base = 16 );
+    static QString fillHexValue(int, int, int base = 16);
 
     // Clear the current address highlight
-    void ResetHighlight();
+    void resetHighlight();
 
     // Highlight the specified address.
-    void SetHighlight(int nAddress);
+    void setHighlight(int address);
 
     // Reposition the table to display the specified address of main memory.
-    void RepositionTable(int nAddress);
+    void repositionTable(int address);
 
 public slots:
     // Slot called when an item in the table changes.  This is used
     // to sync the hex / dec values.
-    void SlotItemChanged(QTableWidgetItem *pxItem);
+    void slotItemChanged(QTableWidgetItem *item);
 
     // Slot called when the vertical scroll bar changes.
     // Will cause the table to scroll through memory.
-    void SlotSliderChanged(int nValue);
+    void slotSliderChanged(int value);
 
 protected:
     void changeEvent(QEvent *e);
@@ -65,9 +59,9 @@ protected:
 private:
     Ui::MainMemory *ui;
 
-    int	m_nHighlightedIndex;
-    int	m_nCurrentMemoryOffset;
-    char m_chMem[0x10000];
+    int	highlightedIndex;
+    int	currentMemoryOffset;
+    char mem[0x10000];
 
     enum { CELL_COUNT = 30};
 

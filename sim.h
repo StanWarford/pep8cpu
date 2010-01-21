@@ -1,10 +1,12 @@
 #ifndef SIM_H
 #define SIM_H
 
-class sim
+#include <QVector>
+
+class Sim
 {
 public:
-    sim();
+    static QVector<int> Mem;
 };
 
 #endif // SIM_H
