@@ -18,6 +18,7 @@ protected:
 
 private:
     Ui::CpuPane *ui;
+
 };
 
 #endif // CPUPANE_H

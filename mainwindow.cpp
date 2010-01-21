@@ -32,6 +32,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToMicrocodeButtonClicked()));
 
+    connect(qApp->instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(mainWindowUtilities(QWidget*, QWidget*)));
+    connect(microcode, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
+    connect(microcode, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
+
 }
 
 MainWindow::~MainWindow()
@@ -178,6 +182,54 @@ void MainWindow::slotByteConverterCharEdited(const QString &str)
         byteConverterHex->setValue(data);
         byteConverterBin->setValue(data);
     }
+}
+
+// Focus Coloring. Activates and deactivates undo/redo/cut/copy/paste actions contextually
+void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
+{
+    microcode->highlightOnFocus();
+    mainMemory->highlightOnFocus();
+//    cpuPane->highlightOnFocus();
+
+    if (microcode->hasFocus()) {
+
+    }
+    else if (mainMemory->hasFocus()) {
+
+    }
+    else if (cpuPane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(true);
+//        ui->actionEdit_Redo->setDisabled(true);
+//        ui->actionEdit_Cut->setDisabled(true);
+//        ui->actionEdit_Copy->setDisabled(false);
+//        ui->actionEdit_Paste->setDisabled(true);
+    }
+}
+
+void MainWindow::setUndoability(bool b)
+{
+    if (microcode->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(!b);
+    }
+//    else if (mainMemory->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+//    else if (cpuPane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+}
+
+void MainWindow::setRedoability(bool b)
+{
+    if (microcode->hasFocus()) {
+        ui->actionEdit_Redo->setDisabled(!b);
+    }
+//    else if (mainMemory->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
+//    else if (cpuPane->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
 }
 
 void MainWindow::helpCopyToMicrocodeButtonClicked()

@@ -9,6 +9,7 @@ MainMemory::MainMemory(QWidget *parent) :
     ui(new Ui::MainMemory)
 {
     ui->setupUi(this);
+
 }
 
 MainMemory::~MainMemory()
@@ -54,7 +55,7 @@ void MainMemory::setValue(int address, int value)
 }
 
 
-void MainMemory::loadMemory(const unsigned char **ppchValues)
+void MainMemory::loadMemory(const unsigned char **values)
 {
 #warning Implement
 }
@@ -215,6 +216,21 @@ void MainMemory::slotItemChanged(QTableWidgetItem *item)
 void MainMemory::slotSliderChanged(int value)
 {
     repositionTable(value);
+}
+
+void MainMemory::highlightOnFocus()
+{
+    if (ui->tableWidget->hasFocus()) {
+        ui->label->setAutoFillBackground(true);
+    }
+    else {
+        ui->label->setAutoFillBackground(false);
+    }
+}
+
+bool MainMemory::hasFocus()
+{
+    return ui->tableWidget->hasFocus();
 }
 
 void MainMemory::changeEvent(QEvent *e)

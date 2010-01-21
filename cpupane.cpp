@@ -24,7 +24,6 @@ CpuPane::CpuPane(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
 }
 
 CpuPane::~CpuPane()

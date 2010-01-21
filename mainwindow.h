@@ -70,6 +70,11 @@ private slots:
     void slotByteConverterBinEdited(const QString &);
     void slotByteConverterCharEdited(const QString &);
 
+    // Focus coloring Undo/Redo/Cut/Copy/Paste activate/deactivate
+    void mainWindowUtilities(QWidget *, QWidget *);
+    void setUndoability(bool b);
+    void setRedoability(bool b);
+
     void helpCopyToMicrocodeButtonClicked();
 };
 

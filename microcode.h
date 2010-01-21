@@ -16,6 +16,12 @@ public:
 
     void setMicrocode(QString microcode);
 
+    // Highlights the label based on the label window color saved in the UI file
+    void highlightOnFocus();
+
+    // Returns if the text edit has focus
+    bool hasFocus();
+
 protected:
     void changeEvent(QEvent *e);
 
@@ -23,6 +29,11 @@ private:
     Ui::Microcode *ui;
 
     PepHighlighter *highlighter;
+
+signals:
+    void undoAvailable(bool);
+    void redoAvailable(bool);
+
 };
 
 #endif // MICROCODE_H

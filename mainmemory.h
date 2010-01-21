@@ -53,6 +53,12 @@ public slots:
     // Will cause the table to scroll through memory.
     void slotSliderChanged(int value);
 
+    // Highlights the label based on the label window color saved in the UI file
+    void highlightOnFocus();
+
+    // Returns if the table has focus
+    bool hasFocus();
+
 protected:
     void changeEvent(QEvent *e);
 

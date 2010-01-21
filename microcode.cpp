@@ -9,6 +9,9 @@ Microcode::Microcode(QWidget *parent) :
 
     highlighter = new PepHighlighter(ui->textEdit->document());
 
+    connect(ui->textEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(ui->textEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+
 }
 
 Microcode::~Microcode()
@@ -19,6 +22,21 @@ Microcode::~Microcode()
 void Microcode::setMicrocode(QString microcode)
 {
     ui->textEdit->setText(microcode);
+}
+
+void Microcode::highlightOnFocus()
+{
+    if (ui->textEdit->hasFocus()) {
+        ui->label->setAutoFillBackground(true);
+    }
+    else {
+        ui->label->setAutoFillBackground(false);
+    }
+}
+
+bool Microcode::hasFocus()
+{
+    return ui->textEdit->hasFocus();
 }
 
 void Microcode::changeEvent(QEvent *e)
