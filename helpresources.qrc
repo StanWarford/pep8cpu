@@ -8,5 +8,6 @@
         <file>help/figures/fig1212.pepcpu</file>
         <file>help/cpu.html</file>
         <file>help/microcode.html</file>
+        <file>help/examples.html</file>
     </qresource>
 </RCC>
