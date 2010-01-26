@@ -10,5 +10,17 @@ QVector<int> Sim::MARB(2);
 QVector<int> Sim::MDR(2);
 bool Sim::nBit, Sim::zBit, Sim::vBit, Sim::cBit;
 
+QSet<int> Sim::modifiedBytes;
+
+int Sim::readByte(int memAddr)
+{
+    return Mem[memAddr & 0xffff];
+}
+
+void Sim::writeByte(int memAddr, int value)
+{
+    Mem[memAddr & 0xffff] = value;
+    modifiedBytes.insert(memAddr & 0xffff);
+}
 
 

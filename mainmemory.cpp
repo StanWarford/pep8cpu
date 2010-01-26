@@ -4,17 +4,35 @@
 #include <QScrollBar>
 #include "pep.h"
 
+#include <QDebug>
+
 MainMemory::MainMemory(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainMemory)
 {
     ui->setupUi(this);
 
+    populateMemoryItems();
+
 }
 
 MainMemory::~MainMemory()
 {
     delete ui;
+}
+
+void MainMemory::populateMemoryItems()
+{
+//    ui->tableWidget->clear();
+
+    ui->tableWidget->setRowCount(65536);
+}
+
+void MainMemory::refreshMemory()
+{
+    for (int i = 0; i < 0xffff; i++) {
+
+    }
 }
 
 void MainMemory::showAddress(int address)

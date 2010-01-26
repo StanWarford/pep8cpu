@@ -14,6 +14,12 @@ public:
     MainMemory(QWidget *parent = 0);
     ~MainMemory();
 
+    // Populate memory items in the table
+    void populateMemoryItems();
+
+    // Refresh the memory to reflect the Sim::Mem object
+    void refreshMemory();
+
     // Ensure that the specified memory address is visible.
     void showAddress(int address);
 
@@ -25,9 +31,6 @@ public:
 
     // Reset all memory to zero.
     void clearMemory();
-
-    // Randomize the contents of main memory.
-    void populateMemory();
 
     // Load the contents of main memory.
     // @param values Array of bytes to load into memory.
