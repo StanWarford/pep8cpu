@@ -87,15 +87,15 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
             ui->helpSplitter->widget(1)->show();
             if (row == eFIG1205) {
                 ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1205.pepcpu"));
-                ui->helpFigureLabel->setText("<b>Figure 12.5</b><code>  </code> Yadda yadda<code>yadda</code>.");
+                ui->helpFigureLabel->setText("<b>Figure 12.5</b> The control signals to fetch the instruction specifier and increment PC by 1.");
             }
             else if (row == eFIG1205B) {
                 ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
-                ui->helpFigureLabel->setText("<b>Figure 12.5b</b><code>  </code> Yadda yadda<code>yadda</code>.");
+                ui->helpFigureLabel->setText("<b>Figure 12.5b</b> Combining cycles 1 and 3 of Figure 12.5.");
             }
             else if (row == eFIG1208) {
                 ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1208.pepcpu"));
-                ui->helpFigureLabel->setText("<b>Figure 12.8</b><code>  </code> Yadda yadda<code>yadda</code>.");
+                ui->helpFigureLabel->setText("<b>Figure 12.8</b> The control signals to implement the store byte instruction with direct addressing.");
             }
             else if (row == eFIG1209) {
                 ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1209.pepcpu"));
