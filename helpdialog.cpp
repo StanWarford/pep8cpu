@@ -99,15 +99,15 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
             }
             else if (row == eFIG1209) {
                 ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1209.pepcpu"));
-                ui->helpFigureLabel->setText("<b>Figure 12.9</b><code>  </code> Yadda yadda<code>yadda</code>.");
+                ui->helpFigureLabel->setText("<b>Figure 12.9</b> The control signals to implement the add instruction with immediate addressing.");
             }
             else if (row == eFIG1210) {
                 ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1210.pepcpu"));
-                ui->helpFigureLabel->setText("<b>Figure 12.10</b><code>  </code> Yadda yadda<code>yadda</code>.");
+                ui->helpFigureLabel->setText("<b>Figure 12.10</b> The control signals to implement the load instruction with indirect addressing.");
             }
             else if (row == eFIG1212) {
                 ui->helpTextEdit->setText(Pep::resToString(":/help/figures/fig1212.pepcpu"));
-                ui->helpFigureLabel->setText("<b>Figure 12.12</b><code>  </code> Yadda yadda<code>yadda</code>.");
+                ui->helpFigureLabel->setText("<b>Figure 12.12</b> The control signals to implement the unary ASRA instruction.");
             }
         }
     }
