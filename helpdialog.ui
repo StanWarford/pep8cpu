@@ -113,7 +113,7 @@
       </column>
       <item>
        <property name="text">
-        <string>CPU</string>
+        <string>Interactive</string>
        </property>
        <property name="flags">
         <set>ItemIsSelectable|ItemIsEnabled</set>
