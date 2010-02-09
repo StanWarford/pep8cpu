@@ -39,6 +39,6 @@ FORMS += mainwindow.ui \
     microcode.ui \
     cpupane.ui \
     helpdialog.ui
-OTHER_FILES += 
+OTHER_FILES += help/images/registeraddresssignals.png
 RESOURCES += pep8cpuresources.qrc \
     helpresources.qrc

@@ -27,7 +27,16 @@ Interactive
   ALU function signals, the ANDZ signal, the memory read/write signals, and the clock signals.
   <p>
  <h3>Register address signals</h3>
-  <p>
+There are three register address signals &mdash; A, B, and C.
+Each signal is five bits and accesses one of the 32 one-byte registers in the two-port register bank.
+To set a register address signal, enter a decimal integer value in the range 0..31.
+<p>
+ For example, the following figure shows a register address of 7 for A, 23 for B, and 7 for C.
+ Address 7 is the least significant byte of the program counter, and address 23 is the ROM value of 1.
+ <p>
+ <img src="qrc:/help/images/registeraddresssignals.png" alt="registeraddresssignals" hspace=10 vspace=10>
+ <p>
+
  <h3>Multiplexer signals</h3>
   <p>
  <h3>ALU function signals</h3>
