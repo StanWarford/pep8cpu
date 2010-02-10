@@ -1,16 +1,27 @@
 #include "microcode.h"
 #include "ui_microcode.h"
 
+#include <QGridLayout>
+
 Microcode::Microcode(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Microcode)
 {
     ui->setupUi(this);
 
-    highlighter = new PepHighlighter(ui->textEdit->document());
+    editor = new MicrocodeEditor(this);
 
-    connect(ui->textEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-    connect(ui->textEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    QGridLayout *layout = new QGridLayout;
+    layout->addWidget(ui->label);
+    layout->addWidget(editor);
+    layout->setContentsMargins(0,12,12,0);
+    layout->setVerticalSpacing(0);
+    this->setLayout(layout);
+
+    highlighter = new PepHighlighter(editor->document());
+
+    connect(editor->document(), SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(editor->document(), SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
 }
 
@@ -21,12 +32,12 @@ Microcode::~Microcode()
 
 void Microcode::setMicrocode(QString microcode)
 {
-    ui->textEdit->setText(microcode);
+    editor->setPlainText(microcode);
 }
 
 void Microcode::highlightOnFocus()
 {
-    if (ui->textEdit->hasFocus()) {
+    if (editor->hasFocus()) {
         ui->label->setAutoFillBackground(true);
     }
     else {
@@ -36,7 +47,7 @@ void Microcode::highlightOnFocus()
 
 bool Microcode::hasFocus()
 {
-    return ui->textEdit->hasFocus();
+    return editor->hasFocus();
 }
 
 void Microcode::changeEvent(QEvent *e)

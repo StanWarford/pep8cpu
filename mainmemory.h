@@ -62,6 +62,10 @@ public slots:
     // Returns if the table has focus
     bool hasFocus();
 
+private slots:
+    void sliderMoved(int pos);
+    void sliderValueChanged(int value);
+
 protected:
     void changeEvent(QEvent *e);
 

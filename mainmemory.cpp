@@ -1,8 +1,9 @@
 #include "mainmemory.h"
 #include "ui_mainmemory.h"
+#include "pep.h"
+#include "sim.h"
 
 #include <QScrollBar>
-#include "pep.h"
 
 #include <QDebug>
 
@@ -14,6 +15,9 @@ MainMemory::MainMemory(QWidget *parent) :
 
     populateMemoryItems();
 
+    connect(ui->verticalScrollBar, SIGNAL(sliderMoved(int)), this, SLOT(sliderMoved(int)));
+    connect(ui->verticalScrollBar, SIGNAL(valueChanged(int)), this, SLOT(sliderValueChanged(int)));
+
 }
 
 MainMemory::~MainMemory()
@@ -23,16 +27,22 @@ MainMemory::~MainMemory()
 
 void MainMemory::populateMemoryItems()
 {
-//    ui->tableWidget->clear();
+    QStringList list;
 
-    ui->tableWidget->setRowCount(65536);
+
+    for (int i = 0; i < 32; i++) {
+        list.append(QString("0x%1").arg(i, 4, 16, QLatin1Char('0')));
+    }
+    qApp->processEvents();
+    ui->tableWidget->setVerticalHeaderLabels(list);
 }
 
 void MainMemory::refreshMemory()
 {
-    for (int i = 0; i < 0xffff; i++) {
-
-    }
+//    int firstMemAddr = ui->tableWidget->itemDelegateForRow(0)->
+//    for (int i = firstMemAddr; i < firstMemAddr + 32; i++) {
+//        ui->tableWidget->item(i, 0)->setData(Sim::Mem[i]);
+//    }
 }
 
 void MainMemory::showAddress(int address)
@@ -249,6 +259,16 @@ void MainMemory::highlightOnFocus()
 bool MainMemory::hasFocus()
 {
     return ui->tableWidget->hasFocus();
+}
+
+void MainMemory::sliderMoved(int pos)
+{
+    ui->tableWidget->scrollToItem(ui->tableWidget->itemAt(0, pos));
+}
+
+void MainMemory::sliderValueChanged(int value)
+{
+    ui->tableWidget->scrollToItem(ui->tableWidget->itemAt(0, value));
 }
 
 void MainMemory::changeEvent(QEvent *e)

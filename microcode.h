@@ -3,6 +3,10 @@
 
 #include <QWidget>
 #include "pephighlighter.h"
+#include "microcodeeditor.h"
+
+#include <QPlainTextEdit>
+#include <QObject>
 
 namespace Ui {
     class Microcode;
@@ -29,6 +33,7 @@ private:
     Ui::Microcode *ui;
 
     PepHighlighter *highlighter;
+    MicrocodeEditor *editor;
 
 signals:
     void undoAvailable(bool);
