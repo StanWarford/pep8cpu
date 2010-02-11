@@ -25,7 +25,7 @@ int MicrocodeEditor::lineNumberAreaWidth()
         ++digits;
     }
 
-    int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+    int space = 4 + fontMetrics().width(QLatin1Char('9')) * digits;
 
     return space;
 }
@@ -61,7 +61,7 @@ void MicrocodeEditor::highlightCurrentLine()
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
 
-        QColor lineColor = QColor(Qt::yellow).lighter(160);
+        QColor lineColor = QColor(233, 243, 255); // light blue
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
@@ -76,8 +76,7 @@ void MicrocodeEditor::highlightCurrentLine()
 void MicrocodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
     QPainter painter(lineNumberArea);
-    painter.fillRect(event->rect(), Qt::lightGray);
-
+    painter.fillRect(event->rect(), QColor(232, 232, 232)); // light grey
 
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
@@ -87,8 +86,8 @@ void MicrocodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
-            painter.setPen(Qt::black);
-            painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(),
+            painter.setPen(QColor(128, 128, 130)); // grey
+            painter.drawText(-1, top, lineNumberArea->width(), fontMetrics().height(),
                              Qt::AlignRight, number);
         }
 
