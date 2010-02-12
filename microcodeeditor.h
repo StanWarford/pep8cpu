@@ -31,6 +31,8 @@ private slots:
 
 private:
     QWidget *lineNumberArea;
+
+    int getMicrocodeBlockNumbers();
 };
 
 
