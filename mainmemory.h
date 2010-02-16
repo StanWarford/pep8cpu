@@ -32,10 +32,6 @@ public:
     // Reset all memory to zero.
     void clearMemory();
 
-    // Load the contents of main memory.
-    // @param values Array of bytes to load into memory.
-    void loadMemory(const unsigned char **values);
-
     static QString fillHexValue(int, int, int base = 16);
 
     // Clear the current address highlight
@@ -68,6 +64,7 @@ private slots:
 
 protected:
     void changeEvent(QEvent *e);
+    void resizeEvent(QResizeEvent *e);
 
 private:
     Ui::MainMemory *ui;

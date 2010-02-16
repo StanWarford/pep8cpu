@@ -35,6 +35,7 @@ private:
     PepHighlighter *highlighter;
     MicrocodeEditor *editor;
 
+
 signals:
     void undoAvailable(bool);
     void redoAvailable(bool);

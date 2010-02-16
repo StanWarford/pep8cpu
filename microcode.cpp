@@ -61,3 +61,4 @@ void Microcode::changeEvent(QEvent *e)
         break;
     }
 }
+

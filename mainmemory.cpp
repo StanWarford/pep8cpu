@@ -33,10 +33,17 @@ void MainMemory::populateMemoryItems()
 
     qDebug() << "scroll value: " << ui->verticalScrollBar->value();
     int scrollBarValue = ui->verticalScrollBar->value();
-    for (int i = scrollBarValue; i < scrollBarValue + 32; i++) {
+    for (int i = scrollBarValue; i < scrollBarValue + ui->tableWidget->rowCount(); i++) {
         list.append(QString("0x%1").arg(i, 4, 16, QLatin1Char('0')));
     }
     ui->tableWidget->setVerticalHeaderLabels(list);
+
+//    ui->tableWidget->item(0, 1)->setText("0");
+
+//    for (int i = 0; i < ui->tableWidget->rowCount(); i++) {
+////        ui->tableWidget->item(i, 0)->setData(Qt::DisplayRole, QString("0")); // %1").arg(0)); //Sim::Mem.at(0)));
+////        ui->tableWidget->item(i, 1)->setText(QString("0")); //0x%1").arg(0)); //Sim::Mem.at(0), 2, 16, QLatin1Char('0')));
+//    }
 }
 
 void MainMemory::refreshMemory()
@@ -51,7 +58,8 @@ void MainMemory::showAddress(int address)
         int min = ui->tableWidget->verticalScrollBar()->minimum();
         int max = ui->tableWidget->verticalScrollBar()->maximum();
         // Something like this. Lifted from pep8-1, so the values here may be somewhat different.
-        ui->tableWidget->verticalScrollBar()->setValue(min + static_cast<int>(8 * (address / 4096 - 8) + ((address - address % 8) / 65536.0) * (max - min)));
+        ui->tableWidget->verticalScrollBar()->setValue(min + static_cast<int>(8 * (address / 4096 - 8)
+                                                                              + ((address - address % 8) / 65536.0) * (max - min)));
     }
 
     setHighlight(address);
@@ -77,12 +85,6 @@ void MainMemory::setValue(int address, int value)
     }
 
     showAddress(address);
-}
-
-
-void MainMemory::loadMemory(const unsigned char **values)
-{
-#warning Implement
 }
 
 QString MainMemory::fillHexValue(int value, int pad, int base)
@@ -279,4 +281,13 @@ void MainMemory::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void MainMemory::resizeEvent(QResizeEvent *e)
+{
+    int height = ui->tableWidget->height();
+    int heightPerRow = ui->tableWidget->rowHeight(0);
+    int numRowsInView = height/heightPerRow;
+    ui->tableWidget->setRowCount(numRowsInView);
+    populateMemoryItems();
 }
