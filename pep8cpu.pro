@@ -4,6 +4,9 @@
 TARGET = pep8cpu
 TEMPLATE = app
 QT += webkit
+# Mac icon/plist
+ICON = images/icon.icns
+QMAKE_INFO_PLIST = app.plist
 SOURCES += main.cpp \
     mainwindow.cpp \
     byteconverterhex.cpp \
