@@ -4,6 +4,8 @@
 TARGET = pep8cpu
 TEMPLATE = app
 QT += webkit
+CONFIG += x86 \
+    ppc
 # Mac icon/plist
 ICON = images/icon.icns
 QMAKE_INFO_PLIST = app.plist
