@@ -141,7 +141,7 @@
         <bool>false</bool>
        </property>
        <property name="rowCount">
-        <number>32</number>
+        <number>1</number>
        </property>
        <attribute name="horizontalHeaderVisible">
         <bool>true</bool>
@@ -166,37 +166,6 @@
          <string>0x0000</string>
         </property>
        </row>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
        <column>
         <property name="text">
          <string>Hex</string>
@@ -207,6 +176,16 @@
          <string>Dec</string>
         </property>
        </column>
+       <item row="0" column="0">
+        <property name="text">
+         <string>0x01</string>
+        </property>
+       </item>
+       <item row="0" column="1">
+        <property name="text">
+         <string>1</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>

@@ -20,38 +20,7 @@ public:
     // Refresh the memory to reflect the Sim::Mem object
     void refreshMemory();
 
-    // Ensure that the specified memory address is visible.
-    void showAddress(int address);
-
-    // Return the value of a byte of memory.
-    int getValue(int address);
-
-    // Set the value of a byte of memory.
-    void setValue(int address, int value);
-
-    // Reset all memory to zero.
-    void clearMemory();
-
-    static QString fillHexValue(int, int, int base = 16);
-
-    // Clear the current address highlight
-    void resetHighlight();
-
-    // Highlight the specified address.
-    void setHighlight(int address);
-
-    // Reposition the table to display the specified address of main memory.
-    void repositionTable(int address);
-
 public slots:
-    // Slot called when an item in the table changes.  This is used
-    // to sync the hex / dec values.
-    void slotItemChanged(QTableWidgetItem *item);
-
-    // Slot called when the vertical scroll bar changes.
-    // Will cause the table to scroll through memory.
-    void slotSliderChanged(int value);
-
     // Highlights the label based on the label window color saved in the UI file
     void highlightOnFocus();
 
@@ -59,8 +28,9 @@ public slots:
     bool hasFocus();
 
 private slots:
+    // Slot called when the vertical scroll bar changes.
+    // Will cause the table to scroll through memory.
     void sliderMoved(int pos);
-    void sliderValueChanged(int value);
 
 protected:
     void changeEvent(QEvent *e);
