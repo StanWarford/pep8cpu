@@ -108,6 +108,13 @@ void MainMemory::cellDataChanged(QTableWidgetItem *item)
     }
     else {
         qDebug() << "Conversion from text to int failed.";
+        if (item->column() == 0) {
+            data = ui->tableWidget->item(row, 1)->text().toInt(&ok, 10);
+            ui->tableWidget->item(row, 0)->setText(QString("0x") + QString("%1").arg(data, 2, 16).trimmed());
+        }
+        else if (item->column() == 1) {
+
+        }
     }
 
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
