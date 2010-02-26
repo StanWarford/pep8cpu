@@ -32,6 +32,7 @@ MainMemory::MainMemory(QWidget *parent) :
     }
 
     connect(ui->verticalScrollBar, SIGNAL(actionTriggered(int)), this, SLOT(sliderMoved(int)));
+    connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 
 }
 
@@ -62,6 +63,9 @@ void MainMemory::refreshMemory()
             ui->tableWidget->item(i, 0)->setText(QString("0x0"));
             ui->tableWidget->item(i, 1)->setText(QString("0"));
         }
+        else {
+//            qDebug() << "Line " << i << " has no items";
+        }
     }
 }
 
@@ -84,6 +88,29 @@ bool MainMemory::hasFocus()
 void MainMemory::sliderMoved(int pos)
 {
     populateMemoryItems();
+}
+
+void MainMemory::cellDataChanged(QTableWidgetItem *item)
+{
+    // disconnect this signal so that modifying the text of the column next to it doesn't fire this signal; reconnect at the end
+    disconnect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
+
+    int row = item->row();
+    bool ok;
+    int address = ui->tableWidget->verticalHeaderItem(row)->text().toInt(&ok, 16);
+    int data = item->text().toInt(&ok, item->column() == 0 ? 16 : 10);
+
+    if (ok) {
+        Sim::writeByte(address, item->text().toInt());
+        qDebug() << "Sim::Mem[" << address << "]: " << Sim::readByte(address);
+        ui->tableWidget->item(row, 1)->setText(QString("%1").arg(data, 10).trimmed());
+        ui->tableWidget->item(row, 0)->setText(QString("0x") + QString("%1").arg(data, 2, 16).trimmed());
+    }
+    else {
+        qDebug() << "Conversion from text to int failed.";
+    }
+
+    connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 }
 
 void MainMemory::changeEvent(QEvent *e)

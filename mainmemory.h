@@ -32,6 +32,9 @@ private slots:
     // Will cause the table to scroll through memory.
     void sliderMoved(int pos);
 
+    // Fires when the data in an item changes, used to store the value into Sim::Mem[]
+    void cellDataChanged(QTableWidgetItem* item);
+
 protected:
     void changeEvent(QEvent *e);
     void resizeEvent(QResizeEvent *e);
