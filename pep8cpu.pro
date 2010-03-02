@@ -6,6 +6,7 @@ TEMPLATE = app
 QT += webkit
 CONFIG += x86 \
     ppc
+
 # Mac icon/plist
 ICON = images/icon.icns
 QMAKE_INFO_PLIST = app.plist
@@ -22,7 +23,8 @@ SOURCES += main.cpp \
     cpupane.cpp \
     helpdialog.cpp \
     pephighlighter.cpp \
-    microcodeeditor.cpp
+    microcodeeditor.cpp \
+    memoryitemdelegate.cpp
 HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
@@ -36,7 +38,8 @@ HEADERS += mainwindow.h \
     helpdialog.h \
     pephighlighter.h \
     enu.h \
-    microcodeeditor.h
+    microcodeeditor.h \
+    memoryitemdelegate.h
 FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \

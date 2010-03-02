@@ -119,6 +119,9 @@
        <property name="verticalScrollBarPolicy">
         <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
        <property name="autoScroll">
         <bool>true</bool>
        </property>
@@ -141,7 +144,7 @@
         <bool>false</bool>
        </property>
        <property name="rowCount">
-        <number>1</number>
+        <number>0</number>
        </property>
        <attribute name="horizontalHeaderVisible">
         <bool>true</bool>
@@ -161,37 +164,12 @@
        <attribute name="verticalHeaderHighlightSections">
         <bool>false</bool>
        </attribute>
-       <row>
-        <property name="text">
-         <string>0x0000</string>
-        </property>
-       </row>
-       <column>
-        <property name="text">
-         <string>Hex</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Dec</string>
-        </property>
-       </column>
-       <item row="0" column="0">
-        <property name="text">
-         <string>0x01</string>
-        </property>
-       </item>
-       <item row="0" column="1">
-        <property name="text">
-         <string>1</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>
       <widget class="QScrollBar" name="verticalScrollBar">
        <property name="maximum">
-        <number>65536</number>
+        <number>65535</number>
        </property>
        <property name="pageStep">
         <number>10</number>

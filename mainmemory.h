@@ -42,6 +42,10 @@ protected:
 private:
     Ui::MainMemory *ui;
 
+    // List of all the rows currently in the table
+    QStringList rows;
+
+
     int	highlightedIndex;
     int	currentMemoryOffset;
     char mem[0x10000];
