@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>866</width>
-    <height>720</height>
+    <width>1035</width>
+    <height>742</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,10 +19,10 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <property name="margin">
-     <number>0</number>
+     <number>6</number>
     </property>
     <item row="0" column="0">
-     <widget class="QSplitter" name="splitter">
+     <widget class="QSplitter" name="mainSplitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -42,13 +42,26 @@
         <enum>QFrame::Raised</enum>
        </property>
       </widget>
-      <widget class="QFrame" name="microcodeFrame">
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
+      <widget class="QSplitter" name="codeSplitter">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
+       <widget class="QFrame" name="microcodeFrame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+       <widget class="QFrame" name="objectCodeFrame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -59,7 +72,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>866</width>
+     <width>1035</width>
      <height>22</height>
     </rect>
    </property>
@@ -71,6 +84,9 @@
     <addaction name="actionFile_Open"/>
     <addaction name="actionFile_Save"/>
     <addaction name="actionFile_Save_As"/>
+    <addaction name="separator"/>
+    <addaction name="actionFile_Print_Microcode"/>
+    <addaction name="actionFile_Print_Object_Code"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -90,7 +106,9 @@
     <property name="title">
      <string>System</string>
     </property>
-    <addaction name="actionLoad_Microcode"/>
+    <addaction name="actionSystem_Microassemble"/>
+    <addaction name="actionSystem_Execute"/>
+    <addaction name="separator"/>
     <addaction name="actionSystem_Run"/>
     <addaction name="actionSystem_Start_Debugging"/>
     <addaction name="actionSystem_Stop_Debugging"/>
@@ -129,6 +147,7 @@
    <addaction name="actionEdit_Undo"/>
    <addaction name="actionEdit_Redo"/>
    <addaction name="actionHelp"/>
+   <addaction name="actionSystem_Microassemble"/>
    <addaction name="actionSystem_Run"/>
    <addaction name="actionSystem_Start_Debugging"/>
    <addaction name="actionSystem_Stop_Debugging"/>
@@ -159,6 +178,9 @@
    <property name="shortcut">
     <string>Ctrl+N</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionFile_Open">
    <property name="icon">
@@ -170,6 +192,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionFile_Save">
@@ -183,6 +208,9 @@
    <property name="shortcut">
     <string>Ctrl+S</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionFile_Save_As">
    <property name="text">
@@ -190,6 +218,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionEdit_Undo">
@@ -203,6 +234,9 @@
    <property name="shortcut">
     <string>Ctrl+Z</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionEdit_Redo">
    <property name="icon">
@@ -214,6 +248,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Y</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionEdit_Cut">
@@ -227,6 +264,9 @@
    <property name="shortcut">
     <string>Ctrl+X</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionEdit_Copy">
    <property name="icon">
@@ -238,6 +278,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+C</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionEdit_Paste">
@@ -251,10 +294,16 @@
    <property name="shortcut">
     <string>Ctrl+V</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionEdit_Font">
    <property name="text">
     <string>Font...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionEdit_Find">
@@ -264,15 +313,24 @@
    <property name="shortcut">
     <string>Ctrl+F</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionSystem_Clear_CPU">
    <property name="text">
     <string>Clear CPU</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionSystem_Clear_Memory">
    <property name="text">
     <string>Clear Memory</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionHelp_CPU">
@@ -283,10 +341,16 @@
    <property name="text">
     <string>CPU</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionHelp_Microcode">
    <property name="text">
     <string>Microcode</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionSystem_Run">
@@ -300,6 +364,9 @@
    <property name="shortcut">
     <string>Ctrl+R</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionSystem_Start_Debugging">
    <property name="icon">
@@ -311,6 +378,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionSystem_Stop_Debugging">
@@ -327,10 +397,16 @@
    <property name="shortcut">
     <string>Ctrl+.</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
-  <action name="actionLoad_Microcode">
+  <action name="actionSystem_Load_Microcode">
    <property name="text">
     <string>Load Microcode</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionHelp">
@@ -343,6 +419,39 @@
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionSystem_Microassemble">
+   <property name="icon">
+    <iconset resource="pep8cpuresources.qrc">
+     <normaloff>:/images/assemble.png</normaloff>:/images/assemble.png</iconset>
+   </property>
+   <property name="text">
+    <string>Microassemble</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+A</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionSystem_Execute">
+   <property name="text">
+    <string>Execute</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+E</string>
+   </property>
+  </action>
+  <action name="actionFile_Print_Microcode">
+   <property name="text">
+    <string>Print Microcode...</string>
+   </property>
+  </action>
+  <action name="actionFile_Print_Object_Code">
+   <property name="text">
+    <string>Print Object Code...</string>
    </property>
   </action>
  </widget>

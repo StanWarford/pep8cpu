@@ -7,12 +7,17 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mainMemory = new MainMemory(ui->splitter);
+    mainMemory = new MainMemory(ui->mainSplitter);
     delete ui->memoryFrame;
-    cpuPane = new CpuPane(ui->splitter);
+    cpuPane = new CpuPane(ui->mainSplitter);
     delete ui->cpuFrame;
-    microcode = new Microcode(ui->splitter);
+    microcode = new Microcode(ui->codeSplitter);
     delete ui->microcodeFrame;
+    objectCodePane = new ObjectCodePane(ui->codeSplitter);
+    delete ui->objectCodeFrame;
+
+    ui->mainSplitter->insertWidget(0, mainMemory);
+    ui->mainSplitter->insertWidget(1, cpuPane);
 
     helpDialog = new HelpDialog(this);
 
@@ -189,6 +194,7 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
 {
     microcode->highlightOnFocus();
     mainMemory->highlightOnFocus();
+    objectCodePane->highlightOnFocus();
 //    cpuPane->highlightOnFocus();
 
     if (microcode->hasFocus()) {

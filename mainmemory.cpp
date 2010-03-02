@@ -27,7 +27,7 @@ MainMemory::MainMemory(QWidget *parent) :
     ui->tableWidget->setVerticalHeaderLabels(rows);
 
     for (int i = 0; i < 10; i++) {
-        ui->tableWidget->setItem(i, 0, new QTableWidgetItem("0x0"));
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem("0x00"));
         ui->tableWidget->setItem(i, 1, new QTableWidgetItem("0"));
     }
 

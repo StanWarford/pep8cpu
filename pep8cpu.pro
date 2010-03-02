@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     helpdialog.cpp \
     pephighlighter.cpp \
     microcodeeditor.cpp \
-    memoryitemdelegate.cpp
+    memoryitemdelegate.cpp \
+    objectcodepane.cpp
 HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
@@ -39,7 +40,8 @@ HEADERS += mainwindow.h \
     pephighlighter.h \
     enu.h \
     microcodeeditor.h \
-    memoryitemdelegate.h
+    memoryitemdelegate.h \
+    objectcodepane.h
 FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \
@@ -48,7 +50,8 @@ FORMS += mainwindow.ui \
     mainmemory.ui \
     microcode.ui \
     cpupane.ui \
-    helpdialog.ui
+    helpdialog.ui \
+    objectcodepane.ui
 OTHER_FILES += help/images/registeraddresssignals.png
 RESOURCES += pep8cpuresources.qrc \
     helpresources.qrc

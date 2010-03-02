@@ -14,7 +14,7 @@ Microcode::Microcode(QWidget *parent) :
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(ui->label);
     layout->addWidget(editor);
-    layout->setContentsMargins(0,12,12,0);
+    layout->setContentsMargins(0,0,0,0);
     layout->setVerticalSpacing(0);
     this->setLayout(layout);
 

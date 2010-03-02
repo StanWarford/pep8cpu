@@ -9,6 +9,7 @@
 #include "byteconverterchar.h"
 
 #include "microcode.h"
+#include "objectcodepane.h"
 #include "pep.h"
 #include "sim.h"
 #include "mainmemory.h"
@@ -41,6 +42,7 @@ private:
     MainMemory *mainMemory;
     CpuPane *cpuPane;
     Microcode *microcode;
+    ObjectCodePane *objectCodePane;
 
     HelpDialog *helpDialog;
 
