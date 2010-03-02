@@ -195,7 +195,7 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
     microcode->highlightOnFocus();
     mainMemory->highlightOnFocus();
     objectCodePane->highlightOnFocus();
-//    cpuPane->highlightOnFocus();
+    cpuPane->highlightOnFocus();
 
     if (microcode->hasFocus()) {
 
