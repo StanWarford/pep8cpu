@@ -50,6 +50,7 @@ private:
 
     QLabel *cMuxLabel;
     QLineEdit *cMuxLineEdit;
+    QLabel *cMuxerLabel; // data section
 
     QLabel *ALULabel;
     QLineEdit *ALULineEdit;
@@ -84,6 +85,12 @@ private slots:
     void repaintCSelect();
     void repaintBSelect();
     void repaintCMuxSelect();
+    void repaintCCk();
+    void repaintLoadCk();
+    void repaintVCk();
+    void repaintZCk();
+    void repaintNCk();
+    void repaintMemRead();
 
 };
 
