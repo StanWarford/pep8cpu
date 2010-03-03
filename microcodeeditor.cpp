@@ -82,10 +82,21 @@ void MicrocodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
     int blockNumber = block.blockNumber();
     int top = (int) blockBoundingGeometry(block).translated(contentOffset()).top();
     int bottom = top + (int) blockBoundingRect(block).height();
+    int lineNumber = 1;
+    QList<int> blockToLineNumber;
+    QStringList sourceCodeList = toPlainText().split('\n');
+    for (int i = 0; i < sourceCodeList.size(); i++) {
+        if (QRegExp("^//|^\\s*$").indexIn(sourceCodeList[i]) == 0) {
+            blockToLineNumber << -1;
+        }
+        else {
+            blockToLineNumber << lineNumber++;
+        }
+    }
 
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
-            QString number = QString::number(blockNumber + 1);
+            QString number = blockToLineNumber[blockNumber] == -1 ? QString("") : QString::number(blockToLineNumber[blockNumber]);
             painter.setPen(QColor(128, 128, 130)); // grey
             painter.drawText(-1, top, lineNumberArea->width(), fontMetrics().height(),
                              Qt::AlignRight, number);

@@ -32,6 +32,12 @@ Microcode::~Microcode()
 
 void Microcode::setMicrocode(QString microcode)
 {
+    QStringList sourceCodeList;
+    sourceCodeList = microcode.split('\n');
+    for (int i = 0; i < sourceCodeList.size(); i++) {
+        sourceCodeList[i].remove(QRegExp("^[0-9]+\.?\\s*"));
+    }
+    microcode = sourceCodeList.join("\n");
     editor->setPlainText(microcode);
 }
 
