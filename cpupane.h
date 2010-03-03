@@ -64,6 +64,18 @@ private:
     QLineEdit *ANDZLineEdit;
     QLabel *ANDZMuxLabel; // data section
 
+    QCheckBox *ZCkCheckBox;
+    QLabel *ZBitLabel;
+
+    QCheckBox *NCkCheckBox;
+    QLabel *NBitLabel;
+
+    QLabel *MemReadLabel;
+    QLineEdit *MemReadLineEdit;
+
+    QLabel *MemWriteLabel;
+    QLineEdit *MemWriteLineEdit;
+
 private slots:
     void zoomFactorChanged(int factor);
 };

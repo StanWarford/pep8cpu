@@ -4,6 +4,7 @@
 
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QGraphicsItem>
 
 using namespace Enu;
 
@@ -30,6 +31,7 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(zoomFactorChanged(int)));
 
     scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
 
     loadCk = new QCheckBox("LoadCk");
     loadCk->setGeometry(550, 18, 80, 20);
@@ -86,7 +88,7 @@ CpuPane::CpuPane(QWidget *parent) :
     //    MARBus.state = UNDEFINED;
 
     MDRCk = new QCheckBox("MDRCk");
-    MDRCk->setGeometry(QRect(550, 225, 80, 20));
+    MDRCk->setGeometry(550, 225, 80, 20);
     scene->addWidget(MDRCk);
     //    QObject::connect(MDRCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
     //    MDRBus.value = 0;
@@ -124,22 +126,22 @@ CpuPane::CpuPane(QWidget *parent) :
     //    MDRMuxBus.state = UNDEFINED;
 
     ALULabel = new QLabel("ALU");
-    ALULabel->setGeometry(QRect(579, 370, 31, 20));
+    ALULabel->setGeometry(579, 370, 31, 20);
     scene->addWidget(ALULabel);
     ALULineEdit = new QLineEdit();
-    ALULineEdit->setGeometry(QRect(550, 368, 25, 20));
+    ALULineEdit->setGeometry(550, 368, 25, 20);
     ALULineEdit->setValidator(new QRegExpValidator(QRegExp("^((1[0-5])|(0[0-9])|[0-9])$"), 0));
     scene->addWidget(ALULineEdit);
-//    QObject::connect(ALU, SIGNAL (textChanged (const QString &)), this, SLOT (SlotALUSelect()));
+    //    QObject::connect(ALU, SIGNAL (textChanged (const QString &)), this, SLOT (SlotALUSelect()));
     ALUFunctionLabel = new QLabel("fn label");
     ALUFunctionLabel->setGeometry(330, 355, 100, 20);
     ALUFunctionLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     scene->addWidget(ALUFunctionLabel);
 
     CCkCheckBox = new QCheckBox ("CCk");
-    CCkCheckBox->setGeometry(QRect(550, 407, 60, 20));
+    CCkCheckBox->setGeometry(550, 407, 60, 20);
     scene->addWidget(CCkCheckBox);
-//    QObject::connect(CCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
+    //    QObject::connect(CCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
     CBitLabel = new QLabel("0");
     CBitLabel->setGeometry(476,406, 19, 19);
     CBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -147,30 +149,85 @@ CpuPane::CpuPane(QWidget *parent) :
     scene->addWidget(CBitLabel);
 
     VCkCheckBox = new QCheckBox("VCk");
-    VCkCheckBox->setGeometry(QRect(550, 444, 60, 20));
+    VCkCheckBox->setGeometry(550, 444, 60, 20);
     scene->addWidget(VCkCheckBox);
-//    QObject::connect(VCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
+    //    QObject::connect(VCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
     VBitLabel = new QLabel("0");
     VBitLabel->setGeometry(476,442, 19, 19);
     VBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     scene->addWidget(VBitLabel);
 
     ANDZLabel = new QLabel("ANDZ");
-    ANDZLabel->setGeometry(QRect(579, 470, 45, 20));
+    ANDZLabel->setGeometry(579, 470, 45, 20);
     scene->addWidget(ANDZLabel);
     ANDZLineEdit = new QLineEdit();
-    ANDZLineEdit->setGeometry(QRect(550, 468, 25, 21));
+    ANDZLineEdit->setGeometry(550, 468, 25, 21);
     ANDZLineEdit->setValidator(new QRegExpValidator(QRegExp("^[0-1]$"), 0));
     scene->addWidget(ANDZLineEdit);
-//    QObject::connect(ANDZ, SIGNAL (textChanged (const QString &)), this, SLOT (SlotANDZSelect()));
+    //    QObject::connect(ANDZ, SIGNAL (textChanged (const QString &)), this, SLOT (SlotANDZSelect()));
     ANDZMuxLabel = new QLabel("ANDZ");
     ANDZMuxLabel->setGeometry(415,495, 41,21);
     ANDZMuxLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     scene->addWidget(ANDZMuxLabel);
 
+    ZCkCheckBox = new QCheckBox("ZCk");
+    ZCkCheckBox->setGeometry(550, 499, 60, 20);
+    scene->addWidget(ZCkCheckBox);
+    //    QObject::connect(ZCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
+    ZBitLabel = new QLabel("0");
+    ZBitLabel->setGeometry(476, 498, 19, 19);
+    ZBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    scene->addWidget(ZBitLabel);
 
+    NCkCheckBox = new QCheckBox ("NCk");
+    NCkCheckBox->setGeometry(550, 550, 60, 20);
+    scene->addWidget(NCkCheckBox);
+    //    QObject::connect(NCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
+    NBitLabel = new QLabel("0");
+    NBitLabel->setGeometry(476,549, 19, 19);
+    NBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
-    ui->graphicsView->setScene(scene);
+    scene->addWidget(NBitLabel);
+
+    QRegExp memRWRegExp("^[1]$");
+    MemReadLabel = new QLabel("MemRead");
+    MemReadLabel->setGeometry(579, 577, 80, 20);
+    scene->addWidget(MemReadLabel);
+
+    MemReadLineEdit = new QLineEdit();
+    MemReadLineEdit->setGeometry(550, 575, 25, 20);
+    MemReadLineEdit->setValidator(new QRegExpValidator(memRWRegExp, 0));
+    scene->addWidget(MemReadLineEdit);
+    //    QObject::connect(MemRead, SIGNAL (textChanged (const QString &)), this, SLOT (SlotMemRead()));
+
+    MemWriteLabel = new QLabel("MemWrite");
+    MemWriteLabel->setGeometry(579, 598, 80, 20);
+    scene->addWidget(MemWriteLabel);
+
+    MemWriteLineEdit = new QLineEdit();
+    MemWriteLineEdit->setGeometry(550, 596, 25, 20);
+    MemWriteLineEdit->setValidator(new QRegExpValidator(memRWRegExp, 0));
+    scene->addWidget(MemWriteLineEdit);
+    //    QObject::connect(MemWrite, SIGNAL (textChanged (const QString &)), this, SLOT (SlotMemWrite()));
+
+//    pxPainter->drawText(528,92, "5");
+//    pxPainter->drawText(528,70, "5");
+//    pxPainter->drawText(528,48, "5");
+//    pxPainter->drawText(528,374, "4");
+//
+//    /* registers */
+//    pxPainter->drawRect(5,5, 491,113);
+//    pxPainter->fillRect(6,6, 490,112, Qt::red);
+//    pxPainter->fillRect(7,7, 488,110, Qt::gray);
+//
+//    /* MARA & MARB */
+//    pxPainter->drawRect(175,132 , 69,19);
+//    pxPainter->fillRect(176,133 , 68,18, Qt::yellow);
+//    pxPainter->fillRect(177,134 , 66,16, Qt::gray);
+//    pxPainter->drawRect(175,202 , 69,19);
+//    pxPainter->fillRect(176,203 , 68,18, Qt::yellow);
+//    pxPainter->fillRect(177,204 , 66,16, Qt::gray);
+
 }
 
 CpuPane::~CpuPane()
