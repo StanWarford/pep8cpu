@@ -1,11 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QApplication>
+#include <QDesktopWidget>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QDesktopWidget *desktop = QApplication::desktop();
+    resize(desktop->width() * 0.8, desktop->height() * 0.8);
 
     mainMemory = new MainMemory(ui->mainSplitter);
     delete ui->memoryFrame;

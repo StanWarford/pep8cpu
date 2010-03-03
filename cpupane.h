@@ -78,6 +78,13 @@ private:
 
 private slots:
     void zoomFactorChanged(int factor);
+
+    void repaintMARCk();
+    void repaintMDRCk();
+    void repaintCSelect();
+    void repaintBSelect();
+    void repaintCMuxSelect();
+
 };
 
 #endif // CPUPANE_H
