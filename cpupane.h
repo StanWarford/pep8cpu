@@ -91,6 +91,9 @@ private slots:
     void repaintZCk();
     void repaintNCk();
     void repaintMemRead();
+    void repaintMemWrite();
+    void repaintASelect();
+    void repaintAMuxSelect();
 
 };
 

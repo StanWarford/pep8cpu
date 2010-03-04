@@ -333,6 +333,9 @@ CpuPane::CpuPane(QWidget *parent) :
     repaintZCk();
     repaintNCk();
     repaintMemRead();
+    repaintMemWrite();
+    repaintASelect();
+    repaintAMuxSelect();
 }
 
 CpuPane::~CpuPane()
@@ -514,21 +517,19 @@ void CpuPane::repaintCCk()
 
 void CpuPane::repaintLoadCk()
 {
-        QPolygon poly;
-        QColor color;
+    QPolygon poly;
+    QColor color;
 
-        if (loadCk->isChecked())
-        {
-            color = Qt::black;
-        }
-        else
-        {
-            color = Qt::gray;
-        }
+    if (loadCk->isChecked())
+    {
+        color = Qt::black;
+    } else {
+        color = Qt::gray;
+    }
 
-        scene->addLine(543, 27, 499, 27, QPen(color));
-        poly << QPoint(499,27) << QPoint(507,24) << QPoint(507,30);
-        scene->addPolygon(poly, QPen(color));
+    scene->addLine(543, 27, 499, 27, QPen(color));
+    poly << QPoint(499,27) << QPoint(507,24) << QPoint(507,30);
+    scene->addPolygon(poly, QPen(color));
 }
 
 void CpuPane::repaintVCk()
@@ -635,6 +636,126 @@ void CpuPane::repaintMemRead()
     scene->addPolygon(poly);
 }
 
+void CpuPane::repaintMemWrite()
+{
+    QPolygon poly;
+    QColor color;
+    bool ok;
+    bool high = MemWriteLineEdit->text().toInt(&ok, 10) == 1;
+
+    // Draw memwrite select line
+    if (high) {
+        color = Qt::black;
+    } else {
+        color = Qt::gray;
+    }
+
+    scene->addLine(166-70, 605, 543, 605);
+    poly << QPoint(166-70, 602) << QPoint(166-70, 608) << QPoint(158-70, 605);
+    scene->addPolygon(poly);
+
+    if (MemReadLineEdit->text().toInt(&ok, 10) == 1) {
+        // Do not paint main bus if MemRead is high
+        return;
+    }
+
+    // Draw main bus
+    if (high)
+    {
+//        if (MEM_WRITE_ADDR == MainBus.state)
+//        {
+//            pxPainter->setBrush(Qt::yellow);
+//        }
+//        else
+//        {
+//            pxPainter->setBrush(QBrush(0x109618));
+//        }
+    } else {
+        color = Qt::white;
+    }
+
+    // Main Bus
+    poly.clear();
+    poly << QPoint(145-70, 132) << QPoint(155-70, 132) << QPoint(155-70, 334) << QPoint(180, 334);
+    poly << QPoint(180, 326) << QPoint(175, 326) << QPoint(185, 316) << QPoint(195, 326) << QPoint(190, 326)
+            << QPoint(190, 344) << QPoint(155-70, 344) << QPoint(155-70, 608) << QPoint(145-70, 608)
+            << QPoint(145-70, 375) << QPoint(136-123, 375) << QPoint(136-123, 380) << QPoint(126-123, 370)
+            << QPoint(136-123, 360) << QPoint(136-123, 365) << QPoint(145-70, 365);
+    scene->addPolygon(poly, QPen(QBrush(Qt::black), 1), QBrush(color));
+
+    color = Qt::white;
+
+    // MemOutBus
+    poly.clear();
+    poly << QPoint(0, 350) << QPoint(134-70, 350) << QPoint(134-70, 355) << QPoint(144-70, 345) << QPoint(134-70, 335)
+            << QPoint(134-70, 340) << QPoint(0, 340);
+    scene->addPolygon(poly, QPen(QBrush(Qt::black), 1), QBrush(color));
+}
+
+void CpuPane::repaintASelect() {
+    bool ok;
+    QColor color;
+    aLineEdit->text().toInt(&ok, 10);
+    if (ok) {
+        color = Qt::black;
+    } else {
+        color = Qt::gray;
+    }
+    QPolygon poly;
+    // Draw select lines
+    scene->addLine(543,94, 499,94);
+    scene->addLine(523,89, 533,99);
+    poly.setPoints(3, 499,94, 507,91, 507,97);
+    scene->addPolygon(poly, QPen(color));
+
+    color = Qt::red;
+    if (!ok)
+        color = Qt::white;
+    // Abus
+    poly.setPoints(11, 356,118, 356,207, 290,207, 290,217, 356,217, 356,280,
+                   351,280, 361,290, 371,280, 366,280, 366,118);
+    scene->addPolygon(poly, QPen(QBrush(Qt::black), 1), QBrush(color));
+    poly.setPoints(8, 280,207, 258,207, 258,202, 248,212, 258,222, 258,217, 280,217, 280,207);
+    scene->addPolygon(poly, QPen(QBrush(Qt::black), 1), QBrush(color));
+}
+
+void CpuPane::repaintAMuxSelect()
+{
+    QColor color;
+    QPolygon poly;
+    bool ok;
+    int i = aMuxLineEdit->text().toInt(&ok, 10);
+    if (ok) {
+        color = Qt::black;
+    } else {
+        color = Qt::gray;
+    }
+    // AMux Select
+    scene->addLine(388, 303, 416, 303);
+    scene->addLine(428, 303, 543, 303);
+    poly.setPoints(3, 388, 300, 388, 306, 380, 303);
+    scene->addPolygon(poly, QPen(QBrush(Qt::black), 1), QBrush(color));
+//    if (ok) {
+//        switch (i) {
+//        case (0):
+//            color = Qt::yellow;
+//            break;
+//        case (1):
+//            if (ABus.state == UNDEFINED) {
+//                color = Qt::white;
+//            } else {
+//                color = Qt::red;
+//            }
+//            break;
+//        }
+//    } else {
+//        color = Qt::white;
+//    }
+    // AMux bus
+    poly.setPoints(7, 336,312, 336,331, 331,331, 341,341, 351,331,
+                   346,331, 346,312);
+    scene->addPolygon(poly, QPen(QBrush(Qt::black), 1), QBrush(color));
+}
 
 void CpuPane::highlightOnFocus()
 {
