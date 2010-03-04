@@ -9,7 +9,6 @@
 
 #include <QDebug>
 
-#include "thinarrowgraphicsitem.h"
 #include "cpupanegraphicsitems.h"
 
 using namespace Enu;
