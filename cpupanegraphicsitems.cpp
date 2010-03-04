@@ -7,6 +7,8 @@
 #include <QGraphicsScene>
 #include <QPainter>
 
+#include <QDebug>
+
 CpuPaneGraphicsItems::CpuPaneGraphicsItems(QGraphicsScene *scene)
 {
 //    parentScene = scene;
@@ -304,6 +306,7 @@ void CpuPaneGraphicsItems::paint(QPainter *painter, const QStyleOptionGraphicsIt
     repaintCSelect(painter);
     repaintBSelect(painter);
     repaintASelect(painter);
+    repaintCMuxSelect(painter);
 }
 
 
@@ -311,11 +314,8 @@ void CpuPaneGraphicsItems::repaintMARCk(QPainter *painter)
 {
     QPolygon poly;
     QColor color;
-    if (MARCk->isChecked()) {
-        color = Qt::black;
-    } else {
-        color = Qt::gray;
-    }
+
+    color = MARCk->isChecked() ? Qt::black : Qt::gray;
     painter->setPen(QPen(QBrush(color), 1));
     painter->setBrush(color);
 
@@ -341,11 +341,7 @@ void CpuPaneGraphicsItems::repaintMDRCk(QPainter *painter)
     QPolygon poly;
     QColor color;
 
-    if (MDRCk->isChecked()) {
-        color = Qt::black;
-    } else {
-        color = Qt::gray;
-    }
+    color = MDRCk->isChecked() ? Qt::black : Qt::gray;
     painter->setPen(QPen(QBrush(color), 1));
     painter->setBrush(color);
 
@@ -462,7 +458,57 @@ void CpuPaneGraphicsItems::repaintASelect(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
 {
+    bool ok;
+    QPolygon poly;
+    QColor color;
 
+    int i = cMuxLineEdit->text().toInt(&ok, 10);
+
+    color = ok ? Qt::black : Qt::gray;
+    painter->setPen(QPen(QBrush(color), 1));
+    painter->setBrush(color);
+
+    // CMux Select
+    painter->drawLine(449,355, 543,355);
+    painter->drawLine(315,355, 290,355);
+    painter->drawLine(280,355, 260,355);
+    painter->drawLine(260,355, 260,365);
+//    painter->drawLine(428,350, 543,350);
+
+    painter->setRenderHint(QPainter::Antialiasing);
+    poly << QPoint(257,362) << QPoint(263,362) << QPoint(260,370);
+    painter->drawPolygon(poly);
+    painter->setRenderHint(QPainter::Antialiasing, false);
+
+    if (ok) {
+        switch (i) {
+        case (0):
+            color = Qt::yellow;
+            break;
+        case (1):
+            if (/*CBus.state == UNDEFINED*/ true) {
+                if (cMuxLineEdit->hasFocus())
+                    qDebug() << "WARNING: CMux select: There is no ALU output";
+                color = Qt::white;
+            } else {
+                color = Qt::blue;
+            }
+            break;
+        }
+    }
+    else {
+        color = Qt::white;
+    }
+    painter->setPen(QPen(QBrush(Qt::black), 1));
+    painter->setBrush(color);
+
+    // CMuxBus
+    poly.clear();
+    poly << QPoint(290,374) << QPoint(290,130) << QPoint(295,130) << QPoint(285,120)
+            << QPoint(275,130) << QPoint(280,130) << QPoint(280,334) << QPoint(240,334)
+            << QPoint(240,326) << QPoint(245,326) << QPoint(235,316) << QPoint(225,326)
+            << QPoint(230,326) << QPoint(230,344) << QPoint(280,344) << QPoint(280,374);
+    painter->drawPolygon(poly);
 }
 
 void CpuPaneGraphicsItems::repaintCCk(QPainter *painter)

@@ -99,6 +99,8 @@
     <addaction name="actionEdit_Copy"/>
     <addaction name="actionEdit_Paste"/>
     <addaction name="separator"/>
+    <addaction name="actionRemove_Error_Messages"/>
+    <addaction name="separator"/>
     <addaction name="actionEdit_Font"/>
     <addaction name="actionEdit_Find"/>
    </widget>
@@ -452,6 +454,11 @@
   <action name="actionFile_Print_Object_Code">
    <property name="text">
     <string>Print Object Code...</string>
+   </property>
+  </action>
+  <action name="actionRemove_Error_Messages">
+   <property name="text">
+    <string>Remove Error Messages</string>
    </property>
   </action>
  </widget>
