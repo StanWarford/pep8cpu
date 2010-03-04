@@ -7,6 +7,8 @@
 #include <QLabel>
 #include <QLineEdit>
 
+#include "cpupanegraphicsitems.h"
+
 namespace Ui {
     class CpuPane;
 }
@@ -27,73 +29,20 @@ private:
 
     QGraphicsScene *scene;
 
-    QCheckBox *loadCk;
-    QLabel *cLabel;
-    QLineEdit *cLineEdit;
-    QLabel *bLabel;
-    QLineEdit *bLineEdit;
-    QLabel *aLabel;
-    QLineEdit *aLineEdit;
-
-    QCheckBox *MARCk;
-    QLabel *MARALabel; // data section
-    QLabel *MARBLabel; // data section
-    QCheckBox *MDRCk;
-
-    QLabel *aMuxLabel;
-    QLabel *aMuxerDataLabel; // data section
-    QLineEdit *aMuxLineEdit;
-
-    QLabel *MDRMuxLabel;
-    QLabel *MDRMuxerDataLabel; // data section
-    QLineEdit *MDRMuxLineEdit;
-
-    QLabel *cMuxLabel;
-    QLineEdit *cMuxLineEdit;
-    QLabel *cMuxerLabel; // data section
-
-    QLabel *ALULabel;
-    QLineEdit *ALULineEdit;
-    QLabel *ALUFunctionLabel; // data section
-
-    QCheckBox *CCkCheckBox;
-    QLabel *CBitLabel; // data section
-
-    QCheckBox *VCkCheckBox;
-    QLabel *VBitLabel; // data section
-    QLabel *ANDZLabel;
-    QLineEdit *ANDZLineEdit;
-    QLabel *ANDZMuxLabel; // data section
-
-    QCheckBox *ZCkCheckBox;
-    QLabel *ZBitLabel;
-
-    QCheckBox *NCkCheckBox;
-    QLabel *NBitLabel;
-
-    QLabel *MemReadLabel;
-    QLineEdit *MemReadLineEdit;
-
-    QLabel *MemWriteLabel;
-    QLineEdit *MemWriteLineEdit;
+    CpuPaneGraphicsItems *cpuPaneItems;
 
 private slots:
     void zoomFactorChanged(int factor);
 
-    void repaintMARCk();
-    void repaintMDRCk();
-    void repaintCSelect();
-    void repaintBSelect();
-    void repaintCMuxSelect();
-    void repaintCCk();
-    void repaintLoadCk();
-    void repaintVCk();
-    void repaintZCk();
-    void repaintNCk();
-    void repaintMemRead();
-    void repaintMemWrite();
-    void repaintASelect();
-    void repaintAMuxSelect();
+//    void repaintCMuxSelect();
+//    void repaintCCk();
+//    void repaintLoadCk();
+//    void repaintVCk();
+//    void repaintZCk();
+//    void repaintNCk();
+//    void repaintMemRead();
+//    void repaintMemWrite();
+//    void repaintAMuxSelect();
 
 };
 
