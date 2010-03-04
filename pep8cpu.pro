@@ -26,9 +26,10 @@ SOURCES += main.cpp \
     microcodeeditor.cpp \
     memoryitemdelegate.cpp \
     objectcodepane.cpp \
-    thinarrowgraphicsitem.cpp \
+    cpupanegraphicsitems.cpp \
     code.cpp \
     asm.cpp
+
 HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
@@ -45,9 +46,10 @@ HEADERS += mainwindow.h \
     microcodeeditor.h \
     memoryitemdelegate.h \
     objectcodepane.h \
-    thinarrowgraphicsitem.h \
+    cpupanegraphicsitems.h \
     code.h \
     asm.h
+
 FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \
