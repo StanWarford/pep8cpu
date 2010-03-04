@@ -10,8 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QDesktopWidget *desktop = QApplication::desktop();
-    resize(desktop->width() * 0.8, desktop->height() * 0.8);
+    resize(1164, 800);
 
     mainMemory = new MainMemory(ui->mainSplitter);
     delete ui->memoryFrame;

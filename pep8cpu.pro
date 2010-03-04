@@ -25,7 +25,8 @@ SOURCES += main.cpp \
     pephighlighter.cpp \
     microcodeeditor.cpp \
     memoryitemdelegate.cpp \
-    objectcodepane.cpp
+    objectcodepane.cpp \
+    thinarrowgraphicsitem.cpp
 HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
@@ -41,7 +42,8 @@ HEADERS += mainwindow.h \
     enu.h \
     microcodeeditor.h \
     memoryitemdelegate.h \
-    objectcodepane.h
+    objectcodepane.h \
+    thinarrowgraphicsitem.h
 FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \

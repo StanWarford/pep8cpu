@@ -5,6 +5,11 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QGraphicsItem>
+#include <QErrorMessage>
+
+#include <QDebug>
+
+#include "thinarrowgraphicsitem.h"
 
 using namespace Enu;
 
@@ -36,7 +41,7 @@ CpuPane::CpuPane(QWidget *parent) :
     loadCk = new QCheckBox("LoadCk");
     loadCk->setGeometry(550, 18, 80, 20);
     scene->addWidget(loadCk);
-//    connect(loadCk, SIGNAL(clicked()), this, SLOT(repaint()));
+    //    connect(loadCk, SIGNAL(clicked()), this, SLOT(repaint()));
 
     QRegExp cbaRegExp("^((3[0-1])|([0-2][0-9])|([0-9]))$");
     cLabel = new QLabel("C");
@@ -405,7 +410,7 @@ void CpuPane::repaintCSelect()
     scene->addLine(523, 45, 533, 55, QPen(color));
 
     poly << QPoint(499, 50) << QPoint(507, 47) << QPoint(507, 53);
-    scene->addPolygon(poly, QPen(color));
+    scene->addPolygon(poly, QPen(QBrush(color), 1), QBrush(color));
 }
 
 void CpuPane::repaintBSelect()
@@ -452,13 +457,13 @@ void CpuPane::repaintCMuxSelect()
     bool ok;
     QPolygon poly;
     QColor color;
-//    int i = cMuxLineEdit->text().toInt(&ok, 10);
-//
-//    if (ok) {
-//        color = Qt::black;
-//    } else {
-//        color = Qt::gray;
-//    }
+    int i = cMuxLineEdit->text().toInt(&ok, 10);
+
+    if (ok) {
+        color = Qt::black;
+    } else {
+        color = Qt::gray;
+    }
 
     // CMux Select
     scene->addLine(449,355, 543,355);
@@ -469,25 +474,25 @@ void CpuPane::repaintCMuxSelect()
     poly << QPoint(257,362) << QPoint(263,362) << QPoint(260,370);
     scene->addPolygon(poly);
 
-//    if (ok) {
-//        switch (i) {
-//        case (0):
-//            color = Qt::yellow;
-//            break;
-//        case (1):
-////            if (CBus.state == UNDEFINED) {
-////                if (CMux-hasFocus())
-////                    DisplayMessage("WARNING: CMux select: There is no ALU output", 5000);
-////                color = Qt::white;
-////            } else {
-////                color = Qt::blue;
-////            }
-//            break;
-//        }
-//    }
-//    else {
-//        color = Qt::white;
-//    }
+    if (ok) {
+        switch (i) {
+        case (0):
+            color = Qt::yellow;
+            break;
+        case (1):
+            if (/*CBus.state == UNDEFINED*/ true) {
+                if (cMuxLineEdit->hasFocus())
+                    qDebug() << "WARNING: CMux select: There is no ALU output";
+                color = Qt::white;
+            } else {
+                color = Qt::blue;
+            }
+            break;
+        }
+    }
+    else {
+        color = Qt::white;
+    }
 
     // CMuxBus
     poly.clear();
@@ -527,9 +532,11 @@ void CpuPane::repaintLoadCk()
         color = Qt::gray;
     }
 
-    scene->addLine(543, 27, 499, 27, QPen(color));
-    poly << QPoint(499,27) << QPoint(507,24) << QPoint(507,30);
-    scene->addPolygon(poly, QPen(color));
+//    scene->addLine(543, 27, 499, 27, QPen(color));
+//    poly << QPoint(499,27) << QPoint(507,24) << QPoint(507,30);
+//    scene->addPolygon(poly, QPen(QBrush(color), 1, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin), QBrush(color));
+    ThinArrowGraphicsItem *item = new ThinArrowGraphicsItem(543, 27, 499, 27, color);
+    scene->addItem(item);
 }
 
 void CpuPane::repaintVCk()
@@ -602,17 +609,12 @@ void CpuPane::repaintMemRead()
     // Draw main bus
     if (isHigh)
     {
-//        if (MEM_READ_ADDR == MainBus.state)
-//        {
-//            pxPainter->setBrush (Qt::yellow);
-//        }
-//        else if (MEM_READ_DATA == MainBus.state)
-//        {
-//            pxPainter->setBrush (QBrush(0x109618));
-//        }
-    }
-    else
-    {
+        if (/*MEM_READ_ADDR == MainBus.state*/ true) {
+            color = Qt::yellow;
+        } else if (/*MEM_READ_DATA == MainBus.state*/ true) {
+            color = QColor("0x109618");
+        }
+    } else {
         // Only repaint white if MemWrite is not set isHigh
         color = Qt::white;
     }
@@ -626,10 +628,11 @@ void CpuPane::repaintMemRead()
             << QPoint(136-123, 360) << QPoint(136-123, 365) << QPoint(145-70, 365);
     scene->addPolygon(poly);
 
-//    if (!(MainBus.state == MEM_READ_DATA))
-//        pxPainter->setBrush (Qt::white);
+    if (/*MainBus.state != MEM_READ_DATA*/ true) {
+        color = Qt::white;
+    }
 
-    /* MemOutBus */
+    // MemOutBus
     poly.clear();
     poly << QPoint(0, 350) << QPoint(134-70, 350) << QPoint(134-70, 355) << QPoint(144-70, 345)
             << QPoint(134-70, 335) << QPoint(134-70, 340) << QPoint(0, 340);
@@ -641,10 +644,10 @@ void CpuPane::repaintMemWrite()
     QPolygon poly;
     QColor color;
     bool ok;
-    bool high = MemWriteLineEdit->text().toInt(&ok, 10) == 1;
+    bool isHigh = MemWriteLineEdit->text().toInt(&ok, 10) == 1;
 
     // Draw memwrite select line
-    if (high) {
+    if (isHigh) {
         color = Qt::black;
     } else {
         color = Qt::gray;
@@ -660,16 +663,13 @@ void CpuPane::repaintMemWrite()
     }
 
     // Draw main bus
-    if (high)
+    if (isHigh)
     {
-//        if (MEM_WRITE_ADDR == MainBus.state)
-//        {
-//            pxPainter->setBrush(Qt::yellow);
-//        }
-//        else
-//        {
-//            pxPainter->setBrush(QBrush(0x109618));
-//        }
+        if (/*MEM_WRITE_ADDR == MainBus.state*/ true) {
+            color = Qt::yellow;
+        } else {
+            color = QColor("0x109618");
+        }
     } else {
         color = Qt::white;
     }
@@ -735,25 +735,24 @@ void CpuPane::repaintAMuxSelect()
     scene->addLine(428, 303, 543, 303);
     poly.setPoints(3, 388, 300, 388, 306, 380, 303);
     scene->addPolygon(poly, QPen(QBrush(Qt::black), 1), QBrush(color));
-//    if (ok) {
-//        switch (i) {
-//        case (0):
-//            color = Qt::yellow;
-//            break;
-//        case (1):
-//            if (ABus.state == UNDEFINED) {
-//                color = Qt::white;
-//            } else {
-//                color = Qt::red;
-//            }
-//            break;
-//        }
-//    } else {
-//        color = Qt::white;
-//    }
+    if (ok) {
+        switch (i) {
+        case (0):
+            color = Qt::yellow;
+            break;
+        case (1):
+            if (/*ABus.state == UNDEFINED*/ true) {
+                color = Qt::white;
+            } else {
+                color = Qt::red;
+            }
+            break;
+        }
+    } else {
+        color = Qt::white;
+    }
     // AMux bus
-    poly.setPoints(7, 336,312, 336,331, 331,331, 341,341, 351,331,
-                   346,331, 346,312);
+    poly.setPoints(7, 336,312, 336,331, 331,331, 341,341, 351,331, 346,331, 346,312);
     scene->addPolygon(poly, QPen(QBrush(Qt::black), 1), QBrush(color));
 }
 
