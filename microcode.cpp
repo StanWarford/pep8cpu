@@ -1,5 +1,6 @@
 #include "microcode.h"
 #include "ui_microcode.h"
+#include "code.h"
 
 #include <QGridLayout>
 
@@ -28,6 +29,59 @@ Microcode::Microcode(QWidget *parent) :
 Microcode::~Microcode()
 {
     delete ui;
+}
+
+bool Microcode::microAssemble()
+{
+    QString sourceLine;
+    QString errorString;
+    QStringList sourceCodeList;
+    Code code;
+    int lineNum = 0;
+
+    removeErrorMessages();
+    codeList.clear();
+    QString sourceCode = editor->toPlainText();
+    sourceCodeList = sourceCode.split('\n');
+    while (lineNum < sourceCodeList.size()) {
+        sourceLine = sourceCodeList[lineNum];
+        if (!Asm::processSourceLine(sourceLine, lineNum, code, errorString)) {
+            appendMessageInSourceCodePaneAt(lineNum, errorString);
+            return false;
+        }
+        codeList.append(code);
+        lineNum++;
+    }
+    return true;
+}
+
+void Microcode::removeErrorMessages()
+{
+    QTextCursor cursor(editor->document()->find(";ERROR:"));
+    while (!cursor.isNull()) {
+        cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+        cursor.removeSelectedText();
+        cursor = editor->document()->find(";ERROR:", cursor);
+    }
+}
+
+void Microcode::appendMessageInSourceCodePaneAt(int lineNumber, QString message)
+{
+    QTextCursor cursor(editor->document());
+    cursor.setPosition(0);
+    for (int i = 0; i < lineNumber; i++) {
+        cursor.movePosition(QTextCursor::NextBlock);
+    }
+    cursor.movePosition(QTextCursor::EndOfLine);
+    cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor, 1);
+    if (cursor.selectedText() == " ") {
+        cursor.setPosition(cursor.anchor());
+    }
+    else {
+        cursor.setPosition(cursor.anchor());
+        cursor.insertText(" ");
+    }
+    cursor.insertText(message);
 }
 
 void Microcode::setMicrocode(QString microcode)
