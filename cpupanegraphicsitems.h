@@ -15,24 +15,6 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
-private:
-    void repaintMARCk(QPainter *painter);
-    void repaintMDRCk(QPainter *painter);
-    void repaintCSelect(QPainter *painter);
-    void repaintBSelect(QPainter *painter);
-    void repaintASelect(QPainter *painter);
-    void repaintCMuxSelect(QPainter *painter);
-    void repaintCCk(QPainter *painter);
-    void repaintLoadCk(QPainter *painter);
-    void repaintVCk(QPainter *painter);
-    void repaintZCk(QPainter *painter);
-    void repaintNCk(QPainter *painter);
-    void repaintMemRead(QPainter *painter);
-    void repaintMemWrite(QPainter *painter);
-    void repaintAMuxSelect(QPainter *painter);
-
-//    QGraphicsScene *parentScene;
-
     QCheckBox *loadCk;
     QLabel *cLabel;
     QLineEdit *cLineEdit;
@@ -53,6 +35,7 @@ private:
     QLabel *MDRMuxLabel;
     QLabel *MDRMuxerDataLabel; // data section
     QLineEdit *MDRMuxLineEdit;
+    QLabel *MDRLabel; // data section
 
     QLabel *cMuxLabel;
     QLineEdit *cMuxLineEdit;
@@ -63,7 +46,7 @@ private:
     QLabel *ALUFunctionLabel; // data section
 
     QCheckBox *CCkCheckBox;
-    QLabel *CBitLabel; // data section
+    QLabel *cBitLabel; // data section
 
     QCheckBox *VCkCheckBox;
     QLabel *vBitLabel; // data section
@@ -72,10 +55,10 @@ private:
     QLabel *ANDZMuxLabel; // data section
 
     QCheckBox *ZCkCheckBox;
-    QLabel *ZBitLabel;
+    QLabel *zBitLabel;
 
     QCheckBox *NCkCheckBox;
-    QLabel *NBitLabel;
+    QLabel *nBitLabel;
 
     QLabel *MemReadLabel;
     QLineEdit *MemReadLineEdit;
@@ -83,7 +66,34 @@ private:
     QLabel *MemWriteLabel;
     QLineEdit *MemWriteLineEdit;
 
+private:
+    void repaintLoadCk(QPainter *painter);
+    void repaintCSelect(QPainter *painter);
+    void repaintBSelect(QPainter *painter);
+    void repaintASelect(QPainter *painter);
+    void repaintMARCk(QPainter *painter);
+    void repaintMDRCk(QPainter *painter);
+    void repaintAMuxSelect(QPainter *painter);
 
+    void repaintCMuxSelect(QPainter *painter);
+
+    void repaintCCk(QPainter *painter);
+    void repaintVCk(QPainter *painter);
+    void repaintZCk(QPainter *painter);
+    void repaintNCk(QPainter *painter);
+    void repaintMemRead(QPainter *painter);
+    void repaintMemWrite(QPainter *painter);
+    void repaintCBitOut(QPainter *painter);
+    void repaintVBitOut(QPainter *painter);
+    void repaintZBitOut(QPainter *painter);
+    void repaintNBitOut(QPainter *painter);
+
+    void repaintANDZSelect(QPainter *painter);
+    void repaintALUSelect(QPainter *painter);
+    void repaintMDRMuxSelect(QPainter *painter);
+
+
+//    QGraphicsScene *parentScene;
 };
 
 #endif // CPUPANEGRAPHICSITEMS_H
