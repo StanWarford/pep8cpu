@@ -38,8 +38,7 @@ CpuPane::CpuPane(QWidget *parent) :
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
 
-    CpuPaneGraphicsItems *cpuPaneItems = new CpuPaneGraphicsItems(scene);
-    scene->addItem(cpuPaneItems);
+    CpuPaneGraphicsItems *cpuPaneItems = new CpuPaneGraphicsItems(ui->graphicsView, 0, scene);
 }
 
 CpuPane::~CpuPane()

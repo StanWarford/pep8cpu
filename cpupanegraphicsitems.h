@@ -9,8 +9,7 @@
 class CpuPaneGraphicsItems : public QGraphicsItem
 {
 public:
-    CpuPaneGraphicsItems(QGraphicsScene *scene);
-
+    CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem *itemParent = 0, QGraphicsScene *scene = 0);
     QRectF boundingRect() const;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -67,6 +66,9 @@ public:
     QLineEdit *MemWriteLineEdit;
 
 private:
+    QGraphicsScene *parentScene;
+    QWidget *parent;
+
     void repaintLoadCk(QPainter *painter);
     void repaintCSelect(QPainter *painter);
     void repaintBSelect(QPainter *painter);
@@ -91,9 +93,6 @@ private:
     void repaintANDZSelect(QPainter *painter);
     void repaintALUSelect(QPainter *painter);
     void repaintMDRMuxSelect(QPainter *painter);
-
-
-//    QGraphicsScene *parentScene;
 };
 
 #endif // CPUPANEGRAPHICSITEMS_H

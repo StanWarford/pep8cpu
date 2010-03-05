@@ -9,15 +9,15 @@
 
 #include <QDebug>
 
-CpuPaneGraphicsItems::CpuPaneGraphicsItems(QGraphicsScene *scene)
+CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem *itemParent, QGraphicsScene *scene)
+    : QGraphicsItem(itemParent, scene),
+    parent(widgetParent)
 {
-//    parentScene = scene;
-
     loadCk = new QCheckBox("LoadCk");
     loadCk->setPalette(QPalette(Qt::white));
     loadCk->setGeometry(550, 18, 80, 20);
     scene->addWidget(loadCk);
-    //    connect(loadCk, SIGNAL(clicked()), this, SLOT(repaint()));
+//    connect(loadCk, SIGNAL(toggled(bool)), this, SLOT(loadCkToggled(bool)));
 
     QRegExp cbaRegExp("^((3[0-1])|([0-2][0-9])|([0-9]))$");
     cLabel = new QLabel("C");
@@ -159,7 +159,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QGraphicsScene *scene)
     ALUFunctionLabel = new QLabel("fn label");
     ALUFunctionLabel->setGeometry(330, 355, 100, 20);
     ALUFunctionLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    ALUFunctionLabel->setPalette(QPalette(Qt::white));
+    ALUFunctionLabel->setPalette(QPalette(Qt::transparent));
     scene->addWidget(ALUFunctionLabel);
 
     CCkCheckBox = new QCheckBox ("CCk");
@@ -267,15 +267,15 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QGraphicsScene *scene)
     rectItem = scene->addRect(175, 254, 69, 19);
 
     // MDR Bus
-    scene->addRect(244,258, 36,10);
+    scene->addRect(244,258, 36,10, QPen(Qt::black), QBrush(Qt::yellow));
     poly.clear();
     poly << QPoint(290,258) << QPoint(326,258) << QPoint(326,280) << QPoint(331,280)
             << QPoint(321,290) << QPoint(311,280) << QPoint(316,280) << QPoint(316,268) << QPoint(290,268);
-    scene->addPolygon(poly);
+    scene->addPolygon(poly, QPen(Qt::black), QBrush(Qt::yellow));
     poly.clear();
     poly << QPoint(175,258) << QPoint(168-70,258) << QPoint(168-70,253) << QPoint(158-70,263)
             << QPoint(168-70,273) << QPoint(168-70,268) << QPoint(175,268);
-    scene->addPolygon(poly);
+    scene->addPolygon(poly, QPen(Qt::black), QBrush(Qt::yellow));
 
     // MDRMux
     scene->addRect(175, 293, 69, 19);
@@ -293,7 +293,8 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QGraphicsScene *scene)
     poly.clear();
     poly << QPoint(314,342) << QPoint(366,342) << QPoint(370,353) << QPoint(390,353) << QPoint(394,342)
             << QPoint(447,342) << QPoint(421,394) << QPoint(340,394);
-    scene->addPolygon(poly, QPen(QBrush(Qt::black), 2, Qt::SolidLine, Qt::RoundCap, Qt::BevelJoin), QBrush(QColor(Qt::blue).lighter(190)));
+    QGraphicsPolygonItem *polyItem = scene->addPolygon(poly, QPen(QBrush(Qt::black), 2, Qt::SolidLine, Qt::RoundCap, Qt::BevelJoin), QBrush(QColor(Qt::blue).lighter(190)));
+    polyItem->setZValue(-1);
 
     // Status Bits
     scene->addRect(476,406, 19,19);
@@ -304,7 +305,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QGraphicsScene *scene)
     poly.clear();
     poly << QPoint(310,513) << QPoint(269,513) << QPoint(269,407) << QPoint(274,407) << QPoint(264,397)
             << QPoint(254,407) << QPoint(259,407) << QPoint(259,523) << QPoint(310,523);
-    scene->addPolygon(poly);
+    scene->addPolygon(poly, QPen(QBrush(Qt::black), 1), QBrush(Qt::yellow));
     scene->addLine(310, 477, 310, 559);
 
 }
@@ -1059,12 +1060,9 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
     painter->setBrush(ok ? Qt::black : Qt::gray);
 
     /* MDRMux Select */
-    painter->drawLine(257,303, 265,303);
-    painter->drawLine(265,303, 265,324);
-    painter->drawLine(265,324, 279,324);
-    painter->drawLine(291,324, 335,324);
-    painter->drawLine(347,324, 416,324);
-    painter->drawLine(428,324, 543,324);
+    painter->drawLine(257,303, 265,303); painter->drawLine(265,303, 265,324);
+    painter->drawLine(265,324, 279,324); painter->drawLine(291,324, 335,324);
+    painter->drawLine(347,324, 416,324); painter->drawLine(428,324, 543,324);
     //painter->drawLine(523,319, 533,329);
     poly.setPoints(3, 257,300, 257,306, 249,303);
     painter->drawPolygon(poly);
@@ -1102,3 +1100,4 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
                 215,286, 215,293);
     painter->drawPolygon(poly);
 }
+
