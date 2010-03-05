@@ -3,6 +3,7 @@
 #include "code.h"
 
 #include <QGridLayout>
+#include <QDebug>
 
 Microcode::Microcode(QWidget *parent) :
     QWidget(parent),
@@ -45,8 +46,10 @@ bool Microcode::microAssemble()
     sourceCodeList = sourceCode.split('\n');
     while (lineNum < sourceCodeList.size()) {
         sourceLine = sourceCodeList[lineNum];
+        qDebug() << lineNum << ": " << sourceLine;
         if (!Asm::processSourceLine(sourceLine, lineNum, code, errorString)) {
             appendMessageInSourceCodePaneAt(lineNum, errorString);
+            qDebug() << "errorString = " << errorString;
             return false;
         }
         codeList.append(code);
@@ -57,11 +60,12 @@ bool Microcode::microAssemble()
 
 void Microcode::removeErrorMessages()
 {
-    QTextCursor cursor(editor->document()->find(";ERROR:"));
+    QTextCursor cursor(editor->document()->find("//ERROR:"));
     while (!cursor.isNull()) {
+        qDebug() << "Error found";
         cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
         cursor.removeSelectedText();
-        cursor = editor->document()->find(";ERROR:", cursor);
+        cursor = editor->document()->find("//ERROR:", cursor);
     }
 }
 

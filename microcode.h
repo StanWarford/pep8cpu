@@ -25,7 +25,7 @@ public:
     // with the code structs. Otherwise false is returned and codeList is partially populated.
 
     void removeErrorMessages();
-    // Post: Searces for the string ";ERROR: " on each line and removes the end of the line.
+    // Post: Searces for the string "//ERROR: " on each line and removes the end of the line.
 
     void appendMessageInSourceCodePaneAt(int lineNumber, QString message);
     // Post: Appends message to the end of line lineNumber.
@@ -47,7 +47,6 @@ private:
 
     PepHighlighter *highlighter;
     MicrocodeEditor *editor;
-
 
 signals:
     void undoAvailable(bool);
