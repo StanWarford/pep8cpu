@@ -17,53 +17,42 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     loadCk->setPalette(QPalette(Qt::white));
     loadCk->setGeometry(550, 18, 80, 20);
     scene->addWidget(loadCk);
-//    connect(loadCk, SIGNAL(toggled(bool)), this, SLOT(loadCkToggled(bool)));
 
     QRegExp cbaRegExp("^((3[0-1])|([0-2][0-9])|([0-9]))$");
     cLabel = new QLabel("C");
     cLabel->setPalette(QPalette(Qt::white));
     cLabel->setGeometry(579, 41, 20, 21);
     scene->addWidget(cLabel);
-    cLineEdit = new QLineEdit(0); // Holds the value of the C select lines
+    cLineEdit = new QLineEdit(0);
     cLineEdit->setGeometry(550, 39, 25, 21);
     cLineEdit->setValidator(new QRegExpValidator(cbaRegExp, 0));
     cLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(cLineEdit);
-    //    connect(cLineEdit, SIGNAL(textChanged(QString)), this, SLOT(repaintCSelect()));
-    // CBus.value = 0;
-    // CBus.state = UNDEFINED;
 
     bLabel = new QLabel("B");
     bLabel->setGeometry(579, 63, 20, 21);
     bLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(bLabel);
-    bLineEdit = new QLineEdit(); // Holds the value of the B select lines
+    bLineEdit = new QLineEdit();
     bLineEdit->setGeometry(550, 61, 25, 21);
     bLineEdit->setValidator(new QRegExpValidator(cbaRegExp, 0));
     bLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(bLineEdit);
-    //    connect(B, SIGNAL (textChanged (const QString &)), this, SLOT (SlotBSelect()));
-    //    BBus.value = 0;
-    //    BBus.state = UNDEFINED;
 
     aLabel = new QLabel("A");
     aLabel->setGeometry(579, 85, 20, 21);
     aLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(aLabel);
-    aLineEdit = new QLineEdit(); // Holds the value of the A select lines
+    aLineEdit = new QLineEdit();
     aLineEdit->setGeometry(550,83, 25, 21);
     aLineEdit->setValidator(new QRegExpValidator(cbaRegExp, 0));
     aLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(aLineEdit);
-    //    connect(A, SIGNAL (textChanged (const QString &)), this, SLOT (SlotASelect()));
-    //    ABus.value = 0;
-    //    ABus.state = UNDEFINED;
 
     MARCk = new QCheckBox("MARCk");
     MARCk->setGeometry(550, 169, 80, 20);
     MARCk->setPalette(QPalette(Qt::white));
     scene->addWidget(MARCk);
-    //    connect(MARCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
     MARALabel = new QLabel("0x00");
     MARALabel->setGeometry(175,202, 69,19);
     MARALabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -75,16 +64,11 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     MARBLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     MARBLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(MARBLabel);
-    //    MARBus.value = 0;
-    //    MARBus.state = UNDEFINED;
 
     MDRCk = new QCheckBox("MDRCk");
     MDRCk->setGeometry(550, 225, 80, 20);
     MDRCk->setPalette(QPalette(Qt::white));
     scene->addWidget(MDRCk);
-    //    connect(MDRCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
-    //    MDRBus.value = 0;
-    //    MDRBus.state = UNDEFINED;
 
     QRegExp muxRegExp("^[0-1]$");
     aMuxLabel = new QLabel("AMux");
@@ -101,9 +85,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     aMuxLineEdit->setValidator(new QRegExpValidator(muxRegExp, 0));
     aMuxLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(aMuxLineEdit);
-    //    connect(AMux, SIGNAL (textChanged (const QString &)), this, SLOT (SlotAMuxSelect()));
-    //    AMuxBus.value = 0;
-    //    AMuxBus.state = UNDEFINED;
 
     MDRMuxLabel = new QLabel("MDRMux");
     MDRMuxLabel->setGeometry(579, 318, 61, 20);
@@ -119,9 +100,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     MDRMuxLineEdit->setValidator(new QRegExpValidator(muxRegExp, 0));
     MDRMuxLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(MDRMuxLineEdit);
-    //    connect(MDRMux, SIGNAL (textChanged (const QString &)), this, SLOT (SlotMDRMuxSelect ()));
-    //    MDRMuxBus.value = 0;
-    //    MDRMuxBus.state = UNDEFINED;
     MDRLabel = new QLabel("0x00");
     MDRLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     MDRLabel->setGeometry(175,254, 69,19);
@@ -142,9 +120,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     cMuxLineEdit->setValidator(new QRegExpValidator(QRegExp("^[0-1]$"), 0));
     cMuxLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(cMuxLineEdit);
-//    QObject::connect(CMux, SIGNAL (textChanged (const QString &)), this, SLOT (SlotCMuxSelect()));
-//    CMuxBus.value = 0;
-//    CMuxBus.state = UNDEFINED;
 
     ALULabel = new QLabel("ALU");
     ALULabel->setGeometry(579, 370, 31, 20);
@@ -155,7 +130,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ALULineEdit->setValidator(new QRegExpValidator(QRegExp("^((1[0-5])|(0[0-9])|[0-9])$"), 0));
     ALULineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(ALULineEdit);
-    //    connect(ALU, SIGNAL (textChanged (const QString &)), this, SLOT (SlotALUSelect()));
     ALUFunctionLabel = new QLabel("fn label");
     ALUFunctionLabel->setGeometry(330, 355, 100, 20);
     ALUFunctionLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -166,7 +140,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     CCkCheckBox->setGeometry(550, 407, 60, 20);
     CCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(CCkCheckBox);
-    //    connect(CCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
     cBitLabel = new QLabel("0");
     cBitLabel->setGeometry(476,406, 19, 19);
     cBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -177,7 +150,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     VCkCheckBox->setGeometry(550, 444, 60, 20);
     VCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(VCkCheckBox);
-    //    connect(VCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
     vBitLabel = new QLabel("0");
     vBitLabel->setGeometry(476,442, 19, 19);
     vBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -193,7 +165,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ANDZLineEdit->setValidator(new QRegExpValidator(QRegExp("^[0-1]$"), 0));
     ANDZLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(ANDZLineEdit);
-    //    connect(ANDZ, SIGNAL (textChanged (const QString &)), this, SLOT (SlotANDZSelect()));
     ANDZMuxLabel = new QLabel("ANDZ");
     ANDZMuxLabel->setGeometry(415,495, 41,21);
     ANDZMuxLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -204,7 +175,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ZCkCheckBox->setGeometry(550, 499, 60, 20);
     ZCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(ZCkCheckBox);
-    //    connect(ZCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
     zBitLabel = new QLabel("0");
     zBitLabel->setGeometry(476, 498, 19, 19);
     zBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -215,7 +185,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     NCkCheckBox->setGeometry(550, 550, 60, 20);
     NCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(NCkCheckBox);
-    //    connect(NCk, SIGNAL (toggled (bool)), this, SLOT (Repaint()));
     nBitLabel = new QLabel("0");
     nBitLabel->setGeometry(476,549, 19, 19);
     nBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -232,7 +201,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     MemReadLineEdit->setValidator(new QRegExpValidator(memRWRegExp, 0));
     MemReadLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(MemReadLineEdit);
-    //    connect(MemRead, SIGNAL (textChanged (const QString &)), this, SLOT (SlotMemRead()));
 
     MemWriteLabel = new QLabel("MemWrite");
     MemWriteLabel->setGeometry(579, 598, 80, 20);
@@ -243,7 +211,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     MemWriteLineEdit->setValidator(new QRegExpValidator(memRWRegExp, 0));
     MemWriteLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(MemWriteLineEdit);
-    //    connect(MemWrite, SIGNAL (textChanged (const QString &)), this, SLOT (SlotMemWrite()));
 
     // Registers
     QGraphicsRectItem *rectItem;
@@ -1064,8 +1031,10 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
     painter->drawLine(265,324, 279,324); painter->drawLine(291,324, 335,324);
     painter->drawLine(347,324, 416,324); painter->drawLine(428,324, 543,324);
     //painter->drawLine(523,319, 533,329);
+    painter->setRenderHint(QPainter::Antialiasing);
     poly.setPoints(3, 257,300, 257,306, 249,303);
     painter->drawPolygon(poly);
+    painter->setRenderHint(QPainter::Antialiasing, false);
     painter->setPen(Qt::black);
 
     if (ok)
