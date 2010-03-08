@@ -120,7 +120,12 @@ void MainWindow::on_actionEdit_Font_triggered()
 // System MainWindow triggers
 void MainWindow::on_actionSystem_Microassemble_triggered()
 {
-
+    if (microcode->microAssemble()) {
+        ui->statusBar->showMessage("MicroAssembly succeeded", 4000);
+    }
+    else {
+        ui->statusBar->showMessage("MicroAssembly failed", 4000);
+    }
 }
 
 void MainWindow::on_actionSystem_Execute_triggered()
