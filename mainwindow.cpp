@@ -118,6 +118,31 @@ void MainWindow::on_actionEdit_Font_triggered()
 }
 
 // System MainWindow triggers
+void MainWindow::on_actionSystem_Microassemble_triggered()
+{
+
+}
+
+void MainWindow::on_actionSystem_Execute_triggered()
+{
+
+}
+
+void MainWindow::on_actionSystem_Run_triggered()
+{
+
+}
+
+void MainWindow::on_actionSystem_Start_Debugging_triggered()
+{
+
+}
+
+void MainWindow::on_actionSystem_Stop_Debugging_triggered()
+{
+
+}
+
 void MainWindow::on_actionSystem_Clear_CPU_triggered()
 {
 
