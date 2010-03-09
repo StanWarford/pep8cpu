@@ -521,7 +521,7 @@ void CpuPaneGraphicsItems::repaintAMuxSelect(QPainter *painter)
             color = Qt::yellow;
             break;
         case (1):
-            if (/*ABus.state == UNDEFINED*/ true) {
+            if (aLineEdit->text() == "") { // ABus.state == UNDEFINED
                 color = Qt::white;
             } else {
                 color = Qt::red;
@@ -569,7 +569,8 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
             color = Qt::yellow;
             break;
         case (1):
-            if (/*CBus.state == UNDEFINED*/ true) {
+#warning "Is this right?"
+            if (cLineEdit->text() == "") { // CBus.state == UNDEFINED
                 if (cMuxLineEdit->hasFocus())
                     qDebug() << "WARNING: CMux select: There is no ALU output";
                 color = Qt::white;
@@ -698,9 +699,10 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
     // Draw main bus
     if (isHigh)
     {
-        if (/*MEM_READ_ADDR == MainBus.state*/ true) {
+#warning "I think this is wrong. We need a sim function to keep track of this stuff"
+        if (MemReadLineEdit->text() != "") { // MEM_READ_ADDR == MainBus.state
             color = Qt::yellow;
-        } else if (/*MEM_READ_DATA == MainBus.state*/ true) {
+        } else if (true) { // MEM_READ_DATA == MainBus.state
             color = QColor("0x109618");
         }
     } else {
@@ -759,7 +761,7 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
         // Draw main bus
         if (isHigh)
         {
-            if (/*MEM_WRITE_ADDR == MainBus.state*/ true) {
+            if (MemWriteLineEdit->text() != "") { // MEM_WRITE_ADDR == MainBus.state
                 color = Qt::yellow;
             } else {
                 color = QColor("0x109618");
@@ -1042,14 +1044,14 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
         switch (i)
         {
         case(0):
-            if (/*MainBus.state != MEM_READ_DATA*/ true) {
+            if (MemWriteLineEdit->text().toInt() == 1) { // MainBus.state != MEM_READ_DATA
                 painter->setBrush(Qt::white);
             } else {
-                painter->setBrush(QBrush(0x109618));
+                painter->setBrush(QBrush(0x109618)); // blue
             }
             break;
         case(1):
-            if (/*CMuxBus.state == UNDEFINED*/ true) {
+            if (cMuxLineEdit->text() == "") { // CMuxBus.state == UNDEFINED
                 painter->setBrush(Qt::white);
             } else {
                 if (cMuxLineEdit->text() == "0") {
