@@ -146,6 +146,9 @@
        <property name="text">
         <string>Resume</string>
        </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
     </layout>

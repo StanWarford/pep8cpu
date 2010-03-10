@@ -10,6 +10,8 @@
 #include <QDebug>
 
 #include "cpupanegraphicsitems.h"
+#include "tristatelabel.h"
+#include "sim.h"
 
 using namespace Enu;
 
@@ -57,6 +59,11 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(cpuPaneItems->NCkCheckBox, SIGNAL(clicked()), scene, SLOT(invalidate()));
     connect(cpuPaneItems->MemReadLineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
     connect(cpuPaneItems->MemWriteLineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
+
+    connect(cpuPaneItems->nBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
+    connect(cpuPaneItems->zBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
+    connect(cpuPaneItems->vBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
+    connect(cpuPaneItems->cBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
 }
 
 CpuPane::~CpuPane()
@@ -93,3 +100,11 @@ void CpuPane::zoomFactorChanged(int factor)
     ui->graphicsView->setMatrix(matrix);
     ui->graphicsView->update();
 }
+
+void CpuPane::labelClicked()
+{
+    TristateLabel *label = qobject_cast<TristateLabel *>(sender());
+    label->toggle();
+}
+
+

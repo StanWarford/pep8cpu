@@ -28,8 +28,8 @@ SOURCES += main.cpp \
     objectcodepane.cpp \
     cpupanegraphicsitems.cpp \
     code.cpp \
-    asm.cpp
-
+    asm.cpp \
+    tristatelabel.cpp
 HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
@@ -48,8 +48,8 @@ HEADERS += mainwindow.h \
     objectcodepane.h \
     cpupanegraphicsitems.h \
     code.h \
-    asm.h
-
+    asm.h \
+    tristatelabel.h
 FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \

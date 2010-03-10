@@ -33,6 +33,8 @@ private:
 
 private slots:
     void zoomFactorChanged(int factor);
+
+    void labelClicked();
 };
 
 #endif // CPUPANE_H

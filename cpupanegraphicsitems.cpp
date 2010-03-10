@@ -8,6 +8,7 @@
 #include <QPainter>
 
 #include <QDebug>
+#include "sim.h"
 
 CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem *itemParent, QGraphicsScene *scene)
     : QGraphicsItem(itemParent, scene),
@@ -140,7 +141,9 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     CCkCheckBox->setGeometry(550, 407, 60, 20);
     CCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(CCkCheckBox);
-    cBitLabel = new QLabel("0");
+//    cBitLabel = new QLabel("0");
+    cBitLabel = new TristateLabel(0, TristateLabel::ZeroOne);
+    cBitLabel->setText("0");
     cBitLabel->setGeometry(476,406, 19, 19);
     cBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     cBitLabel->setPalette(QPalette(Qt::white));
@@ -150,7 +153,9 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     VCkCheckBox->setGeometry(550, 444, 60, 20);
     VCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(VCkCheckBox);
-    vBitLabel = new QLabel("0");
+//    vBitLabel = new QLabel("0");
+    vBitLabel = new TristateLabel(0, TristateLabel::ZeroOne);
+    vBitLabel->setText("0");
     vBitLabel->setGeometry(476,442, 19, 19);
     vBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     vBitLabel->setPalette(QPalette(Qt::white));
@@ -175,7 +180,9 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ZCkCheckBox->setGeometry(550, 499, 60, 20);
     ZCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(ZCkCheckBox);
-    zBitLabel = new QLabel("0");
+//    zBitLabel = new QLabel("0");
+    zBitLabel = new TristateLabel(0, TristateLabel::ZeroOne);
+    zBitLabel->setText("0");
     zBitLabel->setGeometry(476, 498, 19, 19);
     zBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     zBitLabel->setPalette(QPalette(Qt::white));
@@ -185,7 +192,9 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     NCkCheckBox->setGeometry(550, 550, 60, 20);
     NCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(NCkCheckBox);
-    nBitLabel = new QLabel("0");
+//    nBitLabel = new QLabel("0");
+    nBitLabel = new TristateLabel(0, TristateLabel::ZeroOne);
+    nBitLabel->setText("0");
     nBitLabel->setGeometry(476,549, 19, 19);
     nBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     nBitLabel->setPalette(QPalette(Qt::white));
@@ -910,11 +919,11 @@ void CpuPaneGraphicsItems::repaintANDZSelect(QPainter *painter)
     if (ok)
     {
         if (i == 1) {
-            if (/*zBitLabel->text().toInt(&ok, 10) == 1 && iZ*/ true) {
+            if (/*zBitLabel->text().toInt(&ok, 10) == 1 && Sim::zBit*/ true) {
                 output = true;
             }
         } else {
-//            output = iZ == 1; // what is this?
+            // output = Sim::zBit; // what is this?
         }
     }
 
@@ -950,7 +959,7 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
     painter->setPen(QPen(QBrush(color), 1));
     painter->setBrush(color);
 
-    /* ALU Select Coordinates */
+    // ALU Select Coordinates
     painter->drawLine(449,376, 543,376);
     painter->drawLine(523,371, 533,381);
 
@@ -967,15 +976,15 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
         painter->setBrush(Qt::white);
     }
 
-    /* Cbus */
+    // Cbus
     poly.setPoints(11, 346,394, 346,414, 314,414, 314,407,
                    319,407, 309,397, 299,407, 304,407, 304,424,
                    356,424, 356,394);
     painter->drawPolygon(poly);
 
-    /* Draw status bit lines */
-    painter->setPen(/*iN == 1*/ false ? Qt::black : Qt::gray);
-    painter->setBrush(/*iN == 1*/ false ? Qt::black : Qt::gray);
+    // Draw status bit lines
+    painter->setPen(Sim::nBit ? Qt::black : Qt::gray);
+    painter->setBrush(Sim::nBit ? Qt::black : Qt::gray);
     // N
     painter->drawLine(371,395, 371,558);
     painter->drawLine(371,558, 465,558);
@@ -985,8 +994,8 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
-    painter->setPen(/*iZ == 1*/ false ? Qt::black : Qt::gray);
-    painter->setBrush(/*iZ == 1*/ false ? Qt::black : Qt::gray);
+    painter->setPen(Sim::zBit ? Qt::black : Qt::gray);
+    painter->setBrush(Sim::zBit ? Qt::black : Qt::gray);
     // Z
     painter->drawLine(386,395, 386,507);
     painter->drawLine(386,507, 404,507);
@@ -996,8 +1005,8 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
-    painter->setPen(/*iV == 1*/ false ? Qt::black : Qt::gray);
-    painter->setBrush(/*iV == 1*/ false ? Qt::black : Qt::gray);
+    painter->setPen(Sim::zBit ? Qt::black : Qt::gray);
+    painter->setBrush(Sim::zBit ? Qt::black : Qt::gray);
     // V
     painter->drawLine(401,395, 401,451);
     painter->drawLine(401,451, 466,451);
@@ -1007,8 +1016,8 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
-    painter->setPen(/*iC == 1*/ false ? Qt::black : Qt::gray);
-    painter->setBrush(/*iC == 1*/ false ? Qt::black : Qt::gray);
+    painter->setPen(Sim::cBit ? Qt::black : Qt::gray);
+    painter->setBrush(Sim::cBit ? Qt::black : Qt::gray);
     // C
     painter->drawLine(416,395, 416,415);
     painter->drawLine(416,415, 465,415);

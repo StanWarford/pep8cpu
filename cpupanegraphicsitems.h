@@ -6,6 +6,8 @@
 #include <QLabel>
 #include <QLineEdit>
 
+#include "tristatelabel.h"
+
 class CpuPaneGraphicsItems : public QGraphicsItem
 {
 public:
@@ -45,19 +47,25 @@ public:
     QLabel *ALUFunctionLabel; // data section
 
     QCheckBox *CCkCheckBox;
-    QLabel *cBitLabel; // data section
 
     QCheckBox *VCkCheckBox;
-    QLabel *vBitLabel; // data section
     QLabel *ANDZLabel;
     QLineEdit *ANDZLineEdit;
     QLabel *ANDZMuxLabel; // data section
 
     QCheckBox *ZCkCheckBox;
-    QLabel *zBitLabel;
 
     QCheckBox *NCkCheckBox;
-    QLabel *nBitLabel;
+
+//    QLabel *nBitLabel; // data section
+//    QLabel *zBitLabel; // data section
+//    QLabel *vBitLabel; // data section
+//    QLabel *cBitLabel; // data section
+
+    TristateLabel *nBitLabel; // data section
+    TristateLabel *zBitLabel; // data section
+    TristateLabel *vBitLabel; // data section
+    TristateLabel *cBitLabel; // data section
 
     QLabel *MemReadLabel;
     QLineEdit *MemReadLineEdit;
