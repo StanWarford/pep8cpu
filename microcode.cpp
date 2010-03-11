@@ -60,10 +60,11 @@ bool Microcode::microAssemble()
 
 void Microcode::removeErrorMessages()
 {
+    qDebug() << "removeErrorMessaged called.";
     QTextCursor cursor(editor->document()->find("//ERROR:"));
     while (!cursor.isNull()) {
         qDebug() << "Error found";
-        cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+        cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
         cursor.removeSelectedText();
         cursor = editor->document()->find("//ERROR:", cursor);
     }
@@ -76,7 +77,7 @@ void Microcode::appendMessageInSourceCodePaneAt(int lineNumber, QString message)
     for (int i = 0; i < lineNumber; i++) {
         cursor.movePosition(QTextCursor::NextBlock);
     }
-    cursor.movePosition(QTextCursor::EndOfLine);
+    cursor.movePosition(QTextCursor::EndOfBlock);
     cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor, 1);
     if (cursor.selectedText() == " ") {
         cursor.setPosition(cursor.anchor());

@@ -112,6 +112,11 @@ void MainWindow::on_actionEdit_Paste_triggered()
 
 }
 
+void MainWindow::on_actionEdit_Remove_Error_Messages_triggered()
+{
+    microcode->removeErrorMessages();
+}
+
 void MainWindow::on_actionEdit_Font_triggered()
 {
 

@@ -6,7 +6,7 @@
 #include "code.h"
 
 // Regular expressions for lexical analysis
-QRegExp Asm::rxComment("//(.)*)");
+QRegExp Asm::rxComment("^//.*");
 QRegExp Asm::rxDigit("^[0-9]+");
 QRegExp Asm::rxIdentifier("^((([A-Z|a-z]{1})(\\w*)))");
 
@@ -27,7 +27,7 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
     }
     if (firstChar == '/') {
         if (rxComment.indexIn(sourceLine) == -1) {
-            tokenString = "//ERROR: Malformed comment";
+            tokenString = "//ERROR: Malformed comment"; // Should occur with single "/".
             return false;
         }
         token = LT_COMMENT;
@@ -36,6 +36,10 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
         return true;
     }
     if (firstChar.isDigit()) {
+        if (rxDigit.indexIn(sourceLine) == -1) {
+            tokenString = "//ERROR: Malformed integer"; // Should not occur.
+            return false;
+        }
         token = LT_DIGIT;
         tokenString = rxDigit.capturedTexts()[0];
         sourceLine.remove(0, tokenString.length());
@@ -48,6 +52,10 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
         return true;
     }
     if (firstChar.isLetter()) {
+        if (rxIdentifier.indexIn(sourceLine) == -1) {
+            tokenString = "//ERROR: Malformed identifier"; // Should not occur
+            return false;
+        }
         token = LT_IDENTIFIER;
         tokenString = rxIdentifier.capturedTexts()[0];
         sourceLine.remove(0, tokenString.length());
@@ -59,7 +67,7 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
         sourceLine.remove(0, tokenString.length());
         return true;
     }
-    tokenString = ";ERROR: Syntax error.";
+    tokenString = "//ERROR: Syntax error.";
     return false;
 }
 
@@ -75,18 +83,33 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code &code, QString
         qDebug() << "state = " << state;
         if (!getToken(sourceLine, token, tokenString)) {
             errorString = tokenString;
+            qDebug() << "Token error. Returning false from processSourceLine";
             return false;
         }
         qDebug() << "tokenString = " << tokenString;
         switch (state) {
-            if (token == Asm::LT_IDENTIFIER) {
-                state = Asm::PS_FINISH;
+        case Asm::PS_START:
+            if (token == Asm::LT_COMMA) {
+                qDebug() << "LT_COMMA = " << tokenString;
             }
             else if (token == Asm::LT_COMMENT) {
-                state = Asm::PS_FINISH;
+                qDebug() << "LT_COMMENT = " << tokenString;
+            }
+            else if (token == Asm::LT_DIGIT) {
+                qDebug() << "LT_DIGIT = " << tokenString;
+            }
+            else if (token == Asm::LT_EQUALS) {
+                qDebug() << "LT_EQUALS = " << tokenString;
             }
             else if (token == Asm::LT_EMPTY) {
+                qDebug() << "LT_EMPTY = " << tokenString;
                 state = Asm::PS_FINISH;
+            }
+            else if (token == Asm::LT_IDENTIFIER) {
+                qDebug() << "LT_IDENTIFIER = " << tokenString;
+            }
+            else if (token == Asm::LT_SEMICOLON) {
+                qDebug() << "LT_SEMICOLON = " << tokenString;
             }
             else {
                 errorString = "//ERROR: Line must start with a control signal or comment.";
@@ -113,5 +136,6 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code &code, QString
         }
     }
     while (state != Asm::PS_FINISH);
+    qDebug() << "Returning true from processSourceLine";
     return true;
 }

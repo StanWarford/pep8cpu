@@ -50,10 +50,11 @@ PepHighlighter::PepHighlighter(QTextDocument *parent)
     rule.format = singleLineCommentFormat;
     highlightingRules.append(rule);
 
-    multiLineCommentFormat.setForeground(Qt::darkGreen);
+    multiLineCommentFormat.setForeground(Qt::white);
+    multiLineCommentFormat.setBackground(Qt::red);
 
-    commentStartExpression = QRegExp("/\\*");
-    commentEndExpression = QRegExp("\\*/");
+    commentStartExpression = QRegExp("//ERROR:[\\s]");
+    commentEndExpression = QRegExp("$");
 }
 
 void PepHighlighter::highlightBlock(const QString &text)
