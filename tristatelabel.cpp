@@ -40,7 +40,7 @@ void TristateLabel::toggle()
 
 void TristateLabel::mousePressEvent(QMouseEvent *ev)
 {
-    if (ev->button() == Qt::LeftButton) {
+    if (ev->button() == Qt::LeftButton && isEnabled()) {
         emit clicked();
     }
 }

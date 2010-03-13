@@ -71,7 +71,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     MDRCk->setPalette(QPalette(Qt::white));
     scene->addWidget(MDRCk);
 
-    QRegExp muxRegExp("^[0-1]$");
     aMuxLabel = new QLabel("AMux");
     aMuxLabel->setGeometry(579, 297, 42, 20);
     aMuxLabel->setPalette(QPalette(Qt::white));
@@ -81,11 +80,12 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     aMuxerDataLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     aMuxerDataLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(aMuxerDataLabel);
-    aMuxLineEdit = new QLineEdit(); // Holds the value of the AMux select lines
-    aMuxLineEdit->setGeometry(550, 295, 25, 21);
-    aMuxLineEdit->setValidator(new QRegExpValidator(muxRegExp, 0));
-    aMuxLineEdit->setPalette(QPalette(Qt::white));
-    scene->addWidget(aMuxLineEdit);
+    aMuxTristateLabel = new TristateLabel(0, TristateLabel::Tristate);
+    aMuxTristateLabel->setGeometry(550,295, 25,21);
+    aMuxTristateLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    aMuxTristateLabel->setPalette(QPalette(Qt::white));
+    scene->addWidget(aMuxTristateLabel);
+    scene->addRect(550,295, 25,21, QPen(Qt::gray));
 
     MDRMuxLabel = new QLabel("MDRMux");
     MDRMuxLabel->setGeometry(579, 318, 61, 20);
@@ -96,11 +96,12 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     MDRMuxerDataLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     MDRMuxerDataLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(MDRMuxerDataLabel);
-    MDRMuxLineEdit = new QLineEdit(); // Hold the value of the MDRMux select lines
-    MDRMuxLineEdit->setGeometry(550, 316, 25, 20);
-    MDRMuxLineEdit->setValidator(new QRegExpValidator(muxRegExp, 0));
-    MDRMuxLineEdit->setPalette(QPalette(Qt::white));
-    scene->addWidget(MDRMuxLineEdit);
+    MDRMuxTristateLabel = new TristateLabel(0, TristateLabel::Tristate);
+    MDRMuxTristateLabel->setGeometry(550, 316, 25, 20);
+    MDRMuxTristateLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    MDRMuxTristateLabel->setPalette(QPalette(Qt::white));
+    scene->addWidget(MDRMuxTristateLabel);
+    scene->addRect(550, 316, 25, 20, QPen(Qt::gray));
     MDRLabel = new QLabel("0x00");
     MDRLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     MDRLabel->setGeometry(175,254, 69,19);
@@ -116,21 +117,24 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     cMuxerLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     cMuxerLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(cMuxerLabel);
-    cMuxLineEdit = new QLineEdit();
-    cMuxLineEdit->setGeometry(QRect(550, 347, 25, 20));
-    cMuxLineEdit->setValidator(new QRegExpValidator(QRegExp("^[0-1]$"), 0));
-    cMuxLineEdit->setPalette(QPalette(Qt::white));
-    scene->addWidget(cMuxLineEdit);
+    cMuxTristateLabel = new TristateLabel(0, TristateLabel::Tristate);
+    cMuxTristateLabel->setGeometry(550, 347, 25, 20);
+    cMuxTristateLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    cMuxTristateLabel->setPalette(QPalette(Qt::white));
+    scene->addWidget(cMuxTristateLabel);
+    scene->addRect(550, 347, 25, 20, QPen(Qt::gray));
 
     ALULabel = new QLabel("ALU");
     ALULabel->setGeometry(579, 370, 31, 20);
     ALULabel->setPalette(QPalette(Qt::white));
     scene->addWidget(ALULabel);
-    ALULineEdit = new QLineEdit();
-    ALULineEdit->setGeometry(550, 368, 25, 20);
-    ALULineEdit->setValidator(new QRegExpValidator(QRegExp("^((1[0-5])|(0[0-9])|[0-9])$"), 0));
-    ALULineEdit->setPalette(QPalette(Qt::white));
-    scene->addWidget(ALULineEdit);
+    ALUTristateLabel = new TristateLabel(0, TristateLabel::Tristate);
+    ALUTristateLabel->setGeometry(550, 368, 25, 20);
+    ALUTristateLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    ALUTristateLabel->setPalette(QPalette(Qt::white));
+    scene->addWidget(ALUTristateLabel);
+    scene->addRect(550, 368, 25, 20, QPen(Qt::gray));
+
     ALUFunctionLabel = new QLabel("fn label");
     ALUFunctionLabel->setGeometry(330, 355, 100, 20);
     ALUFunctionLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -141,7 +145,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     CCkCheckBox->setGeometry(550, 407, 60, 20);
     CCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(CCkCheckBox);
-//    cBitLabel = new QLabel("0");
     cBitLabel = new TristateLabel(0, TristateLabel::ZeroOne);
     cBitLabel->setText("0");
     cBitLabel->setGeometry(476,406, 19, 19);
@@ -153,7 +156,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     VCkCheckBox->setGeometry(550, 444, 60, 20);
     VCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(VCkCheckBox);
-//    vBitLabel = new QLabel("0");
     vBitLabel = new TristateLabel(0, TristateLabel::ZeroOne);
     vBitLabel->setText("0");
     vBitLabel->setGeometry(476,442, 19, 19);
@@ -165,11 +167,13 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ANDZLabel->setGeometry(579, 470, 45, 20);
     ANDZLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(ANDZLabel);
-    ANDZLineEdit = new QLineEdit();
-    ANDZLineEdit->setGeometry(550, 468, 25, 21);
-    ANDZLineEdit->setValidator(new QRegExpValidator(QRegExp("^[0-1]$"), 0));
-    ANDZLineEdit->setPalette(QPalette(Qt::white));
-    scene->addWidget(ANDZLineEdit);
+    ANDZTristateLabel = new TristateLabel(0, TristateLabel::Tristate);
+    ANDZTristateLabel->setGeometry(550, 468, 25, 21);
+    ANDZTristateLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    ANDZTristateLabel->setPalette(QPalette(Qt::white));
+    scene->addWidget(ANDZTristateLabel);
+    scene->addRect(550, 468, 25, 21, QPen(Qt::gray));
+
     ANDZMuxLabel = new QLabel("ANDZ");
     ANDZMuxLabel->setGeometry(415,495, 41,21);
     ANDZMuxLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -180,7 +184,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ZCkCheckBox->setGeometry(550, 499, 60, 20);
     ZCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(ZCkCheckBox);
-//    zBitLabel = new QLabel("0");
     zBitLabel = new TristateLabel(0, TristateLabel::ZeroOne);
     zBitLabel->setText("0");
     zBitLabel->setGeometry(476, 498, 19, 19);
@@ -192,7 +195,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     NCkCheckBox->setGeometry(550, 550, 60, 20);
     NCkCheckBox->setPalette(QPalette(Qt::white));
     scene->addWidget(NCkCheckBox);
-//    nBitLabel = new QLabel("0");
     nBitLabel = new TristateLabel(0, TristateLabel::ZeroOne);
     nBitLabel->setText("0");
     nBitLabel->setGeometry(476,549, 19, 19);
@@ -205,21 +207,23 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     MemReadLabel->setGeometry(579, 577, 80, 20);
     MemReadLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(MemReadLabel);
-    MemReadLineEdit = new QLineEdit();
-    MemReadLineEdit->setGeometry(550, 575, 25, 20);
-    MemReadLineEdit->setValidator(new QRegExpValidator(memRWRegExp, 0));
-    MemReadLineEdit->setPalette(QPalette(Qt::white));
-    scene->addWidget(MemReadLineEdit);
+    MemReadTristateLabel = new TristateLabel(0, TristateLabel::OneUndefined);
+    MemReadTristateLabel->setGeometry(550, 575, 25, 20);
+    MemReadTristateLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    MemReadTristateLabel->setPalette(QPalette(Qt::white));
+    scene->addWidget(MemReadTristateLabel);
+    scene->addRect(550, 575, 25, 20, QPen(Qt::gray));
 
     MemWriteLabel = new QLabel("MemWrite");
     MemWriteLabel->setGeometry(579, 598, 80, 20);
     MemWriteLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(MemWriteLabel);
-    MemWriteLineEdit = new QLineEdit();
-    MemWriteLineEdit->setGeometry(550, 596, 25, 20);
-    MemWriteLineEdit->setValidator(new QRegExpValidator(memRWRegExp, 0));
-    MemWriteLineEdit->setPalette(QPalette(Qt::white));
-    scene->addWidget(MemWriteLineEdit);
+    MemWriteTristateLabel = new TristateLabel(0, TristateLabel::OneUndefined);
+    MemWriteTristateLabel->setGeometry(550, 596, 25, 20);
+    MemWriteTristateLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    MemWriteTristateLabel->setPalette(QPalette(Qt::white));
+    scene->addWidget(MemWriteTristateLabel);
+    scene->addRect(550, 596, 25, 20, QPen(Qt::gray));
 
     // Registers
     QGraphicsRectItem *rectItem;
@@ -509,7 +513,7 @@ void CpuPaneGraphicsItems::repaintAMuxSelect(QPainter *painter)
     QColor color;
     QPolygon poly;
     bool ok;
-    int i = aMuxLineEdit->text().toInt(&ok, 10);
+    int i = aMuxTristateLabel->text().toInt(&ok, 10);
 
     color = ok ? Qt::black : Qt::gray;
     painter->setPen(QPen(QBrush(color), 1));
@@ -554,7 +558,7 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
     QPolygon poly;
     QColor color;
 
-    int i = cMuxLineEdit->text().toInt(&ok, 10);
+    int i = cMuxTristateLabel->text().toInt(&ok, 10);
 
     color = ok ? Qt::black : Qt::gray;
     painter->setPen(QPen(QBrush(color), 1));
@@ -580,7 +584,7 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
         case (1):
 #warning "Is this right?"
             if (cLineEdit->text() == "") { // CBus.state == UNDEFINED
-                if (cMuxLineEdit->hasFocus())
+                if (cMuxTristateLabel->hasFocus())
                     qDebug() << "WARNING: CMux select: There is no ALU output";
                 color = Qt::white;
             } else {
@@ -679,14 +683,14 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
     QPolygon poly;
     QColor color;
     bool ok;
-    bool isHigh = MemReadLineEdit->text().toInt(&ok, 10) == 1;
+    bool isHigh = MemReadTristateLabel->text().toInt(&ok, 10) == 1;
 
     // Draw memread select line
     if (isHigh) {
-        MemWriteLineEdit->setReadOnly(true);
+        MemWriteTristateLabel->setDisabled(true);
         color = Qt::black;
     } else {
-        MemWriteLineEdit->setReadOnly(false);
+        MemWriteTristateLabel->setDisabled(false);
         color = Qt::gray;
     }
     painter->setPen(QPen(QBrush(color), 1));
@@ -699,7 +703,7 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
-    if (MemWriteLineEdit->text().toInt(&ok, 10) == 1)
+    if (MemWriteTristateLabel->text().toInt(&ok, 10) == 1)
     {
         // Do not paint main bus if MemWrite is isHigh
         return;
@@ -709,7 +713,7 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
     if (isHigh)
     {
 #warning "I think this is wrong. We need a sim function to keep track of this stuff"
-        if (MemReadLineEdit->text() != "") { // MEM_READ_ADDR == MainBus.state
+        if (MemReadTristateLabel->text() != "") { // MEM_READ_ADDR == MainBus.state
             color = Qt::yellow;
         } else if (true) { // MEM_READ_DATA == MainBus.state
             color = QColor("0x109618");
@@ -748,10 +752,17 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
         QPolygon poly;
         QColor color;
         bool ok;
-        bool isHigh = MemWriteLineEdit->text().toInt(&ok, 10) == 1;
+        bool isHigh = MemWriteTristateLabel->text().toInt(&ok, 10) == 1;
 
         // Draw memwrite select line
-        color = isHigh ? Qt::black : Qt::gray;
+        if (isHigh) {
+            MemReadTristateLabel->setDisabled(true);
+            color = Qt::black;
+        } else {
+            MemReadTristateLabel->setDisabled(false);
+            color = Qt::gray;
+        }
+
         painter->setPen(QPen(QBrush(color), 1));
         painter->setBrush(color);
 
@@ -762,7 +773,7 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
         painter->drawPolygon(poly);
         painter->setRenderHint(QPainter::Antialiasing, false);
 
-        if (MemReadLineEdit->text().toInt(&ok, 10) == 1) {
+        if (MemReadTristateLabel->text().toInt(&ok, 10) == 1) {
             // Do not paint main bus if MemRead is high
             return;
         }
@@ -770,7 +781,7 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
         // Draw main bus
         if (isHigh)
         {
-            if (MemWriteLineEdit->text() != "") { // MEM_WRITE_ADDR == MainBus.state
+            if (MemWriteTristateLabel->text() != "") { // MEM_WRITE_ADDR == MainBus.state
                 color = Qt::yellow;
             } else {
                 color = QColor("0x109618");
@@ -912,7 +923,7 @@ void CpuPaneGraphicsItems::repaintANDZSelect(QPainter *painter)
     bool ok, output = false;
     QPolygon poly;
 
-    int i = ANDZLineEdit->text().toInt(&ok, 10);
+    int i = ANDZTristateLabel->text().toInt(&ok, 10);
 
     painter->setPen(ok ? Qt::black : Qt::gray);
     painter->setBrush(ok ? Qt::black : Qt::gray);
@@ -953,7 +964,7 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
     QColor color;
 
     bool ok;
-    ALULineEdit->text().toInt(&ok, 10);
+    ALUTristateLabel->text().toInt(&ok, 10);
 
     color = ok ? Qt::black : Qt::gray;
     painter->setPen(QPen(QBrush(color), 1));
@@ -1033,7 +1044,7 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
     bool ok;
     QPolygon poly;
     QColor color;
-    int i = MDRMuxLineEdit->text().toInt(&ok, 10);
+    int i = MDRMuxTristateLabel->text().toInt(&ok, 10);
     painter->setPen(ok ? Qt::black : Qt::gray);
     painter->setBrush(ok ? Qt::black : Qt::gray);
 
@@ -1053,17 +1064,17 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
         switch (i)
         {
         case(0):
-            if (MemWriteLineEdit->text().toInt() == 1) { // MainBus.state != MEM_READ_DATA
+            if (MemWriteTristateLabel->text().toInt() == 1) { // MainBus.state != MEM_READ_DATA
                 painter->setBrush(Qt::white);
             } else {
                 painter->setBrush(QBrush(0x109618)); // blue
             }
             break;
         case(1):
-            if (cMuxLineEdit->text() == "") { // CMuxBus.state == UNDEFINED
+            if (cMuxTristateLabel->text() == "") { // CMuxBus.state == UNDEFINED
                 painter->setBrush(Qt::white);
             } else {
-                if (cMuxLineEdit->text() == "0") {
+                if (cMuxTristateLabel->text() == "0") {
                     painter->setBrush(Qt::yellow);
                 } else {
                     painter->setBrush(Qt::blue);

@@ -31,36 +31,31 @@ public:
 
     QLabel *aMuxLabel;
     QLabel *aMuxerDataLabel; // data section
-    QLineEdit *aMuxLineEdit;
+    TristateLabel *aMuxTristateLabel;
 
     QLabel *MDRMuxLabel;
     QLabel *MDRMuxerDataLabel; // data section
-    QLineEdit *MDRMuxLineEdit;
+    TristateLabel *MDRMuxTristateLabel;
     QLabel *MDRLabel; // data section
 
     QLabel *cMuxLabel;
-    QLineEdit *cMuxLineEdit;
+    TristateLabel *cMuxTristateLabel;
     QLabel *cMuxerLabel; // data section
 
     QLabel *ALULabel;
-    QLineEdit *ALULineEdit;
+    TristateLabel *ALUTristateLabel;
     QLabel *ALUFunctionLabel; // data section
 
     QCheckBox *CCkCheckBox;
 
     QCheckBox *VCkCheckBox;
     QLabel *ANDZLabel;
-    QLineEdit *ANDZLineEdit;
+    TristateLabel *ANDZTristateLabel;
     QLabel *ANDZMuxLabel; // data section
 
     QCheckBox *ZCkCheckBox;
 
     QCheckBox *NCkCheckBox;
-
-//    QLabel *nBitLabel; // data section
-//    QLabel *zBitLabel; // data section
-//    QLabel *vBitLabel; // data section
-//    QLabel *cBitLabel; // data section
 
     TristateLabel *nBitLabel; // data section
     TristateLabel *zBitLabel; // data section
@@ -68,10 +63,10 @@ public:
     TristateLabel *cBitLabel; // data section
 
     QLabel *MemReadLabel;
-    QLineEdit *MemReadLineEdit;
+    TristateLabel *MemReadTristateLabel;
 
     QLabel *MemWriteLabel;
-    QLineEdit *MemWriteLineEdit;
+    TristateLabel *MemWriteTristateLabel;
 
 private:
     QGraphicsScene *parentScene;

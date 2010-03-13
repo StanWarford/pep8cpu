@@ -48,17 +48,32 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(cpuPaneItems->aLineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
     connect(cpuPaneItems->MARCk, SIGNAL(clicked()), scene, SLOT(invalidate()));
     connect(cpuPaneItems->MDRCk, SIGNAL(clicked()), scene, SLOT(invalidate()));
-    connect(cpuPaneItems->aMuxLineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
-    connect(cpuPaneItems->MDRMuxLineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
-    connect(cpuPaneItems->cMuxLineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
-    connect(cpuPaneItems->ALULineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
+
+    connect(cpuPaneItems->aMuxTristateLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
+    connect(cpuPaneItems->aMuxTristateLabel, SIGNAL(clicked()), scene, SLOT(invalidate()));
+
+    connect(cpuPaneItems->MDRMuxTristateLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
+    connect(cpuPaneItems->MDRMuxTristateLabel, SIGNAL(clicked()), scene, SLOT(invalidate()));
+
+    connect(cpuPaneItems->cMuxTristateLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
+    connect(cpuPaneItems->cMuxTristateLabel, SIGNAL(clicked()), scene, SLOT(invalidate()));
+
+    connect(cpuPaneItems->ALUTristateLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
+    connect(cpuPaneItems->ALUTristateLabel, SIGNAL(clicked()), scene, SLOT(invalidate()));
+
     connect(cpuPaneItems->CCkCheckBox, SIGNAL(clicked()), scene, SLOT(invalidate()));
     connect(cpuPaneItems->VCkCheckBox, SIGNAL(clicked()), scene, SLOT(invalidate()));
-    connect(cpuPaneItems->ANDZLineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
+
+    connect(cpuPaneItems->ANDZTristateLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
+    connect(cpuPaneItems->ANDZTristateLabel, SIGNAL(clicked()), scene, SLOT(invalidate()));
+
     connect(cpuPaneItems->ZCkCheckBox, SIGNAL(clicked()), scene, SLOT(invalidate()));
     connect(cpuPaneItems->NCkCheckBox, SIGNAL(clicked()), scene, SLOT(invalidate()));
-    connect(cpuPaneItems->MemReadLineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
-    connect(cpuPaneItems->MemWriteLineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
+
+    connect(cpuPaneItems->MemReadTristateLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
+    connect(cpuPaneItems->MemReadTristateLabel, SIGNAL(clicked()), scene, SLOT(invalidate()));
+    connect(cpuPaneItems->MemWriteTristateLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
+    connect(cpuPaneItems->MemWriteTristateLabel, SIGNAL(clicked()), scene, SLOT(invalidate()));
 
     connect(cpuPaneItems->nBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
     connect(cpuPaneItems->zBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
