@@ -118,11 +118,11 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     cMuxerLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(cMuxerLabel);
     cMuxTristateLabel = new TristateLabel(0, TristateLabel::Tristate);
-    cMuxTristateLabel->setGeometry(550, 347, 25, 20);
+    cMuxTristateLabel->setGeometry(550, 348, 25, 20);
     cMuxTristateLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     cMuxTristateLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(cMuxTristateLabel);
-    scene->addRect(550, 347, 25, 20, QPen(Qt::gray));
+    scene->addRect(550, 348, 25, 20, QPen(Qt::gray));
 
     ALULabel = new QLabel("ALU");
     ALULabel->setGeometry(579, 370, 31, 20);
@@ -202,17 +202,16 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     nBitLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(nBitLabel);
 
-    QRegExp memRWRegExp("^[1]$");
     MemReadLabel = new QLabel("MemRead");
     MemReadLabel->setGeometry(579, 577, 80, 20);
     MemReadLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(MemReadLabel);
     MemReadTristateLabel = new TristateLabel(0, TristateLabel::OneUndefined);
-    MemReadTristateLabel->setGeometry(550, 575, 25, 20);
+    MemReadTristateLabel->setGeometry(550, 576, 25, 20);
     MemReadTristateLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     MemReadTristateLabel->setPalette(QPalette(Qt::white));
     scene->addWidget(MemReadTristateLabel);
-    scene->addRect(550, 575, 25, 20, QPen(Qt::gray));
+    scene->addRect(550, 576, 25, 20, QPen(Qt::gray));
 
     MemWriteLabel = new QLabel("MemWrite");
     MemWriteLabel->setGeometry(579, 598, 80, 20);
