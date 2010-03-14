@@ -47,9 +47,8 @@ bool Microcode::microAssemble()
     while (lineNum < sourceCodeList.size()) {
         sourceLine = sourceCodeList[lineNum];
         qDebug() << lineNum << ": " << sourceLine;
-        if (!Asm::processSourceLine(sourceLine, lineNum, code, errorString)) {
+        if (!Asm::processSourceLine(sourceLine, code, errorString)) {
             appendMessageInSourceCodePaneAt(lineNum, errorString);
-            qDebug() << "errorString = " << errorString;
             return false;
         }
         codeList.append(code);
@@ -60,10 +59,8 @@ bool Microcode::microAssemble()
 
 void Microcode::removeErrorMessages()
 {
-    qDebug() << "removeErrorMessaged called.";
     QTextCursor cursor(editor->document()->find("//ERROR:"));
     while (!cursor.isNull()) {
-        qDebug() << "Error found";
         cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
         cursor.removeSelectedText();
         cursor = editor->document()->find("//ERROR:", cursor);

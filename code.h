@@ -1,12 +1,20 @@
 #ifndef CODE_H
 #define CODE_H
 
+#include <QString>
+
+#include "pep.h"
+
 class Code
 {
     friend class Asm;
 public:
     virtual ~Code() { }
     Code();
+    void clear();
+    bool isEmpty();
+    bool isCommentOnly();
+
 protected:
     int cLoadCk;
     int cC;
@@ -25,6 +33,7 @@ protected:
     int cNCk;
     int cMemWrite;
     int cMemRead;
+    QString cComment;
 };
 
 #endif // CODE_H
