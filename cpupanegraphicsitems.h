@@ -43,7 +43,7 @@ public:
     QLabel *cMuxerLabel; // data section
 
     QLabel *ALULabel;
-    TristateLabel *ALUTristateLabel;
+    QLineEdit *ALULineEdit;
     QLabel *ALUFunctionLabel; // data section
 
     QCheckBox *CCkCheckBox;

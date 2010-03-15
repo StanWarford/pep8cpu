@@ -128,12 +128,12 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ALULabel->setGeometry(579, 370, 31, 20);
     ALULabel->setPalette(QPalette(Qt::white));
     scene->addWidget(ALULabel);
-    ALUTristateLabel = new TristateLabel(0, TristateLabel::Tristate);
-    ALUTristateLabel->setGeometry(550, 368, 25, 20);
-    ALUTristateLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    ALUTristateLabel->setPalette(QPalette(Qt::white));
-    scene->addWidget(ALUTristateLabel);
-    scene->addRect(550, 368, 25, 20, QPen(Qt::gray));
+    ALULineEdit = new QLineEdit();
+    ALULineEdit->setGeometry(550, 368, 26, 20);
+    ALULineEdit->setValidator(new QRegExpValidator(QRegExp("^((1[0-5])|(0[0-9])|[0-9])$"), 0));
+    ALULineEdit->setPalette(QPalette(Qt::white));
+    scene->addWidget(ALULineEdit);
+//    scene->addRect(550, 368, 25, 20, QPen(Qt::gray));
 
     ALUFunctionLabel = new QLabel("fn label");
     ALUFunctionLabel->setGeometry(330, 355, 100, 20);
@@ -967,7 +967,7 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
     QColor color;
 
     bool ok;
-    ALUTristateLabel->text().toInt(&ok, 10);
+    ALULineEdit->text().toInt(&ok, 10);
 
     color = ok ? Qt::black : Qt::gray;
     painter->setPen(QPen(QBrush(color), 1));

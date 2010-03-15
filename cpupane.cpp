@@ -58,8 +58,7 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(cpuPaneItems->cMuxTristateLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
     connect(cpuPaneItems->cMuxTristateLabel, SIGNAL(clicked()), scene, SLOT(invalidate()));
 
-    connect(cpuPaneItems->ALUTristateLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
-    connect(cpuPaneItems->ALUTristateLabel, SIGNAL(clicked()), scene, SLOT(invalidate()));
+    connect(cpuPaneItems->ALULineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
 
     connect(cpuPaneItems->CCkCheckBox, SIGNAL(clicked()), scene, SLOT(invalidate()));
     connect(cpuPaneItems->VCkCheckBox, SIGNAL(clicked()), scene, SLOT(invalidate()));
