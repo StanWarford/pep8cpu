@@ -18,7 +18,7 @@ signals:
     void clicked();
 
 public slots:
-    void toggle();
+    bool toggle();
 
 protected:
     void mousePressEvent(QMouseEvent *ev);

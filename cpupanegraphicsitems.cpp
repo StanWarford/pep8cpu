@@ -272,7 +272,8 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     poly.clear();
     poly << QPoint(314,342) << QPoint(366,342) << QPoint(370,353) << QPoint(390,353) << QPoint(394,342)
             << QPoint(447,342) << QPoint(421,394) << QPoint(340,394);
-    QGraphicsPolygonItem *polyItem = scene->addPolygon(poly, QPen(QBrush(Qt::black), 2, Qt::SolidLine, Qt::RoundCap, Qt::BevelJoin), QBrush(QColor(Qt::blue).lighter(190)));
+    QGraphicsPolygonItem *polyItem = scene->addPolygon(poly, QPen(QBrush(Qt::black), 2, Qt::SolidLine, Qt::RoundCap,
+                                                                  Qt::BevelJoin), QBrush(QColor(Qt::blue).lighter(190)));
     polyItem->setZValue(-1);
 
     // Status Bits
@@ -296,6 +297,9 @@ QRectF CpuPaneGraphicsItems::boundingRect() const
 
 void CpuPaneGraphicsItems::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    (void)option;
+    (void)widget;
+
     QPolygon poly;
     painter->setRenderHint(QPainter::Antialiasing, false);
     painter->setPen(Qt::black);

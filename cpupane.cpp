@@ -79,6 +79,8 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(cpuPaneItems->zBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
     connect(cpuPaneItems->vBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
     connect(cpuPaneItems->cBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
+
+
 }
 
 CpuPane::~CpuPane()
