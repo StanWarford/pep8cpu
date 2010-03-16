@@ -133,7 +133,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ALULineEdit->setValidator(new QRegExpValidator(QRegExp("^((1[0-5])|(0[0-9])|[0-9])$"), 0));
     ALULineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(ALULineEdit);
-//    scene->addRect(550, 368, 25, 20, QPen(Qt::gray));
 
     ALUFunctionLabel = new QLabel("fn label");
     ALUFunctionLabel->setGeometry(330, 355, 100, 20);

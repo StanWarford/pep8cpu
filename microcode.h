@@ -38,6 +38,9 @@ public:
     bool hasFocus();
     // Returns if the text edit has focus
 
+    bool isUndoable();
+    bool isRedoable();
+
 protected:
     void changeEvent(QEvent *e);
 

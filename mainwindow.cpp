@@ -238,14 +238,16 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
     cpuPane->highlightOnFocus();
 
     if (microcode->hasFocus()) {
-
+        ui->actionEdit_Undo->setDisabled(!microcode->isUndoable());
+        ui->actionEdit_Redo->setDisabled(!microcode->isRedoable());
     }
     else if (mainMemory->hasFocus()) {
-
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
     }
     else if (cpuPane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(true);
-//        ui->actionEdit_Redo->setDisabled(true);
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
 //        ui->actionEdit_Cut->setDisabled(true);
 //        ui->actionEdit_Copy->setDisabled(false);
 //        ui->actionEdit_Paste->setDisabled(true);

@@ -131,6 +131,9 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="movable">
     <bool>false</bool>
    </property>
@@ -226,6 +229,9 @@
    </property>
   </action>
   <action name="actionEdit_Undo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="pep8cpuresources.qrc">
      <normaloff>:/images/undo.png</normaloff>:/images/undo.png</iconset>
@@ -241,6 +247,9 @@
    </property>
   </action>
   <action name="actionEdit_Redo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="pep8cpuresources.qrc">
      <normaloff>:/images/redo.png</normaloff>:/images/redo.png</iconset>

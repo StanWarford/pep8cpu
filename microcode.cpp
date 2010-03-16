@@ -115,6 +115,16 @@ bool Microcode::hasFocus()
     return editor->hasFocus();
 }
 
+bool Microcode::isUndoable()
+{
+    return editor->document()->isUndoAvailable();
+}
+
+bool Microcode::isRedoable()
+{
+    return editor->document()->isRedoAvailable();
+}
+
 void Microcode::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
