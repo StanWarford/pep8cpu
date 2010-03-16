@@ -9,6 +9,17 @@
 class Pep
 {
 public:
+    // Fonts:
+    static const QString codeFont;
+    static const int codeFontSize;
+    static const QString labelFont;
+    static const int labelFontSize;
+    static const QString cpuFont;
+    static const int cpuFontSize;
+
+    static QString getSystem();
+
+
     // Function to read text from a resource file
     static QString resToString(QString fileName);
 

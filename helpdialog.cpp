@@ -19,6 +19,8 @@ HelpDialog::HelpDialog(QWidget *parent) :
 
     leftHighlighter = new PepHighlighter(ui->helpTextEdit->document());
 
+    ui->helpTreeWidget->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->helpTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 }
 
 HelpDialog::~HelpDialog()

@@ -1,12 +1,14 @@
 #include "objectcodepane.h"
 #include "ui_objectcodepane.h"
 
+#include "pep.h"
 ObjectCodePane::ObjectCodePane(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ObjectCodePane)
 {
     ui->setupUi(this);
 
+    ui->plainTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 }
 
 ObjectCodePane::~ObjectCodePane()

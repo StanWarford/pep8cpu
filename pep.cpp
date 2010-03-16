@@ -1,8 +1,35 @@
 #include "pep.h"
 #include <QFile>
 #include <QDebug>
+#include <QString>
 
 using namespace Enu;
+
+// Fonts
+const QString Pep::codeFont = getSystem() == "Windows" ? "Monaco" : (getSystem() == "Mac" ? "Monaco" : "Courier 10 Pitch");
+const int Pep::codeFontSize = getSystem() == "Mac" ? 11 : 9;
+const QString Pep::labelFont = getSystem() == "Mac" ? "Lucida Grande" : "Verdana";
+const int Pep::labelFontSize = getSystem() == "Mac" ? 11 : 8;
+const QString Pep::cpuFont = getSystem() == "Mac" ? "Lucida Grande" : "Verdana";
+const int Pep::cpuFontSize = getSystem() == "Mac" ? 11 : 8;
+
+QString Pep::getSystem() {
+    #ifdef Q_WS_X11
+    return QString("Linux");
+    #endif
+
+    #ifdef Q_WS_MAC
+    return QString("Mac");
+    #endif
+
+    #ifdef Q_WS_QWS
+    return QString("Embedded Linux");
+    #endif
+
+    #ifdef Q_WS_WIN
+    return QString("Windows");
+    #endif
+}
 
 QString Pep::resToString(QString fileName) {
     QFile file(fileName);

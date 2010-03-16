@@ -12,6 +12,7 @@
 #include "cpupanegraphicsitems.h"
 #include "tristatelabel.h"
 #include "sim.h"
+#include "pep.h"
 
 using namespace Enu;
 
@@ -39,6 +40,8 @@ CpuPane::CpuPane(QWidget *parent) :
 
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
+
+    ui->graphicsView->setFont(QFont(Pep::cpuFont, Pep::cpuFontSize));
 
     cpuPaneItems = new CpuPaneGraphicsItems(ui->graphicsView, 0, scene);
 

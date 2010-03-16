@@ -1,6 +1,7 @@
 #include "microcode.h"
 #include "ui_microcode.h"
 #include "code.h"
+#include "pep.h"
 
 #include <QGridLayout>
 #include <QDebug>
@@ -12,6 +13,8 @@ Microcode::Microcode(QWidget *parent) :
     ui->setupUi(this);
 
     editor = new MicrocodeEditor(this);
+
+    editor->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(ui->label);

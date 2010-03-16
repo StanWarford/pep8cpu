@@ -33,6 +33,8 @@ MainMemory::MainMemory(QWidget *parent) :
 
     connect(ui->verticalScrollBar, SIGNAL(actionTriggered(int)), this, SLOT(sliderMoved(int)));
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
+
+    ui->tableWidget->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
 }
 
 MainMemory::~MainMemory()
