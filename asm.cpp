@@ -83,13 +83,13 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
     do {
         qDebug() << "state = " << state;
         if (!getToken(sourceLine, token, tokenString)) {
-            errorString = "Unrecognized token: " + tokenString;
+            errorString = "//ERROR: Unrecognized token: " + tokenString;
             return false;
         }
         qDebug() << "token = " << token << " tokenString = " << tokenString;
         switch (state) {
         case Asm::PS_START:
-            if (token == Asm::LT_IDENTIFIER){
+            if (token == Asm::LT_IDENTIFIER) {
                 if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToDecControlMap.value(tokenString.toUpper());
                     localIdentifier = tokenString;
@@ -102,13 +102,16 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
                     state = Asm::PS_CONTINUE_PRE_SEMICOLON;
                 }
                 else if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
-                    errorString = "//ERROR: Clock signal (" + tokenString + ") must appear after semicolon.";
+                    errorString = "//ERROR: Clock signal (" + tokenString + ") must appear after semicolon";
                     return false;
                 }
                 else {
                     errorString = "//ERROR: Unrecognized control signal: " + tokenString;
                     return false;
                 }
+            }
+            else if (token == Asm::LT_SEMICOLON) {
+                state = Asm::PS_CONTINUE_POST_SEMICOLON;
             }
             else if (token == Asm::LT_COMMENT) {
                 code.cComment = tokenString;
@@ -118,7 +121,7 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
                 state = Asm::PS_FINISH;
             }
             else {
-                errorString = "//ERROR: Syntax error where control signal or comment expected.";
+                errorString = "//ERROR: Syntax error where control signal or comment expected";
                 return false;
             }
             break;
@@ -136,7 +139,7 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
         case Asm::PS_DEC_CONTROL:
             if (token == Asm::LT_DIGIT) {
                 // will process here
-                state = Asm::PS_START;
+                state = Asm::PS_CONTINUE_PRE_SEMICOLON;
             }
             else {
                 errorString = "//ERROR: Expected decimal number after " + localIdentifier + "=";
@@ -145,24 +148,42 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
             break;
 
         case Asm::PS_CONTINUE_PRE_SEMICOLON:
-            if (token == Asm::LT_IDENTIFIER){
-                if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
-                    localEnumMnemonic = Pep::mnemonToDecControlMap.value(tokenString.toUpper());
-                    localIdentifier = tokenString;
-                    state = Asm::PS_EQUAL_DEC;
-                }
-                else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
-                    localEnumMnemonic = Pep::mnemonToMemControlMap.value(tokenString.toUpper());
+            if (token == Asm::LT_COMMA) {
+                state = Asm::PS_START;
+            }
+            else if (token == Asm::LT_SEMICOLON) {
+                state = Asm::PS_START_POST_SEMICOLON;
+            }
+            else if (token == Asm::LT_COMMENT) {
+                code.cComment = tokenString;
+                state = Asm::PS_COMMENT;
+            }
+            else if (token == Asm::LT_EMPTY) {
+                state = Asm::PS_FINISH;
+            }
+            else {
+                errorString = "//ERROR: Expected ',' or ';' after control signal";
+                return false;
+            }
+            break;
+
+        case Asm::PS_START_POST_SEMICOLON:
+            if (token == Asm::LT_IDENTIFIER) {
+                if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
                     localIdentifier = tokenString;
                     // Will process here
-                    state = Asm::PS_CONTINUE_PRE_SEMICOLON;
+                    state = Asm::PS_CONTINUE_POST_SEMICOLON;
                 }
-                else if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
-                    errorString = "//ERROR: Clock signal (" + tokenString + ") must appear after semicolon.";
+                else if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
+                    errorString = "//ERROR: Control signal " + tokenString + "after ';'";
+                    return false;
+                }
+                else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
+                    errorString = "//ERROR: Memory control signal " + tokenString + "after ';'";
                     return false;
                 }
                 else {
-                    errorString = "//ERROR: Unrecognized control signal: " + tokenString;
+                    errorString = "//ERROR: Unrecognized clock signal: " + tokenString;
                     return false;
                 }
             }
@@ -177,50 +198,30 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
                 state = Asm::PS_FINISH;
             }
             else {
-                errorString = "//ERROR: Syntax error where control signal or comment expected.";
+                errorString = "//ERROR: Syntax error where clock signal or comment expected.";
                 return false;
             }
             break;
 
         case Asm::PS_CONTINUE_POST_SEMICOLON:
-            if (token == Asm::LT_IDENTIFIER){
-                if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
-                    localEnumMnemonic = Pep::mnemonToDecControlMap.value(tokenString.toUpper());
-                    localIdentifier = tokenString;
-                    state = Asm::PS_EQUAL_DEC;
-                }
-                else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
-                    localEnumMnemonic = Pep::mnemonToMemControlMap.value(tokenString.toUpper());
-                    localIdentifier = tokenString;
-                    // Will process here
-                    state = Asm::PS_CONTINUE_PRE_SEMICOLON;
-                }
-                else if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
-                    errorString = "//ERROR: Clock signal (" + tokenString + ") must appear after semicolon.";
-                    return false;
-                }
-                else {
-                    errorString = "//ERROR: Unrecognized control signal: " + tokenString;
-                    return false;
-                }
+            if (token == Asm::LT_COMMA) {
+                state = Asm::PS_START_POST_SEMICOLON;
+            }
+            else if (token == Asm::LT_SEMICOLON) {
+                errorString = "//ERROR: Two semcolons ';'";
+                return false;
             }
             else if (token == Asm::LT_COMMENT) {
                 code.cComment = tokenString;
                 state = Asm::PS_COMMENT;
             }
-            else if (token == Asm::LT_SEMICOLON) {
-                state = Asm::PS_CONTINUE_POST_SEMICOLON;
-            }
             else if (token == Asm::LT_EMPTY) {
                 state = Asm::PS_FINISH;
             }
             else {
-                errorString = "//ERROR: Syntax error where control signal or comment expected.";
+                errorString = "//ERROR: Expected ',' after clock signal";
                 return false;
             }
-            break;
-
-        case Asm::PS_CLOSE:
             break;
 
         case Asm::PS_COMMENT:

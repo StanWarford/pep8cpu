@@ -57,14 +57,15 @@ void Pep::initEnumMnemonMaps()
     decControlToMnemonMap.insert(E_A, "A"); mnemonToDecControlMap.insert("A", E_A);
     decControlToMnemonMap.insert(E_ANDZ, "ANDZ"); mnemonToDecControlMap.insert("ANDZ", E_ANDZ);
     decControlToMnemonMap.insert(E_MDRMux, "MDRMux"); mnemonToDecControlMap.insert("MDRMUX", E_MDRMux);
+    decControlToMnemonMap.insert(E_AMux, "AMux"); mnemonToDecControlMap.insert("AMUX", E_AMux);
     decControlToMnemonMap.insert(E_CMux, "CMux"); mnemonToDecControlMap.insert("CMUX", E_CMux);
     decControlToMnemonMap.insert(E_ALU, "ALU"); mnemonToDecControlMap.insert("ALU", E_ALU);
     decControlToMnemonMap.insert(E_ANDZ, "ANDZ"); mnemonToDecControlMap.insert("ANDZ", E_ANDZ);
     memControlToMnemonMap.insert(E_MemWrite, "MemWrite"); mnemonToMemControlMap.insert("MEMWRITE", E_MemWrite);
-    memControlToMnemonMap.insert(E_MemRead, "MemRead"); mnemonToMemControlMap.insert("MEMWREAD", E_MemRead);
+    memControlToMnemonMap.insert(E_MemRead, "MemRead"); mnemonToMemControlMap.insert("MEMREAD", E_MemRead);
     clockControlToMnemonMap.insert(E_LoadCk, "LoadCk"); mnemonToClockControlMap.insert("LOADCK", E_LoadCk);
-    clockControlToMnemonMap.insert(E_MARCk, "MARCk"); mnemonToClockControlMap.insert("MARCk", E_MARCk);
-    clockControlToMnemonMap.insert(E_MDRCk, "MDRCk"); mnemonToClockControlMap.insert("LOADCK", E_MDRCk);
+    clockControlToMnemonMap.insert(E_MARCk, "MARCk"); mnemonToClockControlMap.insert("MARCK", E_MARCk);
+    clockControlToMnemonMap.insert(E_MDRCk, "MDRCk"); mnemonToClockControlMap.insert("MDRCK", E_MDRCk);
     clockControlToMnemonMap.insert(E_CCk, "CCk"); mnemonToClockControlMap.insert("CCK", E_CCk);
     clockControlToMnemonMap.insert(E_VCk, "VCk"); mnemonToClockControlMap.insert("VCK", E_VCk);
     clockControlToMnemonMap.insert(E_ZCk, "ZCk"); mnemonToClockControlMap.insert("ZCK", E_ZCk);

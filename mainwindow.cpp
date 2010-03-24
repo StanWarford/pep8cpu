@@ -46,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(microcode, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(microcode, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
+    Pep::initEnumMnemonMaps();
+
 }
 
 MainWindow::~MainWindow()
