@@ -67,7 +67,7 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
         sourceLine.remove(0, tokenString.length());
         return true;
     }
-    tokenString = "//ERROR: Syntax error.";
+    tokenString = "//ERROR: Syntax error starting with " + QString(firstChar);
     return false;
 }
 
@@ -83,7 +83,7 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
     do {
         qDebug() << "state = " << state;
         if (!getToken(sourceLine, token, tokenString)) {
-            errorString = "//ERROR: Unrecognized token: " + tokenString;
+            errorString = tokenString;
             return false;
         }
         qDebug() << "token = " << token << " tokenString = " << tokenString;
@@ -175,11 +175,11 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
                     state = Asm::PS_CONTINUE_POST_SEMICOLON;
                 }
                 else if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
-                    errorString = "//ERROR: Control signal " + tokenString + "after ';'";
+                    errorString = "//ERROR: Control signal " + tokenString + " after ';'";
                     return false;
                 }
                 else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
-                    errorString = "//ERROR: Memory control signal " + tokenString + "after ';'";
+                    errorString = "//ERROR: Memory control signal " + tokenString + " after ';'";
                     return false;
                 }
                 else {
@@ -208,7 +208,7 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
                 state = Asm::PS_START_POST_SEMICOLON;
             }
             else if (token == Asm::LT_SEMICOLON) {
-                errorString = "//ERROR: Two semcolons ';'";
+                errorString = "//ERROR: Multiple semcolons ';'";
                 return false;
             }
             else if (token == Asm::LT_COMMENT) {
