@@ -4,6 +4,7 @@
 #include <QString>
 
 #include "pep.h"
+#include "enu.h"
 
 class Code
 {
@@ -14,6 +15,9 @@ public:
     void clear();
     bool isEmpty();
     bool isCommentOnly();
+    bool has(Enu::EMnemonic field);
+    void set(Enu::EMnemonic field, int value);
+    bool inRange(Enu::EMnemonic field, int value);
 
 protected:
     int cLoadCk;

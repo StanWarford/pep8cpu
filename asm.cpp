@@ -97,8 +97,11 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
                 }
                 else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToMemControlMap.value(tokenString.toUpper());
-                    localIdentifier = tokenString;
-                    // Will process here
+                    if (code.has(localEnumMnemonic)) {
+                        errorString = "//ERROR: Duplicate control signal, " + tokenString;
+                        return false;
+                    }
+                    code.set(localEnumMnemonic, 1);
                     state = Asm::PS_CONTINUE_PRE_SEMICOLON;
                 }
                 else if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
@@ -138,7 +141,17 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
 
         case Asm::PS_DEC_CONTROL:
             if (token == Asm::LT_DIGIT) {
-                // will process here
+                if (code.has(localEnumMnemonic)) {
+                    errorString = "//ERROR: Duplicate control signal, " + localIdentifier;
+                    return false;
+                }
+                bool ok;
+                int value = tokenString.toInt(&ok);
+                if (!code.inRange(localEnumMnemonic, value)) {
+                    errorString = "//ERROR: Value " + QString("%1").arg(value) + " is out of range for " + localIdentifier;
+                    return false;
+                }
+                code.set(localEnumMnemonic, value);
                 state = Asm::PS_CONTINUE_PRE_SEMICOLON;
             }
             else {
