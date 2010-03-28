@@ -81,12 +81,10 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
     code.clear();
     Asm::ParseState state = Asm::PS_START;
     do {
-        qDebug() << "state = " << state;
         if (!getToken(sourceLine, token, tokenString)) {
             errorString = tokenString;
             return false;
         }
-        qDebug() << "token = " << token << " tokenString = " << tokenString;
         switch (state) {
         case Asm::PS_START:
             if (token == Asm::LT_IDENTIFIER) {
@@ -183,8 +181,12 @@ bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString
         case Asm::PS_START_POST_SEMICOLON:
             if (token == Asm::LT_IDENTIFIER) {
                 if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
-                    localIdentifier = tokenString;
-                    // Will process here
+                    localEnumMnemonic = Pep::mnemonToClockControlMap.value(tokenString.toUpper());
+                    if (code.has(localEnumMnemonic)) {
+                        errorString = "//ERROR: Duplicate clock signal, " + tokenString;
+                        return false;
+                    }
+                    code.set(localEnumMnemonic, 1);
                     state = Asm::PS_CONTINUE_POST_SEMICOLON;
                 }
                 else if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {

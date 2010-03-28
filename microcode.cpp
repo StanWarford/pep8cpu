@@ -49,7 +49,6 @@ bool Microcode::microAssemble()
     sourceCodeList = sourceCode.split('\n');
     while (lineNum < sourceCodeList.size()) {
         sourceLine = sourceCodeList[lineNum];
-        qDebug() << lineNum << ": " << sourceLine;
         if (!Asm::processSourceLine(sourceLine, code, errorString)) {
             appendMessageInSourceCodePaneAt(lineNum, errorString);
             return false;

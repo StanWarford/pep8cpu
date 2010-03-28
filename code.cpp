@@ -96,23 +96,23 @@ bool Code::has(Enu::EMnemonic field) {
 
 void Code::set(Enu::EMnemonic field, int value) {
     switch (field) {
-    case Enu::E_LoadCk: cLoadCk = value;
-    case Enu::E_C: cC = value;
-    case Enu::E_B: cB = value;
-    case Enu::E_A: cA = value;
-    case Enu::E_MARCk: cMARCk = value;
-    case Enu::E_MDRCk: cMDRCk = value;
-    case Enu::E_AMux: cAMux = value;
-    case Enu::E_MDRMux: cMDRMux = value;
-    case Enu::E_CMux: cCMux = value;
-    case Enu::E_ALU: cALU = value;
-    case Enu::E_CCk: cCCk = value;
-    case Enu::E_VCk: cVCk = value;
-    case Enu::E_ANDZ: cANDZ = value;
-    case Enu::E_ZCk: cZCk = value;
-    case Enu::E_NCk: cNCk = value;
-    case Enu::E_MemWrite: cMemWrite = value;
-    case Enu::E_MemRead: cMemRead = value;
+    case Enu::E_LoadCk: cLoadCk = value; break;
+    case Enu::E_C: cC = value; break;
+    case Enu::E_B: cB = value; break;
+    case Enu::E_A: cA = value; break;
+    case Enu::E_MARCk: cMARCk = value; break;
+    case Enu::E_MDRCk: cMDRCk = value; break;
+    case Enu::E_AMux: cAMux = value; break;
+    case Enu::E_MDRMux: cMDRMux = value; break;
+    case Enu::E_CMux: cCMux = value; break;
+    case Enu::E_ALU: cALU = value; break;
+    case Enu::E_CCk: cCCk = value; break;
+    case Enu::E_VCk: cVCk = value; break;
+    case Enu::E_ANDZ: cANDZ = value; break;
+    case Enu::E_ZCk: cZCk = value; break;
+    case Enu::E_NCk: cNCk = value; break;
+    case Enu::E_MemWrite: cMemWrite = value; break;
+    case Enu::E_MemRead: cMemRead = value; break;
     }
 }
 
