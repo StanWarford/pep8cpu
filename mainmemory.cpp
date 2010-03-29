@@ -19,17 +19,20 @@ MainMemory::MainMemory(QWidget *parent) :
     columns << "Hex" << "Dec";
     ui->tableWidget->setHorizontalHeaderLabels(columns);
 
-    ui->tableWidget->setRowCount(10);
-    rows.clear();
-    for (int i = 0; i < ui->tableWidget->rowCount(); i++) {
-        rows << QString("0x%1").arg(i, 4, 16, QLatin1Char('0'));
-    }
+    ui->tableWidget->setRowCount(1);
+    oldRowCount = 1;
+
+    rows << QString("0x000");
     ui->tableWidget->setVerticalHeaderLabels(rows);
 
-    for (int i = 0; i < 10; i++) {
-        ui->tableWidget->setItem(i, 0, new QTableWidgetItem("0x00"));
-        ui->tableWidget->setItem(i, 1, new QTableWidgetItem("0"));
-    }
+    int address = 0x0000;
+    ui->tableWidget->setItem(0, 0, new QTableWidgetItem(QString("0x") + QString("%1").arg(Sim::readByte(address), 2, 16).toUpper().trimmed()));
+    ui->tableWidget->setItem(0, 1, new QTableWidgetItem(QString("%1").arg(Sim::readByte(address)).trimmed()));
+
+    refreshMemory();
+
+    ui->tableWidget->resize(ui->tableWidget->size());
+    populateMemoryItems();
 
     connect(ui->verticalScrollBar, SIGNAL(actionTriggered(int)), this, SLOT(sliderMoved(int)));
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
@@ -143,17 +146,18 @@ void MainMemory::changeEvent(QEvent *e)
 
 void MainMemory::resizeEvent(QResizeEvent *e)
 {
+    qDebug() << "resize event";
 
     int newRowCount = ui->tableWidget->height()/ui->tableWidget->rowHeight(0) + 1;
     // +2 to make it look like we're actually scrolling and not shuffling items
-    int oldRowCount = ui->tableWidget->rowCount();
     if (newRowCount > oldRowCount) {
         ui->tableWidget->setRowCount(newRowCount);
 
         bool addrConvOk;
         int address;
 
-        for (int i = 0; i < ui->tableWidget->rowCount(); i++) {
+
+        for (int i = oldRowCount; i < newRowCount; i++) {
             rows << QString("0x%1").arg(i, 4, 16, QLatin1Char('0'));
         }
         ui->tableWidget->setVerticalHeaderLabels(rows);

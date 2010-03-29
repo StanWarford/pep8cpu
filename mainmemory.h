@@ -52,6 +52,8 @@ private:
 
     enum { CELL_COUNT = 30};
 
+    int oldRowCount;
+
 };
 
 #endif // MAINMEMORY_H
