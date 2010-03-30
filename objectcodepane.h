@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "objectcodelabel.h"
+
 namespace Ui {
     class ObjectCodePane;
 }
@@ -20,6 +22,8 @@ protected:
 
 private:
     Ui::ObjectCodePane *ui;
+
+    ObjectCodeLabel *cpuLabel;
 };
 
 #endif // OBJECTCODEPANE_H

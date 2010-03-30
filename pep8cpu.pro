@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     cpupanegraphicsitems.cpp \
     code.cpp \
     asm.cpp \
-    tristatelabel.cpp
+    tristatelabel.cpp \
+    objectcodelabel.cpp
 HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
@@ -49,7 +50,8 @@ HEADERS += mainwindow.h \
     cpupanegraphicsitems.h \
     code.h \
     asm.h \
-    tristatelabel.h
+    tristatelabel.h \
+    objectcodelabel.h
 FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \

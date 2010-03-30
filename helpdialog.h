@@ -17,6 +17,9 @@ public:
 
     QString getExampleText();
 
+    void copy();
+    // Post: the text edit that has focus has the copy() operation performed
+
 protected:
     void changeEvent(QEvent *e);
 

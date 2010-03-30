@@ -2,6 +2,7 @@
 #include "ui_helpdialog.h"
 
 #include "pep.h"
+#include <QClipboard>
 
 HelpDialog::HelpDialog(QWidget *parent) :
     QDialog(parent),
@@ -112,5 +113,14 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
                 ui->helpFigureLabel->setText("<b>Figure 12.12</b> The control signals to implement the unary ASRA instruction.");
             }
         }
+    }
+}
+
+void HelpDialog::copy()
+{
+    if (ui->helpTextEdit->hasFocus()) {
+        ui->helpTextEdit->copy();
+    } else if (ui->helpTopWebView->hasFocus()) {
+        QApplication::clipboard()->setText(ui->helpTopWebView->selectedText());
     }
 }
