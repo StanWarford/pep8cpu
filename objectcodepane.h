@@ -17,6 +17,8 @@ public:
 
     void highlightOnFocus();
 
+    void setObjectCode(QString string);
+
 protected:
     void changeEvent(QEvent *e);
 

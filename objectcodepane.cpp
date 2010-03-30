@@ -23,6 +23,11 @@ ObjectCodePane::~ObjectCodePane()
     delete ui;
 }
 
+void ObjectCodePane::setObjectCode(QString string)
+{
+    ui->plainTextEdit->setPlainText(string);
+}
+
 void ObjectCodePane::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
