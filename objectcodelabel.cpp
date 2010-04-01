@@ -22,24 +22,26 @@ void ObjectCodeLabel::paintEvent(QPaintEvent *)
     QPainter p(this);
 
     QFontMetrics fm(this->font());
-    int height = fm.height();
+    int height = fm.averageCharWidth();
 
-    drawRotatedText(&p, 270, height * 1, this->height() - 2, "LoadCk");
-    drawRotatedText(&p, 270, height * 2, this->height() - 2, "C");
-    drawRotatedText(&p, 270, height * 3, this->height() - 2, "B");
-    drawRotatedText(&p, 270, height * 4, this->height() - 2, "A");
-    drawRotatedText(&p, 270, height * 5, this->height() - 2, "MARCk");
-    drawRotatedText(&p, 270, height * 6, this->height() - 2, "MDRCk");
-    drawRotatedText(&p, 270, height * 7, this->height() - 2, "AMux");
-    drawRotatedText(&p, 270, height * 8, this->height() - 2, "MDRMux");
-    drawRotatedText(&p, 270, height * 9, this->height() - 2, "CMux");
-    drawRotatedText(&p, 270, height * 10, this->height() - 2, "ALU");
-    drawRotatedText(&p, 270, height * 11, this->height() - 2, "CCk");
-    drawRotatedText(&p, 270, height * 12, this->height() - 2, "VCk");
-    drawRotatedText(&p, 270, height * 13, this->height() - 2, "ANDZ");
-    drawRotatedText(&p, 270, height * 14, this->height() - 2, "ZCk");
-    drawRotatedText(&p, 270, height * 15, this->height() - 2, "NCk");
-    drawRotatedText(&p, 270, height * 16, this->height() - 2, "MemWrite");
-    drawRotatedText(&p, 270, height * 17, this->height() - 2, "MemRead");
+    // Draw the rotated text. Magic numbers are the offsets from the labels
+    // to spread them out to correspond to the correct object code numbers.
+    drawRotatedText(&p, 270, height * 2, this->height() - 2, "LoadCk");
+    drawRotatedText(&p, 270, height * 4, this->height() - 2, "C");
+    drawRotatedText(&p, 270, height * 7, this->height() - 2, "B");
+    drawRotatedText(&p, 270, height * 10, this->height() - 2, "A");
+    drawRotatedText(&p, 270, height * 13, this->height() - 2, "MARCk");
+    drawRotatedText(&p, 270, height * 15, this->height() - 2, "MDRCk");
+    drawRotatedText(&p, 270, height * 17, this->height() - 2, "AMux");
+    drawRotatedText(&p, 270, height * 19, this->height() - 2, "MDRMux");
+    drawRotatedText(&p, 270, height * 21, this->height() - 2, "CMux");
+    drawRotatedText(&p, 270, height * 23, this->height() - 2, "ALU");
+    drawRotatedText(&p, 270, height * 26, this->height() - 2, "CCk");
+    drawRotatedText(&p, 270, height * 28, this->height() - 2, "VCk");
+    drawRotatedText(&p, 270, height * 30, this->height() - 2, "ANDZ");
+    drawRotatedText(&p, 270, height * 32, this->height() - 2, "ZCk");
+    drawRotatedText(&p, 270, height * 34, this->height() - 2, "NCk");
+    drawRotatedText(&p, 270, height * 36, this->height() - 2, "MemWrite");
+    drawRotatedText(&p, 270, height * 38, this->height() - 2, "MemRead");
 }
 

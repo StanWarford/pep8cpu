@@ -79,7 +79,7 @@ private slots:
     void slotByteConverterCharEdited(const QString &);
 
     // Focus coloring Undo/Redo/Cut/Copy/Paste activate/deactivate
-    void mainWindowUtilities(QWidget *, QWidget *);
+    void focusChanged(QWidget *, QWidget *);
     void setUndoability(bool b);
     void setRedoability(bool b);
 

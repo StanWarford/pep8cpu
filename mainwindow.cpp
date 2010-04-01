@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToMicrocodeButtonClicked()));
 
-    connect(qApp->instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(mainWindowUtilities(QWidget*, QWidget*)));
+    connect(qApp->instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(focusChanged(QWidget*, QWidget*)));
     connect(microcode, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(microcode, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
@@ -233,7 +233,7 @@ void MainWindow::slotByteConverterCharEdited(const QString &str)
 }
 
 // Focus Coloring. Activates and deactivates undo/redo/cut/copy/paste actions contextually
-void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
+void MainWindow::focusChanged(QWidget *, QWidget *)
 {
     microcode->highlightOnFocus();
     mainMemory->highlightOnFocus();
