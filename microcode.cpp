@@ -59,6 +59,11 @@ bool Microcode::microAssemble()
     return true;
 }
 
+QString Microcode::codeToString() {
+
+return "0 5  21 3  1 0 1 0 1 12 1 0 1 0 1 0 1";
+}
+
 void Microcode::removeErrorMessages()
 {
     QTextCursor cursor(editor->document()->find("//ERROR:"));

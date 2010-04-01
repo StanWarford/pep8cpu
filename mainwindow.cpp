@@ -129,6 +129,7 @@ void MainWindow::on_actionSystem_Microassemble_triggered()
 {
     if (microcode->microAssemble()) {
         ui->statusBar->showMessage("MicroAssembly succeeded", 4000);
+        objectCodePane->setObjectCode(microcode->codeToString());
     }
     else {
         ui->statusBar->showMessage("MicroAssembly failed", 4000);
