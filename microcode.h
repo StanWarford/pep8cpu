@@ -33,6 +33,7 @@ public:
     // Post: Appends message to the end of line lineNumber.
 
     void setMicrocode(QString microcode);
+    // Post: Set
 
     void highlightOnFocus();
     // Highlights the label based on the label window color saved in the UI file

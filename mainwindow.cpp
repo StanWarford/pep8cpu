@@ -286,5 +286,6 @@ void MainWindow::setRedoability(bool b)
 void MainWindow::helpCopyToMicrocodeButtonClicked()
 {
     microcode->setMicrocode(helpDialog->getExampleText());
+    objectCodePane->setObjectCode("");
     helpDialog->hide();
 }

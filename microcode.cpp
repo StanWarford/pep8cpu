@@ -7,8 +7,8 @@
 #include <QDebug>
 
 Microcode::Microcode(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::Microcode)
+        QWidget(parent),
+        ui(new Ui::Microcode)
 {
     ui->setupUi(this);
 
@@ -60,8 +60,32 @@ bool Microcode::microAssemble()
 }
 
 QString Microcode::codeToString() {
-
-return "0 5  21 3  1 0 1 0 1 12 1 0 1 0 1 0 1";
+    QString str = "";
+    Code code;
+    for (int i = 0; i < codeList.size(); ++i) {
+        code = codeList.at(i);
+        if (!code.isCommentOnly() && !code.isEmpty()) {
+            str.append(code.cLoadCk == -1 ? "  " : QString("%1").arg(code.cLoadCk, -2));
+            str.append(code.cC == -1 ? "   " : QString("%1").arg(code.cC, -3));
+            str.append(code.cB == -1 ? "   " : QString("%1").arg(code.cB, -3));
+            str.append(code.cA == -1 ? "   " : QString("%1").arg(code.cA, -3));
+            str.append(code.cMARCk == -1 ? "  " : QString("%1").arg(code.cMARCk, -2));
+            str.append(code.cMDRCk == -1 ? "  " : QString("%1").arg(code.cMDRCk, -2));
+            str.append(code.cAMux == -1 ? "  " : QString("%1").arg(code.cAMux, -2));
+            str.append(code.cMDRMux == -1 ? "  " : QString("%1").arg(code.cMDRMux, -2));
+            str.append(code.cCMux == -1 ? "  " : QString("%1").arg(code.cCMux, -2));
+            str.append(code.cALU == -1 ? "   " : QString("%1").arg(code.cALU, -3));
+            str.append(code.cCCk == -1 ? "  " : QString("%1").arg(code.cCCk, -2));
+            str.append(code.cVCk == -1 ? "  " : QString("%1").arg(code.cVCk, -2));
+            str.append(code.cANDZ == -1 ? "  " : QString("%1").arg(code.cANDZ, -2));
+            str.append(code.cZCk == -1 ? "  " : QString("%1").arg(code.cZCk, -2));
+            str.append(code.cNCk == -1 ? "  " : QString("%1").arg(code.cNCk, -2));
+            str.append(code.cMemWrite == -1 ? "  " : QString("%1").arg(code.cMemWrite, -2));
+            str.append(code.cMemRead == -1 ? "  " : QString("%1").arg(code.cMemRead, -2));
+            str.append("\n");
+        }
+    }
+    return str;
 }
 
 void Microcode::removeErrorMessages()

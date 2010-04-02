@@ -9,6 +9,7 @@
 class Code
 {
     friend class Asm;
+    friend class Microcode;
 public:
     virtual ~Code() { }
     Code();
@@ -19,7 +20,7 @@ public:
     void set(Enu::EMnemonic field, int value);
     bool inRange(Enu::EMnemonic field, int value);
 
-protected:
+private:
     int cLoadCk;
     int cC;
     int cB;
