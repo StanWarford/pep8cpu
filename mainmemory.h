@@ -35,6 +35,8 @@ private slots:
     // Fires when the data in an item changes, used to store the value into Sim::Mem[]
     void cellDataChanged(QTableWidgetItem* item);
 
+    void scrollToAddress(QString string);
+
 protected:
     void changeEvent(QEvent *e);
     void resizeEvent(QResizeEvent *e);

@@ -37,6 +37,9 @@ MainMemory::MainMemory(QWidget *parent) :
     connect(ui->verticalScrollBar, SIGNAL(actionTriggered(int)), this, SLOT(sliderMoved(int)));
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 
+    connect(ui->lineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToAddress(QString)));
+    ui->lineEdit->setFont(QFont("Courier"));
+
     ui->tableWidget->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
 }
 
@@ -130,6 +133,30 @@ void MainMemory::cellDataChanged(QTableWidgetItem *item)
     }
 
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
+}
+
+void MainMemory::scrollToAddress(QString string)
+{
+    bool ok;
+    int byte;
+    if (string.startsWith("0x", Qt::CaseInsensitive)) {
+        byte = string.toInt(&ok, 16);
+        if (ok) {
+            if (byte > 65535) {
+                ui->lineEdit->setText("0xFFFF");
+            } else {
+                int min = ui->verticalScrollBar->minimum();
+                int max = ui->verticalScrollBar->maximum();
+                ui->verticalScrollBar->setValue(min + static_cast<int>(8 * (byte / 4096 - 8) + ((byte - byte % 8) / 65536.0) * (max - min)));
+            }
+        }
+        else {
+            ui->lineEdit->setText("0x");
+        }
+    }
+    else {
+        ui->lineEdit->setText("0x");
+    }
 }
 
 void MainMemory::changeEvent(QEvent *e)
