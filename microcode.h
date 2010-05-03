@@ -44,12 +44,15 @@ public:
     bool isUndoable();
     bool isRedoable();
 
+    void setReadOnly(bool ro);
+
+    void updateSimulationView();
+
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::Microcode *ui;
-    QList<Code> codeList;
 
     PepHighlighter *highlighter;
     MicrocodeEditor *editor;

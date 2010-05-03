@@ -23,6 +23,9 @@ public:
 
     void highlightOnFocus();
 
+    void startDebugging();
+    void stopDebugging();
+
 protected:
     void changeEvent(QEvent *e);
 
@@ -42,6 +45,9 @@ private slots:
 
     void singleStepButtonPushed();
     void resumeButtonPushed();
+
+signals:
+    void updateSimulation();
 };
 
 #endif // CPUPANE_H

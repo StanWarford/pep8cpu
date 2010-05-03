@@ -102,6 +102,27 @@ void CpuPane::highlightOnFocus()
     }
 }
 
+void CpuPane::startDebugging()
+{
+    ui->resumePushButton->setEnabled(true);
+    ui->singleStepPushButton->setEnabled(true);
+
+    Sim::microProgramCounter = 0;
+    Code code = Sim::codeList.at(Sim::microProgramCounter);
+    while (!Sim::atEndOfSim() && (code.isEmpty() || code.isCommentOnly())) {
+        Sim::microProgramCounter++;
+        code = Sim::codeList.at(Sim::microProgramCounter);
+    }
+    setCpuLabels(code);
+    Sim::microProgramCounter++;
+}
+
+void CpuPane::stopDebugging()
+{
+    ui->resumePushButton->setEnabled(false);
+    ui->singleStepPushButton->setEnabled(false);
+}
+
 void CpuPane::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
@@ -117,15 +138,15 @@ void CpuPane::changeEvent(QEvent *e)
 void CpuPane::setCpuLabels(Code code)
 {
     cpuPaneItems->loadCk->setChecked(code.cLoadCk != -1);
-    cpuPaneItems->cLineEdit->setText(QString(code.cC));
-    cpuPaneItems->bLineEdit->setText(QString(code.cB));
-    cpuPaneItems->aLineEdit->setText(QString(code.cA));
+    cpuPaneItems->cLineEdit->setText(code.cC == -1 ? "" : QString("%1").arg(code.cC));
+    cpuPaneItems->bLineEdit->setText(code.cB == -1 ? "" : QString("%1").arg(code.cB));
+    cpuPaneItems->aLineEdit->setText(code.cA == -1 ? "" : QString("%1").arg(code.cA));
     cpuPaneItems->MARCk->setChecked(code.cMARCk != -1);
     cpuPaneItems->MDRCk->setChecked(code.cMDRCk != -1);
     cpuPaneItems->aMuxTristateLabel->setState(code.cAMux);
     cpuPaneItems->MDRMuxTristateLabel->setState(code.cMDRMux);
     cpuPaneItems->cMuxTristateLabel->setState(code.cCMux);
-    cpuPaneItems->ALULineEdit->setText(code.cALU == -1 ? "" : QString(code.cALU));
+    cpuPaneItems->ALULineEdit->setText(code.cALU == -1 ? "" : QString("%1").arg(code.cALU));
     cpuPaneItems->CCkCheckBox->setChecked(code.cCCk != -1);
     cpuPaneItems->VCkCheckBox->setChecked(code.cVCk != -1);
     cpuPaneItems->ANDZTristateLabel->setState(code.cANDZ);
@@ -151,7 +172,18 @@ void CpuPane::labelClicked()
 
 void CpuPane::singleStepButtonPushed()
 {
-
+    if (!Sim::atEndOfSim()) {
+        Code code = Sim::codeList.at(Sim::microProgramCounter);
+        while (!Sim::atEndOfSim() && (code.isEmpty() || code.isCommentOnly())) {
+            Sim::microProgramCounter++;
+            code = Sim::codeList.at(Sim::microProgramCounter);
+        }
+        if (!Sim::atEndOfSim()) {
+            setCpuLabels(code);
+            emit updateSimulation();
+            Sim::microProgramCounter++;
+        }
+    }
 }
 
 void CpuPane::resumeButtonPushed()

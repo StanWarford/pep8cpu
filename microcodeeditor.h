@@ -3,6 +3,8 @@
 
 #include <QPlainTextEdit>
 #include <QObject>
+#include "sim.h"
+
 
 class QPaintEvent;
 class QResizeEvent;
@@ -21,12 +23,13 @@ public:
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 
+    void highlightSimulatedLine();
+
 protected:
     void resizeEvent(QResizeEvent *event);
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
-    void highlightCurrentLine();
     void updateLineNumberArea(const QRect &, int);
 
 private:

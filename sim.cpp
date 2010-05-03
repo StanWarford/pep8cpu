@@ -12,6 +12,9 @@ bool Sim::nBit, Sim::zBit, Sim::vBit, Sim::cBit;
 
 QSet<int> Sim::modifiedBytes;
 
+QList<Code> Sim::codeList;
+int Sim::microProgramCounter;
+
 int Sim::readByte(int memAddr)
 {
     return Mem[memAddr & 0xffff];
@@ -26,4 +29,9 @@ void Sim::writeByte(int memAddr, int value)
 bool Sim::advanceSimulation()
 {
 
+}
+
+bool Sim::atEndOfSim()
+{
+    return microProgramCounter >= codeList.size() - 1;
 }

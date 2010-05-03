@@ -2,6 +2,7 @@
 #include "ui_microcode.h"
 #include "code.h"
 #include "pep.h"
+#include "sim.h"
 
 #include <QGridLayout>
 #include <QDebug>
@@ -28,6 +29,7 @@ Microcode::Microcode(QWidget *parent) :
     connect(editor->document(), SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(editor->document(), SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
+//    editor->setLineWrapMode(QPlainTextEdit::NoWrap);
 }
 
 Microcode::~Microcode()
@@ -44,7 +46,7 @@ bool Microcode::microAssemble()
     int lineNum = 0;
 
     removeErrorMessages();
-    codeList.clear();
+    Sim::codeList.clear();
     QString sourceCode = editor->toPlainText();
     sourceCodeList = sourceCode.split('\n');
     while (lineNum < sourceCodeList.size()) {
@@ -53,8 +55,13 @@ bool Microcode::microAssemble()
             appendMessageInSourceCodePaneAt(lineNum, errorString);
             return false;
         }
-        codeList.append(code);
+        Sim::codeList.append(code);
         lineNum++;
+    }
+
+    // we guarantee a /n at the end of our document for single step highlighting
+    if (!sourceCode.endsWith("\n")) {
+        editor->appendPlainText("\n");
     }
     return true;
 }
@@ -62,8 +69,8 @@ bool Microcode::microAssemble()
 QString Microcode::codeToString() {
     QString str = "";
     Code code;
-    for (int i = 0; i < codeList.size(); ++i) {
-        code = codeList.at(i);
+    for (int i = 0; i < Sim::codeList.size(); ++i) {
+        code = Sim::codeList.at(i);
         if (!code.isCommentOnly() && !code.isEmpty()) {
             str.append(code.cLoadCk == -1 ? "  " : QString("%1").arg(code.cLoadCk, -2));
             str.append(code.cC == -1 ? "   " : QString("%1").arg(code.cC, -3));
@@ -151,6 +158,16 @@ bool Microcode::isUndoable()
 bool Microcode::isRedoable()
 {
     return editor->document()->isRedoAvailable();
+}
+
+void Microcode::setReadOnly(bool ro)
+{
+    editor->setReadOnly(ro);
+}
+
+void Microcode::updateSimulationView()
+{
+    editor->highlightSimulatedLine();
 }
 
 void Microcode::changeEvent(QEvent *e)

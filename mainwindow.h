@@ -83,6 +83,7 @@ private slots:
     void setUndoability(bool b);
     void setRedoability(bool b);
 
+    void updateSimulation();
     void helpCopyToMicrocodeButtonClicked();
 };
 

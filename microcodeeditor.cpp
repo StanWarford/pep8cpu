@@ -1,6 +1,8 @@
 #include <QtGui>
 
-#include "microcodeeditor.h"
+#include "microcodeeditor.h"\
+
+#include <QDebug>
 
 MicrocodeEditor::MicrocodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
@@ -11,10 +13,8 @@ MicrocodeEditor::MicrocodeEditor(QWidget *parent) : QPlainTextEdit(parent)
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(textChanged()), this, SLOT(repaint()));
     connect(this, SIGNAL(updateRequest(const QRect &, int)), this, SLOT(updateLineNumberArea(const QRect &, int)));
-    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
 
     updateLineNumberAreaWidth(0);
-    highlightCurrentLine();
 }
 
 int MicrocodeEditor::lineNumberAreaWidth()
@@ -47,31 +47,37 @@ void MicrocodeEditor::updateLineNumberArea(const QRect &rect, int dy)
         updateLineNumberAreaWidth(0);
 }
 
+void MicrocodeEditor::highlightSimulatedLine()
+{
+    QList<QTextEdit::ExtraSelection> extraSelections;
+
+    if (isReadOnly()) {
+        QTextEdit::ExtraSelection selection;
+
+        selection.format.setBackground(QColor(56, 117, 215)); // dark blue
+        selection.format.setForeground(Qt::white);
+        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+        QTextCursor cursor = QTextCursor(document());
+        cursor.setPosition(0);
+        for (int i = 0; i < Sim::microProgramCounter; i++) {
+            cursor.movePosition(QTextCursor::NextBlock);
+        }
+        cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+
+        selection.cursor = cursor;
+//        selection.cursor.clearSelection();
+        extraSelections.append(selection);
+    }
+
+    setExtraSelections(extraSelections);
+}
+
 void MicrocodeEditor::resizeEvent(QResizeEvent *e)
 {
     QPlainTextEdit::resizeEvent(e);
 
     QRect cr = contentsRect();
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
-}
-
-void MicrocodeEditor::highlightCurrentLine()
-{
-    QList<QTextEdit::ExtraSelection> extraSelections;
-
-    if (!isReadOnly()) {
-        QTextEdit::ExtraSelection selection;
-
-        QColor lineColor = QColor(233, 243, 255); // light blue
-
-        selection.format.setBackground(lineColor);
-        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
-        selection.cursor = textCursor();
-        selection.cursor.clearSelection();
-        extraSelections.append(selection);
-    }
-
-    setExtraSelections(extraSelections);
 }
 
 void MicrocodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)

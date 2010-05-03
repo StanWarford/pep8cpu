@@ -46,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(microcode, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(microcode, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
+    connect(cpuPane, SIGNAL(updateSimulation()), this, SLOT(updateSimulation()));
+
     Pep::initEnumMnemonMaps();
 
 }
@@ -148,11 +150,30 @@ void MainWindow::on_actionSystem_Run_triggered()
 
 void MainWindow::on_actionSystem_Start_Debugging_triggered()
 {
+    // enable the actions available while we're debugging
+    ui->actionSystem_Stop_Debugging->setEnabled(true);
 
+    // disable actions related to editing/starting debugging
+    ui->actionSystem_Run->setEnabled(false);
+    ui->actionSystem_Execute->setEnabled(false);
+    ui->actionSystem_Microassemble->setEnabled(false);
+    ui->actionSystem_Start_Debugging->setEnabled(false);
+    microcode->setReadOnly(true);
+    cpuPane->startDebugging();
 }
 
 void MainWindow::on_actionSystem_Stop_Debugging_triggered()
 {
+    // disable the actions available while we're debugging
+    ui->actionSystem_Stop_Debugging->setEnabled(false);
+
+    // enable actions related to editing/starting debugging
+    ui->actionSystem_Run->setEnabled(true);
+    ui->actionSystem_Execute->setEnabled(true);
+    ui->actionSystem_Microassemble->setEnabled(true);
+    ui->actionSystem_Start_Debugging->setEnabled(true);
+    microcode->setReadOnly(false);
+    cpuPane->stopDebugging();
 
 }
 
@@ -283,9 +304,15 @@ void MainWindow::setRedoability(bool b)
 //    }
 }
 
+void MainWindow::updateSimulation()
+{
+    microcode->updateSimulationView();
+}
+
 void MainWindow::helpCopyToMicrocodeButtonClicked()
 {
     microcode->setMicrocode(helpDialog->getExampleText());
     objectCodePane->setObjectCode("");
     helpDialog->hide();
 }
+
