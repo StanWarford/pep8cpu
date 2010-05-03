@@ -23,4 +23,7 @@ void Sim::writeByte(int memAddr, int value)
     modifiedBytes.insert(memAddr & 0xffff);
 }
 
+bool Sim::advanceSimulation()
+{
 
+}

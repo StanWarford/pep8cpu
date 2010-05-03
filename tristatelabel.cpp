@@ -7,6 +7,19 @@ TristateLabel::TristateLabel(QWidget *parent, ToggleMode mode) :
     toggleMode = mode;
 }
 
+void TristateLabel::setState(int state)
+{
+    if (state == -1) {
+        setText("");
+    }
+    else if (state == 0) {
+        setText("0");
+    }
+    else if (state == 1) {
+        setText("1");
+    }
+}
+
 bool TristateLabel::toggle()
 {
     if (toggleMode == Tristate) {

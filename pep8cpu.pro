@@ -3,6 +3,8 @@
 # -------------------------------------------------
 TARGET = pep8cpu
 TEMPLATE = app
+CONFIG += x86 \
+    ppc
 QT += webkit
 CONFIG += x86 \
     ppc

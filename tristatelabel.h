@@ -11,6 +11,8 @@ public:
 
     explicit TristateLabel(QWidget *parent = 0, ToggleMode mode = Tristate);
 
+    void setState(int state);
+
 private:
     int toggleMode;
 

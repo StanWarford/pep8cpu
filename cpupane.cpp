@@ -82,7 +82,9 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(cpuPaneItems->vBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
     connect(cpuPaneItems->cBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
 
-
+    // Simulation control connections
+    connect(ui->singleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStepButtonPushed()));
+    connect(ui->resumePushButton, SIGNAL(clicked()), this, SLOT(resumeButtonPushed()));
 }
 
 CpuPane::~CpuPane()
@@ -112,6 +114,27 @@ void CpuPane::changeEvent(QEvent *e)
     }
 }
 
+void CpuPane::setCpuLabels(Code code)
+{
+    cpuPaneItems->loadCk->setChecked(code.cLoadCk != -1);
+    cpuPaneItems->cLineEdit->setText(QString(code.cC));
+    cpuPaneItems->bLineEdit->setText(QString(code.cB));
+    cpuPaneItems->aLineEdit->setText(QString(code.cA));
+    cpuPaneItems->MARCk->setChecked(code.cMARCk != -1);
+    cpuPaneItems->MDRCk->setChecked(code.cMDRCk != -1);
+    cpuPaneItems->aMuxTristateLabel->setState(code.cAMux);
+    cpuPaneItems->MDRMuxTristateLabel->setState(code.cMDRMux);
+    cpuPaneItems->cMuxTristateLabel->setState(code.cCMux);
+    cpuPaneItems->ALULineEdit->setText(code.cALU == -1 ? "" : QString(code.cALU));
+    cpuPaneItems->CCkCheckBox->setChecked(code.cCCk != -1);
+    cpuPaneItems->VCkCheckBox->setChecked(code.cVCk != -1);
+    cpuPaneItems->ANDZTristateLabel->setState(code.cANDZ);
+    cpuPaneItems->ZCkCheckBox->setChecked(code.cZCk != -1);
+    cpuPaneItems->NCkCheckBox->setChecked(code.cNCk != -1);
+    cpuPaneItems->MemReadTristateLabel->setState(code.cMemRead);
+    cpuPaneItems->MemWriteTristateLabel->setState(code.cMemWrite);
+}
+
 void CpuPane::zoomFactorChanged(int factor)
 {
     QMatrix matrix;
@@ -126,4 +149,12 @@ void CpuPane::labelClicked()
     label->toggle();
 }
 
+void CpuPane::singleStepButtonPushed()
+{
 
+}
+
+void CpuPane::resumeButtonPushed()
+{
+
+}

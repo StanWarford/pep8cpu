@@ -22,6 +22,8 @@ public:
     // Pre: 0 <= value < 256
     // Post: Value is stored in Mem[memAddr]
 
+    static bool advanceSimulation();
+
 };
 
 #endif // SIM_H

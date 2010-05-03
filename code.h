@@ -10,6 +10,7 @@ class Code
 {
     friend class Asm;
     friend class Microcode;
+    friend class CpuPane;
 public:
     virtual ~Code() { }
     Code();

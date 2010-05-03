@@ -7,6 +7,8 @@
 #include <QLabel>
 #include <QLineEdit>
 
+#include "code.h"
+
 #include "cpupanegraphicsitems.h"
 
 namespace Ui {
@@ -31,10 +33,15 @@ private:
 
     CpuPaneGraphicsItems *cpuPaneItems;
 
+    void setCpuLabels(Code code);
+
 private slots:
     void zoomFactorChanged(int factor);
 
     void labelClicked();
+
+    void singleStepButtonPushed();
+    void resumeButtonPushed();
 };
 
 #endif // CPUPANE_H
