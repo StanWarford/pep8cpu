@@ -28,8 +28,6 @@ MicrocodePane::MicrocodePane(QWidget *parent) :
 
     connect(editor->document(), SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(editor->document(), SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
-
-//    editor->setLineWrapMode(QPlainTextEdit::NoWrap);
 }
 
 MicrocodePane::~MicrocodePane()

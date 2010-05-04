@@ -32,7 +32,9 @@ SOURCES += main.cpp \
     code.cpp \
     asm.cpp \
     tristatelabel.cpp \
-    objectcodelabel.cpp
+    objectcodelabel.cpp \
+    precondition.cpp \
+    postcondition.cpp
 HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
@@ -53,7 +55,9 @@ HEADERS += mainwindow.h \
     code.h \
     asm.h \
     tristatelabel.h \
-    objectcodelabel.h
+    objectcodelabel.h \
+    precondition.h \
+    postcondition.h
 FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \
