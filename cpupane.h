@@ -36,8 +36,6 @@ private:
 
     CpuPaneGraphicsItems *cpuPaneItems;
 
-    void setCpuLabels(Code code);
-
 private slots:
     void zoomFactorChanged(int factor);
 

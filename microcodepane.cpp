@@ -69,7 +69,7 @@ QString MicrocodePane::codeToString() {
     Code code;
     for (int i = 0; i < Sim::codeList.size(); ++i) {
         code = Sim::codeList.at(i);
-        if (!code.isCommentOnly() && !code.isEmpty()) {
+        if (code.isMicrocode()) {
             str.append(code.cLoadCk == -1 ? "  " : QString("%1").arg(code.cLoadCk, -2));
             str.append(code.cC == -1 ? "   " : QString("%1").arg(code.cC, -3));
             str.append(code.cB == -1 ? "   " : QString("%1").arg(code.cB, -3));

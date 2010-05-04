@@ -1,5 +1,47 @@
 #include "code.h"
 
+void Microcode::setCPULabels(CpuPaneGraphicsItems *cpuGraphicsItems)
+{
+    cpuGraphicsItems->loadCk->setChecked(code.cLoadCk != -1);
+    cpuGraphicsItems->cLineEdit->setText(code.cC == -1 ? "" : QString("%1").arg(code.cC));
+    cpuGraphicsItems->bLineEdit->setText(code.cB == -1 ? "" : QString("%1").arg(code.cB));
+    cpuGraphicsItems->aLineEdit->setText(code.cA == -1 ? "" : QString("%1").arg(code.cA));
+    cpuGraphicsItems->MARCk->setChecked(code.cMARCk != -1);
+    cpuGraphicsItems->MDRCk->setChecked(code.cMDRCk != -1);
+    cpuGraphicsItems->aMuxTristateLabel->setState(code.cAMux);
+    cpuGraphicsItems->MDRMuxTristateLabel->setState(code.cMDRMux);
+    cpuGraphicsItems->cMuxTristateLabel->setState(code.cCMux);
+    cpuGraphicsItems->ALULineEdit->setText(code.cALU == -1 ? "" : QString("%1").arg(code.cALU));
+    cpuGraphicsItems->CCkCheckBox->setChecked(code.cCCk != -1);
+    cpuGraphicsItems->VCkCheckBox->setChecked(code.cVCk != -1);
+    cpuGraphicsItems->ANDZTristateLabel->setState(code.cANDZ);
+    cpuGraphicsItems->ZCkCheckBox->setChecked(code.cZCk != -1);
+    cpuGraphicsItems->NCkCheckBox->setChecked(code.cNCk != -1);
+    cpuGraphicsItems->MemReadTristateLabel->setState(code.cMemRead);
+    cpuGraphicsItems->MemWriteTristateLabel->setState(code.cMemWrite);
+}
+
+void Microcode::appendObjectCode(QTextEdit *textEdit)
+{
+    cpuGraphicsItems->loadCk->setChecked(code.cLoadCk != -1);
+    cpuGraphicsItems->cLineEdit->setText(code.cC == -1 ? "" : QString("%1").arg(code.cC));
+    cpuGraphicsItems->bLineEdit->setText(code.cB == -1 ? "" : QString("%1").arg(code.cB));
+    cpuGraphicsItems->aLineEdit->setText(code.cA == -1 ? "" : QString("%1").arg(code.cA));
+    cpuGraphicsItems->MARCk->setChecked(code.cMARCk != -1);
+    cpuGraphicsItems->MDRCk->setChecked(code.cMDRCk != -1);
+    cpuGraphicsItems->aMuxTristateLabel->setState(code.cAMux);
+    cpuGraphicsItems->MDRMuxTristateLabel->setState(code.cMDRMux);
+    cpuGraphicsItems->cMuxTristateLabel->setState(code.cCMux);
+    cpuGraphicsItems->ALULineEdit->setText(code.cALU == -1 ? "" : QString("%1").arg(code.cALU));
+    cpuGraphicsItems->CCkCheckBox->setChecked(code.cCCk != -1);
+    cpuGraphicsItems->VCkCheckBox->setChecked(code.cVCk != -1);
+    cpuGraphicsItems->ANDZTristateLabel->setState(code.cANDZ);
+    cpuGraphicsItems->ZCkCheckBox->setChecked(code.cZCk != -1);
+    cpuGraphicsItems->NCkCheckBox->setChecked(code.cNCk != -1);
+    cpuGraphicsItems->MemReadTristateLabel->setState(code.cMemRead);
+    cpuGraphicsItems->MemWriteTristateLabel->setState(code.cMemWrite);
+}
+
 Code::Code()
 {
     clear();
@@ -25,50 +67,6 @@ void Code::clear()
     cMemWrite = -1;
     cMemRead = -1;
     cComment = "";
-}
-
-bool Code::isEmpty()
-{
-    return cLoadCk == -1 &&
-    cC == -1 &&
-    cB == -1 &&
-    cA == -1 &&
-    cMARCk == -1 &&
-    cMDRCk == -1 &&
-    cAMux == -1 &&
-    cMDRMux == -1 &&
-    cCMux == -1 &&
-    cALU == -1 &&
-    cCCk == -1 &&
-    cVCk == -1 &&
-    cANDZ == -1 &&
-    cZCk == -1 &&
-    cNCk == -1 &&
-    cMemWrite == -1 &&
-    cMemRead == -1 &&
-    cComment == "";
-}
-
-bool Code::isCommentOnly()
-{
-    return cLoadCk == -1 &&
-    cC == -1 &&
-    cB == -1 &&
-    cA == -1 &&
-    cMARCk == -1 &&
-    cMDRCk == -1 &&
-    cAMux == -1 &&
-    cMDRMux == -1 &&
-    cCMux == -1 &&
-    cALU == -1 &&
-    cCCk == -1 &&
-    cVCk == -1 &&
-    cANDZ == -1 &&
-    cZCk == -1 &&
-    cNCk == -1 &&
-    cMemWrite == -1 &&
-    cMemRead == -1 &&
-    cComment != "";
 }
 
 bool Code::has(Enu::EMnemonic field) {

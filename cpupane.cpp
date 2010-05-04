@@ -138,27 +138,6 @@ void CpuPane::changeEvent(QEvent *e)
     }
 }
 
-void CpuPane::setCpuLabels(Code code)
-{
-    cpuPaneItems->loadCk->setChecked(code.cLoadCk != -1);
-    cpuPaneItems->cLineEdit->setText(code.cC == -1 ? "" : QString("%1").arg(code.cC));
-    cpuPaneItems->bLineEdit->setText(code.cB == -1 ? "" : QString("%1").arg(code.cB));
-    cpuPaneItems->aLineEdit->setText(code.cA == -1 ? "" : QString("%1").arg(code.cA));
-    cpuPaneItems->MARCk->setChecked(code.cMARCk != -1);
-    cpuPaneItems->MDRCk->setChecked(code.cMDRCk != -1);
-    cpuPaneItems->aMuxTristateLabel->setState(code.cAMux);
-    cpuPaneItems->MDRMuxTristateLabel->setState(code.cMDRMux);
-    cpuPaneItems->cMuxTristateLabel->setState(code.cCMux);
-    cpuPaneItems->ALULineEdit->setText(code.cALU == -1 ? "" : QString("%1").arg(code.cALU));
-    cpuPaneItems->CCkCheckBox->setChecked(code.cCCk != -1);
-    cpuPaneItems->VCkCheckBox->setChecked(code.cVCk != -1);
-    cpuPaneItems->ANDZTristateLabel->setState(code.cANDZ);
-    cpuPaneItems->ZCkCheckBox->setChecked(code.cZCk != -1);
-    cpuPaneItems->NCkCheckBox->setChecked(code.cNCk != -1);
-    cpuPaneItems->MemReadTristateLabel->setState(code.cMemRead);
-    cpuPaneItems->MemWriteTristateLabel->setState(code.cMemWrite);
-}
-
 void CpuPane::zoomFactorChanged(int factor)
 {
     QMatrix matrix;
