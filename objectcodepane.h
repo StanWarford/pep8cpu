@@ -19,6 +19,8 @@ public:
 
     void setObjectCode(QString string);
 
+    void highlightCurrentInstruction();
+
 protected:
     void changeEvent(QEvent *e);
 

@@ -307,6 +307,7 @@ void MainWindow::setRedoability(bool b)
 void MainWindow::updateSimulation()
 {
     microcode->updateSimulationView();
+    objectCodePane->highlightCurrentInstruction();
 }
 
 void MainWindow::helpCopyToMicrocodeButtonClicked()

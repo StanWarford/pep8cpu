@@ -21,6 +21,7 @@ public:
 
     static QList<Code> codeList;
     static int microProgramCounter;
+    static int microCodeCurrentLine;
 
     static int readByte(int memAddr);
     static void writeByte(int memAddr, int value);

@@ -59,7 +59,7 @@ void MicrocodeEditor::highlightSimulatedLine()
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
         QTextCursor cursor = QTextCursor(document());
         cursor.setPosition(0);
-        for (int i = 0; i < Sim::microProgramCounter; i++) {
+        for (int i = 0; i < Sim::microCodeCurrentLine; i++) {
             cursor.movePosition(QTextCursor::NextBlock);
         }
         cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);

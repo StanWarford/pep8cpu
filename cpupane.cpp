@@ -108,13 +108,15 @@ void CpuPane::startDebugging()
     ui->singleStepPushButton->setEnabled(true);
 
     Sim::microProgramCounter = 0;
-    Code code = Sim::codeList.at(Sim::microProgramCounter);
+    Sim::microCodeCurrentLine = 0;
+    Code code = Sim::codeList.at(Sim::microCodeCurrentLine);
     while (!Sim::atEndOfSim() && (code.isEmpty() || code.isCommentOnly())) {
-        Sim::microProgramCounter++;
-        code = Sim::codeList.at(Sim::microProgramCounter);
+        Sim::microCodeCurrentLine++;
+        code = Sim::codeList.at(Sim::microCodeCurrentLine);
     }
     setCpuLabels(code);
     Sim::microProgramCounter++;
+    Sim::microCodeCurrentLine++;
 }
 
 void CpuPane::stopDebugging()
@@ -173,15 +175,16 @@ void CpuPane::labelClicked()
 void CpuPane::singleStepButtonPushed()
 {
     if (!Sim::atEndOfSim()) {
-        Code code = Sim::codeList.at(Sim::microProgramCounter);
+        Code code = Sim::codeList.at(Sim::microCodeCurrentLine);
         while (!Sim::atEndOfSim() && (code.isEmpty() || code.isCommentOnly())) {
-            Sim::microProgramCounter++;
-            code = Sim::codeList.at(Sim::microProgramCounter);
+            Sim::microCodeCurrentLine++;
+            code = Sim::codeList.at(Sim::microCodeCurrentLine);
         }
         if (!Sim::atEndOfSim()) {
             setCpuLabels(code);
             emit updateSimulation();
             Sim::microProgramCounter++;
+            Sim::microCodeCurrentLine++;
         }
     }
 }
