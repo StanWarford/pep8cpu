@@ -63,6 +63,7 @@ void MicrocodeEditor::highlightSimulatedLine()
             cursor.movePosition(QTextCursor::NextBlock);
         }
         cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+        cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
 
         selection.cursor = cursor;
 //        selection.cursor.clearSelection();

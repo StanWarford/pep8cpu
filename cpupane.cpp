@@ -187,6 +187,18 @@ void CpuPane::singleStepButtonPushed()
             Sim::microProgramCounter++;
             Sim::microCodeCurrentLine++;
         }
+        else {
+            qDebug() << "simulation completed";
+            emit simulationFinished();
+            ui->singleStepPushButton->setEnabled(false);
+            ui->resumePushButton->setEnabled(false);
+        }
+    }
+    else {
+        qDebug() << "simulation completed";
+        emit simulationFinished();
+        ui->singleStepPushButton->setEnabled(false);
+        ui->resumePushButton->setEnabled(false);
     }
 }
 

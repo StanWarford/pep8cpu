@@ -48,6 +48,7 @@ private slots:
 
 signals:
     void updateSimulation();
+    void simulationFinished();
 };
 
 #endif // CPUPANE_H
