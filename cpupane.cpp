@@ -115,6 +115,7 @@ void CpuPane::startDebugging()
         code = Sim::codeList.at(Sim::microCodeCurrentLine);
     }
     setCpuLabels(code);
+    emit updateSimulation();
     Sim::microProgramCounter++;
     Sim::microCodeCurrentLine++;
 }
