@@ -21,7 +21,7 @@ SOURCES += main.cpp \
     mainmemory.cpp \
     sim.cpp \
     pep.cpp \
-    microcode.cpp \
+    microcodepane.cpp \
     cpupane.cpp \
     helpdialog.cpp \
     pephighlighter.cpp \
@@ -41,7 +41,7 @@ HEADERS += mainwindow.h \
     mainmemory.h \
     sim.h \
     pep.h \
-    microcode.h \
+    microcodepane.h \
     cpupane.h \
     helpdialog.h \
     pephighlighter.h \
@@ -60,7 +60,7 @@ FORMS += mainwindow.ui \
     byteconverterchar.ui \
     byteconverterbin.ui \
     mainmemory.ui \
-    microcode.ui \
+    microcodepane.ui \
     cpupane.ui \
     helpdialog.ui \
     objectcodepane.ui

@@ -4,6 +4,7 @@
 #include "sim.h"
 #include "pep.h"
 #include <QPainter>
+#include <QDebug>
 
 ObjectCodePane::ObjectCodePane(QWidget *parent) :
     QWidget(parent),
@@ -49,6 +50,12 @@ void ObjectCodePane::highlightCurrentInstruction()
     extraSelections.append(selection);
 
     ui->plainTextEdit->setExtraSelections(extraSelections);
+}
+
+void ObjectCodePane::clearSimulationView()
+{
+    qDebug() << "clearing OCP extra selections";
+    ui->plainTextEdit->extraSelections().clear();
 }
 
 void ObjectCodePane::changeEvent(QEvent *e)

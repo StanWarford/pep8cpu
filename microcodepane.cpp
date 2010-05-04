@@ -1,5 +1,5 @@
-#include "microcode.h"
-#include "ui_microcode.h"
+#include "microcodepane.h"
+#include "ui_microcodepane.h"
 #include "code.h"
 #include "pep.h"
 #include "sim.h"
@@ -7,9 +7,9 @@
 #include <QGridLayout>
 #include <QDebug>
 
-Microcode::Microcode(QWidget *parent) :
+MicrocodePane::MicrocodePane(QWidget *parent) :
         QWidget(parent),
-        ui(new Ui::Microcode)
+        ui(new Ui::MicrocodePane)
 {
     ui->setupUi(this);
 
@@ -32,12 +32,12 @@ Microcode::Microcode(QWidget *parent) :
 //    editor->setLineWrapMode(QPlainTextEdit::NoWrap);
 }
 
-Microcode::~Microcode()
+MicrocodePane::~MicrocodePane()
 {
     delete ui;
 }
 
-bool Microcode::microAssemble()
+bool MicrocodePane::microAssemble()
 {
     QString sourceLine;
     QString errorString;
@@ -66,7 +66,7 @@ bool Microcode::microAssemble()
     return true;
 }
 
-QString Microcode::codeToString() {
+QString MicrocodePane::codeToString() {
     QString str = "";
     Code code;
     for (int i = 0; i < Sim::codeList.size(); ++i) {
@@ -95,7 +95,7 @@ QString Microcode::codeToString() {
     return str;
 }
 
-void Microcode::removeErrorMessages()
+void MicrocodePane::removeErrorMessages()
 {
     QTextCursor cursor(editor->document()->find("//ERROR:"));
     while (!cursor.isNull()) {
@@ -105,7 +105,7 @@ void Microcode::removeErrorMessages()
     }
 }
 
-void Microcode::appendMessageInSourceCodePaneAt(int lineNumber, QString message)
+void MicrocodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString message)
 {
     QTextCursor cursor(editor->document());
     cursor.setPosition(0);
@@ -124,7 +124,7 @@ void Microcode::appendMessageInSourceCodePaneAt(int lineNumber, QString message)
     cursor.insertText(message);
 }
 
-void Microcode::setMicrocode(QString microcode)
+void MicrocodePane::setMicrocode(QString microcode)
 {
     QStringList sourceCodeList;
     sourceCodeList = microcode.split('\n');
@@ -135,7 +135,7 @@ void Microcode::setMicrocode(QString microcode)
     editor->setPlainText(microcode);
 }
 
-void Microcode::highlightOnFocus()
+void MicrocodePane::highlightOnFocus()
 {
     if (editor->hasFocus()) {
         ui->label->setAutoFillBackground(true);
@@ -145,32 +145,37 @@ void Microcode::highlightOnFocus()
     }
 }
 
-bool Microcode::hasFocus()
+bool MicrocodePane::hasFocus()
 {
     return editor->hasFocus();
 }
 
-bool Microcode::isUndoable()
+bool MicrocodePane::isUndoable()
 {
     return editor->document()->isUndoAvailable();
 }
 
-bool Microcode::isRedoable()
+bool MicrocodePane::isRedoable()
 {
     return editor->document()->isRedoAvailable();
 }
 
-void Microcode::setReadOnly(bool ro)
+void MicrocodePane::setReadOnly(bool ro)
 {
     editor->setReadOnly(ro);
 }
 
-void Microcode::updateSimulationView()
+void MicrocodePane::updateSimulationView()
 {
     editor->highlightSimulatedLine();
 }
 
-void Microcode::changeEvent(QEvent *e)
+void MicrocodePane::clearSimulationView()
+{
+    editor->extraSelections().clear();
+}
+
+void MicrocodePane::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
     switch (e->type()) {

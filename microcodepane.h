@@ -1,5 +1,5 @@
-#ifndef MICROCODE_H
-#define MICROCODE_H
+#ifndef MICROCODEPANE_H
+#define MICROCODEPANE_H
 
 #include <QWidget>
 #include "pephighlighter.h"
@@ -10,14 +10,14 @@
 #include <QObject>
 
 namespace Ui {
-    class Microcode;
+    class MicrocodePane;
 }
 
-class Microcode : public QWidget {
+class MicrocodePane : public QWidget {
     Q_OBJECT
 public:
-    Microcode(QWidget *parent = 0);
-    ~Microcode();
+    MicrocodePane(QWidget *parent = 0);
+    ~MicrocodePane();
 
     bool microAssemble();
     // Pre: The source code pane contains a Pep/8 microcode program.
@@ -47,12 +47,13 @@ public:
     void setReadOnly(bool ro);
 
     void updateSimulationView();
+    void clearSimulationView();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::Microcode *ui;
+    Ui::MicrocodePane *ui;
 
     PepHighlighter *highlighter;
     MicrocodeEditor *editor;
@@ -63,4 +64,4 @@ signals:
 
 };
 
-#endif // MICROCODE_H
+#endif // MICROCODEPANE_H

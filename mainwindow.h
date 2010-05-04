@@ -8,7 +8,7 @@
 #include "byteconverterbin.h"
 #include "byteconverterchar.h"
 
-#include "microcode.h"
+#include "microcodepane.h"
 #include "objectcodepane.h"
 #include "pep.h"
 #include "sim.h"
@@ -41,7 +41,7 @@ private:
     // Main Memory
     MainMemory *mainMemory;
     CpuPane *cpuPane;
-    Microcode *microcode;
+    MicrocodePane *microcodePane;
     ObjectCodePane *objectCodePane;
 
     HelpDialog *helpDialog;
@@ -84,6 +84,8 @@ private slots:
     void setRedoability(bool b);
 
     void updateSimulation();
+    void simulationFinished();
+
     void helpCopyToMicrocodeButtonClicked();
 };
 

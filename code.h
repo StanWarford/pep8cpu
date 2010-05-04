@@ -9,7 +9,7 @@
 class Code
 {
     friend class Asm;
-    friend class Microcode;
+    friend class MicrocodePane;
     friend class CpuPane;
 public:
     virtual ~Code() { }

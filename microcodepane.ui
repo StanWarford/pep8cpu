@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Microcode</class>
- <widget class="QWidget" name="Microcode">
+ <class>MicrocodePane</class>
+ <widget class="QWidget" name="MicrocodePane">
   <property name="geometry">
    <rect>
     <x>0</x>

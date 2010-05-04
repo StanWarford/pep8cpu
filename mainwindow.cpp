@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     delete ui->memoryFrame;
     cpuPane = new CpuPane(ui->mainSplitter);
     delete ui->cpuFrame;
-    microcode = new Microcode(ui->codeSplitter);
+    microcodePane = new MicrocodePane(ui->codeSplitter);
     delete ui->microcodeFrame;
     objectCodePane = new ObjectCodePane(ui->codeSplitter);
     delete ui->objectCodeFrame;
@@ -43,10 +43,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToMicrocodeButtonClicked()));
 
     connect(qApp->instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(focusChanged(QWidget*, QWidget*)));
-    connect(microcode, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
-    connect(microcode, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
+    connect(microcodePane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
+    connect(microcodePane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
     connect(cpuPane, SIGNAL(updateSimulation()), this, SLOT(updateSimulation()));
+    connect(cpuPane, SIGNAL(simulationFinished()), this, SLOT(simulationFinished()));
 
     Pep::initEnumMnemonMaps();
 
@@ -118,7 +119,7 @@ void MainWindow::on_actionEdit_Paste_triggered()
 
 void MainWindow::on_actionEdit_Remove_Error_Messages_triggered()
 {
-    microcode->removeErrorMessages();
+    microcodePane->removeErrorMessages();
 }
 
 void MainWindow::on_actionEdit_Font_triggered()
@@ -129,9 +130,9 @@ void MainWindow::on_actionEdit_Font_triggered()
 // System MainWindow triggers
 void MainWindow::on_actionSystem_Microassemble_triggered()
 {
-    if (microcode->microAssemble()) {
+    if (microcodePane->microAssemble()) {
         ui->statusBar->showMessage("MicroAssembly succeeded", 4000);
-        objectCodePane->setObjectCode(microcode->codeToString());
+        objectCodePane->setObjectCode(microcodePane->codeToString());
     }
     else {
         ui->statusBar->showMessage("MicroAssembly failed", 4000);
@@ -158,7 +159,7 @@ void MainWindow::on_actionSystem_Start_Debugging_triggered()
     ui->actionSystem_Execute->setEnabled(false);
     ui->actionSystem_Microassemble->setEnabled(false);
     ui->actionSystem_Start_Debugging->setEnabled(false);
-    microcode->setReadOnly(true);
+    microcodePane->setReadOnly(true);
     cpuPane->startDebugging();
 }
 
@@ -172,7 +173,7 @@ void MainWindow::on_actionSystem_Stop_Debugging_triggered()
     ui->actionSystem_Execute->setEnabled(true);
     ui->actionSystem_Microassemble->setEnabled(true);
     ui->actionSystem_Start_Debugging->setEnabled(true);
-    microcode->setReadOnly(false);
+    microcodePane->setReadOnly(false);
     cpuPane->stopDebugging();
 
 }
@@ -256,14 +257,14 @@ void MainWindow::slotByteConverterCharEdited(const QString &str)
 // Focus Coloring. Activates and deactivates undo/redo/cut/copy/paste actions contextually
 void MainWindow::focusChanged(QWidget *, QWidget *)
 {
-    microcode->highlightOnFocus();
+    microcodePane->highlightOnFocus();
     mainMemory->highlightOnFocus();
     objectCodePane->highlightOnFocus();
     cpuPane->highlightOnFocus();
 
-    if (microcode->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(!microcode->isUndoable());
-        ui->actionEdit_Redo->setDisabled(!microcode->isRedoable());
+    if (microcodePane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(!microcodePane->isUndoable());
+        ui->actionEdit_Redo->setDisabled(!microcodePane->isRedoable());
     }
     else if (mainMemory->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
@@ -280,7 +281,7 @@ void MainWindow::focusChanged(QWidget *, QWidget *)
 
 void MainWindow::setUndoability(bool b)
 {
-    if (microcode->hasFocus()) {
+    if (microcodePane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(!b);
     }
 //    else if (mainMemory->hasFocus()) {
@@ -293,7 +294,7 @@ void MainWindow::setUndoability(bool b)
 
 void MainWindow::setRedoability(bool b)
 {
-    if (microcode->hasFocus()) {
+    if (microcodePane->hasFocus()) {
         ui->actionEdit_Redo->setDisabled(!b);
     }
 //    else if (mainMemory->hasFocus()) {
@@ -306,13 +307,19 @@ void MainWindow::setRedoability(bool b)
 
 void MainWindow::updateSimulation()
 {
-    microcode->updateSimulationView();
+    microcodePane->updateSimulationView();
     objectCodePane->highlightCurrentInstruction();
+}
+
+void MainWindow::simulationFinished()
+{
+    microcodePane->clearSimulationView();
+    objectCodePane->clearSimulationView();
 }
 
 void MainWindow::helpCopyToMicrocodeButtonClicked()
 {
-    microcode->setMicrocode(helpDialog->getExampleText());
+    microcodePane->setMicrocode(helpDialog->getExampleText());
     objectCodePane->setObjectCode("");
     helpDialog->hide();
 }

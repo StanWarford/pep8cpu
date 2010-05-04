@@ -20,6 +20,7 @@ public:
     void setObjectCode(QString string);
 
     void highlightCurrentInstruction();
+    void clearSimulationView();
 
 protected:
     void changeEvent(QEvent *e);
