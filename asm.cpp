@@ -78,7 +78,13 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
     QString localIdentifier = ""; // Saves identifier for processing in the following state.
     Enu::EMnemonic localEnumMnemonic; // Key to Pep:: table lookups.
 
-    code.clear();
+    // The concrete code objects asssigned to code.
+    Microcode *microcode = NULL;
+    CommentOnly *commentOnly = NULL;
+    PreconditionCode *preconditionCode = NULL;
+    PostconditionCode *postconditionCode = NULL;
+    BlankLine *BlankLinev;
+
     Asm::ParseState state = Asm::PS_START;
     do {
         if (!getToken(sourceLine, token, tokenString)) {
@@ -88,6 +94,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
         switch (state) {
         case Asm::PS_START:
             if (token == Asm::LT_IDENTIFIER) {
+                microcode = new Microcode;
                 if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToDecControlMap.value(tokenString.toUpper());
                     localIdentifier = tokenString;
@@ -95,27 +102,31 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 }
                 else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToMemControlMap.value(tokenString.toUpper());
-                    if (code.has(localEnumMnemonic)) {
-                        errorString = "//ERROR: Duplicate control signal, " + tokenString;
-                        return false;
-                    }
-                    code.set(localEnumMnemonic, 1);
+//                    if (microcode->has(localEnumMnemonic)) {
+//                        errorString = "//ERROR: Duplicate control signal, " + tokenString;
+//                        return false;
+//                    }
+                    microcode->set(localEnumMnemonic, 1);
                     state = Asm::PS_CONTINUE_PRE_SEMICOLON;
                 }
                 else if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
                     errorString = "//ERROR: Clock signal (" + tokenString + ") must appear after semicolon";
+                    delete microcode;
                     return false;
                 }
                 else {
                     errorString = "//ERROR: Unrecognized control signal: " + tokenString;
+                    delete microcode;
                     return false;
                 }
             }
             else if (token == Asm::LT_SEMICOLON) {
-                state = Asm::PS_CONTINUE_POST_SEMICOLON;
+                errorString = "//ERROR: No control signals before semicolon.";
+                return false;
             }
             else if (token == Asm::LT_COMMENT) {
-                code.cComment = tokenString;
+                commentOnly = new CommentOnly;
+                commentOnly->cComment = tokenString;
                 state = Asm::PS_COMMENT;
             }
             else if (token == Asm::LT_EMPTY) {
@@ -139,17 +150,17 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
 
         case Asm::PS_DEC_CONTROL:
             if (token == Asm::LT_DIGIT) {
-                if (code.has(localEnumMnemonic)) {
+                if (microcode->has(localEnumMnemonic)) {
                     errorString = "//ERROR: Duplicate control signal, " + localIdentifier;
                     return false;
                 }
                 bool ok;
                 int value = tokenString.toInt(&ok);
-                if (!code.inRange(localEnumMnemonic, value)) {
+                if (!microcode->inRange(localEnumMnemonic, value)) {
                     errorString = "//ERROR: Value " + QString("%1").arg(value) + " is out of range for " + localIdentifier;
                     return false;
                 }
-                code.set(localEnumMnemonic, value);
+                microcode->set(localEnumMnemonic, value);
                 state = Asm::PS_CONTINUE_PRE_SEMICOLON;
             }
             else {
@@ -166,7 +177,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_START_POST_SEMICOLON;
             }
             else if (token == Asm::LT_COMMENT) {
-                code.cComment = tokenString;
+               microcode->cComment = tokenString;
                 state = Asm::PS_COMMENT;
             }
             else if (token == Asm::LT_EMPTY) {
@@ -182,11 +193,11 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             if (token == Asm::LT_IDENTIFIER) {
                 if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToClockControlMap.value(tokenString.toUpper());
-                    if (code.has(localEnumMnemonic)) {
+                    if (microcode->has(localEnumMnemonic)) {
                         errorString = "//ERROR: Duplicate clock signal, " + tokenString;
                         return false;
                     }
-                    code.set(localEnumMnemonic, 1);
+                    microcode->set(localEnumMnemonic, 1);
                     state = Asm::PS_CONTINUE_POST_SEMICOLON;
                 }
                 else if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
@@ -203,7 +214,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 }
             }
             else if (token == Asm::LT_COMMENT) {
-                code.cComment = tokenString;
+                microcode->cComment = tokenString;
                 state = Asm::PS_COMMENT;
             }
             else if (token == Asm::LT_SEMICOLON) {
@@ -227,7 +238,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 return false;
             }
             else if (token == Asm::LT_COMMENT) {
-                code.cComment = tokenString;
+                microcode->cComment = tokenString;
                 state = Asm::PS_COMMENT;
             }
             else if (token == Asm::LT_EMPTY) {
