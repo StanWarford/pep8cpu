@@ -18,22 +18,27 @@ class Code
     friend class CpuPane;
 public:
     virtual ~Code() { }
-    virtual void setCPULabels(CpuPaneGraphicsItems *cpuGraphicsItems) { }
-    virtual void appendObjectCode(QTextEdit *textEdit) { }
+    virtual void clear() { }
+    virtual bool isMicrocode() { return false; }
+    virtual void setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems) { }
+    virtual QString getObjectCode() { return ""; }
+    virtual QString getSourceCode() { return ""; }
     virtual void setPrecondition() { }
-    virtual void setPostcondition() { }
-    virtual bool isMicrocode() = 0;
-    bool has(Enu::EMnemonic field);
-    void set(Enu::EMnemonic field, int value);
-    bool inRange(Enu::EMnemonic field, int value);
-
-private:
+    virtual void testPostcondition() { }
 };
 
 // Concrete code classes
 class Microcode: public Code
 {
     friend class Asm;
+public:
+    void clear();
+    bool Microcode::isMicrocode();
+    void Microcode::setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems);
+    QString getObjectCode();
+    bool has(Enu::EMnemonic field);
+    void set(Enu::EMnemonic field, int value);
+    bool inRange(Enu::EMnemonic field, int value);
 private:
     int cLoadCk;
     int cC;
@@ -53,51 +58,38 @@ private:
     int cMemWrite;
     int cMemRead;
     QString cComment;
-public:
-    void appendObjectCode(QTextEdit *textEdit) { }
-    bool isMicrocode() {return true;}
 };
 
 class CommentOnly: public Code
 {
     friend class Asm;
+public:
+    void clear();
 private:
     QString cComment;
-public:
-    void setCPULabels(CpuPaneGraphicsItems *cpuGraphicsItems) { }
-    void appendObjectCode(QTextEdit *textEdit) { }
-    bool isMicrocode() {return false;}
 };
 
 class PreconditionCode: public Code
 {
     friend class Asm;
+public:
+    void clear();
 private:
     QList<Precondition> preconditionList;
-public:
-    void setCPULabels(CpuPaneGraphicsItems *cpuGraphicsItems) { }
-    void appendObjectCode(QTextEdit *textEdit) { }
-    bool isMicrocode() {return false;}
 };
 
 class PostconditionCode: public Code
 {
     friend class Asm;
+public:
+    void clear();
 private:
     QList<Postcondition> postconditionList;
-public:
-    void setCPULabels(CpuPaneGraphicsItems *cpuGraphicsItems) { }
-    void appendObjectCode(QTextEdit *textEdit) { }
-    bool isMicrocode() {return false;}
 };
 
 class BlankLine: public Code
 {
-    friend class Asm;
-public:
-    void setCPULabels(CpuPaneGraphicsItems *cpuGraphicsItems) { }
-    void appendObjectCode(QTextEdit *textEdit) { }
-    bool isMicrocode() {return false;}
+
 };
 
 #endif // CODE_H

@@ -1,53 +1,6 @@
 #include "code.h"
 
-void Microcode::setCPULabels(CpuPaneGraphicsItems *cpuGraphicsItems)
-{
-    cpuGraphicsItems->loadCk->setChecked(code.cLoadCk != -1);
-    cpuGraphicsItems->cLineEdit->setText(code.cC == -1 ? "" : QString("%1").arg(code.cC));
-    cpuGraphicsItems->bLineEdit->setText(code.cB == -1 ? "" : QString("%1").arg(code.cB));
-    cpuGraphicsItems->aLineEdit->setText(code.cA == -1 ? "" : QString("%1").arg(code.cA));
-    cpuGraphicsItems->MARCk->setChecked(code.cMARCk != -1);
-    cpuGraphicsItems->MDRCk->setChecked(code.cMDRCk != -1);
-    cpuGraphicsItems->aMuxTristateLabel->setState(code.cAMux);
-    cpuGraphicsItems->MDRMuxTristateLabel->setState(code.cMDRMux);
-    cpuGraphicsItems->cMuxTristateLabel->setState(code.cCMux);
-    cpuGraphicsItems->ALULineEdit->setText(code.cALU == -1 ? "" : QString("%1").arg(code.cALU));
-    cpuGraphicsItems->CCkCheckBox->setChecked(code.cCCk != -1);
-    cpuGraphicsItems->VCkCheckBox->setChecked(code.cVCk != -1);
-    cpuGraphicsItems->ANDZTristateLabel->setState(code.cANDZ);
-    cpuGraphicsItems->ZCkCheckBox->setChecked(code.cZCk != -1);
-    cpuGraphicsItems->NCkCheckBox->setChecked(code.cNCk != -1);
-    cpuGraphicsItems->MemReadTristateLabel->setState(code.cMemRead);
-    cpuGraphicsItems->MemWriteTristateLabel->setState(code.cMemWrite);
-}
-
-void Microcode::appendObjectCode(QTextEdit *textEdit)
-{
-    cpuGraphicsItems->loadCk->setChecked(code.cLoadCk != -1);
-    cpuGraphicsItems->cLineEdit->setText(code.cC == -1 ? "" : QString("%1").arg(code.cC));
-    cpuGraphicsItems->bLineEdit->setText(code.cB == -1 ? "" : QString("%1").arg(code.cB));
-    cpuGraphicsItems->aLineEdit->setText(code.cA == -1 ? "" : QString("%1").arg(code.cA));
-    cpuGraphicsItems->MARCk->setChecked(code.cMARCk != -1);
-    cpuGraphicsItems->MDRCk->setChecked(code.cMDRCk != -1);
-    cpuGraphicsItems->aMuxTristateLabel->setState(code.cAMux);
-    cpuGraphicsItems->MDRMuxTristateLabel->setState(code.cMDRMux);
-    cpuGraphicsItems->cMuxTristateLabel->setState(code.cCMux);
-    cpuGraphicsItems->ALULineEdit->setText(code.cALU == -1 ? "" : QString("%1").arg(code.cALU));
-    cpuGraphicsItems->CCkCheckBox->setChecked(code.cCCk != -1);
-    cpuGraphicsItems->VCkCheckBox->setChecked(code.cVCk != -1);
-    cpuGraphicsItems->ANDZTristateLabel->setState(code.cANDZ);
-    cpuGraphicsItems->ZCkCheckBox->setChecked(code.cZCk != -1);
-    cpuGraphicsItems->NCkCheckBox->setChecked(code.cNCk != -1);
-    cpuGraphicsItems->MemReadTristateLabel->setState(code.cMemRead);
-    cpuGraphicsItems->MemWriteTristateLabel->setState(code.cMemWrite);
-}
-
-Code::Code()
-{
-    clear();
-}
-
-void Code::clear()
+void Microcode::clear()
 {
     cLoadCk = -1;
     cC = -1;
@@ -69,7 +22,69 @@ void Code::clear()
     cComment = "";
 }
 
-bool Code::has(Enu::EMnemonic field) {
+void CommentOnly::clear()
+{
+    cComment = "";
+}
+
+void PreconditionCode::clear()
+{
+    preconditionList.clear();
+}
+
+void PostconditionCode::clear()
+{
+    postconditionList.clear();
+}
+
+bool Microcode::isMicrocode() { return true; }
+
+void Microcode::setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems)
+{
+    cpuPaneItems->loadCk->setChecked(cLoadCk != -1);
+    cpuPaneItems->cLineEdit->setText(cC == -1 ? "" : QString("%1").arg(cC));
+    cpuPaneItems->bLineEdit->setText(cB == -1 ? "" : QString("%1").arg(cB));
+    cpuPaneItems->aLineEdit->setText(cA == -1 ? "" : QString("%1").arg(cA));
+    cpuPaneItems->MARCk->setChecked(cMARCk != -1);
+    cpuPaneItems->MDRCk->setChecked(cMDRCk != -1);
+    cpuPaneItems->aMuxTristateLabel->setState(cAMux);
+    cpuPaneItems->MDRMuxTristateLabel->setState(cMDRMux);
+    cpuPaneItems->cMuxTristateLabel->setState(cCMux);
+    cpuPaneItems->ALULineEdit->setText(cALU == -1 ? "" : QString("%1").arg(cALU));
+    cpuPaneItems->CCkCheckBox->setChecked(cCCk != -1);
+    cpuPaneItems->VCkCheckBox->setChecked(cVCk != -1);
+    cpuPaneItems->ANDZTristateLabel->setState(cANDZ);
+    cpuPaneItems->ZCkCheckBox->setChecked(cZCk != -1);
+    cpuPaneItems->NCkCheckBox->setChecked(cNCk != -1);
+    cpuPaneItems->MemReadTristateLabel->setState(cMemRead);
+    cpuPaneItems->MemWriteTristateLabel->setState(cMemWrite);
+}
+
+QString Microcode::getObjectCode()
+{
+    QString str = "";
+    str.append(cLoadCk == -1 ? "  " : QString("%1").arg(cLoadCk, -2));
+    str.append(cC == -1 ? "   " : QString("%1").arg(cC, -3));
+    str.append(cB == -1 ? "   " : QString("%1").arg(cB, -3));
+    str.append(cA == -1 ? "   " : QString("%1").arg(cA, -3));
+    str.append(cMARCk == -1 ? "  " : QString("%1").arg(cMARCk, -2));
+    str.append(cMDRCk == -1 ? "  " : QString("%1").arg(cMDRCk, -2));
+    str.append(cAMux == -1 ? "  " : QString("%1").arg(cAMux, -2));
+    str.append(cMDRMux == -1 ? "  " : QString("%1").arg(cMDRMux, -2));
+    str.append(cCMux == -1 ? "  " : QString("%1").arg(cCMux, -2));
+    str.append(cALU == -1 ? "   " : QString("%1").arg(cALU, -3));
+    str.append(cCCk == -1 ? "  " : QString("%1").arg(cCCk, -2));
+    str.append(cVCk == -1 ? "  " : QString("%1").arg(cVCk, -2));
+    str.append(cANDZ == -1 ? "  " : QString("%1").arg(cANDZ, -2));
+    str.append(cZCk == -1 ? "  " : QString("%1").arg(cZCk, -2));
+    str.append(cNCk == -1 ? "  " : QString("%1").arg(cNCk, -2));
+    str.append(cMemWrite == -1 ? "  " : QString("%1").arg(cMemWrite, -2));
+    str.append(cMemRead == -1 ? "  " : QString("%1").arg(cMemRead, -2));
+    str.append("\n");
+    return str;
+}
+
+bool Microcode::has(Enu::EMnemonic field) {
     switch (field) {
     case Enu::E_LoadCk: return cLoadCk != -1;
     case Enu::E_C: return cC != -1;
@@ -92,7 +107,7 @@ bool Code::has(Enu::EMnemonic field) {
     }
 }
 
-void Code::set(Enu::EMnemonic field, int value) {
+void Microcode::set(Enu::EMnemonic field, int value) {
     switch (field) {
     case Enu::E_LoadCk: cLoadCk = value; break;
     case Enu::E_C: cC = value; break;
@@ -114,7 +129,7 @@ void Code::set(Enu::EMnemonic field, int value) {
     }
 }
 
-bool Code::inRange(Enu::EMnemonic field, int value) {
+bool Microcode::inRange(Enu::EMnemonic field, int value) {
     switch (field) {
     case Enu::E_C: return 0 <= value && value <= 31;
     case Enu::E_B: return 0 <= value && value <= 31;

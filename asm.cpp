@@ -71,7 +71,7 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
     return false;
 }
 
-bool Asm::processSourceLine(QString sourceLine, Code &code, QString &errorString)
+bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorString)
 {
     Asm::ELexicalToken token; // Passed to getToken.
     QString tokenString; // Passed to getToken.

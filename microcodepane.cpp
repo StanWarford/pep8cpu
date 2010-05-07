@@ -40,11 +40,12 @@ bool MicrocodePane::microAssemble()
     QString sourceLine;
     QString errorString;
     QStringList sourceCodeList;
-    Code code;
+    Code *code;
     int lineNum = 0;
-
     removeErrorMessages();
-    Sim::codeList.clear();
+    while (!Sim::codeList.isEmpty()) {
+        delete Sim::codeList.takeFirst();
+    }
     QString sourceCode = editor->toPlainText();
     sourceCodeList = sourceCode.split('\n');
     while (lineNum < sourceCodeList.size()) {
@@ -66,29 +67,10 @@ bool MicrocodePane::microAssemble()
 
 QString MicrocodePane::codeToString() {
     QString str = "";
-    Code code;
+    Code *code;
     for (int i = 0; i < Sim::codeList.size(); ++i) {
         code = Sim::codeList.at(i);
-        if (code.isMicrocode()) {
-            str.append(code.cLoadCk == -1 ? "  " : QString("%1").arg(code.cLoadCk, -2));
-            str.append(code.cC == -1 ? "   " : QString("%1").arg(code.cC, -3));
-            str.append(code.cB == -1 ? "   " : QString("%1").arg(code.cB, -3));
-            str.append(code.cA == -1 ? "   " : QString("%1").arg(code.cA, -3));
-            str.append(code.cMARCk == -1 ? "  " : QString("%1").arg(code.cMARCk, -2));
-            str.append(code.cMDRCk == -1 ? "  " : QString("%1").arg(code.cMDRCk, -2));
-            str.append(code.cAMux == -1 ? "  " : QString("%1").arg(code.cAMux, -2));
-            str.append(code.cMDRMux == -1 ? "  " : QString("%1").arg(code.cMDRMux, -2));
-            str.append(code.cCMux == -1 ? "  " : QString("%1").arg(code.cCMux, -2));
-            str.append(code.cALU == -1 ? "   " : QString("%1").arg(code.cALU, -3));
-            str.append(code.cCCk == -1 ? "  " : QString("%1").arg(code.cCCk, -2));
-            str.append(code.cVCk == -1 ? "  " : QString("%1").arg(code.cVCk, -2));
-            str.append(code.cANDZ == -1 ? "  " : QString("%1").arg(code.cANDZ, -2));
-            str.append(code.cZCk == -1 ? "  " : QString("%1").arg(code.cZCk, -2));
-            str.append(code.cNCk == -1 ? "  " : QString("%1").arg(code.cNCk, -2));
-            str.append(code.cMemWrite == -1 ? "  " : QString("%1").arg(code.cMemWrite, -2));
-            str.append(code.cMemRead == -1 ? "  " : QString("%1").arg(code.cMemRead, -2));
-            str.append("\n");
-        }
+        str.append(code->getObjectCode());
     }
     return str;
 }
