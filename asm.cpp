@@ -95,13 +95,15 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
         case Asm::PS_START:
             if (token == Asm::LT_IDENTIFIER) {
                 if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
-                    microCode = new MicroCode;
+                    microCode = new MicroCode();
+                    code = microCode;
                     localEnumMnemonic = Pep::mnemonToDecControlMap.value(tokenString.toUpper());
                     localIdentifier = tokenString;
                     state = Asm::PS_EQUAL_DEC;
                 }
                 else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
                     microCode = new MicroCode;
+                    code = microCode;
                     localEnumMnemonic = Pep::mnemonToMemControlMap.value(tokenString.toUpper());
                     microCode->set(localEnumMnemonic, 1);
                     state = Asm::PS_CONTINUE_PRE_SEMICOLON;
@@ -120,11 +122,13 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 return false;
             }
             else if (token == Asm::LT_COMMENT) {
-                commentOnlyCode = new CommentOnlyCode(tokenString);
-                code = commentOnlyCode;
+                blankLineCode = new BlankLineCode();
+                code = blankLineCode;
                 state = Asm::PS_COMMENT;
             }
             else if (token == Asm::LT_EMPTY) {
+                commentOnlyCode = new CommentOnlyCode(tokenString);
+                code = commentOnlyCode;
                 state = Asm::PS_FINISH;
             }
             else {
@@ -139,7 +143,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             else {
                 errorString = "//ERROR: Expected = after " + localIdentifier;
-                delete microCode;
+                delete code;
                 return false;
             }
             break;
@@ -148,14 +152,14 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             if (token == Asm::LT_DIGIT) {
                 if (microCode->has(localEnumMnemonic)) {
                     errorString = "//ERROR: Duplicate control signal, " + localIdentifier;
-                    delete microCode;
+                    delete code;
                     return false;
                 }
                 bool ok;
                 int value = tokenString.toInt(&ok);
                 if (!microCode->inRange(localEnumMnemonic, value)) {
                     errorString = "//ERROR: Value " + QString("%1").arg(value) + " is out of range for " + localIdentifier;
-                    delete microCode;
+                    delete code;
                     return false;
                 }
                 microCode->set(localEnumMnemonic, value);
@@ -163,7 +167,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             else {
                 errorString = "//ERROR: Expected decimal number after " + localIdentifier + "=";
-                delete microCode;
+                delete code;
                 return false;
             }
             break;
@@ -184,7 +188,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             else {
                 errorString = "//ERROR: Expected ',' or ';' after control signal";
-                delete microCode;
+                delete code;
                 return false;
             }
             break;
@@ -193,6 +197,11 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             if (token == Asm::LT_IDENTIFIER) {
                 if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToDecControlMap.value(tokenString.toUpper());
+                    if (microCode->has(localEnumMnemonic)) {
+                        errorString = "//ERROR: Duplicate control signal, " + tokenString;
+                        delete code;
+                        return false;
+                    }
                     localIdentifier = tokenString;
                     state = Asm::PS_EQUAL_DEC;
                 }
@@ -200,7 +209,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     localEnumMnemonic = Pep::mnemonToMemControlMap.value(tokenString.toUpper());
                     if (microCode->has(localEnumMnemonic)) {
                         errorString = "//ERROR: Duplicate control signal, " + tokenString;
-                        delete microCode;
+                        delete code;
                         return false;
                     }
                     microCode->set(localEnumMnemonic, 1);
@@ -208,21 +217,21 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 }
                 else if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
                     errorString = "//ERROR: Clock signal (" + tokenString + ") must appear after semicolon";
-                    delete microCode;
+                    delete code;
                     return false;
                 }
                 else {
                     errorString = "//ERROR: Unrecognized control signal: " + tokenString;
-                    delete microCode;
+                    delete code;
                     return false;
                 }
             }
             else if (token == Asm::LT_SEMICOLON) {
-                errorString = "//ERROR: No control signals before semicolon.";
+                errorString = "//ERROR: Control signal expected after comma.";
                 return false;
             }
             else if (token == Asm::LT_COMMENT) {
-                commentOnlyCode->cComment = tokenString;
+                microCode->cComment = tokenString;
                 state = Asm::PS_COMMENT;
             }
             else if (token == Asm::LT_EMPTY) {
@@ -230,6 +239,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             else {
                 errorString = "//ERROR: Syntax error where control signal or comment expected";
+                delete code;
                 return false;
             }
             break;
@@ -240,6 +250,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     localEnumMnemonic = Pep::mnemonToClockControlMap.value(tokenString.toUpper());
                     if (microCode->has(localEnumMnemonic)) {
                         errorString = "//ERROR: Duplicate clock signal, " + tokenString;
+                        delete code;
                         return false;
                     }
                     microCode->set(localEnumMnemonic, 1);
@@ -247,29 +258,35 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 }
                 else if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
                     errorString = "//ERROR: Control signal " + tokenString + " after ';'";
+                    delete code;
                     return false;
                 }
                 else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
                     errorString = "//ERROR: Memory control signal " + tokenString + " after ';'";
+                    delete code;
                     return false;
                 }
                 else {
                     errorString = "//ERROR: Unrecognized clock signal: " + tokenString;
+                    delete code;
                     return false;
                 }
+            }
+            else if (token == Asm::LT_SEMICOLON) {
+                errorString = "//ERROR: Multiple semicolons.";
+                delete code;
+                return false;
             }
             else if (token == Asm::LT_COMMENT) {
                 microCode->cComment = tokenString;
                 state = Asm::PS_COMMENT;
-            }
-            else if (token == Asm::LT_SEMICOLON) {
-                state = Asm::PS_CONTINUE_POST_SEMICOLON;
             }
             else if (token == Asm::LT_EMPTY) {
                 state = Asm::PS_FINISH;
             }
             else {
                 errorString = "//ERROR: Syntax error where clock signal or comment expected.";
+                delete code;
                 return false;
             }
             break;
@@ -280,6 +297,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             else if (token == Asm::LT_SEMICOLON) {
                 errorString = "//ERROR: Multiple semcolons ';'";
+                delete code;
                 return false;
             }
             else if (token == Asm::LT_COMMENT) {
@@ -291,6 +309,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             else {
                 errorString = "//ERROR: Expected ',' after clock signal";
+                delete code;
                 return false;
             }
             break;

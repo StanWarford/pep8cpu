@@ -58,6 +58,11 @@ bool MicrocodePane::microAssemble()
         lineNum++;
     }
 
+    qDebug() << "Sim::codeList.size(): " << Sim::codeList.size();
+    for (int i = 0; i < Sim::codeList.size(); ++i) {
+        qDebug() << Sim::codeList.at(i)->getObjectCode();
+    }
+
     // we guarantee a /n at the end of our document for single step highlighting
     if (!sourceCode.endsWith("\n")) {
         editor->appendPlainText("\n");
