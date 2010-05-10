@@ -231,10 +231,10 @@ void MainWindow::on_actionFile_Open_triggered()
 bool MainWindow::on_actionFile_Save_triggered()
 {
     if (curFile.isEmpty()) {
-        return on_actionFile_Save_Source_As_triggered();
+        return on_actionFile_Save_As_triggered();
     }
     else {
-        return saveFileSource(curSourceFile);
+        return saveFile(curFile);
     }
 }
 
@@ -243,10 +243,12 @@ bool MainWindow::on_actionFile_Save_As_triggered()
     QString fileName = QFileDialog::getSaveFileName(
             this,
             "Save Microcode",
-            curSourceFile.isEmpty() ? curPath + "/untitled.pepcpu" : curPath + "/" + strippedName(curSourceFile),
+            curFile.isEmpty() ? curPath + "/untitled.pepcpu" : curPath + "/" + strippedName(curFile),
             "Pep8 Source (*.pep *.txt)");
-    if (fileName.isEmpty())
+    if (fileName.isEmpty()) {
         return false;
+    }
+    return saveFile(fileName);
 }
 
 // Edit MainWindow triggers
