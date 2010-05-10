@@ -28,7 +28,7 @@ namespace Enu
 
     enum EMnemonic {
         E_LoadCk, E_C, E_B, E_A, E_MARCk, E_MDRCk, E_AMux, E_MDRMux, E_CMux,
-        E_ALU, E_CCk, E_VCk, E_ANDZ, E_ZCk, E_NCk, E_MemWrite, E_MemRead
+        E_ALU, E_CCk, E_VCk, E_ANDZ, E_ZCk, E_NCk, E_MemWrite, E_MemRead, E_Pre, E_Post
     };
 }
 

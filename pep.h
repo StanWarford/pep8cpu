@@ -27,9 +27,11 @@ public:
     static QMap<Enu::EMnemonic, QString> decControlToMnemonMap;
     static QMap<QString, Enu::EMnemonic> mnemonToDecControlMap;
     static QMap<Enu::EMnemonic, QString> memControlToMnemonMap;
+    static QMap<Enu::EMnemonic, QString> specificationToMnemonMap;
     static QMap<QString, Enu::EMnemonic> mnemonToMemControlMap;
     static QMap<Enu::EMnemonic, QString> clockControlToMnemonMap;
     static QMap<QString, Enu::EMnemonic> mnemonToClockControlMap;
+    static QMap<QString, Enu::EMnemonic> mnemonToSpecificationMap;
     static void initEnumMnemonMaps();
 };
 

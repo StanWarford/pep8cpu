@@ -8,7 +8,7 @@
 // Regular expressions for lexical analysis
 QRegExp Asm::rxComment("^//.*");
 QRegExp Asm::rxDigit("^[0-9]+");
-QRegExp Asm::rxIdentifier("^((([A-Z|a-z]{1})(\\w*)))");
+QRegExp Asm::rxIdentifier("^((([A-Z|a-z]{1})(\\w*))(:){0,1})");
 
 bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenString)
 {
@@ -57,6 +57,7 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
             return false;
         }
         token = LT_IDENTIFIER;
+        token = tokenString.endsWith(':') ? LT_PRE_POST : LT_IDENTIFIER;
         tokenString = rxIdentifier.capturedTexts()[0];
         sourceLine.remove(0, tokenString.length());
         return true;
@@ -126,6 +127,14 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 code = blankLineCode;
                 state = Asm::PS_COMMENT;
             }
+            else if (token == Asm::LT_PRE_POST) {
+//                if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
+//                    microCode = new MicroCode();
+//                    code = microCode;
+//                    localEnumMnemonic = Pep::mnemonToDecControlMap.value(tokenString.toUpper());
+//                    localIdentifier = tokenString;
+//                    state = Asm::PS_EQUAL_DEC;
+                }
             else if (token == Asm::LT_EMPTY) {
                 commentOnlyCode = new CommentOnlyCode(tokenString);
                 code = commentOnlyCode;

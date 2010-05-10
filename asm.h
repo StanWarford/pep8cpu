@@ -11,7 +11,7 @@ public:
     // Lexical tokens
     enum ELexicalToken
     {
-        LT_COMMA, LT_COMMENT, LT_DIGIT, LT_EQUALS, LT_EMPTY, LT_IDENTIFIER, LT_SEMICOLON
+        LT_COMMA, LT_COMMENT, LT_DIGIT, LT_EQUALS, LT_EMPTY, LT_IDENTIFIER, LT_PRE_POST, LT_SEMICOLON
     };
 
     enum ParseState
