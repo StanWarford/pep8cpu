@@ -18,7 +18,6 @@ class Code
     friend class CpuPane;
 public:
     virtual ~Code() { }
-    virtual void clear() { }
     virtual bool isMicrocode() { return false; }
     virtual void setCpuLabels(CpuPaneGraphicsItems *) { }
     virtual QString getObjectCode() { return ""; }
@@ -28,13 +27,13 @@ public:
 };
 
 // Concrete code classes
-class Microcode: public Code
+class MicroCode: public Code
 {
     friend class Asm;
 public:
-    void clear();
-    bool Microcode::isMicrocode();
-    void Microcode::setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems);
+    MicroCode();
+    bool MicroCode::isMicrocode();
+    void MicroCode::setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems);
     QString getObjectCode();
     bool has(Enu::EMnemonic field);
     void set(Enu::EMnemonic field, int value);
@@ -60,11 +59,11 @@ private:
     QString cComment;
 };
 
-class CommentOnly: public Code
+class CommentOnlyCode: public Code
 {
     friend class Asm;
 public:
-    void clear();
+    CommentOnlyCode(QString comment);
 private:
     QString cComment;
 };
@@ -72,8 +71,6 @@ private:
 class PreconditionCode: public Code
 {
     friend class Asm;
-public:
-    void clear();
 private:
     QList<Precondition> preconditionList;
 };
@@ -81,13 +78,11 @@ private:
 class PostconditionCode: public Code
 {
     friend class Asm;
-public:
-    void clear();
 private:
     QList<Postcondition> postconditionList;
 };
 
-class BlankLine: public Code
+class BlankLineCode: public Code
 {
 
 };

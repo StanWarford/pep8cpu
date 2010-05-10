@@ -1,6 +1,6 @@
 #include "code.h"
 
-void Microcode::clear()
+MicroCode::MicroCode()
 {
     cLoadCk = -1;
     cC = -1;
@@ -22,24 +22,9 @@ void Microcode::clear()
     cComment = "";
 }
 
-void CommentOnly::clear()
-{
-    cComment = "";
-}
+bool MicroCode::isMicrocode() { return true; }
 
-void PreconditionCode::clear()
-{
-    preconditionList.clear();
-}
-
-void PostconditionCode::clear()
-{
-    postconditionList.clear();
-}
-
-bool Microcode::isMicrocode() { return true; }
-
-void Microcode::setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems)
+void MicroCode::setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems)
 {
     cpuPaneItems->loadCk->setChecked(cLoadCk != -1);
     cpuPaneItems->cLineEdit->setText(cC == -1 ? "" : QString("%1").arg(cC));
@@ -60,7 +45,7 @@ void Microcode::setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems)
     cpuPaneItems->MemWriteTristateLabel->setState(cMemWrite);
 }
 
-QString Microcode::getObjectCode()
+QString MicroCode::getObjectCode()
 {
     QString str = "";
     str.append(cLoadCk == -1 ? "  " : QString("%1").arg(cLoadCk, -2));
@@ -84,7 +69,7 @@ QString Microcode::getObjectCode()
     return str;
 }
 
-bool Microcode::has(Enu::EMnemonic field) {
+bool MicroCode::has(Enu::EMnemonic field) {
     switch (field) {
     case Enu::E_LoadCk: return cLoadCk != -1;
     case Enu::E_C: return cC != -1;
@@ -107,7 +92,7 @@ bool Microcode::has(Enu::EMnemonic field) {
     }
 }
 
-void Microcode::set(Enu::EMnemonic field, int value) {
+void MicroCode::set(Enu::EMnemonic field, int value) {
     switch (field) {
     case Enu::E_LoadCk: cLoadCk = value; break;
     case Enu::E_C: cC = value; break;
@@ -129,7 +114,7 @@ void Microcode::set(Enu::EMnemonic field, int value) {
     }
 }
 
-bool Microcode::inRange(Enu::EMnemonic field, int value) {
+bool MicroCode::inRange(Enu::EMnemonic field, int value) {
     switch (field) {
     case Enu::E_C: return 0 <= value && value <= 31;
     case Enu::E_B: return 0 <= value && value <= 31;
@@ -141,4 +126,9 @@ bool Microcode::inRange(Enu::EMnemonic field, int value) {
     case Enu::E_ANDZ: return 0 <= value && value <= 1;
     default: return true;
     }
+}
+
+CommentOnlyCode::CommentOnlyCode(QString comment)
+{
+    cComment = comment;
 }
