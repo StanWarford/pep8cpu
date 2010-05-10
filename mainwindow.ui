@@ -99,6 +99,7 @@
     <addaction name="actionEdit_Copy"/>
     <addaction name="actionEdit_Paste"/>
     <addaction name="separator"/>
+    <addaction name="actionEdit_Format_From_Object_Code"/>
     <addaction name="actionEdit_Remove_Error_Messages"/>
     <addaction name="separator"/>
     <addaction name="actionEdit_Font"/>
@@ -468,6 +469,14 @@
   <action name="actionEdit_Remove_Error_Messages">
    <property name="text">
     <string>Remove Error Messages</string>
+   </property>
+  </action>
+  <action name="actionEdit_Format_From_Object_Code">
+   <property name="text">
+    <string>Format From Object Code</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
    </property>
   </action>
  </widget>

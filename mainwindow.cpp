@@ -295,6 +295,11 @@ void MainWindow::on_actionEdit_Paste_triggered()
     // other panes should not be able to paste
 }
 
+void MainWindow::on_actionEdit_Format_From_Object_Code_triggered()
+{
+
+}
+
 void MainWindow::on_actionEdit_Remove_Error_Messages_triggered()
 {
     microcodePane->removeErrorMessages();
