@@ -102,6 +102,11 @@ void CpuPane::highlightOnFocus()
     }
 }
 
+bool CpuPane::hasFocus()
+{
+    return ui->graphicsView->hasFocus() || ui->spinBox->hasFocus();
+}
+
 void CpuPane::startDebugging()
 {
     ui->resumePushButton->setEnabled(true);

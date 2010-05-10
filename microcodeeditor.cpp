@@ -73,6 +73,12 @@ void MicrocodeEditor::highlightSimulatedLine()
     setExtraSelections(extraSelections);
 }
 
+void MicrocodeEditor::clearSimulationView()
+{
+    QList<QTextEdit::ExtraSelection> extraSelections;
+    setExtraSelections(extraSelections);
+}
+
 void MicrocodeEditor::resizeEvent(QResizeEvent *e)
 {
     QPlainTextEdit::resizeEvent(e);

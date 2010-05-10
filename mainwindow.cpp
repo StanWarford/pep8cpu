@@ -94,27 +94,45 @@ bool MainWindow::on_actionFile_Save_As_triggered()
 // Edit MainWindow triggers
 void MainWindow::on_actionEdit_Undo_triggered()
 {
-
+    if (microcodePane->hasFocus()) {
+        microcodePane->undo();
+    }
+    // other panes should not be able to undo
 }
 
 void MainWindow::on_actionEdit_Redo_triggered()
 {
-
+    if (microcodePane->hasFocus()) {
+        microcodePane->redo();
+    }
+    // other panes should not be able to redo
 }
 
 void MainWindow::on_actionEdit_Cut_triggered()
 {
-
+    if (microcodePane->hasFocus()) {
+        microcodePane->cut();
+    }
+    // other panes should not be able to cut
 }
 
 void MainWindow::on_actionEdit_Copy_triggered()
 {
-
+    if (microcodePane->hasFocus()) {
+        microcodePane->copy();
+    }
+    else if (objectCodePane->hasFocus()) {
+        objectCodePane->copy();
+    }
+    // other panes should not be able to copy
 }
 
 void MainWindow::on_actionEdit_Paste_triggered()
 {
-
+    if (microcodePane->hasFocus()) {
+        microcodePane->paste();
+    }
+    // other panes should not be able to paste
 }
 
 void MainWindow::on_actionEdit_Remove_Error_Messages_triggered()
@@ -175,7 +193,6 @@ void MainWindow::on_actionSystem_Stop_Debugging_triggered()
     ui->actionSystem_Start_Debugging->setEnabled(true);
     microcodePane->setReadOnly(false);
     cpuPane->stopDebugging();
-
 }
 
 void MainWindow::on_actionSystem_Clear_CPU_triggered()
@@ -265,17 +282,30 @@ void MainWindow::focusChanged(QWidget *, QWidget *)
     if (microcodePane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(!microcodePane->isUndoable());
         ui->actionEdit_Redo->setDisabled(!microcodePane->isRedoable());
+        ui->actionEdit_Cut->setDisabled(false);
+        ui->actionEdit_Copy->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(false);
     }
     else if (mainMemory->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
         ui->actionEdit_Redo->setDisabled(true);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(true);
+        ui->actionEdit_Paste->setDisabled(true);
     }
     else if (cpuPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
         ui->actionEdit_Redo->setDisabled(true);
-//        ui->actionEdit_Cut->setDisabled(true);
-//        ui->actionEdit_Copy->setDisabled(false);
-//        ui->actionEdit_Paste->setDisabled(true);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(true);
+        ui->actionEdit_Paste->setDisabled(true);
+    }
+    else if (objectCodePane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(true);
     }
 }
 
@@ -284,12 +314,15 @@ void MainWindow::setUndoability(bool b)
     if (microcodePane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(!b);
     }
-//    else if (mainMemory->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
-//    else if (cpuPane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
+    else if (mainMemory->hasFocus()) {
+        ui->actionEdit_Redo->setDisabled(true);
+    }
+    else if (cpuPane->hasFocus()) {
+        ui->actionEdit_Redo->setDisabled(true);
+    }
+    else if (objectCodePane->hasFocus()) {
+        ui->actionEdit_Redo->setDisabled(true);
+    }
 }
 
 void MainWindow::setRedoability(bool b)
@@ -297,12 +330,15 @@ void MainWindow::setRedoability(bool b)
     if (microcodePane->hasFocus()) {
         ui->actionEdit_Redo->setDisabled(!b);
     }
-//    else if (mainMemory->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
-//    else if (cpuPane->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
+    else if (mainMemory->hasFocus()) {
+        ui->actionEdit_Redo->setDisabled(true);
+    }
+    else if (cpuPane->hasFocus()) {
+        ui->actionEdit_Redo->setDisabled(true);
+    }
+    else if (objectCodePane->hasFocus()) {
+        ui->actionEdit_Redo->setDisabled(true);
+    }
 }
 
 void MainWindow::updateSimulation()
@@ -315,6 +351,7 @@ void MainWindow::simulationFinished()
 {
     microcodePane->clearSimulationView();
     objectCodePane->clearSimulationView();
+    on_actionSystem_Stop_Debugging_triggered();
 }
 
 void MainWindow::helpCopyToMicrocodeButtonClicked()

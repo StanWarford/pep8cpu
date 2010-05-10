@@ -41,6 +41,12 @@ public:
     bool hasFocus();
     // Returns if the text edit has focus
 
+    void cut();
+    void copy();
+    void paste();
+    void undo();
+    void redo();
+
     bool isUndoable();
     bool isRedoable();
 

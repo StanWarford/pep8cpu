@@ -119,13 +119,13 @@ void MainMemory::cellDataChanged(QTableWidgetItem *item)
     if (contents.contains(rx) && dataOk && addrConvOk) {
         Sim::writeByte(address, data);
         qDebug() << "Sim::Mem[" << address << "]: " << Sim::readByte(address);
-        ui->tableWidget->item(row, 0)->setText(QString("0x") + QString("%1").arg(data, 2, 16).toUpper().trimmed());
+        ui->tableWidget->item(row, 0)->setText(QString("0x") + QString("%1").arg(data, 2, 16, QLatin1Char('0')).toUpper().trimmed());
         ui->tableWidget->item(row, 1)->setText(QString("%1").arg(data, 10).trimmed());
     }
     else if (addrConvOk && !dataOk) {
         qDebug() << "Conversion from text to int failed. data = " << item->text();
         data = Sim::readByte(address);
-        ui->tableWidget->item(row, 0)->setText(QString("0x") + QString("%1").arg(data, 2, 16).toUpper().trimmed());
+        ui->tableWidget->item(row, 0)->setText(QString("0x") + QString("%1").arg(data, 2, 16, QLatin1Char('0')).toUpper().trimmed());
         ui->tableWidget->item(row, 1)->setText(QString("%1").arg(data, 10).trimmed());
     }
     else if (addrConvOk) { // we have problems, the labels are incorrectly formatted

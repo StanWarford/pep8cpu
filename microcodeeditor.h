@@ -24,6 +24,7 @@ public:
     int lineNumberAreaWidth();
 
     void highlightSimulatedLine();
+    void clearSimulationView();
 
 protected:
     void resizeEvent(QResizeEvent *event);

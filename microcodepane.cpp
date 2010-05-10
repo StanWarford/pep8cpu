@@ -130,6 +130,31 @@ bool MicrocodePane::hasFocus()
     return editor->hasFocus();
 }
 
+void MicrocodePane::cut()
+{
+    editor->cut();
+}
+
+void MicrocodePane::copy()
+{
+    editor->copy();
+}
+
+void MicrocodePane::paste()
+{
+    editor->paste();
+}
+
+void MicrocodePane::undo()
+{
+    editor->undo();
+}
+
+void MicrocodePane::redo()
+{
+    editor->redo();
+}
+
 bool MicrocodePane::isUndoable()
 {
     return editor->document()->isUndoAvailable();
@@ -152,7 +177,7 @@ void MicrocodePane::updateSimulationView()
 
 void MicrocodePane::clearSimulationView()
 {
-    editor->extraSelections().clear();
+    editor->clearSimulationView();
 }
 
 void MicrocodePane::changeEvent(QEvent *e)

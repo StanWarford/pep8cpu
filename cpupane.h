@@ -22,6 +22,7 @@ public:
     ~CpuPane();
 
     void highlightOnFocus();
+    bool hasFocus();
 
     void startDebugging();
     void stopDebugging();

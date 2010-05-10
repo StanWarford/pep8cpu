@@ -22,6 +22,8 @@ public:
     void highlightCurrentInstruction();
     void clearSimulationView();
 
+    void copy();
+
 protected:
     void changeEvent(QEvent *e);
 

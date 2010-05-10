@@ -54,8 +54,13 @@ void ObjectCodePane::highlightCurrentInstruction()
 
 void ObjectCodePane::clearSimulationView()
 {
-    qDebug() << "clearing OCP extra selections";
-    ui->plainTextEdit->extraSelections().clear();
+    QList<QTextEdit::ExtraSelection> extraSelections;
+    ui->plainTextEdit->setExtraSelections(extraSelections);
+}
+
+void ObjectCodePane::copy()
+{
+    ui->plainTextEdit->copy();
 }
 
 void ObjectCodePane::changeEvent(QEvent *e)
