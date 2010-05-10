@@ -16,6 +16,8 @@
 #include "cpupane.h"
 #include "helpdialog.h"
 
+#include <QDir>
+
 namespace Ui {
     class MainWindow;
 }
@@ -28,6 +30,7 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
+    void closeEvent(QCloseEvent *e);
 
 private:
     Ui::MainWindow *ui;
@@ -46,7 +49,21 @@ private:
 
     HelpDialog *helpDialog;
 
-private slots:
+    void readSettings();
+    void writeSettings();
+
+    // Save methods
+    bool save();
+    bool maybeSave();
+    void loadFile(const QString &fileName);
+    bool saveFile(const QString &fileName);
+    void setCurrentFile(const QString &fileName);
+    QString strippedName(const QString &fullFileName);
+
+    QString curFile;
+    QString curPath;
+
+private slots:    
 
     // File
     void on_actionFile_New_triggered();

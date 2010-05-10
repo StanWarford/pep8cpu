@@ -35,6 +35,9 @@ public:
     void setMicrocode(QString microcode);
     // Post: Set
 
+    QString getMicrocode();
+    // Post: returns the text of the editor
+
     void highlightOnFocus();
     // Highlights the label based on the label window color saved in the UI file
 
@@ -51,6 +54,9 @@ public:
     bool isRedoable();
 
     void setReadOnly(bool ro);
+
+    bool isModified();
+    void setModifiedFalse();
 
     void updateSimulationView();
     void clearSimulationView();

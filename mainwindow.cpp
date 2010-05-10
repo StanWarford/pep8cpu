@@ -3,6 +3,11 @@
 
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QSettings>
+#include <QMessageBox>
+#include <QTextStream>
+#include <QTextCodec>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -51,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Pep::initEnumMnemonMaps();
 
+    readSettings();
 }
 
 MainWindow::~MainWindow()
@@ -70,25 +76,177 @@ void MainWindow::changeEvent(QEvent *e)
     }
 }
 
+// Protected closeEvent
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (maybeSave()) {
+        writeSettings();
+        event->accept();
+    }
+    else {
+        event->ignore();
+    }
+}
+
+void MainWindow::readSettings()
+{
+    QSettings settings("Pep8CPU", "MainWindow");
+    QDesktopWidget *desktop = QApplication::desktop();
+    int width = static_cast<int>(desktop->width() * 0.80);
+    int height = static_cast<int>(desktop->height() * 0.70);
+    int screenWidth = desktop->width();
+    int screenHeight = desktop->height();
+    QPoint pos = settings.value("pos", QPoint((screenWidth - width) / 2, (screenHeight - height) / 2)).toPoint();
+    QSize size = settings.value("size", QSize(width, height)).toSize();
+    if (Pep::getSystem() == "Mac") {
+        pos.setY(pos.y() + 20); // Every time the app launches, it seems OSX moves the window 20 pixels up the screen, so we compensate here.
+    }
+    else if (Pep::getSystem() == "Linux") { // Linux has a similar issue, so compensate here.
+        pos.setY(pos.y() - 20);
+    }
+    if (pos.x() > width || pos.x() < 0 || pos.y() > height || pos.y() < 0) {
+        pos = QPoint(0, 0);
+    }
+    resize(size);
+    move(pos);
+    curPath = settings.value("filePath", QDir::homePath()).toString();
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings("Pep8CPU", "MainWindow");
+    settings.setValue("pos", pos());
+    settings.setValue("size", size());
+    settings.setValue("filePath", curPath);
+}
+
+// Save methods
+bool MainWindow::save()
+{
+    if (curFile.isEmpty()) {
+        return on_actionFile_Save_As_triggered();
+    }
+    else {
+        return saveFile(curFile);
+    }
+}
+
+bool MainWindow::maybeSave()
+{
+    if (microcodePane->isModified()) {
+        QMessageBox::StandardButton ret;
+        ret = QMessageBox::warning(this, "Pep/8 CPU",
+                                   "The microcode has been modified.\n"
+                                   "Do you want to save your changes?",
+                                   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+        if (ret == QMessageBox::Save)
+            return save();
+        else if (ret == QMessageBox::Cancel)
+            return false;
+    }
+    return true;
+}
+
+void MainWindow::loadFile(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("Pep/8 CPU"), tr("Cannot read file %1:\n%2.")
+                             .arg(fileName).arg(file.errorString()));
+        return;
+    }
+
+    QTextStream in(&file);
+    in.setCodec(QTextCodec::codecForName("ISO 8859-1"));
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    // Set source code pane text
+    microcodePane->setMicrocode(in.readAll());
+    setCurrentFile(fileName);
+    statusBar()->showMessage(tr("File loaded"), 4000);
+    QApplication::restoreOverrideCursor();
+}
+
+bool MainWindow::saveFile(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("Pep/8 CPU"),
+                             tr("Cannot write file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return false;
+    }
+
+    QTextStream out(&file);
+    out.setCodec(QTextCodec::codecForName("ISO 8859-1"));
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    out << microcodePane->getMicrocode();
+    QApplication::restoreOverrideCursor();
+
+    setCurrentFile(fileName);
+    statusBar()->showMessage("Microcode saved", 4000);
+    return true;
+}
+
+void MainWindow::setCurrentFile(const QString &fileName)
+{
+    curFile = fileName;
+    microcodePane->setModifiedFalse();
+
+    if (!fileName.isEmpty()) {
+        curPath = QFileInfo(fileName).path();
+    }
+}
+
+QString MainWindow::strippedName(const QString &fullFileName)
+{
+    return QFileInfo(fullFileName).fileName();
+}
+
 // File MainWindow triggers
 void MainWindow::on_actionFile_New_triggered()
 {
-
+    if (maybeSave()) {
+        microcodePane->setMicrocode("");
+        objectCodePane->setObjectCode("");
+        setCurrentFile("");
+    }
 }
 
 void MainWindow::on_actionFile_Open_triggered()
 {
-
+    if (maybeSave()) {
+        QString fileName = QFileDialog::getOpenFileName(
+                this,
+                "Open text file",
+                curPath,
+                "Text files (*.pepo *.txt *.pep)");
+        if (!fileName.isEmpty()) {
+            loadFile(fileName);
+            curPath = QFileInfo(fileName).path();
+        }
+    }
 }
 
 bool MainWindow::on_actionFile_Save_triggered()
 {
-    return true;
+    if (curFile.isEmpty()) {
+        return on_actionFile_Save_Source_As_triggered();
+    }
+    else {
+        return saveFileSource(curSourceFile);
+    }
 }
 
 bool MainWindow::on_actionFile_Save_As_triggered()
 {
-    return true;
+    QString fileName = QFileDialog::getSaveFileName(
+            this,
+            "Save Microcode",
+            curSourceFile.isEmpty() ? curPath + "/untitled.pepcpu" : curPath + "/" + strippedName(curSourceFile),
+            "Pep8 Source (*.pep *.txt)");
+    if (fileName.isEmpty())
+        return false;
 }
 
 // Edit MainWindow triggers

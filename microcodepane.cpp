@@ -120,6 +120,11 @@ void MicrocodePane::setMicrocode(QString microcode)
     editor->setPlainText(microcode);
 }
 
+QString MicrocodePane::getMicrocode()
+{
+    return editor->toPlainText();
+}
+
 void MicrocodePane::highlightOnFocus()
 {
     if (editor->hasFocus()) {
@@ -173,6 +178,16 @@ bool MicrocodePane::isRedoable()
 void MicrocodePane::setReadOnly(bool ro)
 {
     editor->setReadOnly(ro);
+}
+
+bool MicrocodePane::isModified()
+{
+    return editor->document()->isModified();
+}
+
+void MicrocodePane::setModifiedFalse()
+{
+    editor->document()->setModified(false);
 }
 
 void MicrocodePane::updateSimulationView()

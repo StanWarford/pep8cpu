@@ -30,6 +30,7 @@ void Sim::writeByte(int memAddr, int value)
 bool Sim::advanceSimulation()
 {
 
+    return true;
 }
 
 bool Sim::atEndOfSim()

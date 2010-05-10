@@ -97,6 +97,7 @@ bool MainMemory::hasFocus()
 
 void MainMemory::sliderMoved(int pos)
 {
+    (void)pos;
     populateMemoryItems();
 }
 
@@ -173,6 +174,7 @@ void MainMemory::changeEvent(QEvent *e)
 
 void MainMemory::resizeEvent(QResizeEvent *e)
 {
+    (void)e;
     qDebug() << "resize event";
 
     int newRowCount = ui->tableWidget->height()/ui->tableWidget->rowHeight(0) + 1;
