@@ -83,7 +83,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
     CommentOnly *commentOnly = NULL;
     PreconditionCode *preconditionCode = NULL;
     PostconditionCode *postconditionCode = NULL;
-    BlankLine *BlankLinev;
+    BlankLine *BlankLine = NULL;
 
     Asm::ParseState state = Asm::PS_START;
     do {

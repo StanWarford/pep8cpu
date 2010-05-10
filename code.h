@@ -20,7 +20,7 @@ public:
     virtual ~Code() { }
     virtual void clear() { }
     virtual bool isMicrocode() { return false; }
-    virtual void setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems) { }
+    virtual void setCpuLabels(CpuPaneGraphicsItems *) { }
     virtual QString getObjectCode() { return ""; }
     virtual QString getSourceCode() { return ""; }
     virtual void setPrecondition() { }
