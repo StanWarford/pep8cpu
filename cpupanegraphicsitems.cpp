@@ -227,6 +227,166 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     QGraphicsRectItem *rectItem;
     scene->addRect(5, 5, 491, 113, QPen(QBrush(Qt::lightGray, Qt::SolidPattern), 2, Qt::DotLine, Qt::SquareCap, Qt::BevelJoin));
 
+    QLabel *ph;
+    ph = new QLabel("A");
+    ph->setAlignment(Qt::AlignCenter);
+    ph->setGeometry(0,0,20,22);
+    scene->addWidget(ph);
+//    ph->setFont(font());
+//    ph = new QLabel ("0,1", this);
+//    ph->setAlignment(Qt::AlignCenter);
+//    ph->setGeometry(110,0,20,22);
+//    ph->setFont(font());
+//    A = new Register16(20,0, this);
+//    QObject::connect(A, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
+//
+//    X_Label = new QLabel ("X", this);
+//    X_Label->setAlignment(Qt::AlignCenter);
+//    X_Label->setGeometry(0,22,20,22);
+//    X_Label->setFont(font());
+//    X_Label_2 = new QLabel ("2,3", this);
+//    X_Label_2->setAlignment(Qt::AlignCenter);
+//    X_Label_2->setGeometry(110,22,20,22);
+//    X_Label_2->setFont(font());
+//    X = new Register16(20,22, this);
+//    QObject::connect(X, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
+//
+//    SP_Label = new QLabel ("SP", this);
+//    SP_Label->setAlignment(Qt::AlignCenter);
+//    SP_Label->setGeometry(0,44,20,22);
+//    SP_Label->setFont(font());
+//    SP_Label_2 = new QLabel ("4,5", this);
+//    SP_Label_2->setAlignment(Qt::AlignCenter);
+//    SP_Label_2->setGeometry(110,44,20,22);
+//    SP_Label_2->setFont(font());
+//    SP = new Register16(20,44, this);
+//    QObject::connect(SP, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
+//
+//    PC_Label = new QLabel ("PC", this);
+//    PC_Label->setAlignment(Qt::AlignCenter);
+//    PC_Label->setGeometry(0,66,20,22);
+//    PC_Label->setFont(font());
+//    PC_Label_2 = new QLabel ("6,7", this);
+//    PC_Label_2->setAlignment(Qt::AlignCenter);
+//    PC_Label_2->setGeometry(110,66,20,22);
+//    PC_Label_2->setFont(font());
+//    PC = new Register16(20,66, this);
+//    QObject::connect(PC, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
+//
+//    IR_Label = new QLabel ("IR", this);
+//    IR_Label->setAlignment(Qt::AlignCenter);
+//    IR_Label->setGeometry(135,0,20,22);
+//    IR_Label->setFont(font());
+//    IR_Label_2 = new QLabel ("8-10", this);
+//    IR_Label_2->setAlignment(Qt::AlignCenter);
+//    IR_Label_2->setGeometry(230,0,35,22);
+//    IR_Label_2->setFont(font());
+//    IRIS = new Register8(155,0, this);	/*Instruction register, instruction specifier (IRIS) */
+//    QObject::connect(IRIS, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
+//    IROS = new Register16(155,22, this);	/*Instruction register, operand specifier (IROS)*/
+//    QObject::connect(IROS, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
+//
+//    Temp1_Label = new QLabel ("T1", this);
+//    Temp1_Label->setAlignment(Qt::AlignCenter);
+//    Temp1_Label->setGeometry(135,44,20,22);
+//    Temp1_Label->setFont(font());
+//    Temp1_Label_2 = new QLabel ("11", this);
+//    Temp1_Label_2->setAlignment(Qt::AlignCenter);
+//    Temp1_Label_2->setGeometry(230,44,35,22);
+//    Temp1_Label_2->setFont(font());
+//    Temp1 = new HexLineEdit8(155,44, this);
+//    QObject::connect(Temp1, SIGNAL(textChanged( const QString &)), this, SLOT(slotRegisterChanged()));
+//
+//    Temp2_Label = new QLabel ("T2", this);
+//    Temp2_Label->setAlignment(Qt::AlignCenter);
+//    Temp2_Label->setGeometry(135,66,20,22);
+//    Temp2_Label->setFont(font());
+//    Temp2_Label_2 = new QLabel ("12,13", this);
+//    Temp2_Label_2->setAlignment(Qt::AlignCenter);
+//    Temp2_Label_2->setGeometry(230,66,35,22);
+//    Temp2_Label_2->setFont(font());
+//    Temp2 = new HexLineEdit16(155,66, this);
+//    QObject::connect(Temp2, SIGNAL(textChanged( const QString &)), this, SLOT(slotRegisterChanged()));
+//
+//    Temp3_Label = new QLabel ("T3", this);
+//    Temp3_Label->setAlignment(Qt::AlignCenter);
+//    Temp3_Label->setGeometry(270,0,20,22);
+//    Temp3_Label->setFont(font());
+//    Temp3_Label_2 = new QLabel ("14,15", this);
+//    Temp3_Label_2->setAlignment(Qt::AlignCenter);
+//    Temp3_Label_2->setGeometry(338,0,40,22);
+//    Temp3_Label_2->setFont(font());
+//    Temp3 = new HexLineEdit16(290,0, this);
+//    QObject::connect(Temp3, SIGNAL(textChanged( const QString &)), this, SLOT(slotRegisterChanged()));
+//
+//    Temp4_Label = new QLabel ("T4", this);
+//    Temp4_Label->setAlignment(Qt::AlignCenter);
+//    Temp4_Label->setGeometry(270,22,20,22);
+//    Temp4_Label->setFont(font());
+//    Temp4_Label_2 = new QLabel ("16,17", this);
+//    Temp4_Label_2->setAlignment(Qt::AlignCenter);
+//    Temp4_Label_2->setGeometry(338,22,40,22);
+//    Temp4_Label_2->setFont(font());
+//    Temp4 = new HexLineEdit16(290,22, this);
+//    QObject::connect(Temp4, SIGNAL(textChanged( const QString &)), this, SLOT(slotRegisterChanged()));
+//
+//    Temp5_Label = new QLabel ("T5", this);
+//    Temp5_Label->setAlignment(Qt::AlignCenter);
+//    Temp5_Label->setGeometry(270,44,20,22);
+//    Temp5_Label->setFont(font());
+//    Temp5_Label_2 = new QLabel ("18,19", this);
+//    Temp5_Label_2->setAlignment(Qt::AlignCenter);
+//    Temp5_Label_2->setGeometry(338,44,40,22);
+//    Temp5_Label_2->setFont(font());
+//    Temp5 = new HexLineEdit16(290,44, this);
+//    QObject::connect(Temp5, SIGNAL(textChanged( const QString &)), this, SLOT(slotRegisterChanged()));
+//
+//    Temp6_Label = new QLabel ("T6", this);
+//    Temp6_Label->setAlignment(Qt::AlignCenter);
+//    Temp6_Label->setGeometry(270,66,20,22);
+//    Temp6_Label->setFont(font());
+//    Temp6_Label_2 = new QLabel ("20,21", this);
+//    Temp6_Label_2->setAlignment(Qt::AlignCenter);
+//    Temp6_Label_2->setGeometry(338,66,40,22);
+//    Temp6_Label_2->setFont(font());
+//    Temp6 = new HexLineEdit16(290,66, this);
+//    QObject::connect(Temp6, SIGNAL(textChanged( const QString &)), this, SLOT(slotRegisterChanged()));
+//
+//    M1_Label = new QLabel("M1 0x0001", this);
+//    M1_Label->setGeometry(383,0, 75,22);
+//    M1_Label->setFont(font());
+//    M1_Label_2 = new QLabel("22,23", this);
+//    M1_Label_2->setGeometry(453,0, 35,22);
+//    M1_Label_2->setFont(font());
+//
+//    M2_Label = new QLabel("M2 0x0203", this);
+//    M2_Label->setGeometry(383,22, 75,22);
+//    M2_Label->setFont(font());
+//    M2_Label_2 = new QLabel("24,25", this);
+//    M2_Label_2->setGeometry(453,22, 35,22);
+//    M2_Label_2->setFont(font());
+//
+//    M3_Label = new QLabel("M3 0x0408", this);
+//    M3_Label->setGeometry(383,44, 75,22);
+//    M3_Label->setFont(font());
+//    M3_Label_2 = new QLabel("26,27", this);
+//    M3_Label_2->setGeometry(453,44, 35,22);
+//    M3_Label_2->setFont(font());
+//
+//    M4_Label = new QLabel("M4 0xfafc", this);
+//    M4_Label->setGeometry(383,66, 75,22);
+//    M4_Label->setFont(font());
+//    M4_Label_2 = new QLabel("28,29", this);
+//    M4_Label_2->setGeometry(453,66, 35,22);
+//    M4_Label_2->setFont(font());
+//
+//    M5_Label = new QLabel("M5 0xfeff", this);
+//    M5_Label->setGeometry(383,88, 75,22);
+//    M5_Label->setFont(font());
+//    M5_Label_2 = new QLabel("30,31", this);
+//    M5_Label_2->setGeometry(453,88, 35,22);
+//    M5_Label_2->setFont(font());
+
     // MARA & MARB
     scene->addRect(175, 132, 69, 19);
     scene->addRect(175, 202, 69, 19);

@@ -16,6 +16,7 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
+    // OUTSIDE REGISTERS
     QCheckBox *loadCk;
     QLabel *cLabel;
     QLineEdit *cLineEdit;
@@ -67,6 +68,9 @@ public:
 
     QLabel *MemWriteLabel;
     TristateLabel *MemWriteTristateLabel;
+
+    // REGISTER BANK
+
 
 private:
     QGraphicsScene *parentScene;

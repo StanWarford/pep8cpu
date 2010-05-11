@@ -14,9 +14,9 @@ MainMemory::MainMemory(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->setColumnCount(1);
     QStringList columns;
-    columns << "Hex" << "Dec";
+    columns << "Hex";
     ui->tableWidget->setHorizontalHeaderLabels(columns);
 
     ui->tableWidget->setRowCount(1);
@@ -27,7 +27,6 @@ MainMemory::MainMemory(QWidget *parent) :
 
     int address = 0x0000;
     ui->tableWidget->setItem(0, 0, new QTableWidgetItem(QString("0x") + QString("%1").arg(Sim::readByte(address), 2, 16).toUpper().trimmed()));
-    ui->tableWidget->setItem(0, 1, new QTableWidgetItem(QString("%1").arg(Sim::readByte(address)).trimmed()));
 
     refreshMemory();
 
@@ -38,7 +37,6 @@ MainMemory::MainMemory(QWidget *parent) :
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 
     connect(ui->lineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToAddress(QString)));
-    ui->lineEdit->setFont(QFont("Courier"));
 
     ui->tableWidget->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
 }
@@ -72,7 +70,6 @@ void MainMemory::refreshMemory()
         address = ui->tableWidget->verticalHeaderItem(i)->text().toInt(&ok, 16);
         if (ok) {
             ui->tableWidget->item(i, 0)->setText(QString("0x%1").arg(Sim::readByte(address), 2, 16, QLatin1Char('0')));
-            ui->tableWidget->item(i, 1)->setText(QString("%1").arg(Sim::readByte(address)));
         }
     }
 
@@ -121,13 +118,11 @@ void MainMemory::cellDataChanged(QTableWidgetItem *item)
         Sim::writeByte(address, data);
         qDebug() << "Sim::Mem[" << address << "]: " << Sim::readByte(address);
         ui->tableWidget->item(row, 0)->setText(QString("0x") + QString("%1").arg(data, 2, 16, QLatin1Char('0')).toUpper().trimmed());
-        ui->tableWidget->item(row, 1)->setText(QString("%1").arg(data, 10).trimmed());
     }
     else if (addrConvOk && !dataOk) {
         qDebug() << "Conversion from text to int failed. data = " << item->text();
         data = Sim::readByte(address);
         ui->tableWidget->item(row, 0)->setText(QString("0x") + QString("%1").arg(data, 2, 16, QLatin1Char('0')).toUpper().trimmed());
-        ui->tableWidget->item(row, 1)->setText(QString("%1").arg(data, 10).trimmed());
     }
     else if (addrConvOk) { // we have problems, the labels are incorrectly formatted
         populateMemoryItems();
@@ -178,13 +173,12 @@ void MainMemory::resizeEvent(QResizeEvent *e)
     qDebug() << "resize event";
 
     int newRowCount = ui->tableWidget->height()/ui->tableWidget->rowHeight(0) + 1;
-    // +2 to make it look like we're actually scrolling and not shuffling items
+    // +1 to make it look like we're actually scrolling and not shuffling items
     if (newRowCount > oldRowCount) {
         ui->tableWidget->setRowCount(newRowCount);
 
         bool addrConvOk;
         int address;
-
 
         for (int i = oldRowCount; i < newRowCount; i++) {
             rows << QString("0x%1").arg(i, 4, 16, QLatin1Char('0'));
@@ -197,7 +191,6 @@ void MainMemory::resizeEvent(QResizeEvent *e)
             address = ui->tableWidget->verticalHeaderItem(row)->text().toInt(&addrConvOk, 16);
             if (addrConvOk) {
                 ui->tableWidget->setItem(row, 0, new QTableWidgetItem(QString("0x") + QString("%1").arg(Sim::readByte(address), 2, 16).toUpper().trimmed()));
-                ui->tableWidget->setItem(row, 1, new QTableWidgetItem(QString("%1").arg(Sim::readByte(address)).trimmed()));
             }
             else { // malformed address labels
             }
@@ -211,7 +204,6 @@ void MainMemory::resizeEvent(QResizeEvent *e)
         ui->tableWidget->setRowCount(newRowCount);
         for (int i = oldRowCount; i > newRowCount; i--) {
             delete ui->tableWidget->item(i, 0);
-            delete ui->tableWidget->item(i, 1);
             rows.removeLast();
         }
         refreshMemory();

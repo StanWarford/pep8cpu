@@ -124,3 +124,9 @@ void HelpDialog::copy()
         QApplication::clipboard()->setText(ui->helpTopWebView->selectedText());
     }
 }
+
+bool HelpDialog::hasFocus()
+{
+    return ui->helpTextEdit->hasFocus() || ui->helpTopWebView->hasFocus();
+}
+

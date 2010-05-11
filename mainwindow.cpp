@@ -284,6 +284,9 @@ void MainWindow::on_actionEdit_Copy_triggered()
     else if (objectCodePane->hasFocus()) {
         objectCodePane->copy();
     }
+    else if (helpDialog->hasFocus()) {
+        helpDialog->copy();
+    }
     // other panes should not be able to copy
 }
 
@@ -526,8 +529,19 @@ void MainWindow::simulationFinished()
 
 void MainWindow::helpCopyToMicrocodeButtonClicked()
 {
-    microcodePane->setMicrocode(helpDialog->getExampleText());
-    objectCodePane->setObjectCode("");
-    helpDialog->hide();
+    if (maybeSave()) {
+        microcodePane->setMicrocode(helpDialog->getExampleText());
+        objectCodePane->setObjectCode("");
+        helpDialog->hide();
+        statusBar()->showMessage("Copied to microcode", 4000);
+    }
 }
+
+
+
+
+
+
+
+
 

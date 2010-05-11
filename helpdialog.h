@@ -20,6 +20,9 @@ public:
     void copy();
     // Post: the text edit that has focus has the copy() operation performed
 
+    bool hasFocus();
+    // Returns if the webview or the textedit has focus
+
 protected:
     void changeEvent(QEvent *e);
 
