@@ -11,20 +11,23 @@ public:
     // Lexical tokens
     enum ELexicalToken
     {
-        LT_COMMA, LT_COMMENT, LT_DIGIT, LT_EQUALS, LT_EMPTY, LT_IDENTIFIER, LT_PRE_POST, LT_SEMICOLON
+        LT_COMMA, LT_COMMENT, LT_DIGIT, LT_EQUALS, LT_EMPTY, LT_IDENTIFIER, LT_PRE_POST, LT_SEMICOLON,
+        LT_LEFT_BRACKET, LT_RIGHT_BRACKET, LT_HEX_CONSTANT
     };
 
     enum ParseState
     {
         PS_COMMENT, PS_CONTINUE_POST_SEMICOLON, PS_CONTINUE_PRE_SEMICOLON, PS_CONTINUE_PRE_SEMICOLON_POST_COMMA,
         PS_DEC_CONTROL, PS_EQUAL_DEC, PS_FINISH, PS_START, PS_START_POST_SEMICOLON, PS_START_POSTCONDITION,
-        PS_START_PRECONDITION
+        PS_START_SPECIFICATION, PS_EXPECT_LEFT_BRACKET, PS_EXPECT_HEX_ADDRESS, PS_EXPECT_HEX_MEM_VALUE,
+        PS_CONTINUE_SPECIFICATION
     };
 
     // Regular expressions for lexical analysis
     static QRegExp rxComment;
     static QRegExp rxDigit;
     static QRegExp rxIdentifier;
+    static QRegExp rxHexConst;
 
     static bool getToken(QString &sourceLine, ELexicalToken &token, QString &tokenString);
     // Pre: sourceLine has one line of source code.
@@ -39,6 +42,9 @@ public:
     // Post: If the source line is not valid, false is returned and errorString is set to the error message.
     // Checks for out of range integer values.
     // The only detected resource conflict checked is for duplicated fields.
+
+    static bool startsWithHexPrefix(QString str);
+    // Post: Returns true if str starts with the characters 0x or 0X. Otherwise returns false.
 
 };
 

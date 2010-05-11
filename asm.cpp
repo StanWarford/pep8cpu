@@ -9,6 +9,7 @@
 QRegExp Asm::rxComment("^//.*");
 QRegExp Asm::rxDigit("^[0-9]+");
 QRegExp Asm::rxIdentifier("^((([A-Z|a-z]{1})(\\w*))(:){0,1})");
+QRegExp Asm::rxHexConst("^((0(?![x|X]))|((0)([x|X])([0-9|A-F|a-f])+)|((0)([0-9]+)))");
 
 bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenString)
 {
@@ -25,6 +26,18 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
         sourceLine.remove(0, tokenString.length());
         return true;
     }
+    if (firstChar == '[') {
+        token = LT_LEFT_BRACKET;
+        tokenString = "[";
+        sourceLine.remove(0, tokenString.length());
+        return true;
+    }
+    if (firstChar == ']') {
+        token = LT_RIGHT_BRACKET;
+        tokenString = "]";
+        sourceLine.remove(0, tokenString.length());
+        return true;
+    }
     if (firstChar == '/') {
         if (rxComment.indexIn(sourceLine) == -1) {
             tokenString = "//ERROR: Malformed comment"; // Should occur with single "/".
@@ -32,6 +45,16 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
         }
         token = LT_COMMENT;
         tokenString = rxComment.capturedTexts()[0];
+        sourceLine.remove(0, tokenString.length());
+        return true;
+    }
+    if (startsWithHexPrefix(sourceLine)) {
+        if (rxHexConst.indexIn(sourceLine) == -1) {
+            tokenString = ";ERROR: Malformed hex constant.";
+            return false;
+        }
+        token = LT_HEX_CONSTANT;
+        tokenString = rxHexConst.capturedTexts()[0];
         sourceLine.remove(0, tokenString.length());
         return true;
     }
@@ -132,12 +155,12 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     if (Pep::mnemonToSpecificationMap.value(tokenString.toUpper()) == Enu::E_Pre) {
                         preconditionCode = new PreconditionCode();
                         code = preconditionCode;
-                        state = PS_START_PRECONDITION;
+                        state = PS_START_SPECIFICATION;
                     }
                     else { // E_Post
                         postconditionCode = new PostconditionCode();
                         code = postconditionCode;
-                        state = PS_START_POSTCONDITION;
+                        state = PS_START_SPECIFICATION;
                     }
                 }
                 else {
@@ -333,10 +356,10 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             break;
 
-        case Asm::PS_START_PRECONDITION:
+        case Asm::PS_START_SPECIFICATION:
             if (token == Asm::LT_IDENTIFIER) {
-                if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
-                    localEnumMnemonic = Pep::mnemonToClockControlMap.value(tokenString.toUpper());
+                if (Pep::mnemonToMemSpecMap.contains(tokenString.toUpper())) {
+                    localEnumMnemonic = Pep::mnemonToMemSpecMap.value(tokenString.toUpper());
                     if (microCode->has(localEnumMnemonic)) {
                         errorString = "//ERROR: Duplicate clock signal, " + tokenString;
                         delete code;
@@ -401,4 +424,12 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
     }
     while (state != Asm::PS_FINISH);
     return true;
+}
+
+bool Asm::startsWithHexPrefix(QString str)
+{
+    if (str.length() < 2) return false;
+    if (str[0] != '0') return false;
+    if (str[1] == 'x' || str[1] == 'X') return true;
+    return false;
 }

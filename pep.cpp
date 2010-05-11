@@ -80,4 +80,20 @@ void Pep::initEnumMnemonMaps()
     clockControlToMnemonMap.insert(E_NCk, "NCk"); mnemonToClockControlMap.insert("NCK", E_NCk);
     specificationToMnemonMap.insert(E_Pre, "Pre:"); mnemonToSpecificationMap.insert("PRE:", E_Pre);
     specificationToMnemonMap.insert(E_Post, "Post:"); mnemonToSpecificationMap.insert("POST:", E_Post);
+    memSpecToMnemonMap.insert(E_Mem, "Mem"); mnemonToMemSpecMap.insert("MEM", E_Mem);
+    regSpecToMnemonMap.insert(E_A, "A"); mnemonToRegSpecMap.insert("A", E_A);
+    regSpecToMnemonMap.insert(E_X, "X"); mnemonToRegSpecMap.insert("X", E_X);
+    regSpecToMnemonMap.insert(E_SP, "SP"); mnemonToRegSpecMap.insert("SP", E_SP);
+    regSpecToMnemonMap.insert(E_PC, "PC"); mnemonToRegSpecMap.insert("PC", E_PC);
+    regSpecToMnemonMap.insert(E_IR, "IR"); mnemonToRegSpecMap.insert("IR", E_IR);
+    regSpecToMnemonMap.insert(E_T1, "T1"); mnemonToRegSpecMap.insert("T1", E_T1);
+    regSpecToMnemonMap.insert(E_T2, "T2"); mnemonToRegSpecMap.insert("T2", E_T2);
+    regSpecToMnemonMap.insert(E_T3, "T3"); mnemonToRegSpecMap.insert("T3", E_T3);
+    regSpecToMnemonMap.insert(E_T4, "T4"); mnemonToRegSpecMap.insert("T4", E_T4);
+    regSpecToMnemonMap.insert(E_T5, "T5"); mnemonToRegSpecMap.insert("T5", E_T5);
+    regSpecToMnemonMap.insert(E_T6, "T6"); mnemonToRegSpecMap.insert("T6", E_T6);
+    statusSpecToMnemonMap.insert(E_N, "N"); mnemonToStatusSpecMap.insert("N", E_N);
+    statusSpecToMnemonMap.insert(E_Z, "Z"); mnemonToStatusSpecMap.insert("Z", E_Z);
+    statusSpecToMnemonMap.insert(E_V, "V"); mnemonToStatusSpecMap.insert("V", E_V);
+    statusSpecToMnemonMap.insert(E_C, "C"); mnemonToStatusSpecMap.insert("C", E_C);
 }
