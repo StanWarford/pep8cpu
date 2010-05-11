@@ -101,6 +101,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
     QString tokenString; // Passed to getToken.
     QString localIdentifier = ""; // Saves identifier for processing in the following state.
     Enu::EMnemonic localEnumMnemonic; // Key to Pep:: table lookups.
+    bool processingPrecondition; // To distinguish between a precondition and a postcondition.
 
     // The concrete code objects asssigned to code.
     MicroCode *microCode = NULL;
@@ -153,11 +154,13 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             else if (token == Asm::LT_PRE_POST) {
                 if (Pep::mnemonToSpecificationMap.contains(tokenString.toUpper())) {
                     if (Pep::mnemonToSpecificationMap.value(tokenString.toUpper()) == Enu::E_Pre) {
+                        processingPrecondition = true;
                         preconditionCode = new PreconditionCode();
                         code = preconditionCode;
                         state = PS_START_SPECIFICATION;
                     }
                     else { // E_Post
+                        processingPrecondition = false;
                         postconditionCode = new PostconditionCode();
                         code = postconditionCode;
                         state = PS_START_SPECIFICATION;
@@ -403,8 +406,38 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             break;
 
+        case Asm::PS_EXPECT_LEFT_BRACKET:
+            break;
 
+        case Asm::PS_EXPECT_MEM_ADDRESS:
+            break;
 
+        case Asm::PS_EXPECT_RIGHT_BRACKET:
+            break;
+
+        case Asm::PS_EXPECT_MEM_EQUALS:
+            break;
+
+        case Asm::PS_EXPECT_MEM_VALUE:
+            break;
+
+        case Asm::PS_EXPECT_SPEC_COMMA:
+            break;
+
+        case Asm::PS_EXPECT_REG_EQUALS:
+            break;
+
+        case Asm::PS_EXPECT_REG_VALUE:
+            break;
+
+        case Asm::PS_EXPECT_STATUS_EQUALS:
+            break;
+
+        case Asm::PS_EXPECT_STATUS_VALUE:
+            break;
+
+        case Asm::PS_CONTINUE_SPECIFICATION:
+            break;
 
         case Asm::PS_COMMENT:
             if (token == Asm::LT_EMPTY) {

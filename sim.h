@@ -35,8 +35,6 @@ public:
 
     static bool atEndOfSim();
 
-
-
 };
 
 #endif // SIM_H

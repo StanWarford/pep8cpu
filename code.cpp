@@ -111,6 +111,7 @@ void MicroCode::set(Enu::EMnemonic field, int value) {
     case Enu::E_NCk: cNCk = value; break;
     case Enu::E_MemWrite: cMemWrite = value; break;
     case Enu::E_MemRead: cMemRead = value; break;
+    default: break;
     }
 }
 
@@ -131,4 +132,28 @@ bool MicroCode::inRange(Enu::EMnemonic field, int value) {
 CommentOnlyCode::CommentOnlyCode(QString comment)
 {
     cComment = comment;
+}
+
+PreconditionCode::~PreconditionCode() {
+    while (!preconditionList.isEmpty()) {
+        delete preconditionList.takeFirst();
+    }
+}
+
+void PreconditionCode::setPrecondition() {
+    for (int i = 0; i < preconditionList.size(); i++) {
+        preconditionList[i]->setPrecondition();
+    }
+}
+
+PostconditionCode::~PostconditionCode() {
+    while (!postconditionList.isEmpty()) {
+        delete postconditionList.takeFirst();
+    }
+}
+
+void PostconditionCode::testPostcondition() {
+    for (int i = 0; i < postconditionList.size(); i++) {
+        postconditionList[i]->testPostcondition();
+    }
 }

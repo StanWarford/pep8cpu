@@ -38,6 +38,7 @@ public:
     static QMap<QString, Enu::EMnemonic> mnemonToRegSpecMap;
     static QMap<QString, Enu::EMnemonic> mnemonToStatusSpecMap;
     static void initEnumMnemonMaps();
+
 };
 
 #endif // PEP_H

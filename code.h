@@ -67,14 +67,20 @@ private:
 
 class PreconditionCode: public Code
 {
+public:
+    ~PreconditionCode();
+    void setPrecondition();
 private:
-    QList<Specification> specificationList;
+    QList<Specification *> preconditionList;
 };
 
 class PostconditionCode: public Code
 {
+public:
+    ~PostconditionCode();
+    void testPostcondition();
 private:
-    QList<Specification> specificationList;
+    QList<Specification *> postconditionList;
 };
 
 class BlankLineCode: public Code
