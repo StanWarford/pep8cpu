@@ -128,13 +128,23 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_COMMENT;
             }
             else if (token == Asm::LT_PRE_POST) {
-//                if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
-//                    microCode = new MicroCode();
-//                    code = microCode;
-//                    localEnumMnemonic = Pep::mnemonToDecControlMap.value(tokenString.toUpper());
-//                    localIdentifier = tokenString;
-//                    state = Asm::PS_EQUAL_DEC;
+                if (Pep::mnemonToSpecificationMap.contains(tokenString.toUpper())) {
+                    if (Pep::mnemonToSpecificationMap.value(tokenString.toUpper()) == Enu::E_Pre) {
+                        preconditionCode = new PreconditionCode();
+                        code = preconditionCode;
+                        state = PS_START_PRECONDITION;
+                    }
+                    else { // E_Post
+                        postconditionCode = new PostconditionCode();
+                        code = postconditionCode;
+                        state = PS_START_POSTCONDITION;
+                    }
                 }
+                else {
+                    errorString = "//ERROR: Illegal specification symbol " + tokenString;
+                    return false;
+                }
+            }
             else if (token == Asm::LT_EMPTY) {
                 commentOnlyCode = new CommentOnlyCode(tokenString);
                 code = commentOnlyCode;
@@ -322,6 +332,56 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 return false;
             }
             break;
+
+        case Asm::PS_START_PRECONDITION:
+            if (token == Asm::LT_IDENTIFIER) {
+                if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
+                    localEnumMnemonic = Pep::mnemonToClockControlMap.value(tokenString.toUpper());
+                    if (microCode->has(localEnumMnemonic)) {
+                        errorString = "//ERROR: Duplicate clock signal, " + tokenString;
+                        delete code;
+                        return false;
+                    }
+                    microCode->set(localEnumMnemonic, 1);
+                    state = Asm::PS_CONTINUE_POST_SEMICOLON;
+                }
+                else if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
+                    errorString = "//ERROR: Control signal " + tokenString + " after ';'";
+                    delete code;
+                    return false;
+                }
+                else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
+                    errorString = "//ERROR: Memory control signal " + tokenString + " after ';'";
+                    delete code;
+                    return false;
+                }
+                else {
+                    errorString = "//ERROR: Unrecognized clock signal: " + tokenString;
+                    delete code;
+                    return false;
+                }
+            }
+            else if (token == Asm::LT_SEMICOLON) {
+                errorString = "//ERROR: Multiple semicolons.";
+                delete code;
+                return false;
+            }
+            else if (token == Asm::LT_COMMENT) {
+                microCode->cComment = tokenString;
+                state = Asm::PS_COMMENT;
+            }
+            else if (token == Asm::LT_EMPTY) {
+                state = Asm::PS_FINISH;
+            }
+            else {
+                errorString = "//ERROR: Syntax error where clock signal or comment expected.";
+                delete code;
+                return false;
+            }
+            break;
+
+
+
 
         case Asm::PS_COMMENT:
             if (token == Asm::LT_EMPTY) {

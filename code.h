@@ -13,7 +13,6 @@
 // Abstract code class
 class Code
 {
-    friend class Asm;
     friend class MicrocodePane;
     friend class CpuPane;
 public:
@@ -61,7 +60,6 @@ private:
 
 class CommentOnlyCode: public Code
 {
-    friend class Asm;
 public:
     CommentOnlyCode(QString comment);
 private:
@@ -70,14 +68,12 @@ private:
 
 class PreconditionCode: public Code
 {
-    friend class Asm;
 private:
     QList<Precondition> preconditionList;
 };
 
 class PostconditionCode: public Code
 {
-    friend class Asm;
 private:
     QList<Postcondition> postconditionList;
 };

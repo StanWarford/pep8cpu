@@ -44,13 +44,19 @@ QString Pep::resToString(QString fileName) {
 }
 
 QMap<Enu::EMnemonic, QString> Pep::decControlToMnemonMap;
-QMap<QString, Enu::EMnemonic> Pep::mnemonToDecControlMap;
 QMap<Enu::EMnemonic, QString> Pep::memControlToMnemonMap;
-QMap<Enu::EMnemonic, QString> Pep::specificationToMnemonMap;
-QMap<QString, Enu::EMnemonic> Pep::mnemonToMemControlMap;
 QMap<Enu::EMnemonic, QString> Pep::clockControlToMnemonMap;
+QMap<Enu::EMnemonic, QString> Pep::specificationToMnemonMap;
+QMap<Enu::EMnemonic, QString> Pep::memSpecToMnemonMap;
+QMap<Enu::EMnemonic, QString> Pep::regSpecToMnemonMap;
+QMap<Enu::EMnemonic, QString> Pep::statusSpecToMnemonMap;
+QMap<QString, Enu::EMnemonic> Pep::mnemonToDecControlMap;
+QMap<QString, Enu::EMnemonic> Pep::mnemonToMemControlMap;
 QMap<QString, Enu::EMnemonic> Pep::mnemonToClockControlMap;
 QMap<QString, Enu::EMnemonic> Pep::mnemonToSpecificationMap;
+QMap<QString, Enu::EMnemonic> Pep::mnemonToMemSpecMap;
+QMap<QString, Enu::EMnemonic> Pep::mnemonToRegSpecMap;
+QMap<QString, Enu::EMnemonic> Pep::mnemonToStatusSpecMap;
 
 void Pep::initEnumMnemonMaps()
 {
@@ -72,6 +78,6 @@ void Pep::initEnumMnemonMaps()
     clockControlToMnemonMap.insert(E_VCk, "VCk"); mnemonToClockControlMap.insert("VCK", E_VCk);
     clockControlToMnemonMap.insert(E_ZCk, "ZCk"); mnemonToClockControlMap.insert("ZCK", E_ZCk);
     clockControlToMnemonMap.insert(E_NCk, "NCk"); mnemonToClockControlMap.insert("NCK", E_NCk);
-    specificationToMnemonMap.insert(E_Pre, "Pre:"); mnemonToSpecificationMap.insert("Pre:", E_Pre);
-    specificationToMnemonMap.insert(E_Post, "Post:"); mnemonToSpecificationMap.insert("Post:", E_Post);
+    specificationToMnemonMap.insert(E_Pre, "Pre:"); mnemonToSpecificationMap.insert("PRE:", E_Pre);
+    specificationToMnemonMap.insert(E_Post, "Post:"); mnemonToSpecificationMap.insert("POST:", E_Post);
 }
