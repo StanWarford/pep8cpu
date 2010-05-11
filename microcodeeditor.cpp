@@ -13,6 +13,8 @@ MicrocodeEditor::MicrocodeEditor(QWidget *parent) : QPlainTextEdit(parent)
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(textChanged()), this, SLOT(repaint()));
     connect(this, SIGNAL(updateRequest(const QRect &, int)), this, SLOT(updateLineNumberArea(const QRect &, int)));
+//    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+
 
     updateLineNumberAreaWidth(0);
 }
@@ -63,14 +65,19 @@ void MicrocodeEditor::highlightSimulatedLine()
             cursor.movePosition(QTextCursor::NextBlock);
         }
         cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
-        cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+        cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor); // select to end of line
 
         selection.cursor = cursor;
-//        selection.cursor.clearSelection();
         extraSelections.append(selection);
     }
 
     setExtraSelections(extraSelections);
+}
+
+void MicrocodeEditor::highlightCurrentLine()
+{
+    int curLine = document()->findBlockByNumber(textCursor().position()).blockNumber();
+
 }
 
 void MicrocodeEditor::clearSimulationView()
@@ -112,8 +119,7 @@ void MicrocodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = blockToLineNumber[blockNumber] == -1 ? QString("") : QString::number(blockToLineNumber[blockNumber]);
             painter.setPen(QColor(128, 128, 130)); // grey
-            painter.drawText(-1, top, lineNumberArea->width(), fontMetrics().height(),
-                             Qt::AlignRight, number);
+            painter.drawText(-1, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight, number);
         }
 
         block = block.next();
