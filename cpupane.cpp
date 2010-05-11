@@ -166,8 +166,13 @@ void CpuPane::singleStepButtonPushed()
             code = Sim::codeList.at(Sim::microCodeCurrentLine);
         }
         if (!Sim::atEndOfSim()) {
+            Sim::memReadPrevStep = cpuPaneItems->MemReadTristateLabel->text() == "1";
+            Sim::memWritePrevStep = cpuPaneItems->MemWriteTristateLabel->text() == "1";
+
             code->setCpuLabels(cpuPaneItems);
+
             emit updateSimulation();
+
             Sim::microProgramCounter++;
             Sim::microCodeCurrentLine++;
         }

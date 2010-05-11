@@ -19,6 +19,9 @@ public:
     // Used for keeping track of which bytes have been modified since last memory update:
     static QSet<int> modifiedBytes;
 
+    static bool memReadPrevStep;
+    static bool memWritePrevStep;
+
     static QList<Code *> codeList;
     static int microProgramCounter;
     static int microCodeCurrentLine;

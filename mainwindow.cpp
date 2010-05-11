@@ -343,6 +343,11 @@ void MainWindow::on_actionSystem_Start_Debugging_triggered()
     ui->actionSystem_Microassemble->setEnabled(false);
     ui->actionSystem_Start_Debugging->setEnabled(false);
     microcodePane->setReadOnly(true);
+
+    // initialize simulation state variables
+    Sim::memReadPrevStep = false;
+    Sim::memWritePrevStep = false;
+
     cpuPane->startDebugging();
 }
 

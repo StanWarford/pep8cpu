@@ -12,6 +12,9 @@ bool Sim::nBit, Sim::zBit, Sim::vBit, Sim::cBit;
 
 QSet<int> Sim::modifiedBytes;
 
+bool Sim::memReadPrevStep = false;
+bool Sim::memWritePrevStep = false;
+
 QList<Code *> Sim::codeList;
 int Sim::microProgramCounter;
 int Sim::microCodeCurrentLine;

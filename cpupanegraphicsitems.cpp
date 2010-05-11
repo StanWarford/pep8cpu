@@ -515,7 +515,7 @@ void CpuPaneGraphicsItems::repaintAMuxSelect(QPainter *painter)
     QColor color;
     QPolygon poly;
     bool ok;
-    int i = aMuxTristateLabel->text().toInt(&ok, 10);
+    int aMux = aMuxTristateLabel->text().toInt(&ok, 10);
 
     color = ok ? Qt::black : Qt::gray;
     painter->setPen(QPen(QBrush(color), 1));
@@ -531,7 +531,7 @@ void CpuPaneGraphicsItems::repaintAMuxSelect(QPainter *painter)
     painter->setRenderHint(QPainter::Antialiasing, false);
 
     if (ok) {
-        switch (i) {
+        switch (aMux) {
         case (0):
             color = Qt::yellow;
             break;
@@ -560,7 +560,7 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
     QPolygon poly;
     QColor color;
 
-    int i = cMuxTristateLabel->text().toInt(&ok, 10);
+    int cMux = cMuxTristateLabel->text().toInt(&ok, 10);
 
     color = ok ? Qt::black : Qt::gray;
     painter->setPen(QPen(QBrush(color), 1));
@@ -579,7 +579,7 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
     painter->setRenderHint(QPainter::Antialiasing, false);
 
     if (ok) {
-        switch (i) {
+        switch (cMux) {
         case (0):
             color = Qt::yellow;
             break;
@@ -688,10 +688,11 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
     bool isHigh = MemReadTristateLabel->text().toInt(&ok, 10) == 1;
 
     // Draw memread select line
-    if (isHigh) {
+    if (ok && isHigh) {
         MemWriteTristateLabel->setDisabled(true);
         color = Qt::black;
-    } else {
+    }
+    else {
         MemWriteTristateLabel->setDisabled(false);
         color = Qt::gray;
     }
@@ -705,22 +706,21 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
-    if (MemWriteTristateLabel->text().toInt(&ok, 10) == 1)
-    {
+    if (MemWriteTristateLabel->text().toInt(&ok, 10) == 1) {
         // Do not paint main bus if MemWrite is isHigh
         return;
     }
 
     // Draw main bus
-    if (isHigh)
-    {
-#warning "I think this is wrong. We need a sim function to keep track of this stuff"
-        if (MemReadTristateLabel->text() != "") { // MEM_READ_ADDR == MainBus.state
+    if (isHigh) {
+        if (!Sim::memReadPrevStep) { // MEM_READ_ADDR == MainBus.state
             color = Qt::yellow;
-        } else if (true) { // MEM_READ_DATA == MainBus.state
-            color = QColor("0x109618");
         }
-    } else {
+        else if (Sim::memReadPrevStep) { // MEM_READ_DATA == MainBus.state
+            color = QColor(16, 150, 24); // green
+        }
+    }
+    else {
         // Only repaint white if MemWrite is not set isHigh
         color = Qt::white;
     }
@@ -737,7 +737,7 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
             << QPoint(136-123, 360) << QPoint(136-123, 365) << QPoint(145-70, 365);
     painter->drawPolygon(poly);
 
-    if (/*MainBus.state != MEM_READ_DATA*/ true) {
+    if (/*MainBus.state != MEM_READ_DATA*/ !Sim::memReadPrevStep) {
         color = Qt::white;
     }
     painter->setBrush(color);
@@ -760,7 +760,8 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
         if (isHigh) {
             MemReadTristateLabel->setDisabled(true);
             color = Qt::black;
-        } else {
+        }
+        else {
             MemReadTristateLabel->setDisabled(false);
             color = Qt::gray;
         }
@@ -783,10 +784,11 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
         // Draw main bus
         if (isHigh)
         {
-            if (MemWriteTristateLabel->text() != "") { // MEM_WRITE_ADDR == MainBus.state
+            if (!Sim::memWritePrevStep) { // MEM_WRITE_ADDR == MainBus.state
                 color = Qt::yellow;
-            } else {
-                color = QColor("0x109618");
+            }
+            else {
+                color = QColor(16, 150, 24);
             }
         } else {
             color = Qt::white;
@@ -925,13 +927,13 @@ void CpuPaneGraphicsItems::repaintANDZSelect(QPainter *painter)
     bool ok, output = false;
     QPolygon poly;
 
-    int i = ANDZTristateLabel->text().toInt(&ok, 10);
+    int andz = ANDZTristateLabel->text().toInt(&ok, 10);
 
     painter->setPen(ok ? Qt::black : Qt::gray);
     painter->setBrush(ok ? Qt::black : Qt::gray);
     if (ok)
     {
-        if (i == 1) {
+        if (andz == 1) {
             if (/*zBitLabel->text().toInt(&ok, 10) == 1 && Sim::zBit*/ true) {
                 output = true;
             }
@@ -1046,7 +1048,7 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
     bool ok;
     QPolygon poly;
     QColor color;
-    int i = MDRMuxTristateLabel->text().toInt(&ok, 10);
+    int mdrMux = MDRMuxTristateLabel->text().toInt(&ok, 10);
     painter->setPen(ok ? Qt::black : Qt::gray);
     painter->setBrush(ok ? Qt::black : Qt::gray);
 
@@ -1063,28 +1065,32 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
 
     if (ok)
     {
-        switch (i)
+        switch (mdrMux)
         {
         case(0):
-            if (MemWriteTristateLabel->text().toInt() == 1) { // MainBus.state != MEM_READ_DATA
+            if (MemReadTristateLabel->text().toInt() == 1 && Sim::memReadPrevStep) { // MainBus.state == MEM_READ_DATA
+                painter->setBrush(QBrush(QColor(16, 150, 24))); // green
+            }
+            else {
                 painter->setBrush(Qt::white);
-            } else {
-                painter->setBrush(QBrush(0x109618)); // blue
             }
             break;
         case(1):
             if (cMuxTristateLabel->text() == "") { // CMuxBus.state == UNDEFINED
                 painter->setBrush(Qt::white);
-            } else {
+            }
+            else {
                 if (cMuxTristateLabel->text() == "0") {
                     painter->setBrush(Qt::yellow);
-                } else {
+                }
+                else if (true /*ALU has output*/){
                     painter->setBrush(Qt::blue);
                 }
             }
             break;
         }
-    } else {
+    }
+    else {
         painter->setBrush(Qt::white);
     }
 
