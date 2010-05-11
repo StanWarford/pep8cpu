@@ -224,30 +224,58 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     scene->addRect(550, 596, 25, 20, QPen(Qt::gray));
 
     // Registers
-    QGraphicsRectItem *rectItem;
-    scene->addRect(5, 5, 491, 113, QPen(QBrush(Qt::lightGray, Qt::SolidPattern), 2, Qt::DotLine, Qt::SquareCap, Qt::BevelJoin));
 
     QLabel *ph;
     ph = new QLabel("A");
-    ph->setAlignment(Qt::AlignCenter);
-    ph->setGeometry(0,0,20,22);
+    ph->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    ph->setPalette(QPalette(Qt::white));
+    ph->setGeometry(32,6, 20,22);
     scene->addWidget(ph);
-//    ph->setFont(font());
-//    ph = new QLabel ("0,1", this);
-//    ph->setAlignment(Qt::AlignCenter);
-//    ph->setGeometry(110,0,20,22);
-//    ph->setFont(font());
+    ph = new QLabel("0,1");
+    ph->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    ph->setPalette(QPalette(Qt::white));
+    ph->setGeometry(9,6, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
+    scene->addWidget(ph);
 //    A = new Register16(20,0, this);
 //    QObject::connect(A, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
-//
-//    X_Label = new QLabel ("X", this);
-//    X_Label->setAlignment(Qt::AlignCenter);
-//    X_Label->setGeometry(0,22,20,22);
-//    X_Label->setFont(font());
-//    X_Label_2 = new QLabel ("2,3", this);
-//    X_Label_2->setAlignment(Qt::AlignCenter);
-//    X_Label_2->setGeometry(110,22,20,22);
-//    X_Label_2->setFont(font());
+
+    ph = new QLabel("X");
+    ph->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    ph->setPalette(QPalette(Qt::white));
+    ph->setGeometry(32,28, 20,22);
+    scene->addWidget(ph);
+    ph = new QLabel("2,3");
+    ph->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    ph->setPalette(QPalette(Qt::white));
+    ph->setGeometry(9,28, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
+    scene->addWidget(ph);
+
+    ph = new QLabel("SP");
+    ph->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    ph->setPalette(QPalette(Qt::white));
+    ph->setGeometry(32,50, 20,22);
+    scene->addWidget(ph);
+    ph = new QLabel("4,5");
+    ph->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    ph->setPalette(QPalette(Qt::white));
+    ph->setGeometry(9,50, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
+    scene->addWidget(ph);
+
+    ph = new QLabel("PC");
+    ph->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    ph->setPalette(QPalette(Qt::white));
+    ph->setGeometry(32,72, 20,22);
+    scene->addWidget(ph);
+    ph = new QLabel("6,7");
+    ph->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    ph->setPalette(QPalette(Qt::white));
+    ph->setGeometry(9,72, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
+    scene->addWidget(ph);
+
 //    X = new Register16(20,22, this);
 //    QObject::connect(X, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
 //
@@ -386,6 +414,9 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
 //    M5_Label_2 = new QLabel("30,31", this);
 //    M5_Label_2->setGeometry(453,88, 35,22);
 //    M5_Label_2->setFont(font());
+
+    QGraphicsRectItem *rectItem;
+    scene->addRect(5, 5, 491, 113, QPen(QBrush(Qt::lightGray, Qt::SolidPattern), 2, Qt::DotLine, Qt::SquareCap, Qt::BevelJoin));
 
     // MARA & MARB
     scene->addRect(175, 132, 69, 19);
