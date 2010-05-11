@@ -7,8 +7,7 @@
 #include "pep.h"
 #include "enu.h"
 #include "cpupanegraphicsitems.h"
-#include "precondition.h"
-#include "postcondition.h"
+#include "specification.h"
 
 // Abstract code class
 class Code
@@ -69,13 +68,13 @@ private:
 class PreconditionCode: public Code
 {
 private:
-    QList<Precondition> preconditionList;
+    QList<Specification> specificationList;
 };
 
 class PostconditionCode: public Code
 {
 private:
-    QList<Postcondition> postconditionList;
+    QList<Specification> specificationList;
 };
 
 class BlankLineCode: public Code
