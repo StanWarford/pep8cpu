@@ -226,6 +226,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     // Registers
 
     QLabel *ph;
+    QTextEdit *phTE;
     ph = new QLabel("A");
     ph->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
@@ -237,6 +238,11 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph->setGeometry(9,6, 20,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
+    phTE = new QTextEdit(parent);
+    phTE->setGeometry(57,5, 62,22);
+//    phTE->setValidator(new QRegExpValidator(QRegExp("^((1[0-5])|(0[0-9])|[0-9])$"), 0));
+    phTE->setPalette(QPalette(Qt::white));
+    scene->addWidget(phTE);
 //    A = new Register16(20,0, this);
 //    QObject::connect(A, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
 
