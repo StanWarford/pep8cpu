@@ -79,9 +79,9 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
             tokenString = "//ERROR: Malformed identifier"; // Should not occur
             return false;
         }
-        token = LT_IDENTIFIER;
-        token = tokenString.endsWith(':') ? LT_PRE_POST : LT_IDENTIFIER;
         tokenString = rxIdentifier.capturedTexts()[0];
+        token = tokenString.endsWith(':') ? LT_PRE_POST : LT_IDENTIFIER;
+//        qDebug() << "tokenString: " << tokenString << "token: " << token;
         sourceLine.remove(0, tokenString.length());
         return true;
     }
@@ -100,6 +100,8 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
     Asm::ELexicalToken token; // Passed to getToken.
     QString tokenString; // Passed to getToken.
     QString localIdentifier = ""; // Saves identifier for processing in the following state.
+    int localValue;
+    int localAddressValue;
     Enu::EMnemonic localEnumMnemonic; // Key to Pep:: table lookups.
     bool processingPrecondition; // To distinguish between a precondition and a postcondition.
 
@@ -109,6 +111,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
     PreconditionCode *preconditionCode = NULL;
     PostconditionCode *postconditionCode = NULL;
     BlankLineCode *blankLineCode = NULL;
+    Specification *specification = NULL;
 
     Asm::ParseState state = Asm::PS_START;
     do {
@@ -116,6 +119,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             errorString = tokenString;
             return false;
         }
+//        qDebug() << "tokenString: " << tokenString;
         switch (state) {
         case Asm::PS_START:
             if (token == Asm::LT_IDENTIFIER) {
@@ -201,13 +205,13 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     return false;
                 }
                 bool ok;
-                int value = tokenString.toInt(&ok);
-                if (!microCode->inRange(localEnumMnemonic, value)) {
-                    errorString = "//ERROR: Value " + QString("%1").arg(value) + " is out of range for " + localIdentifier;
+                localValue = tokenString.toInt(&ok);
+                if (!microCode->inRange(localEnumMnemonic, localValue)) {
+                    errorString = "//ERROR: Value " + QString("%1").arg(localValue) + " is out of range for " + localIdentifier;
                     delete code;
                     return false;
                 }
-                microCode->set(localEnumMnemonic, value);
+                microCode->set(localEnumMnemonic, localValue);
                 state = Asm::PS_CONTINUE_PRE_SEMICOLON;
             }
             else {
@@ -379,8 +383,11 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     return false;
                 }
             }
+            else if (token == Asm::LT_EMPTY) {
+                state = Asm::PS_FINISH;
+            }
             else {
-                errorString = "//ERROR: Syntax error in specification.";
+                errorString = "//ERROR: Syntax error starting with: " + tokenString;
                 delete code;
                 return false;
             }
@@ -441,7 +448,18 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             break;
 
-        case Asm::PS_EXPECT_SPEC_COMMA:
+        case Asm::PS_EXPECT_REG_EQUALS:
+            if (token == Asm::LT_EQUALS) {
+                state = Asm::PS_EXPECT_REG_VALUE;
+            }
+            else {
+                errorString = "//ERROR: Expected = after " + Pep::regSpecToMnemonMap.value(localEnumMnemonic);
+                delete code;
+                return false;
+            }
+            break;
+
+        case Asm::PS_EXPECT_REG_VALUE:
             if (token == Asm::LT_HEX_CONSTANT) {
                 state = Asm::PS_EXPECT_SPEC_COMMA;
             }
@@ -452,19 +470,43 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             break;
 
-        case Asm::PS_EXPECT_REG_EQUALS:
-            break;
-
-        case Asm::PS_EXPECT_REG_VALUE:
-            break;
-
         case Asm::PS_EXPECT_STATUS_EQUALS:
+            if (token == Asm::LT_EQUALS) {
+                state = Asm::PS_EXPECT_STATUS_VALUE;
+            }
+            else {
+                errorString = "//ERROR: Expected = after " + Pep::statusSpecToMnemonMap.value(localEnumMnemonic);
+                delete code;
+                return false;
+            }
             break;
 
         case Asm::PS_EXPECT_STATUS_VALUE:
+            if (token == Asm::LT_DIGIT) {
+                state = Asm::PS_EXPECT_SPEC_COMMA;
+            }
+            else {
+                errorString = "//ERROR: Expected '1' or '0' after =.";
+                delete code;
+                return false;
+            }
             break;
 
-        case Asm::PS_CONTINUE_SPECIFICATION:
+        case Asm::PS_EXPECT_SPEC_COMMA:
+            if (token == Asm::LT_COMMA) {
+                state = Asm::PS_START_SPECIFICATION;
+            }
+            else if (token == Asm::LT_COMMENT) {
+                state = Asm::PS_COMMENT;
+            }
+            else if (token == Asm::LT_EMPTY) {
+                state = Asm::PS_FINISH;
+            }
+            else {
+                errorString = "//ERROR: Expected ',' comment, or end of line.";
+                delete code;
+                return false;
+            }
             break;
 
         case Asm::PS_COMMENT:
