@@ -363,65 +363,93 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             if (token == Asm::LT_IDENTIFIER) {
                 if (Pep::mnemonToMemSpecMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToMemSpecMap.value(tokenString.toUpper());
-                    if (microCode->has(localEnumMnemonic)) {
-                        errorString = "//ERROR: Duplicate clock signal, " + tokenString;
-                        delete code;
-                        return false;
-                    }
-                    microCode->set(localEnumMnemonic, 1);
-                    state = Asm::PS_CONTINUE_POST_SEMICOLON;
+                    state = Asm::PS_EXPECT_LEFT_BRACKET;
                 }
-                else if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
-                    errorString = "//ERROR: Control signal " + tokenString + " after ';'";
-                    delete code;
-                    return false;
+                else if (Pep::mnemonToRegSpecMap.contains(tokenString.toUpper())) {
+                    localEnumMnemonic = Pep::mnemonToRegSpecMap.value(tokenString.toUpper());
+                    state = Asm::PS_EXPECT_REG_EQUALS;
                 }
-                else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
-                    errorString = "//ERROR: Memory control signal " + tokenString + " after ';'";
-                    delete code;
-                    return false;
+                else if (Pep::mnemonToStatusSpecMap.contains(tokenString.toUpper())) {
+                    localEnumMnemonic = Pep::mnemonToStatusSpecMap.value(tokenString.toUpper());
+                    state = Asm::PS_EXPECT_STATUS_EQUALS;
                 }
                 else {
-                    errorString = "//ERROR: Unrecognized clock signal: " + tokenString;
+                    errorString = "//ERROR: Unrecognized specification symbol: " + tokenString;
                     delete code;
                     return false;
                 }
             }
-            else if (token == Asm::LT_SEMICOLON) {
-                errorString = "//ERROR: Multiple semicolons.";
-                delete code;
-                return false;
-            }
-            else if (token == Asm::LT_COMMENT) {
-                microCode->cComment = tokenString;
-                state = Asm::PS_COMMENT;
-            }
-            else if (token == Asm::LT_EMPTY) {
-                state = Asm::PS_FINISH;
-            }
             else {
-                errorString = "//ERROR: Syntax error where clock signal or comment expected.";
+                errorString = "//ERROR: Syntax error in specification.";
                 delete code;
                 return false;
             }
             break;
 
         case Asm::PS_EXPECT_LEFT_BRACKET:
+            if (token == Asm::LT_LEFT_BRACKET) {
+                state = Asm::PS_EXPECT_MEM_ADDRESS;
+            }
+            else {
+                errorString = "//ERROR: Expected [ after Mem.";
+                delete code;
+                return false;
+            }
             break;
 
         case Asm::PS_EXPECT_MEM_ADDRESS:
+            if (token == Asm::LT_HEX_CONSTANT) {
+                state = Asm::PS_EXPECT_RIGHT_BRACKET;
+            }
+            else {
+                errorString = "//ERROR: Expected hex memory address after [.";
+                delete code;
+                return false;
+            }
             break;
 
         case Asm::PS_EXPECT_RIGHT_BRACKET:
+            if (token == Asm::LT_RIGHT_BRACKET) {
+                state = Asm::PS_EXPECT_MEM_EQUALS;
+            }
+            else {
+                errorString = "//ERROR: Expected ] after memory address.";
+                delete code;
+                return false;
+            }
             break;
 
         case Asm::PS_EXPECT_MEM_EQUALS:
+            if (token == Asm::LT_EQUALS) {
+                state = Asm::PS_EXPECT_MEM_VALUE;
+            }
+            else {
+                errorString = "//ERROR: Expected = after ].";
+                delete code;
+                return false;
+            }
             break;
 
         case Asm::PS_EXPECT_MEM_VALUE:
+            if (token == Asm::LT_HEX_CONSTANT) {
+                state = Asm::PS_EXPECT_SPEC_COMMA;
+            }
+            else {
+                errorString = "//ERROR: Expected hex constant after =.";
+                delete code;
+                return false;
+            }
             break;
 
         case Asm::PS_EXPECT_SPEC_COMMA:
+            if (token == Asm::LT_HEX_CONSTANT) {
+                state = Asm::PS_EXPECT_SPEC_COMMA;
+            }
+            else {
+                errorString = "//ERROR: Expected hex constant after =.";
+                delete code;
+                return false;
+            }
             break;
 
         case Asm::PS_EXPECT_REG_EQUALS:
