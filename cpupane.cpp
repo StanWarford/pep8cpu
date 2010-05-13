@@ -131,6 +131,18 @@ void CpuPane::stopDebugging()
     ui->singleStepPushButton->setEnabled(false);
 }
 
+void CpuPane::setRegPrecondition(Enu::EMask bit, bool value)
+{
+    (void)bit;
+    (void)value;
+}
+
+void CpuPane::setStatusPrecondition(Enu::EMnemonic reg, int value)
+{
+    (void)reg;
+    (void)value;
+}
+
 void CpuPane::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);

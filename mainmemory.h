@@ -20,6 +20,8 @@ public:
     // Refresh the memory to reflect the Sim::Mem object
     void refreshMemory();
 
+    void setMemPrecondition(int memAddress, int value);
+
 public slots:
     // Highlights the label based on the label window color saved in the UI file
     void highlightOnFocus();

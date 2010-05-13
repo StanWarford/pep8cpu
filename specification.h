@@ -12,7 +12,7 @@ protected:
     int specValue;
 };
 
-class MemSpecification: public Specification {
+class MemSpecification: public Specification {    
 public:
     MemSpecification(int memoryAddress, int specificationValue);
     void setPrecondition();

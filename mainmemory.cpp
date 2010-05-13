@@ -76,6 +76,11 @@ void MainMemory::refreshMemory()
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 }
 
+void MainMemory::setMemPrecondition(int memAddress, int value)
+{
+    (void)memAddress;
+    (void)value;
+}
 
 void MainMemory::highlightOnFocus()
 {
