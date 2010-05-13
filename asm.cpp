@@ -81,7 +81,7 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
         }
         tokenString = rxIdentifier.capturedTexts()[0];
         token = tokenString.endsWith(':') ? LT_PRE_POST : LT_IDENTIFIER;
-//        qDebug() << "tokenString: " << tokenString << "token: " << token;
+        //        qDebug() << "tokenString: " << tokenString << "token: " << token;
         sourceLine.remove(0, tokenString.length());
         return true;
     }
@@ -111,7 +111,6 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
     PreconditionCode *preconditionCode = NULL;
     PostconditionCode *postconditionCode = NULL;
     BlankLineCode *blankLineCode = NULL;
-    Specification *specification = NULL;
 
     Asm::ParseState state = Asm::PS_START;
     do {
@@ -119,7 +118,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             errorString = tokenString;
             return false;
         }
-//        qDebug() << "tokenString: " << tokenString;
+        //        qDebug() << "tokenString: " << tokenString;
         switch (state) {
         case Asm::PS_START:
             if (token == Asm::LT_IDENTIFIER) {
@@ -406,6 +405,13 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
 
         case Asm::PS_EXPECT_MEM_ADDRESS:
             if (token == Asm::LT_HEX_CONSTANT) {
+                tokenString.remove(0, 2); // Remove "0x" prefix.
+                bool ok;
+                localAddressValue = tokenString.toInt(&ok, 16);
+                if (localAddressValue >= 65536) {
+                    errorString = ";ERROR: Hexidecimal address is out of range (0x0000..0xFFFF).";
+                    return false;
+                }
                 state = Asm::PS_EXPECT_RIGHT_BRACKET;
             }
             else {
@@ -439,6 +445,19 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
 
         case Asm::PS_EXPECT_MEM_VALUE:
             if (token == Asm::LT_HEX_CONSTANT) {
+                tokenString.remove(0, 2); // Remove "0x" prefix.
+                bool ok;
+                localValue = tokenString.toInt(&ok, 16);
+                if (localValue >= 65536) {
+                    errorString = ";ERROR: Hexidecimal memory value is out of range (0x0000..0xFFFF).";
+                    return false;
+                }
+                if (processingPrecondition) {
+                    preconditionCode->appendSpecification(new MemSpecification(localAddressValue, localValue));
+                }
+                else {
+                    postconditionCode->appendSpecification(new MemSpecification(localAddressValue, localValue));
+                }
                 state = Asm::PS_EXPECT_SPEC_COMMA;
             }
             else {

@@ -30,8 +30,8 @@ class MicroCode: public Code
     friend class Asm;
 public:
     MicroCode();
-    bool MicroCode::isMicrocode();
-    void MicroCode::setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems);
+    bool isMicrocode();
+    void setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems);
     QString getObjectCode();
     bool has(Enu::EMnemonic field);
     void set(Enu::EMnemonic field, int value);
@@ -70,6 +70,7 @@ class PreconditionCode: public Code
 public:
     ~PreconditionCode();
     void setPrecondition();
+    void appendSpecification(Specification *specification);
 private:
     QList<Specification *> preconditionList;
 };
@@ -79,6 +80,7 @@ class PostconditionCode: public Code
 public:
     ~PostconditionCode();
     void testPostcondition();
+    void appendSpecification(Specification *specification);
 private:
     QList<Specification *> postconditionList;
 };

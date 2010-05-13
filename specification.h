@@ -8,12 +8,13 @@ public:
     Specification();
     virtual void setPrecondition() { }
     virtual void testPostcondition() { }
-private:
+protected:
     int specValue;
 };
 
 class MemSpecification: public Specification {
 public:
+    MemSpecification(int memoryAddress, int specificationValue);
     void setPrecondition();
     void testPostcondition();
 private:
@@ -21,11 +22,19 @@ private:
 };
 
 class RegSpecification: public Specification {
+public:
+    RegSpecification(int registerAddress, int specificationValue);
+    void setPrecondition();
+    void testPostcondition();
 private:
     int regAddress;
 };
 
 class StatusBitSpecification: public Specification {
+public:
+    StatusBitSpecification(int statusBitAddress, int specificationValue);
+    void setPrecondition();
+    void testPostcondition();
 private:
     int nzvcAddress;
 };

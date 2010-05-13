@@ -146,6 +146,10 @@ void PreconditionCode::setPrecondition() {
     }
 }
 
+void PreconditionCode::appendSpecification(Specification *specification) {
+    preconditionList.append(specification);
+}
+
 PostconditionCode::~PostconditionCode() {
     while (!postconditionList.isEmpty()) {
         delete postconditionList.takeFirst();
@@ -157,3 +161,8 @@ void PostconditionCode::testPostcondition() {
         postconditionList[i]->testPostcondition();
     }
 }
+
+void PostconditionCode::appendSpecification(Specification *specification) {
+    postconditionList.append(specification);
+}
+
