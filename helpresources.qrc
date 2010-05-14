@@ -10,5 +10,29 @@
         <file>help/microcode.html</file>
         <file>help/examples.html</file>
         <file>help/images/registeraddresssignals.png</file>
+        <file>help/figures/exer1207a.pepcpu</file>
+        <file>help/figures/exer1207b.pepcpu</file>
+        <file>help/figures/exer1207c.pepcpu</file>
+        <file>help/figures/exer1207d.pepcpu</file>
+        <file>help/figures/exer1207e.pepcpu</file>
+        <file>help/figures/exer1207f.pepcpu</file>
+        <file>help/figures/exer1207g.pepcpu</file>
+        <file>help/figures/exer1207h.pepcpu</file>
+        <file>help/figures/exer1207i.pepcpu</file>
+        <file>help/figures/exer1207j.pepcpu</file>
+        <file>help/figures/exer1207k.pepcpu</file>
+        <file>help/figures/exer1207l.pepcpu</file>
+        <file>help/figures/exer1207m.pepcpu</file>
+        <file>help/figures/exer1207n.pepcpu</file>
+        <file>help/figures/exer1207o.pepcpu</file>
+        <file>help/figures/exer1207p.pepcpu</file>
+        <file>help/figures/exer1207q.pepcpu</file>
+        <file>help/figures/exer1207r.pepcpu</file>
+        <file>help/figures/exer1207s.pepcpu</file>
+        <file>help/figures/exer1207t.pepcpu</file>
+        <file>help/figures/exer1207u.pepcpu</file>
+        <file>help/figures/exer1207v.pepcpu</file>
+        <file>help/figures/exer1207w.pepcpu</file>
+        <file>help/figures/exer1207x.pepcpu</file>
     </qresource>
 </RCC>

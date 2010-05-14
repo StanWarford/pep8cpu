@@ -40,7 +40,7 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
     }
     if (firstChar == '/') {
         if (rxComment.indexIn(sourceLine) == -1) {
-            tokenString = "//ERROR: Malformed comment"; // Should occur with single "/".
+            tokenString = "// ERROR: Malformed comment"; // Should occur with single "/".
             return false;
         }
         token = LT_COMMENT;
@@ -50,7 +50,7 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
     }
     if (startsWithHexPrefix(sourceLine)) {
         if (rxHexConst.indexIn(sourceLine) == -1) {
-            tokenString = ";ERROR: Malformed hex constant.";
+            tokenString = "// ERROR: Malformed hex constant.";
             return false;
         }
         token = LT_HEX_CONSTANT;
@@ -60,7 +60,7 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
     }
     if (firstChar.isDigit()) {
         if (rxDigit.indexIn(sourceLine) == -1) {
-            tokenString = "//ERROR: Malformed integer"; // Should not occur.
+            tokenString = "// ERROR: Malformed integer"; // Should not occur.
             return false;
         }
         token = LT_DIGIT;
@@ -76,7 +76,7 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
     }
     if (firstChar.isLetter()) {
         if (rxIdentifier.indexIn(sourceLine) == -1) {
-            tokenString = "//ERROR: Malformed identifier"; // Should not occur
+            tokenString = "// ERROR: Malformed identifier"; // Should not occur
             return false;
         }
         tokenString = rxIdentifier.capturedTexts()[0];
@@ -91,7 +91,7 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
         sourceLine.remove(0, tokenString.length());
         return true;
     }
-    tokenString = "//ERROR: Syntax error starting with " + QString(firstChar);
+    tokenString = "// ERROR: Syntax error starting with " + QString(firstChar);
     return false;
 }
 
@@ -137,16 +137,16 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     state = Asm::PS_CONTINUE_PRE_SEMICOLON;
                 }
                 else if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
-                    errorString = "//ERROR: Clock signal " + tokenString + " must appear after semicolon";
+                    errorString = "// ERROR: Clock signal " + tokenString + " must appear after semicolon";
                     return false;
                 }
                 else {
-                    errorString = "//ERROR: Unrecognized control signal: " + tokenString;
+                    errorString = "// ERROR: Unrecognized control signal: " + tokenString;
                     return false;
                 }
             }
             else if (token == Asm::LT_SEMICOLON) {
-                errorString = "//ERROR: No control signals before semicolon.";
+                errorString = "// ERROR: No control signals before semicolon.";
                 return false;
             }
             else if (token == Asm::LT_COMMENT) {
@@ -170,7 +170,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     }
                 }
                 else {
-                    errorString = "//ERROR: Illegal specification symbol " + tokenString;
+                    errorString = "// ERROR: Illegal specification symbol " + tokenString;
                     return false;
                 }
             }
@@ -180,7 +180,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_FINISH;
             }
             else {
-                errorString = "//ERROR: Syntax error where control signal or comment expected";
+                errorString = "// ERROR: Syntax error where control signal or comment expected";
                 return false;
             }
             break;
@@ -190,7 +190,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_DEC_CONTROL;
             }
             else {
-                errorString = "//ERROR: Expected = after " + localIdentifier;
+                errorString = "// ERROR: Expected = after " + localIdentifier;
                 delete code;
                 return false;
             }
@@ -199,14 +199,14 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
         case Asm::PS_DEC_CONTROL:
             if (token == Asm::LT_DIGIT) {
                 if (microCode->has(localEnumMnemonic)) {
-                    errorString = "//ERROR: Duplicate control signal, " + localIdentifier;
+                    errorString = "// ERROR: Duplicate control signal, " + localIdentifier;
                     delete code;
                     return false;
                 }
                 bool ok;
                 localValue = tokenString.toInt(&ok);
                 if (!microCode->inRange(localEnumMnemonic, localValue)) {
-                    errorString = "//ERROR: Value " + QString("%1").arg(localValue) + " is out of range for " + localIdentifier;
+                    errorString = "// ERROR: Value " + QString("%1").arg(localValue) + " is out of range for " + localIdentifier;
                     delete code;
                     return false;
                 }
@@ -214,7 +214,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_CONTINUE_PRE_SEMICOLON;
             }
             else {
-                errorString = "//ERROR: Expected decimal number after " + localIdentifier + "=";
+                errorString = "// ERROR: Expected decimal number after " + localIdentifier + "=";
                 delete code;
                 return false;
             }
@@ -235,7 +235,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_FINISH;
             }
             else {
-                errorString = "//ERROR: Expected ',' or ';' after control signal";
+                errorString = "// ERROR: Expected ',' or ';' after control signal";
                 delete code;
                 return false;
             }
@@ -246,7 +246,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToDecControlMap.value(tokenString.toUpper());
                     if (microCode->has(localEnumMnemonic)) {
-                        errorString = "//ERROR: Duplicate control signal, " + tokenString;
+                        errorString = "// ERROR: Duplicate control signal, " + tokenString;
                         delete code;
                         return false;
                     }
@@ -256,7 +256,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToMemControlMap.value(tokenString.toUpper());
                     if (microCode->has(localEnumMnemonic)) {
-                        errorString = "//ERROR: Duplicate control signal, " + tokenString;
+                        errorString = "// ERROR: Duplicate control signal, " + tokenString;
                         delete code;
                         return false;
                     }
@@ -264,18 +264,18 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     state = Asm::PS_CONTINUE_PRE_SEMICOLON;
                 }
                 else if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
-                    errorString = "//ERROR: Clock signal (" + tokenString + ") must appear after semicolon";
+                    errorString = "// ERROR: Clock signal (" + tokenString + ") must appear after semicolon";
                     delete code;
                     return false;
                 }
                 else {
-                    errorString = "//ERROR: Unrecognized control signal: " + tokenString;
+                    errorString = "// ERROR: Unrecognized control signal: " + tokenString;
                     delete code;
                     return false;
                 }
             }
             else if (token == Asm::LT_SEMICOLON) {
-                errorString = "//ERROR: Control signal expected after comma.";
+                errorString = "// ERROR: Control signal expected after comma.";
                 delete code;
                 return false;
             }
@@ -287,7 +287,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_FINISH;
             }
             else {
-                errorString = "//ERROR: Syntax error where control signal or comment expected";
+                errorString = "// ERROR: Syntax error where control signal or comment expected";
                 delete code;
                 return false;
             }
@@ -298,7 +298,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 if (Pep::mnemonToClockControlMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToClockControlMap.value(tokenString.toUpper());
                     if (microCode->has(localEnumMnemonic)) {
-                        errorString = "//ERROR: Duplicate clock signal, " + tokenString;
+                        errorString = "// ERROR: Duplicate clock signal, " + tokenString;
                         delete code;
                         return false;
                     }
@@ -306,23 +306,23 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     state = Asm::PS_CONTINUE_POST_SEMICOLON;
                 }
                 else if (Pep::mnemonToDecControlMap.contains(tokenString.toUpper())) {
-                    errorString = "//ERROR: Control signal " + tokenString + " after ';'";
+                    errorString = "// ERROR: Control signal " + tokenString + " after ';'";
                     delete code;
                     return false;
                 }
                 else if (Pep::mnemonToMemControlMap.contains(tokenString.toUpper())) {
-                    errorString = "//ERROR: Memory control signal " + tokenString + " after ';'";
+                    errorString = "// ERROR: Memory control signal " + tokenString + " after ';'";
                     delete code;
                     return false;
                 }
                 else {
-                    errorString = "//ERROR: Unrecognized clock signal: " + tokenString;
+                    errorString = "// ERROR: Unrecognized clock signal: " + tokenString;
                     delete code;
                     return false;
                 }
             }
             else if (token == Asm::LT_SEMICOLON) {
-                errorString = "//ERROR: Multiple semicolons.";
+                errorString = "// ERROR: Multiple semicolons.";
                 delete code;
                 return false;
             }
@@ -334,7 +334,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_FINISH;
             }
             else {
-                errorString = "//ERROR: Syntax error where clock signal or comment expected.";
+                errorString = "// ERROR: Syntax error where clock signal or comment expected.";
                 delete code;
                 return false;
             }
@@ -345,7 +345,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_START_POST_SEMICOLON;
             }
             else if (token == Asm::LT_SEMICOLON) {
-                errorString = "//ERROR: Multiple semcolons ';'";
+                errorString = "// ERROR: Multiple semcolons ';'";
                 delete code;
                 return false;
             }
@@ -357,7 +357,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_FINISH;
             }
             else {
-                errorString = "//ERROR: Expected ',' after clock signal";
+                errorString = "// ERROR: Expected ',' after clock signal";
                 delete code;
                 return false;
             }
@@ -378,7 +378,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     state = Asm::PS_EXPECT_STATUS_EQUALS;
                 }
                 else {
-                    errorString = "//ERROR: Unrecognized specification symbol: " + tokenString;
+                    errorString = "// ERROR: Unrecognized specification symbol: " + tokenString;
                     delete code;
                     return false;
                 }
@@ -387,7 +387,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_FINISH;
             }
             else {
-                errorString = "//ERROR: Syntax error starting with: " + tokenString;
+                errorString = "// ERROR: Syntax error starting with: " + tokenString;
                 delete code;
                 return false;
             }
@@ -398,7 +398,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_EXPECT_MEM_ADDRESS;
             }
             else {
-                errorString = "//ERROR: Expected [ after Mem.";
+                errorString = "// ERROR: Expected [ after Mem.";
                 delete code;
                 return false;
             }
@@ -410,14 +410,14 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 bool ok;
                 localAddressValue = tokenString.toInt(&ok, 16);
                 if (localAddressValue >= 65536) {
-                    errorString = ";ERROR: Hexidecimal address is out of range (0x0000..0xFFFF).";
+                    errorString = "// ERROR: Hexidecimal address is out of range (0x0000..0xFFFF).";
                     delete code;
                     return false;
                 }
                 state = Asm::PS_EXPECT_RIGHT_BRACKET;
             }
             else {
-                errorString = "//ERROR: Expected hex memory address after [.";
+                errorString = "// ERROR: Expected hex memory address after [.";
                 delete code;
                 return false;
             }
@@ -428,7 +428,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_EXPECT_MEM_EQUALS;
             }
             else {
-                errorString = "//ERROR: Expected ] after memory address.";
+                errorString = "// ERROR: Expected ] after memory address.";
                 delete code;
                 return false;
             }
@@ -439,7 +439,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_EXPECT_MEM_VALUE;
             }
             else {
-                errorString = "//ERROR: Expected = after ].";
+                errorString = "// ERROR: Expected = after ].";
                 delete code;
                 return false;
             }
@@ -451,7 +451,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 bool ok;
                 localValue = tokenString.toInt(&ok, 16);
                 if (localValue >= 65536) {
-                    errorString = ";ERROR: Hexidecimal memory value is out of range (0x0000..0xFFFF).";
+                    errorString = "// ERROR: Hexidecimal memory value is out of range (0x0000..0xFFFF).";
                     delete code;
                     return false;
                 }
@@ -464,7 +464,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_EXPECT_SPEC_COMMA;
             }
             else {
-                errorString = "//ERROR: Expected hex constant after =.";
+                errorString = "// ERROR: Expected hex constant after =.";
                 delete code;
                 return false;
             }
@@ -475,7 +475,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_EXPECT_REG_VALUE;
             }
             else {
-                errorString = "//ERROR: Expected = after " + Pep::regSpecToMnemonMap.value(localEnumMnemonic);
+                errorString = "// ERROR: Expected = after " + Pep::regSpecToMnemonMap.value(localEnumMnemonic);
                 delete code;
                 return false;
             }
@@ -487,17 +487,17 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 bool ok;
                 localValue = tokenString.toInt(&ok, 16);
                 if (localEnumMnemonic == Enu::E_IR && localValue >= 16777216) {
-                    errorString = ";ERROR: Hexidecimal register value is out of range (0x000000..0xFFFFFF).";
+                    errorString = "// ERROR: Hexidecimal register value is out of range (0x000000..0xFFFFFF).";
                     delete code;
                     return false;
                 }
                 if (localEnumMnemonic == Enu::E_T1 && localValue >= 256) {
-                    errorString = ";ERROR: Hexidecimal register value is out of range (0x00..0xFF).";
+                    errorString = "// ERROR: Hexidecimal register value is out of range (0x00..0xFF).";
                     delete code;
                     return false;
                 }
                 if (localValue >= 65536) {
-                    errorString = ";ERROR: Hexidecimal register value is out of range (0x0000..0xFFFF).";
+                    errorString = "// ERROR: Hexidecimal register value is out of range (0x0000..0xFFFF).";
                     delete code;
                     return false;
                 }
@@ -510,7 +510,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_EXPECT_SPEC_COMMA;
             }
             else {
-                errorString = "//ERROR: Expected hex constant after =.";
+                errorString = "// ERROR: Expected hex constant after =.";
                 delete code;
                 return false;
             }
@@ -521,7 +521,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_EXPECT_STATUS_VALUE;
             }
             else {
-                errorString = "//ERROR: Expected = after " + Pep::statusSpecToMnemonMap.value(localEnumMnemonic);
+                errorString = "// ERROR: Expected = after " + Pep::statusSpecToMnemonMap.value(localEnumMnemonic);
                 delete code;
                 return false;
             }
@@ -532,7 +532,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 bool ok;
                 localValue = tokenString.toInt(&ok);
                 if (localValue > 1) {
-                    errorString = ";ERROR: Status bit value is out of range (0..1).";
+                    errorString = "// ERROR: Status bit value is out of range (0..1).";
                     delete code;
                     return false;
                 }
@@ -545,7 +545,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_EXPECT_SPEC_COMMA;
             }
             else {
-                errorString = "//ERROR: Expected '1' or '0' after =.";
+                errorString = "// ERROR: Expected '1' or '0' after =.";
                 delete code;
                 return false;
             }
@@ -562,7 +562,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_FINISH;
             }
             else {
-                errorString = "//ERROR: Expected ',' comment, or end of line.";
+                errorString = "// ERROR: Expected ',' comment, or end of line.";
                 delete code;
                 return false;
             }
@@ -574,7 +574,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             else {
                 // This error should not occur, as all characters are allowed in comments.
-                errorString = "//ERROR: Problem detected after comment.";
+                errorString = "// ERROR: Problem detected after comment.";
                 delete code;
                 return false;
             }

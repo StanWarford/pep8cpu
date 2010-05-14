@@ -162,6 +162,131 @@
         </property>
        </item>
       </item>
+      <item>
+       <property name="text">
+        <string>Exercises</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (a)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (b)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (c)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (d)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (e)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (f)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (g)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (h)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (i)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (j)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (k)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (l)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (m)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (n)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (o)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (p)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (q)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (r)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (s)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (t)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (u)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (v)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (w)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Exercise 12.7 (x)</string>
+        </property>
+       </item>
+      </item>
      </widget>
      <widget class="QSplitter" name="helpSplitter">
       <property name="orientation">
