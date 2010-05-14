@@ -14,8 +14,6 @@
 // Abstract code class
 class Code
 {
-    friend class MicrocodePane;
-    friend class CpuPane;
 public:
     virtual ~Code() { }
     virtual bool isMicrocode() { return false; }

@@ -17,26 +17,26 @@ void MemSpecification::testPostcondition() {
     
 }
 
-RegSpecification::RegSpecification(int registerAddress, int registerValue) {
+RegSpecification::RegSpecification(Enu::EMnemonic registerAddress, int registerValue) {
     regAddress = registerAddress;
     regValue = registerValue;
 }
 
-void RegSpecification::setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane) {
-
+void RegSpecification::setPrecondition(MainMemory *, CpuPane *cpuPane) {
+    cpuPane->setRegPrecondition(regAddress, regValue);
 }
 
 void RegSpecification::testPostcondition() {
 
 }
 
-StatusBitSpecification::StatusBitSpecification(int statusBitAddress, bool statusBitValue) {
+StatusBitSpecification::StatusBitSpecification(Enu::EMask statusBitAddress, bool statusBitValue) {
     nzvcAddress = statusBitAddress;
     nzvcValue = statusBitValue;
 }
 
-void StatusBitSpecification::setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane) {
-
+void StatusBitSpecification::setPrecondition(MainMemory *, CpuPane *cpuPane) {
+    cpuPane->setStatusPrecondition(nzvcAddress, nzvcValue);
 }
 
 void StatusBitSpecification::testPostcondition() {

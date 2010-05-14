@@ -132,16 +132,52 @@ void CpuPane::stopDebugging()
     ui->singleStepPushButton->setEnabled(false);
 }
 
-void CpuPane::setRegPrecondition(Enu::EMask bit, bool value)
+void CpuPane::setRegPrecondition(Enu::EMnemonic reg, int value)
 {
-    (void)bit;
-    (void)value;
+    switch (reg) {
+    case Enu::E_A:
+        break;
+    case Enu::E_X:
+        break;
+    case Enu::E_SP:
+        break;
+    case Enu::E_PC:
+        break;
+    case Enu::E_IR:
+        break;
+    case Enu::E_T1:
+        break;
+    case Enu::E_T2:
+        break;
+    case Enu::E_T3:
+        break;
+    case Enu::E_T4:
+        break;
+    case Enu::E_T5:
+        break;
+    case Enu::E_T6:
+        break;
+    default:
+    }
 }
 
-void CpuPane::setStatusPrecondition(Enu::EMnemonic reg, int value)
+void CpuPane::setStatusPrecondition(Enu::EMnemonic bit, bool value)
 {
-    (void)reg;
-    (void)value;
+    switch (bit) {
+    case Enu::E_N:
+        cpuPaneItems->nBitLabel->setText(QString("%1").arg(value ? 1 : 0));
+        break;
+    case Enu::E_Z:
+        cpuPaneItems->zBitLabel->setText(QString("%1").arg(value ? 1 : 0));
+        break;
+    case Enu::E_V:
+        cpuPaneItems->vBitLabel->setText(QString("%1").arg(value ? 1 : 0));
+        break;
+    case Enu::E_C:
+        cpuPaneItems->cBitLabel->setText(QString("%1").arg(value ? 1 : 0));
+        break;
+    default:
+    }
 }
 
 void CpuPane::changeEvent(QEvent *e)

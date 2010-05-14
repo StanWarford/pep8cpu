@@ -25,7 +25,7 @@ private:
 
 class RegSpecification: public Specification {
 public:
-    RegSpecification(int registerAddress, int registerValue);
+    RegSpecification(Enu::EMnemonic registerAddress, int registerValue);
     void setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane);
     void testPostcondition();
 private:
@@ -35,7 +35,7 @@ private:
 
 class StatusBitSpecification: public Specification {
 public:
-    StatusBitSpecification(int statusBitAddress, bool statusBitValue);
+    StatusBitSpecification(Enu::EMask statusBitAddress, bool statusBitValue);
     void setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane);
     void testPostcondition();
 private:
