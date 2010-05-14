@@ -4,22 +4,22 @@ Specification::Specification()
 {
 }
 
-MemSpecification::MemSpecification(int memoryAddress, int specificationValue) {
+MemSpecification::MemSpecification(int memoryAddress, int memoryValue) {
     memAddress = memoryAddress;
-    specValue = specificationValue;
+    memValue = memoryValue;
 }
 
-void MemSpecification::setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane) {
-    
+void MemSpecification::setPrecondition(MainMemory *mainMemory, CpuPane *) {
+    mainMemory->setMemPrecondition(memAddress, memValue);
 }
 
 void MemSpecification::testPostcondition() {
     
 }
 
-RegSpecification::RegSpecification(int registerAddress, int specificationValue) {
+RegSpecification::RegSpecification(int registerAddress, int registerValue) {
     regAddress = registerAddress;
-    specValue = specificationValue;
+    regValue = registerValue;
 }
 
 void RegSpecification::setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane) {
@@ -30,9 +30,9 @@ void RegSpecification::testPostcondition() {
 
 }
 
-StatusBitSpecification::StatusBitSpecification(int statusBitAddress, int specificationValue) {
+StatusBitSpecification::StatusBitSpecification(int statusBitAddress, bool statusBitValue) {
     nzvcAddress = statusBitAddress;
-    specValue = specificationValue;
+    nzvcValue = statusBitValue;
 }
 
 void StatusBitSpecification::setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane) {
