@@ -27,8 +27,8 @@ public:
     void startDebugging();
     void stopDebugging();
 
-    void setRegPrecondition(Enu::EMask bit, bool value);
-    void setStatusPrecondition(Enu::EMnemonic reg, int value);
+    void setRegPrecondition(Enu::EMnemonic reg, int value);
+    void setStatusPrecondition(Enu::EMnemonic bit, bool value);
 
 protected:
     void changeEvent(QEvent *e);

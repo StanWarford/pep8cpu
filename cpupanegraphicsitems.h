@@ -70,7 +70,14 @@ public:
     TristateLabel *MemWriteTristateLabel;
 
     // REGISTER BANK
-
+    QLineEdit *aRegLineEdit;
+    QLineEdit *xRegLineEdit;
+    QLineEdit *spRegLineEdit;
+    QLineEdit *pcRegLineEdit;
+    QLineEdit *irRegLineEdit;
+    QLineEdit *t1RegLineEdit;
+    QLineEdit *t2RegLineEdit;
+    QLineEdit *t3RegLineEdit;
 
 private:
     QGraphicsScene *parentScene;

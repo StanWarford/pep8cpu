@@ -30,7 +30,7 @@ void RegSpecification::testPostcondition() {
 
 }
 
-StatusBitSpecification::StatusBitSpecification(Enu::EMask statusBitAddress, bool statusBitValue) {
+StatusBitSpecification::StatusBitSpecification(Enu::EMnemonic statusBitAddress, bool statusBitValue) {
     nzvcAddress = statusBitAddress;
     nzvcValue = statusBitValue;
 }

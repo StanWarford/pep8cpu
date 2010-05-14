@@ -158,6 +158,7 @@ void CpuPane::setRegPrecondition(Enu::EMnemonic reg, int value)
     case Enu::E_T6:
         break;
     default:
+        break;
     }
 }
 
@@ -177,6 +178,7 @@ void CpuPane::setStatusPrecondition(Enu::EMnemonic bit, bool value)
         cpuPaneItems->cBitLabel->setText(QString("%1").arg(value ? 1 : 0));
         break;
     default:
+        break;
     }
 }
 

@@ -29,17 +29,17 @@ public:
     void setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane);
     void testPostcondition();
 private:
-    int regAddress;
+    Enu::EMnemonic regAddress;
     int regValue;
 };
 
 class StatusBitSpecification: public Specification {
 public:
-    StatusBitSpecification(Enu::EMask statusBitAddress, bool statusBitValue);
+    StatusBitSpecification(Enu::EMnemonic statusBitAddress, bool statusBitValue);
     void setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane);
     void testPostcondition();
 private:
-    int nzvcAddress;
+    Enu::EMnemonic nzvcAddress;
     bool nzvcValue;
 };
 
