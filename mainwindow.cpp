@@ -528,6 +528,10 @@ void MainWindow::simulationFinished()
     microcodePane->clearSimulationView();
     objectCodePane->clearSimulationView();
     on_actionSystem_Stop_Debugging_triggered();
+    for (int i = 0; i < Sim::codeList.size(); i++) {
+        Sim::codeList.at(i)->setPrecondition(mainMemory, cpuPane);
+    }
+
 }
 
 void MainWindow::helpCopyToMicrocodeButtonClicked()

@@ -13,8 +13,8 @@ void MemSpecification::setPrecondition(MainMemory *mainMemory, CpuPane *) {
     mainMemory->setMemPrecondition(memAddress, memValue);
 }
 
-void MemSpecification::testPostcondition() {
-    
+bool MemSpecification::testPostcondition(MainMemory *mainMemory, CpuPane *) {
+    return mainMemory->testMemPostcondition(memAddress, memValue);
 }
 
 RegSpecification::RegSpecification(Enu::EMnemonic registerAddress, int registerValue) {
@@ -26,8 +26,8 @@ void RegSpecification::setPrecondition(MainMemory *, CpuPane *cpuPane) {
     cpuPane->setRegPrecondition(regAddress, regValue);
 }
 
-void RegSpecification::testPostcondition() {
-
+bool RegSpecification::testPostcondition(MainMemory *, CpuPane *cpuPane) {
+    return cpuPane->testRegPostcondition(regAddress, regValue);
 }
 
 StatusBitSpecification::StatusBitSpecification(Enu::EMnemonic statusBitAddress, bool statusBitValue) {
@@ -39,7 +39,7 @@ void StatusBitSpecification::setPrecondition(MainMemory *, CpuPane *cpuPane) {
     cpuPane->setStatusPrecondition(nzvcAddress, nzvcValue);
 }
 
-void StatusBitSpecification::testPostcondition() {
-
+bool StatusBitSpecification::testPostcondition(MainMemory *, CpuPane *cpuPane) {
+    return cpuPane->testStatusPostcondition(nzvcAddress, nzvcValue);
 }
 

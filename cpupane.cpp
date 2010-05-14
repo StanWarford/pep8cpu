@@ -193,6 +193,18 @@ void CpuPane::setStatusPrecondition(Enu::EMnemonic bit, bool value)
     }
 }
 
+bool CpuPane::testRegPostcondition(Enu::EMnemonic reg, int value) {
+    (void)reg;
+    (void)value;
+    return true;
+}
+
+bool CpuPane::testStatusPostcondition(Enu::EMnemonic bit, bool value) {
+    (void)bit;
+    (void)value;
+    return true;
+}
+
 void CpuPane::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);

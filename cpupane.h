@@ -29,6 +29,8 @@ public:
 
     void setRegPrecondition(Enu::EMnemonic reg, int value);
     void setStatusPrecondition(Enu::EMnemonic bit, bool value);
+    bool testRegPostcondition(Enu::EMnemonic reg, int value);
+    bool testStatusPostcondition(Enu::EMnemonic bit, bool value);
 
 protected:
     void changeEvent(QEvent *e);

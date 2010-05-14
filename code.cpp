@@ -158,10 +158,12 @@ PostconditionCode::~PostconditionCode() {
     }
 }
 
-void PostconditionCode::testPostcondition() {
+bool PostconditionCode::testPostcondition(MainMemory *mainMemory, CpuPane *cpuPane) {
+    bool retVal = true;
     for (int i = 0; i < postconditionList.size(); i++) {
-        postconditionList.at(i)->testPostcondition();
+        retVal = retVal && postconditionList.at(i)->testPostcondition(mainMemory, cpuPane);
     }
+    return retVal;
 }
 
 void PostconditionCode::appendSpecification(Specification *specification) {

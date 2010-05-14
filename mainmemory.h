@@ -21,6 +21,7 @@ public:
     void refreshMemory();
 
     void setMemPrecondition(int memAddress, int value);
+    bool testMemPostcondition(int memAddress, int value);
 
 public slots:
     // Highlights the label based on the label window color saved in the UI file

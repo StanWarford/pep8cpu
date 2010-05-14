@@ -82,6 +82,13 @@ void MainMemory::setMemPrecondition(int memAddress, int value)
     (void)value;
 }
 
+bool MainMemory::testMemPostcondition(int memAddress, int value)
+{
+    (void)memAddress;
+    (void)value;
+    return true;
+}
+
 void MainMemory::highlightOnFocus()
 {
     if (ui->tableWidget->hasFocus()) {
