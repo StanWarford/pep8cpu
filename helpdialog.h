@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QTreeWidgetItem>
 #include "pephighlighter.h"
+#include "microcodeeditor.h"
 
 namespace Ui {
     class HelpDialog;
@@ -31,6 +32,7 @@ private:
 
     void selectItem(QString string);
 
+    MicrocodeEditor *microcodeEditor;
     PepHighlighter *leftHighlighter;
 
     enum Row {

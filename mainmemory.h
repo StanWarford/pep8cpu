@@ -41,7 +41,7 @@ private slots:
 
 protected:
     void changeEvent(QEvent *e);
-    void resizeEvent(QResizeEvent *e);
+    void resizeEvent(QResizeEvent *);
 
 private:
     Ui::MainMemory *ui;

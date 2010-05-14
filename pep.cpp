@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QDebug>
 #include <QString>
+#include <QStringList>
 
 using namespace Enu;
 
@@ -40,6 +41,14 @@ QString Pep::resToString(QString fileName) {
         QString line = in.readLine();
         inString.append(line + "\n");
     }
+
+    QStringList microcodeList;
+    microcodeList = inString.split('\n');
+    for (int i = 0; i < microcodeList.size(); i++) {
+        microcodeList[i].remove(QRegExp("^[0-9]+\\.?\\s*"));
+    }
+    inString = microcodeList.join("\n");
+
     return inString;
 }
 

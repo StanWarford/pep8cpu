@@ -1,5 +1,7 @@
 #include "code.h"
 
+#include "cpupanegraphicsitems.h"
+
 MicroCode::MicroCode()
 {
     cLoadCk = -1;

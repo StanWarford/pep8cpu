@@ -245,16 +245,17 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph = new QLabel("0x");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
-    ph->setGeometry(54, 8, 20, 19);
+    ph->setGeometry(51, 8, 20, 19);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     aRegLineEdit = new QLineEdit();
     aRegLineEdit->setFont(QFont(aRegLineEdit->font().family(), aRegLineEdit->font().pointSize() - 2));
     aRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    aRegLineEdit->setGeometry(74,8, 35,19);
+    aRegLineEdit->setGeometry(70,7, 35,19);
     aRegLineEdit->setText("0000");
-    aRegLineEdit->setValidator(new QRegExpValidator(QRegExp("[0-9a-f]{0,4}"), 0));
-    aRegLineEdit->setPalette(QPalette(Qt::white));
+    aRegLineEdit->setValidator(new QRegExpValidator(QRegExp("[0-9a-fA-F]{0,4}"), 0));
+    aRegLineEdit->setPalette(QPalette(QColor(Qt::blue).lighter(150)));
+    aRegLineEdit->setFrame(false);
     scene->addWidget(aRegLineEdit);
 //    A = new Register16(20,0, this);
 //    QObject::connect(A, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
@@ -275,7 +276,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     xRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     xRegLineEdit->setGeometry(54,30, 55,19);
     xRegLineEdit->setText("0x0000");
-    xRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x[0-9a-f]{0,4}"), 0));
+    xRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x[0-9a-fA-F]{0,4}"), 0));
     xRegLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(xRegLineEdit);
 
@@ -295,7 +296,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     spRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     spRegLineEdit->setGeometry(54,52, 55,19);
     spRegLineEdit->setText("0x0000");
-    spRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x[0-9a-f]{0,4}"), 0));
+    spRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x[0-9a-fA-F]{0,4}"), 0));
     spRegLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(spRegLineEdit);
 
@@ -315,7 +316,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     pcRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     pcRegLineEdit->setGeometry(54,74, 55,19);
     pcRegLineEdit->setText("0x0000");
-    pcRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-f]){0,4}"), 0));
+    pcRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
     pcRegLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(pcRegLineEdit);
 //    QObject::connect(X, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
@@ -336,7 +337,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     irRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     irRegLineEdit->setGeometry(170,8, 70,19);
     irRegLineEdit->setText("0x000000");
-    irRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-f]){0,6}"), 0));
+    irRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,6}"), 0));
     irRegLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(irRegLineEdit);
     
@@ -356,7 +357,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t1RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t1RegLineEdit->setGeometry(170,30, 35,19);
     t1RegLineEdit->setText("0x00");
-    t1RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-f]){0,2}"), 0));
+    t1RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,2}"), 0));
     t1RegLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(t1RegLineEdit);
 
@@ -376,7 +377,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t2RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t2RegLineEdit->setGeometry(170,52, 55,19);
     t2RegLineEdit->setText("0x0000");
-    t2RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-f]){0,4}"), 0));
+    t2RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
     t2RegLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(t2RegLineEdit);
 
@@ -396,7 +397,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t3RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t3RegLineEdit->setGeometry(170,74, 55,19);
     t3RegLineEdit->setText("0x0000");
-    t3RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-f]){0,4}"), 0));
+    t3RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
     t3RegLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(t3RegLineEdit);
 
@@ -416,7 +417,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t4RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t4RegLineEdit->setGeometry(294,8, 55,19);
     t4RegLineEdit->setText("0x0000");
-    t4RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-f]){0,4}"), 0));
+    t4RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
     t4RegLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(t4RegLineEdit);
 
@@ -436,7 +437,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t5RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t5RegLineEdit->setGeometry(294,30, 55,19);
     t5RegLineEdit->setText("0x0000");
-    t5RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-f]){0,4}"), 0));
+    t5RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
     t5RegLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(t5RegLineEdit);
 
@@ -456,7 +457,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t6RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t6RegLineEdit->setGeometry(294,52, 55,19);
     t6RegLineEdit->setText("0x0000");
-    t6RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-f]){0,4}"), 0));
+    t6RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
     t6RegLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(t6RegLineEdit);
 

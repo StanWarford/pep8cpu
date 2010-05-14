@@ -3,6 +3,7 @@
 #include <QDebug>
 
 #include "asm.h"
+#include "pep.h"
 #include "code.h"
 
 // Regular expressions for lexical analysis

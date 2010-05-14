@@ -4,9 +4,7 @@
 #include <QString>
 #include <QTextEdit>
 
-#include "pep.h"
 #include "enu.h"
-#include "cpupanegraphicsitems.h"
 #include "specification.h"
 #include "mainmemory.h"
 #include "cpupane.h"

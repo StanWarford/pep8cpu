@@ -31,6 +31,9 @@
      <property name="text">
       <string>0x61</string>
      </property>
+     <property name="frame">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
   </layout>

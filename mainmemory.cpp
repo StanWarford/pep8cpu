@@ -49,7 +49,7 @@ MainMemory::~MainMemory()
 void MainMemory::populateMemoryItems()
 {
     rows.clear();
-    qDebug() << "scroll value: " << ui->verticalScrollBar->value();
+//    qDebug() << "scroll value: " << ui->verticalScrollBar->value();
     int scrollBarValue = ui->verticalScrollBar->value();
     for (int i = scrollBarValue; i < scrollBarValue + ui->tableWidget->rowCount(); i++) {
         rows << QString("0x%1").arg(i, 4, 16, QLatin1Char('0'));
@@ -172,11 +172,8 @@ void MainMemory::changeEvent(QEvent *e)
     }
 }
 
-void MainMemory::resizeEvent(QResizeEvent *e)
+void MainMemory::resizeEvent(QResizeEvent *)
 {
-    (void)e;
-    qDebug() << "resize event";
-
     int newRowCount = ui->tableWidget->height()/ui->tableWidget->rowHeight(0) + 1;
     // +1 to make it look like we're actually scrolling and not shuffling items
     if (newRowCount > oldRowCount) {
