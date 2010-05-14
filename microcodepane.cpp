@@ -56,9 +56,9 @@ bool MicrocodePane::microAssemble()
     }
 
     // Set preconditions
-    for (int i = 0; i < Sim::codeList.size(); i++) {
-        Sim::codeList.at(i)->setPrecondition();
-    }
+//    for (int i = 0; i < Sim::codeList.size(); i++) {
+//        Sim::codeList.at(i)->setPrecondition();
+//    }
     // we guarantee a /n at the end of our document for single step highlighting
     if (!sourceCode.endsWith("\n")) {
         editor->appendPlainText("\n");

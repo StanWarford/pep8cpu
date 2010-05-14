@@ -140,9 +140,9 @@ PreconditionCode::~PreconditionCode() {
     }
 }
 
-void PreconditionCode::setPrecondition() {
+void PreconditionCode::setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane) {
     for (int i = 0; i < preconditionList.size(); i++) {
-        preconditionList[i]->setPrecondition();
+        preconditionList.at(i)->setPrecondition(mainMemory, cpuPane);
     }
 }
 
@@ -158,7 +158,7 @@ PostconditionCode::~PostconditionCode() {
 
 void PostconditionCode::testPostcondition() {
     for (int i = 0; i < postconditionList.size(); i++) {
-        postconditionList[i]->testPostcondition();
+        postconditionList.at(i)->testPostcondition();
     }
 }
 

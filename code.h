@@ -8,6 +8,8 @@
 #include "enu.h"
 #include "cpupanegraphicsitems.h"
 #include "specification.h"
+#include "mainmemory.h"
+#include "cpupane.h"
 
 // Abstract code class
 class Code
@@ -20,7 +22,7 @@ public:
     virtual void setCpuLabels(CpuPaneGraphicsItems *) { }
     virtual QString getObjectCode() { return ""; }
     virtual QString getSourceCode() { return ""; }
-    virtual void setPrecondition() { }
+    virtual void setPrecondition(MainMemory *, CpuPane *) { }
     virtual void testPostcondition() { }
 };
 
@@ -69,7 +71,7 @@ class PreconditionCode: public Code
 {
 public:
     ~PreconditionCode();
-    void setPrecondition();
+    void setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane);
     void appendSpecification(Specification *specification);
 private:
     QList<Specification *> preconditionList;

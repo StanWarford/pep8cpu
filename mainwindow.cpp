@@ -319,6 +319,9 @@ void MainWindow::on_actionSystem_Microassemble_triggered()
     if (microcodePane->microAssemble()) {
         ui->statusBar->showMessage("MicroAssembly succeeded", 4000);
         objectCodePane->setObjectCode(microcodePane->codeToString());
+        for (int i = 0; i < Sim::codeList.size(); i++) {
+            Sim::codeList.at(i)->setPrecondition(mainMemory, cpuPane);
+        }
     }
     else {
         ui->statusBar->showMessage("MicroAssembly failed", 4000);

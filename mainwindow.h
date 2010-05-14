@@ -8,12 +8,12 @@
 #include "byteconverterbin.h"
 #include "byteconverterchar.h"
 
+#include "cpupane.h"
+#include "mainmemory.h"
 #include "microcodepane.h"
 #include "objectcodepane.h"
 #include "pep.h"
 #include "sim.h"
-#include "mainmemory.h"
-#include "cpupane.h"
 #include "helpdialog.h"
 
 #include <QDir>
