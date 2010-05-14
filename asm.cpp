@@ -276,6 +276,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             else if (token == Asm::LT_SEMICOLON) {
                 errorString = "//ERROR: Control signal expected after comma.";
+                delete code;
                 return false;
             }
             else if (token == Asm::LT_COMMENT) {
@@ -410,6 +411,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 localAddressValue = tokenString.toInt(&ok, 16);
                 if (localAddressValue >= 65536) {
                     errorString = ";ERROR: Hexidecimal address is out of range (0x0000..0xFFFF).";
+                    delete code;
                     return false;
                 }
                 state = Asm::PS_EXPECT_RIGHT_BRACKET;
@@ -450,6 +452,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 localValue = tokenString.toInt(&ok, 16);
                 if (localValue >= 65536) {
                     errorString = ";ERROR: Hexidecimal memory value is out of range (0x0000..0xFFFF).";
+                    delete code;
                     return false;
                 }
                 if (processingPrecondition) {
@@ -480,6 +483,30 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
 
         case Asm::PS_EXPECT_REG_VALUE:
             if (token == Asm::LT_HEX_CONSTANT) {
+                tokenString.remove(0, 2); // Remove "0x" prefix.
+                bool ok;
+                localValue = tokenString.toInt(&ok, 16);
+                if (localEnumMnemonic == Enu::E_IR && localValue >= 16777216) {
+                    errorString = ";ERROR: Hexidecimal register value is out of range (0x000000..0xFFFFFF).";
+                    delete code;
+                    return false;
+                }
+                if (localEnumMnemonic == Enu::E_T1 && localValue >= 256) {
+                    errorString = ";ERROR: Hexidecimal register value is out of range (0x00..0xFF).";
+                    delete code;
+                    return false;
+                }
+                if (localValue >= 65536) {
+                    errorString = ";ERROR: Hexidecimal register value is out of range (0x0000..0xFFFF).";
+                    delete code;
+                    return false;
+                }
+                if (processingPrecondition) {
+                    preconditionCode->appendSpecification(new RegSpecification(localEnumMnemonic, localValue));
+                }
+                else {
+                    postconditionCode->appendSpecification(new RegSpecification(localEnumMnemonic, localValue));
+                }
                 state = Asm::PS_EXPECT_SPEC_COMMA;
             }
             else {
@@ -502,6 +529,19 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
 
         case Asm::PS_EXPECT_STATUS_VALUE:
             if (token == Asm::LT_DIGIT) {
+                bool ok;
+                localValue = tokenString.toInt(&ok);
+                if (localValue > 1) {
+                    errorString = ";ERROR: Status bit value is out of range (0..1).";
+                    delete code;
+                    return false;
+                }
+                if (processingPrecondition) {
+                    preconditionCode->appendSpecification(new StatusBitSpecification(localEnumMnemonic, localValue == 1));
+                }
+                else {
+                    postconditionCode->appendSpecification(new StatusBitSpecification(localEnumMnemonic, localValue == 1));
+                }
                 state = Asm::PS_EXPECT_SPEC_COMMA;
             }
             else {
