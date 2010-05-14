@@ -13,6 +13,7 @@
 #include "tristatelabel.h"
 #include "sim.h"
 #include "pep.h"
+#include "code.h"
 
 using namespace Enu;
 

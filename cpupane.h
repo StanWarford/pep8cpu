@@ -7,7 +7,7 @@
 #include <QLabel>
 #include <QLineEdit>
 
-#include "code.h"
+#include "enu.h"
 
 #include "cpupanegraphicsitems.h"
 
