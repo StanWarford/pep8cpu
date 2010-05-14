@@ -136,26 +136,37 @@ void CpuPane::setRegPrecondition(Enu::EMnemonic reg, int value)
 {
     switch (reg) {
     case Enu::E_A:
+        cpuPaneItems->aRegLineEdit->setText(QString("%1").arg(value));
         break;
     case Enu::E_X:
+        cpuPaneItems->xRegLineEdit->setText(QString("%1").arg(value));
         break;
     case Enu::E_SP:
+        cpuPaneItems->spRegLineEdit->setText(QString("%1").arg(value));
         break;
     case Enu::E_PC:
+        cpuPaneItems->pcRegLineEdit->setText(QString("%1").arg(value));
         break;
     case Enu::E_IR:
+        cpuPaneItems->irRegLineEdit->setText(QString("%1").arg(value));
         break;
     case Enu::E_T1:
+        cpuPaneItems->t1RegLineEdit->setText(QString("%1").arg(value));
         break;
     case Enu::E_T2:
+        cpuPaneItems->t2RegLineEdit->setText(QString("%1").arg(value));
         break;
     case Enu::E_T3:
+        cpuPaneItems->t3RegLineEdit->setText(QString("%1").arg(value));
         break;
     case Enu::E_T4:
+        cpuPaneItems->t4RegLineEdit->setText(QString("%1").arg(value));
         break;
     case Enu::E_T5:
+        cpuPaneItems->t5RegLineEdit->setText(QString("%1").arg(value));
         break;
     case Enu::E_T6:
+        cpuPaneItems->t6RegLineEdit->setText(QString("%1").arg(value));
         break;
     default:
         break;

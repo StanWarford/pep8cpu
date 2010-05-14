@@ -78,6 +78,9 @@ public:
     QLineEdit *t1RegLineEdit;
     QLineEdit *t2RegLineEdit;
     QLineEdit *t3RegLineEdit;
+    QLineEdit *t4RegLineEdit;
+    QLineEdit *t5RegLineEdit;
+    QLineEdit *t6RegLineEdit;
 
 private:
     QGraphicsScene *parentScene;
