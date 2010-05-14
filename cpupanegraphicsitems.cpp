@@ -230,7 +230,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     // Registers
 
     QLabel *ph;
-    QLineEdit *phTE;
     ph = new QLabel("0,1");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
@@ -238,26 +237,28 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("A");
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
-    ph->setGeometry(28,6, 20,22);
+    ph->setGeometry(29,6, 20,22);
     scene->addWidget(ph);
     ph = new QLabel("0x");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
-    ph->setGeometry(51, 8, 20, 19);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
+    ph->setGeometry(50, 7, 20, 19);
+//    ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     aRegLineEdit = new QLineEdit();
-    aRegLineEdit->setFont(QFont(aRegLineEdit->font().family(), aRegLineEdit->font().pointSize() - 2));
+//    aRegLineEdit->setFont(QFont(aRegLineEdit->font().family(), aRegLineEdit->font().pointSize() - 2));
     aRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    aRegLineEdit->setGeometry(70,7, 35,19);
+    aRegLineEdit->setGeometry(70,7, 45,19);
     aRegLineEdit->setText("0000");
     aRegLineEdit->setValidator(new QRegExpValidator(QRegExp("[0-9a-fA-F]{0,4}"), 0));
-    aRegLineEdit->setPalette(QPalette(QColor(Qt::blue).lighter(150)));
+    aRegLineEdit->setPalette(QPalette(Qt::white));
     aRegLineEdit->setFrame(false);
+    aRegLineEdit->setBackgroundRole(QPalette::Button);
+    aRegLineEdit;
     scene->addWidget(aRegLineEdit);
-//    A = new Register16(20,0, this);
 //    QObject::connect(A, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
 
     ph = new QLabel("2,3");
@@ -270,12 +271,20 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
     ph->setGeometry(28,28, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    scene->addWidget(ph);
+    ph = new QLabel("0x");
+    ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    ph->setPalette(QPalette(Qt::white));
+    ph->setGeometry(51, 29, 20, 19);
+//    ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     xRegLineEdit = new QLineEdit();
-    xRegLineEdit->setFont(QFont(xRegLineEdit->font().family(), xRegLineEdit->font().pointSize() - 2));
+//    xRegLineEdit->setFont(QFont(xRegLineEdit->font().family(), xRegLineEdit->font().pointSize() - 2));
     xRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    xRegLineEdit->setGeometry(54,30, 55,19);
-    xRegLineEdit->setText("0x0000");
+    xRegLineEdit->setGeometry(70,29, 45,19);
+    xRegLineEdit->setText("0000");
+    xRegLineEdit->setFrame(false);
     xRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x[0-9a-fA-F]{0,4}"), 0));
     xRegLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(xRegLineEdit);
@@ -290,6 +299,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
     ph->setGeometry(28,50, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
     scene->addWidget(ph);
     spRegLineEdit = new QLineEdit();
     spRegLineEdit->setFont(QFont(spRegLineEdit->font().family(), spRegLineEdit->font().pointSize() - 2));
@@ -310,6 +320,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
     ph->setGeometry(28,72, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
     scene->addWidget(ph);
     pcRegLineEdit = new QLineEdit();
     pcRegLineEdit->setFont(QFont(pcRegLineEdit->font().family(), pcRegLineEdit->font().pointSize() - 2));
