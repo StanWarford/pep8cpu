@@ -78,15 +78,12 @@ void MainMemory::refreshMemory()
 
 void MainMemory::setMemPrecondition(int memAddress, int value)
 {
-    (void)memAddress;
-    (void)value;
+    mem[memAddress] = value;
 }
 
 bool MainMemory::testMemPostcondition(int memAddress, int value)
 {
-    (void)memAddress;
-    (void)value;
-    return true;
+    return mem[memAddress] == value;
 }
 
 void MainMemory::highlightOnFocus()

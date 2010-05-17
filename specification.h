@@ -10,7 +10,7 @@ public:
     virtual ~Specification() { }
     Specification();
     virtual void setPrecondition(MainMemory *, CpuPane *) { }
-    virtual bool testPostcondition(MainMemory *, CpuPane *, QString &) { }
+    virtual bool testPostcondition(MainMemory *, CpuPane *, QString &) { return true; }
 };
 
 class MemSpecification: public Specification {    
