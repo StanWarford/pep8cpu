@@ -228,6 +228,9 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     scene->addRect(550, 596, 25, 20, QPen(Qt::gray));
 
     // Registers
+    QGraphicsRectItem *rectItem;
+    scene->addRect(5, 5, 491, 113, QPen(QBrush(Qt::lightGray, Qt::SolidPattern), 2, Qt::DotLine, Qt::SquareCap, Qt::BevelJoin),
+                   QBrush(QColor(Qt::blue).lighter(190)));
 
     QLabel *ph;
     ph = new QLabel("0,1");
@@ -297,18 +300,18 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph = new QLabel("6,7");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
-    ph->setGeometry(8,72, 20,22);
+    ph->setGeometry(8,93, 20,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("PC");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
-    ph->setGeometry(30,72, 20,22);
+    ph->setGeometry(30,93, 20,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
     scene->addWidget(ph);
     pcRegLineEdit = new QLineEdit();
     pcRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    pcRegLineEdit->setGeometry(53,73, 55,19);
+    pcRegLineEdit->setGeometry(53,94, 55,19);
     pcRegLineEdit->setText("0x0000");
     pcRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
     pcRegLineEdit->setPalette(QPalette(Qt::white));
@@ -379,17 +382,18 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph = new QLabel("14,15");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
-    ph->setGeometry(115,72, 30,22);
+    ph->setGeometry(125,93, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("T3");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
-    ph->setGeometry(145,72, 20,22);
+    ph->setGeometry(145,93, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
     scene->addWidget(ph);
     t3RegLineEdit = new QLineEdit();
     t3RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    t3RegLineEdit->setGeometry(170,74, 55,19);
+    t3RegLineEdit->setGeometry(170,94, 55,19);
     t3RegLineEdit->setText("0x0000");
     t3RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
     t3RegLineEdit->setPalette(QPalette(Qt::white));
@@ -459,17 +463,18 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph = new QLabel("22,23");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
-    ph->setGeometry(237,72, 30,22);
+    ph->setGeometry(250,93, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("M1");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
-    ph->setGeometry(267,72, 20,22);
+    ph->setGeometry(267,93, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
     scene->addWidget(ph);
     ph = new QLabel("0x0001");
     ph->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    ph->setGeometry(294,74, 55,19);
+    ph->setGeometry(294,94, 55,19);
     ph->setPalette(QPalette(Qt::white));
     scene->addWidget(ph);
 
@@ -483,13 +488,13 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
     ph->setGeometry(385,6, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
     scene->addWidget(ph);
     ph = new QLabel("0x0203");
     ph->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    ph->setGeometry(407,6, 55,19);
+    ph->setGeometry(440,10, 55,19);
     ph->setPalette(QPalette(Qt::white));
     scene->addWidget(ph);
-
 
     ph = new QLabel("26,27");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -501,10 +506,11 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
     ph->setGeometry(385,28, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
     scene->addWidget(ph);
     ph = new QLabel("0x0408");
     ph->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    ph->setGeometry(407,28, 55,19);
+    ph->setGeometry(440,38, 55,19);
     ph->setPalette(QPalette(Qt::white));
     scene->addWidget(ph);
 
@@ -518,32 +524,31 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
     ph->setGeometry(385,50, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
     scene->addWidget(ph);
     ph = new QLabel("0xFAFC");
     ph->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    ph->setGeometry(407,50, 55,19);
+    ph->setGeometry(440,66, 55,19);
     ph->setPalette(QPalette(Qt::white));
     scene->addWidget(ph);
 
     ph = new QLabel("30,31");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
-    ph->setGeometry(350,72, 30,22);
+    ph->setGeometry(375,93, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("M5");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(Qt::white));
-    ph->setGeometry(385,72, 20,22);
+    ph->setGeometry(405,93, 20,22);
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
     scene->addWidget(ph);
     ph = new QLabel("0xFEFF");
     ph->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    ph->setGeometry(407,72, 55,19);
+    ph->setGeometry(440,94/*72*/, 55,19);
     ph->setPalette(QPalette(Qt::white));
     scene->addWidget(ph);
-
-    QGraphicsRectItem *rectItem;
-    scene->addRect(5, 5, 491, 113, QPen(QBrush(Qt::lightGray, Qt::SolidPattern), 2, Qt::DotLine, Qt::SquareCap, Qt::BevelJoin));
 
     // MARA & MARB
     scene->addRect(175, 132, 69, 19);
