@@ -46,6 +46,8 @@ CpuPane::CpuPane(QWidget *parent) :
 
     cpuPaneItems = new CpuPaneGraphicsItems(ui->graphicsView, 0, scene);
 
+    ui->graphicsView->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
     connect(cpuPaneItems->loadCk, SIGNAL(clicked()), scene, SLOT(invalidate()));
     connect(cpuPaneItems->cLineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
     connect(cpuPaneItems->bLineEdit, SIGNAL(textChanged(QString)), scene, SLOT(invalidate()));
