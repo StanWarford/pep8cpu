@@ -19,7 +19,7 @@ public:
     virtual QString getObjectCode() { return ""; }
     virtual QString getSourceCode() { return ""; }
     virtual void setPrecondition(MainMemory *, CpuPane *) { }
-    virtual bool testPostcondition(MainMemory *, CpuPane *) { return true; }
+    virtual bool testPostcondition(MainMemory *, CpuPane *, QString &) { return true; }
 };
 
 // Concrete code classes
@@ -77,7 +77,7 @@ class PostconditionCode: public Code
 {
 public:
     ~PostconditionCode();
-    bool testPostcondition(MainMemory *mainMemory, CpuPane *cpuPane);
+    bool testPostcondition(MainMemory *mainMemory, CpuPane *cpuPane, QString &errorString);
     void appendSpecification(Specification *specification);
 private:
     QList<Specification *> postconditionList;

@@ -525,13 +525,16 @@ void MainWindow::updateSimulation()
 
 void MainWindow::simulationFinished()
 {
+    QString errorString;
     microcodePane->clearSimulationView();
     objectCodePane->clearSimulationView();
     on_actionSystem_Stop_Debugging_triggered();
     for (int i = 0; i < Sim::codeList.size(); i++) {
-        Sim::codeList.at(i)->setPrecondition(mainMemory, cpuPane);
+        if (!Sim::codeList.at(i)->testPostcondition(mainMemory, cpuPane, errorString)) {
+            ui->statusBar->showMessage("Unit test failed", 4000);
+            return;
+        }
     }
-
 }
 
 void MainWindow::helpCopyToMicrocodeButtonClicked()
