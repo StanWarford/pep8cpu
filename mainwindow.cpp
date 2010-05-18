@@ -300,7 +300,10 @@ void MainWindow::on_actionEdit_Paste_triggered()
 
 void MainWindow::on_actionEdit_Format_From_Object_Code_triggered()
 {
-
+    Sim::setMicrocodeSourceList();
+    if (!Sim::microcodeSourceList.isEmpty()) {
+        microcodePane->setMicrocode(Sim::microcodeSourceList.join("\n"));
+    }
 }
 
 void MainWindow::on_actionEdit_Remove_Error_Messages_triggered()
@@ -532,10 +535,11 @@ void MainWindow::simulationFinished()
     for (int i = 0; i < Sim::codeList.size(); i++) {
         if (!Sim::codeList.at(i)->testPostcondition(mainMemory, cpuPane, errorString)) {
             microcodePane->appendMessageInSourceCodePaneAt(0, errorString);
-            ui->statusBar->showMessage("Unit test failed", 4000);
+            ui->statusBar->showMessage("Failed unit test", 4000);
             return;
         }
     }
+    ui->statusBar->showMessage("Passed unit test", 4000);
 }
 
 void MainWindow::helpCopyToMicrocodeButtonClicked()

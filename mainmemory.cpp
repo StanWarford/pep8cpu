@@ -78,12 +78,12 @@ void MainMemory::refreshMemory()
 
 void MainMemory::setMemPrecondition(int memAddress, int value)
 {
-    mem[memAddress] = value;
+    Sim::Mem[memAddress] = value;
 }
 
 bool MainMemory::testMemPostcondition(int memAddress, int value)
 {
-    return mem[memAddress] == value;
+    return Sim::Mem[memAddress] == value;
 }
 
 void MainMemory::highlightOnFocus()

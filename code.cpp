@@ -71,6 +71,35 @@ QString MicroCode::getObjectCode()
     return str;
 }
 
+QString MicroCode::getSourceCode()
+{
+    QString str = "";
+    if (cMemRead != -1) { str.append("MemRead, "); }
+    if (cMemWrite == -1) { str.append("MemWrite, "); }
+    if (cA != -1) { str.append("A=" + QString("%1").arg(cA) + ", "); }
+    if (cB != -1) { str.append("B=" + QString("%1").arg(cB) + ", "); }
+    if (cAMux != -1) { str.append("AMux=" + QString("%1").arg(cAMux) + ", "); }
+    if (cALU != -1) { str.append("ALU=" + QString("%1").arg(cALU) + ", "); }
+    if (cANDZ != -1) { str.append("ANDZ=" + QString("%1").arg(cANDZ) + ", "); }
+    if (cCMux != -1) { str.append("CMux=" + QString("%1").arg(cCMux) + ", "); }
+    if (cMDRMux != -1) { str.append("MDRMux=" + QString("%1").arg(cMDRMux) + ", "); }
+    if (cC != -1) { str.append("C=" + QString("%1").arg(cC) + ", "); }
+
+    if (str != "") { str.chop(2); str.append("; "); }
+
+    if (cNCk != -1) { str.append("NCk, "); }
+    if (cZCk != -1) { str.append("ZCk, "); }
+    if (cVCk != -1) { str.append("VCk, "); }
+    if (cCCk != -1) { str.append("CCk, "); }
+    if (cMARCk != -1) { str.append("MARCk, "); }
+    if (cLoadCk != -1) { str.append("LoadCk, "); }
+    if (cMDRCk != -1) { str.append("MDRCk, "); }
+
+    if (str.endsWith(", ") || str.endsWith("; ")) { str.chop(2); }
+
+    return str;
+}
+
 bool MicroCode::has(Enu::EMnemonic field) {
     switch (field) {
     case Enu::E_LoadCk: return cLoadCk != -1;

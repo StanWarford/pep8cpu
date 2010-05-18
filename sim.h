@@ -26,6 +26,9 @@ public:
     static int microProgramCounter;
     static int microCodeCurrentLine;
 
+    static QStringList microcodeSourceList;
+    static void setMicrocodeSourceList();
+
     static int readByte(int memAddr);
     static void writeByte(int memAddr, int value);
     // Pre: 0 <= value < 256

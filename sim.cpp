@@ -19,6 +19,13 @@ QList<Code *> Sim::codeList;
 int Sim::microProgramCounter;
 int Sim::microCodeCurrentLine;
 
+QStringList Sim::microcodeSourceList;
+void Sim::setMicrocodeSourceList() {
+    for (int i = 0; i < Sim::codeList.length(); i++) {
+        Sim::microcodeSourceList.append(Sim::codeList.at(i)->getSourceCode());
+    }
+}
+
 int Sim::readByte(int memAddr)
 {
     return Mem[memAddr & 0xffff];

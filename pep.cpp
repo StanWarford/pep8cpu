@@ -87,8 +87,8 @@ void Pep::initEnumMnemonMaps()
     clockControlToMnemonMap.insert(E_VCk, "VCk"); mnemonToClockControlMap.insert("VCK", E_VCk);
     clockControlToMnemonMap.insert(E_ZCk, "ZCk"); mnemonToClockControlMap.insert("ZCK", E_ZCk);
     clockControlToMnemonMap.insert(E_NCk, "NCk"); mnemonToClockControlMap.insert("NCK", E_NCk);
-    specificationToMnemonMap.insert(E_Pre, "Pre:"); mnemonToSpecificationMap.insert("PRE:", E_Pre);
-    specificationToMnemonMap.insert(E_Post, "Post:"); mnemonToSpecificationMap.insert("POST:", E_Post);
+    specificationToMnemonMap.insert(E_Pre, "UnitPre:"); mnemonToSpecificationMap.insert("UNITPRE:", E_Pre);
+    specificationToMnemonMap.insert(E_Post, "UnitPost:"); mnemonToSpecificationMap.insert("UNITPOST:", E_Post);
     memSpecToMnemonMap.insert(E_Mem, "Mem"); mnemonToMemSpecMap.insert("MEM", E_Mem);
     regSpecToMnemonMap.insert(E_A, "A"); mnemonToRegSpecMap.insert("A", E_A);
     regSpecToMnemonMap.insert(E_X, "X"); mnemonToRegSpecMap.insert("X", E_X);

@@ -31,6 +31,7 @@ public:
     bool isMicrocode();
     void setCpuLabels(CpuPaneGraphicsItems *cpuPaneItems);
     QString getObjectCode();
+    QString getSourceCode();
     bool has(Enu::EMnemonic field);
     void set(Enu::EMnemonic field, int value);
     bool inRange(Enu::EMnemonic field, int value);
@@ -85,7 +86,6 @@ private:
 
 class BlankLineCode: public Code
 {
-
 };
 
 #endif // CODE_H
