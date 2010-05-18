@@ -15,11 +15,11 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     parent(widgetParent)
 {
 
-    seqCircuitColor = QColor(Qt::blue).lighter(190);
-    combCircuitRed = QColor(Qt::red);
-    combCircuitBlue = QColor(Qt::blue);
-    combCircuitYellow = QColor(Qt::yellow);
-    combCircuitGreen = QColor(Qt::green);
+    seqCircuitColor = QColor(0xffdd77);// 0xffee99); //QColor(Qt::gray).lighter(140);
+    combCircuitRed = QColor(Qt::red).lighter(190);
+    combCircuitBlue = QColor(Qt::blue).lighter(190);
+    combCircuitYellow = QColor(Qt::yellow).lighter(190);
+    combCircuitGreen = QColor(Qt::green).lighter(190);
 
     loadCk = new QCheckBox("LoadCk");
     loadCk->setPalette(QPalette(Qt::white));
@@ -610,8 +610,8 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     poly.clear();
     poly << QPoint(314,342) << QPoint(366,342) << QPoint(370,353) << QPoint(390,353) << QPoint(394,342)
             << QPoint(447,342) << QPoint(421,394) << QPoint(340,394);
-    ALUPoly = scene->addPolygon(poly, QPen(QBrush(QColor(Qt::black)), 2, Qt::SolidLine, Qt::SquareCap,
-                                                                  Qt::BevelJoin), QBrush(QColor(QColor(Qt::white))));
+    ALUPoly = scene->addPolygon(poly, QPen(QBrush(QColor(Qt::blue)), 2, Qt::SolidLine, Qt::SquareCap,
+                                                                  Qt::BevelJoin), QBrush(QColor(QColor(Qt::blue).lighter(190))));
     ALUPoly->setZValue(-1);
 
     // Status Bits
