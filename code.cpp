@@ -75,7 +75,7 @@ QString MicroCode::getSourceCode()
 {
     QString str = "";
     if (cMemRead != -1) { str.append("MemRead, "); }
-    if (cMemWrite == -1) { str.append("MemWrite, "); }
+    if (cMemWrite != -1) { str.append("MemWrite, "); }
     if (cA != -1) { str.append("A=" + QString("%1").arg(cA) + ", "); }
     if (cB != -1) { str.append("B=" + QString("%1").arg(cB) + ", "); }
     if (cAMux != -1) { str.append("AMux=" + QString("%1").arg(cAMux) + ", "); }

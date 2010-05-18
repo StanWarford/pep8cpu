@@ -106,7 +106,7 @@ void MicrocodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
     QList<int> blockToLineNumber;
     QStringList sourceCodeList = toPlainText().split('\n');
     for (int i = 0; i < sourceCodeList.size(); i++) {
-        if (QRegExp("^//|^\\s*$|^pre|^post", Qt::CaseInsensitive).indexIn(sourceCodeList.at(i)) == 0) {
+        if (QRegExp("^//|^\\s*$|^unitpre|^unitpost", Qt::CaseInsensitive).indexIn(sourceCodeList.at(i)) == 0) {
             blockToLineNumber << -1;
         }
         else {
