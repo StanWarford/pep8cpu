@@ -86,6 +86,8 @@ private:
     QGraphicsScene *parentScene;
     QWidget *parent;
 
+    QColor seqCircuitColor;
+
     void repaintLoadCk(QPainter *painter);
     void repaintCSelect(QPainter *painter);
     void repaintBSelect(QPainter *painter);

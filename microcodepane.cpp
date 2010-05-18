@@ -73,11 +73,11 @@ QString MicrocodePane::codeToString() {
 
 void MicrocodePane::removeErrorMessages()
 {
-    QTextCursor cursor(editor->document()->find("//ERROR:"));
+    QTextCursor cursor(editor->document()->find("// ERROR:"));
     while (!cursor.isNull()) {
         cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
         cursor.removeSelectedText();
-        cursor = editor->document()->find("//ERROR:", cursor);
+        cursor = editor->document()->find("// ERROR:", cursor);
     }
 }
 

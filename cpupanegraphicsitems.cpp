@@ -14,6 +14,9 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     : QGraphicsItem(itemParent, scene),
     parent(widgetParent)
 {
+
+    seqCircuitColor = QColor(Qt::blue).lighter(190);
+
     loadCk = new QCheckBox("LoadCk");
     loadCk->setPalette(QPalette(Qt::white));
     loadCk->setGeometry(550, 18, 80, 20);
@@ -61,12 +64,12 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     MARALabel->setGeometry(175,202, 69,19);
     MARALabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     MARALabel->setAutoFillBackground(false);
-    MARALabel->setPalette(QPalette(Qt::white));
+    MARALabel->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(MARALabel);
     MARBLabel = new QLabel("0x00");
     MARBLabel->setGeometry(175,132, 69, 19);
     MARBLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    MARBLabel->setPalette(QPalette(Qt::white));
+    MARBLabel->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(MARBLabel);
 
     MDRCk = new QCheckBox("MDRCk");
@@ -108,7 +111,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     MDRLabel = new QLabel("0x00");
     MDRLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     MDRLabel->setGeometry(175,254, 69,19);
-    MDRLabel->setPalette(QPalette(Qt::white));
+    MDRLabel->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(MDRLabel);
 
     cMuxLabel = new QLabel("CMux");
@@ -152,7 +155,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     cBitLabel->setText("0");
     cBitLabel->setGeometry(476,406, 19, 19);
     cBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    cBitLabel->setPalette(QPalette(Qt::white));
+    cBitLabel->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(cBitLabel);
 
     VCkCheckBox = new QCheckBox("VCk");
@@ -163,7 +166,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     vBitLabel->setText("0");
     vBitLabel->setGeometry(476,442, 19, 19);
     vBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    vBitLabel->setPalette(QPalette(Qt::white));
+    vBitLabel->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(vBitLabel);
 
     ANDZLabel = new QLabel("ANDZ");
@@ -191,7 +194,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     zBitLabel->setText("0");
     zBitLabel->setGeometry(476, 498, 19, 19);
     zBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    zBitLabel->setPalette(QPalette(Qt::white));
+    zBitLabel->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(zBitLabel);
 
     NCkCheckBox = new QCheckBox ("NCk");
@@ -202,7 +205,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     nBitLabel->setText("0");
     nBitLabel->setGeometry(476,549, 19, 19);
     nBitLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    nBitLabel->setPalette(QPalette(Qt::white));
+    nBitLabel->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(nBitLabel);
 
     MemReadLabel = new QLabel("MemRead");
@@ -230,19 +233,19 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     // Registers
     QGraphicsRectItem *rectItem;
     scene->addRect(5, 5, 491, 113, QPen(QBrush(QColor(Qt::red), Qt::SolidPattern), 2, Qt::DotLine, Qt::SquareCap, Qt::BevelJoin),
-                   QBrush(QColor(Qt::blue).lighter(190)));
+                   QBrush(seqCircuitColor));
 
     QLabel *ph;
     ph = new QLabel("0,1");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(8,10, 20,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("A");
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(30,10, 20,22);
     scene->addWidget(ph);
     aRegLineEdit = new QLineEdit();
@@ -250,310 +253,310 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     aRegLineEdit->setGeometry(52,10, 55,19);
     aRegLineEdit->setText("0x0000");
     aRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    aRegLineEdit->setPalette(QPalette(seqCircuitColor));
     aRegLineEdit->setFrame(false);
     scene->addWidget(aRegLineEdit);
 //    QObject::connect(A, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
 
     ph = new QLabel("2,3");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(8,38, 20,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("X");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(30,38, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     xRegLineEdit = new QLineEdit();
     xRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     xRegLineEdit->setGeometry(53,38, 55,19);
     xRegLineEdit->setText("0x0000");
     xRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    xRegLineEdit->setPalette(QPalette(seqCircuitColor));
     xRegLineEdit->setFrame(false);
     scene->addWidget(xRegLineEdit);
 
     ph = new QLabel("4,5");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(8,66, 20,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("SP");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(30,66, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     spRegLineEdit = new QLineEdit();
     spRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     spRegLineEdit->setGeometry(52,66, 55,19);
     spRegLineEdit->setText("0x0000");
     spRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x[0-9a-fA-F]{0,4}"), 0));
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    spRegLineEdit->setPalette(QPalette(seqCircuitColor));
     spRegLineEdit->setFrame(false);
     scene->addWidget(spRegLineEdit);
 
     ph = new QLabel("6,7");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(8,93, 20,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("PC");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(30,93, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     pcRegLineEdit = new QLineEdit();
     pcRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     pcRegLineEdit->setGeometry(52,94, 55,19);
     pcRegLineEdit->setText("0x0000");
     pcRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    pcRegLineEdit->setPalette(QPalette(seqCircuitColor));
     pcRegLineEdit->setFrame(false);
     scene->addWidget(pcRegLineEdit);
 //    QObject::connect(X, SIGNAL(valueChanged()), this, SLOT(slotRegisterChanged()));
 
     ph = new QLabel("8-10");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(128,10, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("IR");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(160,10, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     irRegLineEdit = new QLineEdit();
     irRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     irRegLineEdit->setGeometry(182,10, 73,19);
     irRegLineEdit->setText("0x000000");
     irRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,6}"), 0));
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    irRegLineEdit->setPalette(QPalette(seqCircuitColor));
     irRegLineEdit->setFrame(false);
     scene->addWidget(irRegLineEdit);
     
     ph = new QLabel("11");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(128,38, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("T1");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(160,38, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     t1RegLineEdit = new QLineEdit();
     t1RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    t1RegLineEdit->setGeometry(182,38, 35,19);
+    t1RegLineEdit->setGeometry(182,38, 40,19);
     t1RegLineEdit->setText("0x00");
     t1RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,2}"), 0));
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    t1RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t1RegLineEdit->setFrame(false);
     scene->addWidget(t1RegLineEdit);
 
     ph = new QLabel("12,13");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(128,66, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("T2");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(160,66, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     t2RegLineEdit = new QLineEdit();
     t2RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t2RegLineEdit->setGeometry(182,66, 55,19);
     t2RegLineEdit->setText("0x0000");
     t2RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    t2RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t2RegLineEdit->setFrame(false);
     scene->addWidget(t2RegLineEdit);
 
     ph = new QLabel("14,15");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(128,93, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("T3");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(160,93, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     t3RegLineEdit = new QLineEdit();
     t3RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t3RegLineEdit->setGeometry(182,94, 55,19);
     t3RegLineEdit->setText("0x0000");
     t3RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    t3RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t3RegLineEdit->setFrame(false);
     scene->addWidget(t3RegLineEdit);
 
     ph = new QLabel("16,17");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(257,10, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("T4");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(289,10, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     t4RegLineEdit = new QLineEdit();
     t4RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t4RegLineEdit->setGeometry(311,10, 55,19);
     t4RegLineEdit->setText("0x0000");
     t4RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    t4RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t4RegLineEdit->setFrame(false);
     scene->addWidget(t4RegLineEdit);
 
     ph = new QLabel("18,19");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(257,38, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("T5");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(289,38, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     t5RegLineEdit = new QLineEdit();
     t5RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t5RegLineEdit->setGeometry(311,38, 55,19);
     t5RegLineEdit->setText("0x0000");
     t5RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    t5RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t5RegLineEdit->setFrame(false);
     scene->addWidget(t5RegLineEdit);
 
     ph = new QLabel("20,21");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(257,66, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("T6");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(289,66, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     t6RegLineEdit = new QLineEdit();
     t6RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t6RegLineEdit->setGeometry(311,66, 55,19);
     t6RegLineEdit->setText("0x0000");
     t6RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    t6RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t6RegLineEdit->setFrame(false);
     scene->addWidget(t6RegLineEdit);
 
     ph = new QLabel("22,23");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(257,93, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("M1");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(289,93, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     ph = new QLabel("0x0001");
     ph->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    ph->setGeometry(311,94, 55,19);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setGeometry(313,94, 55,19);
+    ph->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(ph);
 
     ph = new QLabel("24,25");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(386,10, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("M2");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(418,10, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     ph = new QLabel("0x0203");
     ph->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     ph->setGeometry(440,10, 55,19);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(ph);
 
     ph = new QLabel("26,27");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(386,38, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("M3");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(418,38, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     ph = new QLabel("0x0408");
     ph->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     ph->setGeometry(440,38, 55,19);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(ph);
 
     ph = new QLabel("28,29");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(386,66, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("M4");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(418,66, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     ph = new QLabel("0xFAFC");
     ph->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     ph->setGeometry(440,66, 55,19);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(ph);
 
     ph = new QLabel("30,31");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(386,93, 30,22);
     ph->setFont(QFont(ph->font().family(), ph->font().pointSize() - 2));
     scene->addWidget(ph);
     ph = new QLabel("M5");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     ph->setGeometry(418,93, 20,22);
-    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::DemiBold));
+    ph->setFont(QFont(ph->font().family(), ph->font().pointSize(), QFont::Bold));
     scene->addWidget(ph);
     ph = new QLabel("0xFEFF");
     ph->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     ph->setGeometry(440,94/*72*/, 55,19);
-    ph->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
+    ph->setPalette(QPalette(seqCircuitColor));
     scene->addWidget(ph);
 
     scene->addRect(5, 5, 491, 113, QPen(QBrush(QColor(Qt::red), Qt::SolidPattern),
@@ -564,7 +567,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     scene->addRect(175, 202, 69, 19);
 
     // MAR bus
-    QPolygon poly;
+    QPolygonF poly;
     poly << QPoint(205,151) << QPoint(205,167) << QPoint(173-70,167) << QPoint(173-70,162)
             << QPoint(158-70,177) << QPoint(173-70,192) << QPoint(173-70,187) << QPoint(205,187)
             << QPoint(205,202) << QPoint(215,202) << QPoint(215,151);
@@ -603,8 +606,8 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     poly.clear();
     poly << QPoint(314,342) << QPoint(366,342) << QPoint(370,353) << QPoint(390,353) << QPoint(394,342)
             << QPoint(447,342) << QPoint(421,394) << QPoint(340,394);
-    QGraphicsPolygonItem *polyItem = scene->addPolygon(poly, QPen(QBrush(Qt::black), 2, Qt::SolidLine, Qt::RoundCap,
-                                                                  Qt::BevelJoin), QBrush(QColor(Qt::blue).lighter(190)));
+    QGraphicsPolygonItem *polyItem = scene->addPolygon(poly, QPen(QBrush(QColor(Qt::black)), 2, Qt::SolidLine, Qt::SquareCap,
+                                                                  Qt::BevelJoin), QBrush(QColor(QColor(Qt::white))));
     polyItem->setZValue(-1);
 
     // Status Bits
@@ -866,17 +869,21 @@ void CpuPaneGraphicsItems::repaintAMuxSelect(QPainter *painter)
         switch (aMux) {
         case (0):
             color = Qt::yellow;
+            aMuxerDataLabel->setPalette(QPalette(QColor(Qt::yellow).lighter(170)));
             break;
         case (1):
             if (aLineEdit->text() == "") { // ABus.state == UNDEFINED
                 color = Qt::white;
+                aMuxerDataLabel->setPalette(QPalette(Qt::white));
             } else {
                 color = Qt::red;
+                aMuxerDataLabel->setPalette(QPalette(QColor(Qt::red).lighter(170)));
             }
             break;
         }
     } else {
         color = Qt::white;
+        aMuxerDataLabel->setPalette(QPalette(Qt::white));
     }
     painter->setPen(QPen(QBrush(Qt::black), 1));
     painter->setBrush(color);
