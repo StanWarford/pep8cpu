@@ -43,6 +43,7 @@ bool MicrocodePane::microAssemble()
     Code *code;
     int lineNum = 0;
     removeErrorMessages();
+    Sim::codeList.clear();
     QString sourceCode = editor->toPlainText();
     sourceCodeList = sourceCode.split('\n');
     while (lineNum < sourceCodeList.size()) {

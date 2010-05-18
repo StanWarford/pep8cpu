@@ -60,6 +60,7 @@ class CommentOnlyCode: public Code
 {
 public:
     CommentOnlyCode(QString comment);
+    QString getSourceCode();
 private:
     QString cComment;
 };
@@ -68,20 +69,26 @@ class PreconditionCode: public Code
 {
 public:
     ~PreconditionCode();
+    QString getSourceCode();
     void setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane);
     void appendSpecification(Specification *specification);
+    void setComment(QString comment);
 private:
     QList<Specification *> preconditionList;
+    QString cComment;
 };
 
 class PostconditionCode: public Code
 {
 public:
     ~PostconditionCode();
+    QString getSourceCode();
     bool testPostcondition(MainMemory *mainMemory, CpuPane *cpuPane, QString &errorString);
     void appendSpecification(Specification *specification);
+    void setComment(QString comment);
 private:
     QList<Specification *> postconditionList;
+    QString cComment;
 };
 
 class BlankLineCode: public Code

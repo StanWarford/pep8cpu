@@ -21,6 +21,11 @@ bool MemSpecification::testPostcondition(MainMemory *mainMemory, CpuPane *, QStr
     return false;
 }
 
+QString MemSpecification::getSourceCode() {
+    QString retVal = "";
+    return retVal;
+}
+
 RegSpecification::RegSpecification(Enu::EMnemonic registerAddress, int registerValue) {
     regAddress = registerAddress;
     regValue = registerValue;
@@ -50,6 +55,11 @@ bool RegSpecification::testPostcondition(MainMemory *, CpuPane *cpuPane, QString
     }
 }
 
+QString RegSpecification::getSourceCode() {
+    QString retVal = "";
+    return retVal;
+}
+
 StatusBitSpecification::StatusBitSpecification(Enu::EMnemonic statusBitAddress, bool statusBitValue) {
     nzvcAddress = statusBitAddress;
     nzvcValue = statusBitValue;
@@ -72,3 +82,7 @@ bool StatusBitSpecification::testPostcondition(MainMemory *, CpuPane *cpuPane, Q
     }
 }
 
+QString StatusBitSpecification::getSourceCode() {
+    QString retVal = "";
+    return retVal;
+}

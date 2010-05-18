@@ -151,8 +151,8 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 return false;
             }
             else if (token == Asm::LT_COMMENT) {
-                blankLineCode = new BlankLineCode();
-                code = blankLineCode;
+                commentOnlyCode = new CommentOnlyCode(tokenString);
+                code = commentOnlyCode;
                 state = Asm::PS_COMMENT;
             }
             else if (token == Asm::LT_PRE_POST) {
@@ -176,8 +176,8 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 }
             }
             else if (token == Asm::LT_EMPTY) {
-                commentOnlyCode = new CommentOnlyCode(tokenString);
-                code = commentOnlyCode;
+                blankLineCode = new BlankLineCode();
+                code = blankLineCode;
                 state = Asm::PS_FINISH;
             }
             else {
@@ -384,6 +384,15 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     return false;
                 }
             }
+            else if (token == Asm::LT_COMMENT) {
+                if (processingPrecondition) {
+                    preconditionCode->setComment(tokenString);
+                }
+                else {
+                    postconditionCode->setComment(tokenString);
+                }
+                state = Asm::PS_COMMENT;
+            }
             else if (token == Asm::LT_EMPTY) {
                 state = Asm::PS_FINISH;
             }
@@ -557,6 +566,12 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 state = Asm::PS_START_SPECIFICATION;
             }
             else if (token == Asm::LT_COMMENT) {
+                if (processingPrecondition) {
+                    preconditionCode->setComment(tokenString);
+                }
+                else {
+                    postconditionCode->setComment(tokenString);
+                }
                 state = Asm::PS_COMMENT;
             }
             else if (token == Asm::LT_EMPTY) {

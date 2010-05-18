@@ -21,6 +21,7 @@ int Sim::microCodeCurrentLine;
 
 QStringList Sim::microcodeSourceList;
 void Sim::setMicrocodeSourceList() {
+    Sim::microcodeSourceList.clear();
     for (int i = 0; i < Sim::codeList.length(); i++) {
         Sim::microcodeSourceList.append(Sim::codeList.at(i)->getSourceCode());
     }
