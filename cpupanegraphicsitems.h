@@ -46,6 +46,7 @@ public:
     QLabel *ALULabel;
     QLineEdit *ALULineEdit;
     QLabel *ALUFunctionLabel; // data section
+    QGraphicsPolygonItem *ALUPoly; //data section
 
     QCheckBox *CCkCheckBox;
 
@@ -87,6 +88,11 @@ private:
     QWidget *parent;
 
     QColor seqCircuitColor;
+    QColor combCircuitRed;
+    QColor combCircuitBlue;
+    QColor combCircuitYellow;
+    QColor combCircuitGreen;
+
 
     void repaintLoadCk(QPainter *painter);
     void repaintCSelect(QPainter *painter);

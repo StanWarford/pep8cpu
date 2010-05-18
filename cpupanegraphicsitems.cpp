@@ -16,6 +16,10 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
 {
 
     seqCircuitColor = QColor(Qt::blue).lighter(190);
+    combCircuitRed = QColor(Qt::red);
+    combCircuitBlue = QColor(Qt::blue);
+    combCircuitYellow = QColor(Qt::yellow);
+    combCircuitGreen = QColor(Qt::green);
 
     loadCk = new QCheckBox("LoadCk");
     loadCk->setPalette(QPalette(Qt::white));
@@ -606,9 +610,9 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     poly.clear();
     poly << QPoint(314,342) << QPoint(366,342) << QPoint(370,353) << QPoint(390,353) << QPoint(394,342)
             << QPoint(447,342) << QPoint(421,394) << QPoint(340,394);
-    QGraphicsPolygonItem *polyItem = scene->addPolygon(poly, QPen(QBrush(QColor(Qt::black)), 2, Qt::SolidLine, Qt::SquareCap,
+    ALUPoly = scene->addPolygon(poly, QPen(QBrush(QColor(Qt::black)), 2, Qt::SolidLine, Qt::SquareCap,
                                                                   Qt::BevelJoin), QBrush(QColor(QColor(Qt::white))));
-    polyItem->setZValue(-1);
+    ALUPoly->setZValue(-1);
 
     // Status Bits
     scene->addRect(476,406, 19,19);
@@ -869,7 +873,7 @@ void CpuPaneGraphicsItems::repaintAMuxSelect(QPainter *painter)
         switch (aMux) {
         case (0):
             color = Qt::yellow;
-            aMuxerDataLabel->setPalette(QPalette(QColor(Qt::yellow).lighter(170)));
+            aMuxerDataLabel->setPalette(QPalette(combCircuitYellow));
             break;
         case (1):
             if (aLineEdit->text() == "") { // ABus.state == UNDEFINED
@@ -877,7 +881,7 @@ void CpuPaneGraphicsItems::repaintAMuxSelect(QPainter *painter)
                 aMuxerDataLabel->setPalette(QPalette(Qt::white));
             } else {
                 color = Qt::red;
-                aMuxerDataLabel->setPalette(QPalette(QColor(Qt::red).lighter(170)));
+                aMuxerDataLabel->setPalette(QPalette(combCircuitRed));
             }
             break;
         }
@@ -921,20 +925,24 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
         switch (cMux) {
         case (0):
             color = Qt::yellow;
+            cMuxerLabel->setPalette(QPalette(combCircuitYellow));
             break;
         case (1):
 #warning "Is this right?"
             if (cLineEdit->text() == "") { // CBus.state == UNDEFINED
                 if (cMuxTristateLabel->hasFocus())
                     qDebug() << "WARNING: CMux select: There is no ALU output";
+                cMuxerLabel->setPalette(QPalette(Qt::white));
                 color = Qt::white;
             } else {
+                cMuxerLabel->setPalette(QPalette(combCircuitBlue));
                 color = Qt::blue;
             }
             break;
         }
     }
     else {
+        cMuxerLabel->setPalette(QPalette(Qt::white));
         color = Qt::white;
     }
     painter->setPen(QPen(QBrush(Qt::black), 1));
@@ -1324,7 +1332,8 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
 
     painter->setPen(Qt::black);
 
-    if (/*LOADED == CBus.state*/ false) {
+#warning "something like this..."
+    if (/*LOADED == CBus.state*/ aLineEdit->text() != "" && aMuxTristateLabel->text() != "" && bLineEdit->text() != "") {
         painter->setBrush(Qt::blue);
     } else {
         painter->setBrush(Qt::white);
