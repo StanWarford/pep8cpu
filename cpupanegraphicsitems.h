@@ -32,6 +32,7 @@ public:
 
     QLabel *aMuxLabel;
     QLabel *aMuxerDataLabel; // data section
+    QGraphicsRectItem *aMuxerBorder; // data section
     TristateLabel *aMuxTristateLabel;
 
     QLabel *MDRMuxLabel;

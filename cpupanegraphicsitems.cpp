@@ -598,7 +598,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     scene->addRect(175, 293, 69, 19);
 
     // AMux
-    scene->addRect(306,293, 69,19);
+    aMuxerBorder = scene->addRect(306,293, 69,19);
 
     // CMux
     scene->addRect(250,374, 69,19);
@@ -789,6 +789,7 @@ void CpuPaneGraphicsItems::repaintASelect(QPainter *painter)
     painter->setRenderHint(QPainter::Antialiasing, false);
 
     color = ok ? Qt::red : Qt::white;
+
     painter->setPen(QPen(QBrush(Qt::black), 1));
     painter->setBrush(color);
     // Abus
@@ -886,8 +887,8 @@ void CpuPaneGraphicsItems::repaintAMuxSelect(QPainter *painter)
             break;
         }
     } else {
-        color = Qt::white;
         aMuxerDataLabel->setPalette(QPalette(Qt::white));
+        color = Qt::white;
     }
     painter->setPen(QPen(QBrush(Qt::black), 1));
     painter->setBrush(color);
@@ -929,7 +930,7 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
             break;
         case (1):
 #warning "Is this right?"
-            if (cLineEdit->text() == "") { // CBus.state == UNDEFINED
+            if (ALULineEdit->text() == "") { // CBus.state == UNDEFINED
                 if (cMuxTristateLabel->hasFocus())
                     qDebug() << "WARNING: CMux select: There is no ALU output";
                 cMuxerLabel->setPalette(QPalette(Qt::white));
@@ -1417,21 +1418,26 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
         {
         case(0):
             if (MemReadTristateLabel->text().toInt() == 1 && Sim::memReadPrevStep) { // MainBus.state == MEM_READ_DATA
+                MDRMuxerDataLabel->setPalette(QPalette(combCircuitGreen));
                 painter->setBrush(QBrush(QColor(16, 150, 24))); // green
             }
             else {
+                MDRMuxerDataLabel->setPalette(QPalette(Qt::white));
                 painter->setBrush(Qt::white);
             }
             break;
         case(1):
             if (cMuxTristateLabel->text() == "") { // CMuxBus.state == UNDEFINED
+                MDRMuxerDataLabel->setPalette(QPalette(Qt::white));
                 painter->setBrush(Qt::white);
             }
             else {
                 if (cMuxTristateLabel->text() == "0") {
+                    MDRMuxerDataLabel->setPalette(QPalette(combCircuitYellow));
                     painter->setBrush(Qt::yellow);
                 }
                 else if (true /*ALU has output*/){
+                    MDRMuxerDataLabel->setPalette(QPalette(combCircuitBlue));
                     painter->setBrush(Qt::blue);
                 }
             }
@@ -1439,6 +1445,7 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
         }
     }
     else {
+        MDRMuxerDataLabel->setPalette(QPalette(Qt::white));
         painter->setBrush(Qt::white);
     }
 
