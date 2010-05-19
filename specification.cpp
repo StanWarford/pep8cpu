@@ -22,7 +22,10 @@ bool MemSpecification::testPostcondition(MainMemory *mainMemory, CpuPane *, QStr
 }
 
 QString MemSpecification::getSourceCode() {
-    QString retVal = "";
+    QString retVal = "Mem["
+                     + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0'))
+                     + "]="
+                     + QString("0x%1").arg(memValue, 4, 16, QLatin1Char('0'));
     return retVal;
 }
 
@@ -39,7 +42,7 @@ bool RegSpecification::testPostcondition(MainMemory *, CpuPane *cpuPane, QString
     if (cpuPane->testRegPostcondition(regAddress, regValue)) {
         return true;
     }
-    switch (regValue) {
+    switch (regAddress) {
     case Enu::E_A: errorString = "// Error: Unit test failed for register A."; return false;
     case Enu::E_X: errorString = "// Error: Unit test failed for register X."; return false;
     case Enu::E_SP: errorString = "// Error: Unit test failed for register SP."; return false;
@@ -56,8 +59,20 @@ bool RegSpecification::testPostcondition(MainMemory *, CpuPane *cpuPane, QString
 }
 
 QString RegSpecification::getSourceCode() {
-    QString retVal = "";
-    return retVal;
+    switch (regAddress) {
+    case Enu::E_A: return "A=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::E_X: return "X=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::E_SP: return "SP=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::E_PC: return "PC=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::E_IR: return "IR=" + QString("0x%1").arg(regValue, 6, 16, QLatin1Char('0'));
+    case Enu::E_T1: return "T1=" + QString("0x%1").arg(regValue, 2, 16, QLatin1Char('0'));
+    case Enu::E_T2: return "T2=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::E_T3: return "T3=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::E_T4: return "T4=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::E_T5: return "T5=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::E_T6: return "T6=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    default: return "";
+    }
 }
 
 StatusBitSpecification::StatusBitSpecification(Enu::EMnemonic statusBitAddress, bool statusBitValue) {

@@ -179,8 +179,12 @@ PreconditionCode::~PreconditionCode() {
 QString PreconditionCode::getSourceCode() {
     QString str = "UnitPre: ";
     for (int i = 0; i < preconditionList.size(); i++) {
-        str.append(preconditionList.at(i)->getSourceCode());
+        str.append(preconditionList.at(i)->getSourceCode() + ", ");
     }
+    if (str.endsWith(", ")) {
+        str.chop(2);
+    }
+    str.append(" " + cComment);
     return str;
 }
 
@@ -207,8 +211,12 @@ PostconditionCode::~PostconditionCode() {
 QString PostconditionCode::getSourceCode() {
     QString str = "UnitPost: ";
     for (int i = 0; i < postconditionList.size(); i++) {
-        str.append(postconditionList.at(i)->getSourceCode());
+        str.append(postconditionList.at(i)->getSourceCode() + ", ");
     }
+    if (str.endsWith(", ")) {
+        str.chop(2);
+    }
+    str.append(" " + cComment);
     return str;
 }
 
