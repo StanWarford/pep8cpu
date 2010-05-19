@@ -89,15 +89,20 @@ bool StatusBitSpecification::testPostcondition(MainMemory *, CpuPane *cpuPane, Q
         return true;
     }
     switch (nzvcValue) {
-    case Enu::N: errorString = "// Error: Unit test failed for status bit N."; return false;
-    case Enu::Z: errorString = "// Error: Unit test failed for status bit Z."; return false;
-    case Enu::V: errorString = "// Error: Unit test failed for status bit V."; return false;
-    case Enu::C: errorString = "// Error: Unit test failed for status bit C."; return false;
+    case Enu::E_N: errorString = "// Error: Unit test failed for status bit N."; return false;
+    case Enu::E_Z: errorString = "// Error: Unit test failed for status bit Z."; return false;
+    case Enu::E_V: errorString = "// Error: Unit test failed for status bit V."; return false;
+    case Enu::E_C: errorString = "// Error: Unit test failed for status bit C."; return false;
     default: return false;
     }
 }
 
 QString StatusBitSpecification::getSourceCode() {
-    QString retVal = "";
-    return retVal;
+    switch (nzvcAddress) {
+    case Enu::E_N: return "N=" + QString("%1").arg(nzvcValue);
+    case Enu::E_Z: return "Z=" + QString("%1").arg(nzvcValue);
+    case Enu::E_V: return "V=" + QString("%1").arg(nzvcValue);
+    case Enu::E_C: return "C=" + QString("%1").arg(nzvcValue);
+    default: return "";
+    }
 }
