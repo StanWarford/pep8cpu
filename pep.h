@@ -21,6 +21,7 @@ public:
 
     // Function to read text from a resource file
     static QString resToString(QString fileName);
+    static QString addCycleNumbers(QString codeString);
 
     // Maps between mnemonic enums and strings
     static QMap<Enu::EMnemonic, QString> decControlToMnemonMap;

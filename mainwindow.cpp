@@ -180,7 +180,7 @@ bool MainWindow::saveFile(const QString &fileName)
     QTextStream out(&file);
     out.setCodec(QTextCodec::codecForName("ISO 8859-1"));
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    out << microcodePane->getMicrocode();
+    out << Pep::addCycleNumbers(microcodePane->getMicrocode());
     QApplication::restoreOverrideCursor();
 
     setCurrentFile(fileName);
