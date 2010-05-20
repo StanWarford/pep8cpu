@@ -90,6 +90,17 @@ CpuPane::CpuPane(QWidget *parent) :
 
     // Register editing connnections
     connect(cpuPaneItems->aRegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+    connect(cpuPaneItems->xRegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+    connect(cpuPaneItems->spRegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+    connect(cpuPaneItems->pcRegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+    connect(cpuPaneItems->irRegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+    connect(cpuPaneItems->t1RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+    connect(cpuPaneItems->t2RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+    connect(cpuPaneItems->t3RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+    connect(cpuPaneItems->t4RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+    connect(cpuPaneItems->t5RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+    connect(cpuPaneItems->t6RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+
 }
 
 CpuPane::~CpuPane()
@@ -299,6 +310,52 @@ void CpuPane::changeEvent(QEvent *e)
 
 void CpuPane::regTextEdited(QString str)
 {
+    qDebug() << "str: " << str;
+    QLineEdit *lineEdit = qobject_cast<QLineEdit *>(sender());
+
+    if (!str.startsWith("0x")) {
+        lineEdit->setText("0x" + str);
+    }
+    else {
+        str.remove(0, 2);
+        str = str.toUpper();
+        str.prepend("0x");
+        lineEdit->setText(str);
+    }
+
+    if (lineEdit == cpuPaneItems->aRegLineEdit) {
+
+    }
+    else if (lineEdit == cpuPaneItems->xRegLineEdit) {
+
+    }
+    else if (lineEdit == cpuPaneItems->spRegLineEdit) {
+
+    }
+    else if (lineEdit == cpuPaneItems->pcRegLineEdit) {
+
+    }
+    else if (lineEdit == cpuPaneItems->irRegLineEdit) {
+
+    }
+    else if (lineEdit == cpuPaneItems->t1RegLineEdit) {
+
+    }
+    else if (lineEdit == cpuPaneItems->t2RegLineEdit) {
+
+    }
+    else if (lineEdit == cpuPaneItems->t3RegLineEdit) {
+
+    }
+    else if (lineEdit == cpuPaneItems->t4RegLineEdit) {
+
+    }
+    else if (lineEdit == cpuPaneItems->t5RegLineEdit) {
+
+    }
+    else if (lineEdit == cpuPaneItems->t6RegLineEdit) {
+
+    }
 
 }
 
