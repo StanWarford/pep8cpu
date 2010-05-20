@@ -46,6 +46,8 @@ private:
     CpuPaneGraphicsItems *cpuPaneItems;
 
 private slots:
+    void regTextEdited(QString str);
+
     void zoomFactorChanged(int factor);
 
     void labelClicked();

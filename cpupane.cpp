@@ -1,6 +1,5 @@
 #include "cpupane.h"
 #include "ui_cpupane.h"
-#include "enu.h"
 
 #include <QCheckBox>
 #include <QLineEdit>
@@ -11,9 +10,9 @@
 
 #include "cpupanegraphicsitems.h"
 #include "tristatelabel.h"
-#include "sim.h"
 #include "pep.h"
 #include "code.h"
+#include "sim.h"
 
 using namespace Enu;
 
@@ -88,6 +87,9 @@ CpuPane::CpuPane(QWidget *parent) :
     // Simulation control connections
     connect(ui->singleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStepButtonPushed()));
     connect(ui->resumePushButton, SIGNAL(clicked()), this, SLOT(resumeButtonPushed()));
+
+    // Register editing connnections
+    connect(cpuPaneItems->aRegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
 }
 
 CpuPane::~CpuPane()
@@ -134,7 +136,7 @@ void CpuPane::stopDebugging()
     ui->singleStepPushButton->setEnabled(false);
 }
 
-void CpuPane::setRegister(Enu::EMnemonic, int value) {
+void CpuPane::setRegister(Enu::EMnemonic reg, int value) {
     switch (reg) {
     case Enu::E_A:
         Sim::aReg = value;
@@ -293,6 +295,11 @@ void CpuPane::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void CpuPane::regTextEdited(QString str)
+{
+
 }
 
 void CpuPane::zoomFactorChanged(int factor)

@@ -220,7 +220,7 @@ void MainWindow::on_actionFile_Open_triggered()
                 this,
                 "Open text file",
                 curPath,
-                "Text files (*.pepo *.txt *.pep)");
+                "Text files (*.pepcpu *.txt)");
         if (!fileName.isEmpty()) {
             loadFile(fileName);
             curPath = QFileInfo(fileName).path();

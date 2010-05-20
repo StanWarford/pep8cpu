@@ -10,17 +10,17 @@ QVector<int> Sim::MARB(2);
 QVector<int> Sim::MDR(2);
 bool Sim::nBit, Sim::zBit, Sim::vBit, Sim::cBit;
 
-int aReg = 0;
-int xReg = 0;
-int spReg = 0;
-int pcReg = 0;
-int irReg = 0;
-int t1Reg = 0;
-int t2Reg = 0;
-int t3Reg = 0;
-int t4Reg = 0;
-int t5Reg = 0;
-int t6Reg = 0;
+int Sim::aReg = 0;
+int Sim::xReg = 0;
+int Sim::spReg = 0;
+int Sim::pcReg = 0;
+int Sim::irReg = 0;
+int Sim::t1Reg = 0;
+int Sim::t2Reg = 0;
+int Sim::t3Reg = 0;
+int Sim::t4Reg = 0;
+int Sim::t5Reg = 0;
+int Sim::t6Reg = 0;
 
 QSet<int> Sim::modifiedBytes;
 
