@@ -128,7 +128,7 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
             ui->helpSplitter->widget(0)->hide();
             ui->helpSplitter->widget(1)->show();
             if (row == eEX1207A) {
-                ui->helpTextEdit->setPlainText(Pep::resToString(":/help/figures/exer1207a.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207a.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (a)</b> Specification for <code>STBYTEA there,n</code>.");
             }
             else if (row == eEX1207B) {
