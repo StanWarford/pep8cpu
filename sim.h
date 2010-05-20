@@ -16,6 +16,24 @@ public:
     static QVector<int> MDR;
     static bool nBit, zBit, vBit, cBit;
 
+    static int aReg;
+    static int xReg;
+    static int spReg;
+    static int pcReg;
+    static int irReg;
+    static int t1Reg;
+    static int t2Reg;
+    static int t3Reg;
+    static int t4Reg;
+    static int t5Reg;
+    static int t6Reg;
+    static const int m1Reg = 0x0001;
+    static const int m2Reg = 0x0203;
+    static const int m3Reg = 0x0408;
+    static const int m4Reg = 0xFAFC;
+    static const int m5Reg = 0xFEFF;
+
+
     // Used for keeping track of which bytes have been modified since last memory update:
     static QSet<int> modifiedBytes;
 

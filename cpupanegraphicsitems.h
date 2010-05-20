@@ -94,7 +94,6 @@ private:
     QColor combCircuitYellow;
     QColor combCircuitGreen;
 
-
     void repaintLoadCk(QPainter *painter);
     void repaintCSelect(QPainter *painter);
     void repaintBSelect(QPainter *painter);

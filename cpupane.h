@@ -27,6 +27,9 @@ public:
     void startDebugging();
     void stopDebugging();
 
+    void setRegister(Enu::EMnemonic reg, int value);
+    void setStatusBit(Enu::EMnemonic bit, bool value);
+
     void setRegPrecondition(Enu::EMnemonic reg, int value);
     void setStatusPrecondition(Enu::EMnemonic bit, bool value);
     bool testRegPostcondition(Enu::EMnemonic reg, int value);

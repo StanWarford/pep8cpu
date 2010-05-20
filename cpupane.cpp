@@ -134,40 +134,50 @@ void CpuPane::stopDebugging()
     ui->singleStepPushButton->setEnabled(false);
 }
 
-void CpuPane::setRegPrecondition(Enu::EMnemonic reg, int value)
-{
+void CpuPane::setRegister(Enu::EMnemonic, int value) {
     switch (reg) {
     case Enu::E_A:
+        Sim::aReg = value;
         cpuPaneItems->aRegLineEdit->setText(QString("%1").arg(value, 4, 16));
         break;
     case Enu::E_X:
+        Sim::xReg = value;
         cpuPaneItems->xRegLineEdit->setText(QString("%1").arg(value, 4, 16));
         break;
     case Enu::E_SP:
+        Sim::spReg = value;
         cpuPaneItems->spRegLineEdit->setText(QString("%1").arg(value, 4, 16));
         break;
     case Enu::E_PC:
+        Sim::pcReg = value;
         cpuPaneItems->pcRegLineEdit->setText(QString("%1").arg(value, 4, 16));
         break;
     case Enu::E_IR:
+        Sim::irReg = value;
         cpuPaneItems->irRegLineEdit->setText(QString("%1").arg(value, 4, 16));
         break;
     case Enu::E_T1:
+        Sim::t1Reg = value;
         cpuPaneItems->t1RegLineEdit->setText(QString("%1").arg(value, 4, 16));
         break;
     case Enu::E_T2:
+        Sim::t2Reg = value;
         cpuPaneItems->t2RegLineEdit->setText(QString("%1").arg(value, 4, 16));
         break;
     case Enu::E_T3:
+        Sim::t3Reg = value;
         cpuPaneItems->t3RegLineEdit->setText(QString("%1").arg(value, 4, 16));
         break;
     case Enu::E_T4:
+        Sim::t4Reg = value;
         cpuPaneItems->t4RegLineEdit->setText(QString("%1").arg(value, 4, 16));
         break;
     case Enu::E_T5:
+        Sim::t5Reg = value;
         cpuPaneItems->t5RegLineEdit->setText(QString("%1").arg(value, 4, 16));
         break;
     case Enu::E_T6:
+        Sim::t6Reg = value;
         cpuPaneItems->t6RegLineEdit->setText(QString("%1").arg(value, 4, 16));
         break;
     default:
@@ -175,19 +185,23 @@ void CpuPane::setRegPrecondition(Enu::EMnemonic reg, int value)
     }
 }
 
-void CpuPane::setStatusPrecondition(Enu::EMnemonic bit, bool value)
+void CpuPane::setStatusBit(Enu::EMnemonic bit, bool value)
 {
     switch (bit) {
     case Enu::E_N:
+        Sim::nBit = value;
         cpuPaneItems->nBitLabel->setText(QString("%1").arg(value ? 1 : 0));
         break;
     case Enu::E_Z:
+        Sim::zBit = value;
         cpuPaneItems->zBitLabel->setText(QString("%1").arg(value ? 1 : 0));
         break;
     case Enu::E_V:
+        Sim::vBit = value;
         cpuPaneItems->vBitLabel->setText(QString("%1").arg(value ? 1 : 0));
         break;
     case Enu::E_C:
+        Sim::cBit = value;
         cpuPaneItems->cBitLabel->setText(QString("%1").arg(value ? 1 : 0));
         break;
     default:
@@ -195,15 +209,77 @@ void CpuPane::setStatusPrecondition(Enu::EMnemonic bit, bool value)
     }
 }
 
+void CpuPane::setRegPrecondition(Enu::EMnemonic reg, int value)
+{
+    setRegister(reg, value);
+}
+
+void CpuPane::setStatusPrecondition(Enu::EMnemonic bit, bool value)
+{
+    setStatusBit(bit, value);
+}
+
 bool CpuPane::testRegPostcondition(Enu::EMnemonic reg, int value) {
-    (void)reg;
     (void)value;
+    switch (reg) {
+    case Enu::E_A:
+        return Sim::aReg == value;
+        break;
+    case Enu::E_X:
+        return Sim::xReg == value;
+        break;
+    case Enu::E_SP:
+        return Sim::spReg == value;
+        break;
+    case Enu::E_PC:
+        return Sim::pcReg == value;
+        break;
+    case Enu::E_IR:
+        return Sim::irReg == value;
+        break;
+    case Enu::E_T1:
+        return Sim::t1Reg == value;
+        break;
+    case Enu::E_T2:
+        return Sim::t2Reg == value;
+        break;
+    case Enu::E_T3:
+        return Sim::t3Reg == value;
+        break;
+    case Enu::E_T4:
+        return Sim::t4Reg == value;
+        break;
+    case Enu::E_T5:
+        return Sim::t5Reg == value;
+        break;
+    case Enu::E_T6:
+        return Sim::t6Reg == value;
+        break;
+    default:
+        break;
+    }
+
     return true;
 }
 
 bool CpuPane::testStatusPostcondition(Enu::EMnemonic bit, bool value) {
-    (void)bit;
-    (void)value;
+    switch (bit) {
+    case Enu::E_N:
+        return Sim::nBit == value;
+        break;
+    case Enu::E_Z:
+        return Sim::zBit == value;
+        break;
+    case Enu::E_V:
+        return Sim::vBit == value;
+        break;
+    case Enu::E_C:
+        return Sim::cBit == value;
+        break;
+    default:
+        break;
+    }
+
     return true;
 }
 
