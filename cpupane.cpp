@@ -313,8 +313,14 @@ void CpuPane::regTextEdited(QString str)
     qDebug() << "str: " << str;
     QLineEdit *lineEdit = qobject_cast<QLineEdit *>(sender());
 
-    if (!str.startsWith("0x")) {
-        lineEdit->setText("0x" + str);
+    // Make sure the string isn't mangled
+    if (str == "0") {
+        str = "0x";
+        lineEdit->setText(str);
+    }
+    else if (!str.startsWith("0x")) {
+        str.prepend("0x");
+        lineEdit->setText(str);
     }
     else {
         str.remove(0, 2);
@@ -323,40 +329,51 @@ void CpuPane::regTextEdited(QString str)
         lineEdit->setText(str);
     }
 
-    if (lineEdit == cpuPaneItems->aRegLineEdit) {
+    // Get the hex value of the string
+    int regValue = 0;
+    str.remove(0, 2);
+    if (str.length() > 0) {
+        bool ok;
+        regValue = str.toInt(&ok, 16);
+    }
+    else {
+        // Exactly "0x" remains, so do nothing
+        return;
+    }
 
+    if (lineEdit == cpuPaneItems->aRegLineEdit) {
+        Sim::aReg = regValue;
     }
     else if (lineEdit == cpuPaneItems->xRegLineEdit) {
-
+        Sim::xReg = regValue;
     }
     else if (lineEdit == cpuPaneItems->spRegLineEdit) {
-
+        Sim::spReg = regValue;
     }
     else if (lineEdit == cpuPaneItems->pcRegLineEdit) {
-
+        Sim::pcReg = regValue;
     }
     else if (lineEdit == cpuPaneItems->irRegLineEdit) {
-
+        Sim::irReg = regValue;
     }
     else if (lineEdit == cpuPaneItems->t1RegLineEdit) {
-
+        Sim::t1Reg = regValue;
     }
     else if (lineEdit == cpuPaneItems->t2RegLineEdit) {
-
+        Sim::t2Reg = regValue;
     }
     else if (lineEdit == cpuPaneItems->t3RegLineEdit) {
-
+        Sim::t3Reg = regValue;
     }
     else if (lineEdit == cpuPaneItems->t4RegLineEdit) {
-
+        Sim::t4Reg = regValue;
     }
     else if (lineEdit == cpuPaneItems->t5RegLineEdit) {
-
+        Sim::t5Reg = regValue;
     }
     else if (lineEdit == cpuPaneItems->t6RegLineEdit) {
-
+        Sim::t6Reg = regValue;
     }
-
 }
 
 void CpuPane::zoomFactorChanged(int factor)

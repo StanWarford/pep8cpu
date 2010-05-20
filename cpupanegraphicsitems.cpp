@@ -256,7 +256,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     aRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     aRegLineEdit->setGeometry(52,10, 60,19);
     aRegLineEdit->setText("0x0000");
-    aRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
+    aRegLineEdit->setValidator(new QRegExpValidator(QRegExp("(0x){0,1}([0-9a-fA-F]){0,4}"), 0));
     aRegLineEdit->setPalette(QPalette(seqCircuitColor));
     aRegLineEdit->setFrame(false);
     scene->addWidget(aRegLineEdit);
@@ -278,7 +278,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     xRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     xRegLineEdit->setGeometry(53,38, 60,19);
     xRegLineEdit->setText("0x0000");
-    xRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
+    xRegLineEdit->setValidator(new QRegExpValidator(QRegExp("(0x){0,1}([0-9a-fA-F]){0,4}"), 0));
     xRegLineEdit->setPalette(QPalette(seqCircuitColor));
     xRegLineEdit->setFrame(false);
     scene->addWidget(xRegLineEdit);
@@ -299,7 +299,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     spRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     spRegLineEdit->setGeometry(52,66, 60,19);
     spRegLineEdit->setText("0x0000");
-    spRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x[0-9a-fA-F]{0,4}"), 0));
+    spRegLineEdit->setValidator(new QRegExpValidator(QRegExp("(0x){0,1}[0-9a-fA-F]{0,4}"), 0));
     spRegLineEdit->setPalette(QPalette(seqCircuitColor));
     spRegLineEdit->setFrame(false);
     scene->addWidget(spRegLineEdit);
@@ -320,7 +320,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     pcRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     pcRegLineEdit->setGeometry(52,94, 60,19);
     pcRegLineEdit->setText("0x0000");
-    pcRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
+    pcRegLineEdit->setValidator(new QRegExpValidator(QRegExp("(0x){0,1}([0-9a-fA-F]){0,4}"), 0));
     pcRegLineEdit->setPalette(QPalette(seqCircuitColor));
     pcRegLineEdit->setFrame(false);
     scene->addWidget(pcRegLineEdit);
@@ -342,7 +342,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     irRegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     irRegLineEdit->setGeometry(182,10, 76,19);
     irRegLineEdit->setText("0x000000");
-    irRegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,6}"), 0));
+    irRegLineEdit->setValidator(new QRegExpValidator(QRegExp("(0x){0,1}([0-9a-fA-F]){0,6}"), 0));
     irRegLineEdit->setPalette(QPalette(seqCircuitColor));
     irRegLineEdit->setFrame(false);
     scene->addWidget(irRegLineEdit);
@@ -363,7 +363,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t1RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t1RegLineEdit->setGeometry(182,38, 45,19);
     t1RegLineEdit->setText("0x00");
-    t1RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,2}"), 0));
+    t1RegLineEdit->setValidator(new QRegExpValidator(QRegExp("(0x){0,1}([0-9a-fA-F]){0,2}"), 0));
     t1RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t1RegLineEdit->setFrame(false);
     scene->addWidget(t1RegLineEdit);
@@ -384,7 +384,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t2RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t2RegLineEdit->setGeometry(182,66, 60,19);
     t2RegLineEdit->setText("0x0000");
-    t2RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
+    t2RegLineEdit->setValidator(new QRegExpValidator(QRegExp("(0x){0,1}([0-9a-fA-F]){0,4}"), 0));
     t2RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t2RegLineEdit->setFrame(false);
     scene->addWidget(t2RegLineEdit);
@@ -405,7 +405,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t3RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t3RegLineEdit->setGeometry(182,94, 60,19);
     t3RegLineEdit->setText("0x0000");
-    t3RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
+    t3RegLineEdit->setValidator(new QRegExpValidator(QRegExp("(0x){0,1}([0-9a-fA-F]){0,4}"), 0));
     t3RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t3RegLineEdit->setFrame(false);
     scene->addWidget(t3RegLineEdit);
@@ -426,7 +426,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t4RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t4RegLineEdit->setGeometry(311,10, 60,19);
     t4RegLineEdit->setText("0x0000");
-    t4RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
+    t4RegLineEdit->setValidator(new QRegExpValidator(QRegExp("(0x){0,1}([0-9a-fA-F]){0,4}"), 0));
     t4RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t4RegLineEdit->setFrame(false);
     scene->addWidget(t4RegLineEdit);
@@ -447,7 +447,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t5RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t5RegLineEdit->setGeometry(311,38, 60,19);
     t5RegLineEdit->setText("0x0000");
-    t5RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
+    t5RegLineEdit->setValidator(new QRegExpValidator(QRegExp("(0x){0,1}([0-9a-fA-F]){0,4}"), 0));
     t5RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t5RegLineEdit->setFrame(false);
     scene->addWidget(t5RegLineEdit);
@@ -468,7 +468,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     t6RegLineEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     t6RegLineEdit->setGeometry(311,66, 60,19);
     t6RegLineEdit->setText("0x0000");
-    t6RegLineEdit->setValidator(new QRegExpValidator(QRegExp("0x([0-9a-fA-F]){0,4}"), 0));
+    t6RegLineEdit->setValidator(new QRegExpValidator(QRegExp("(0x){0,1}([0-9a-fA-F]){0,4}"), 0));
     t6RegLineEdit->setPalette(QPalette(seqCircuitColor));
     t6RegLineEdit->setFrame(false);
     scene->addWidget(t6RegLineEdit);
