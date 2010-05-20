@@ -10,23 +10,39 @@ MemSpecification::MemSpecification(int memoryAddress, int memoryValue) {
 }
 
 void MemSpecification::setPrecondition(MainMemory *mainMemory, CpuPane *) {
-    mainMemory->setMemPrecondition(memAddress, memValue);
+    if (memValue < 256) {
+        mainMemory->setMemPrecondition(memAddress, memValue);
+    }
+    else {
+        mainMemory->setMemPrecondition(memAddress, memValue / 256);
+        mainMemory->setMemPrecondition(memAddress + 1, memValue % 256);
+    }
 }
 
 bool MemSpecification::testPostcondition(MainMemory *mainMemory, CpuPane *, QString &errorString) {
-    if (mainMemory->testMemPostcondition(memAddress, memValue)) {
-        return true;
+    if (memValue < 256) {
+        if (mainMemory->testMemPostcondition(memAddress, memValue)) {
+            return true;
+        }
+        errorString = "// Error: Unit test failed for byte Mem[." + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0')) + "].";
+        return false;
     }
-    errorString = "// Error: Unit test failed for Mem[." + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0')) + "].";
-    return false;
+    else {
+        if ((mainMemory->testMemPostcondition(memAddress, memValue) / 256) && (mainMemory->testMemPostcondition(memAddress + 1, memValue) % 256)) {
+            return true;
+        }
+        errorString = "// Error: Unit test failed for word Mem[." + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0')) + "].";
+        return false;
+    }
 }
 
 QString MemSpecification::getSourceCode() {
-    QString retVal = "Mem["
-                     + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0'))
-                     + "]="
-                     + QString("0x%1").arg(memValue, 4, 16, QLatin1Char('0'));
-    return retVal;
+    return "Mem["
+            + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0'))
+            + "]="
+            + (memValue < 256 ?
+               QString("0x%1").arg(memValue, 2, 16, QLatin1Char('0')) :
+               QString("0x%1").arg(memValue, 4, 16, QLatin1Char('0'))) ;
 }
 
 RegSpecification::RegSpecification(Enu::EMnemonic registerAddress, int registerValue) {
