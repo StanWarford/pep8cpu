@@ -319,6 +319,7 @@ void CpuPane::regTextEdited(QString str)
         lineEdit->setText(str);
     }
     else if (!str.startsWith("0x")) {
+        str = str.toUpper();
         str.prepend("0x");
         lineEdit->setText(str);
     }
@@ -326,7 +327,9 @@ void CpuPane::regTextEdited(QString str)
         str.remove(0, 2);
         str = str.toUpper();
         str.prepend("0x");
+        int pos = lineEdit->cursorPosition();
         lineEdit->setText(str);
+        lineEdit->setCursorPosition(pos);
     }
 
     // Get the hex value of the string

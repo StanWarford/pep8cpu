@@ -33,8 +33,7 @@ SOURCES += main.cpp \
     asm.cpp \
     tristatelabel.cpp \
     objectcodelabel.cpp \
-    specification.cpp \
-    reglineedit.cpp
+    specification.cpp
 HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
@@ -56,8 +55,7 @@ HEADERS += mainwindow.h \
     asm.h \
     tristatelabel.h \
     objectcodelabel.h \
-    specification.h \
-    reglineedit.h
+    specification.h
 FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \
