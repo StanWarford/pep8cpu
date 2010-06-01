@@ -178,7 +178,7 @@ void MainMemory::changeEvent(QEvent *e)
 
 void MainMemory::resizeEvent(QResizeEvent *)
 {
-    int newRowCount = ui->tableWidget->height()/ui->tableWidget->rowHeight(0) + 1;
+    int newRowCount = ui->tableWidget->height()/ui->tableWidget->rowHeight(0) - 1;
     // +1 to make it look like we're actually scrolling and not shuffling items
     if (newRowCount > oldRowCount) {
         ui->tableWidget->setRowCount(newRowCount);
