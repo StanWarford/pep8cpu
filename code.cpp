@@ -103,60 +103,60 @@ QString MicroCode::getSourceCode()
 
 bool MicroCode::has(Enu::EMnemonic field) {
     switch (field) {
-    case Enu::E_LoadCk: return cLoadCk != -1;
-    case Enu::E_C: return cC != -1;
-    case Enu::E_B: return cB != -1;
-    case Enu::E_A: return cA != -1;
-    case Enu::E_MARCk: return cMARCk != -1;
-    case Enu::E_MDRCk: return cMDRCk != -1;
-    case Enu::E_AMux: return cAMux != -1;
-    case Enu::E_MDRMux: return cMDRMux != -1;
-    case Enu::E_CMux: return cCMux != -1;
-    case Enu::E_ALU: return cALU != -1;
-    case Enu::E_CCk: return cCCk != -1;
-    case Enu::E_VCk: return cVCk != -1;
-    case Enu::E_ANDZ: return cANDZ != -1;
-    case Enu::E_ZCk: return cZCk != -1;
-    case Enu::E_NCk: return cNCk != -1;
-    case Enu::E_MemWrite: return cMemWrite != -1;
-    case Enu::E_MemRead: return cMemRead != -1;
+    case Enu::LoadCk: return cLoadCk != -1;
+    case Enu::C: return cC != -1;
+    case Enu::B: return cB != -1;
+    case Enu::A: return cA != -1;
+    case Enu::MARCk: return cMARCk != -1;
+    case Enu::MDRCk: return cMDRCk != -1;
+    case Enu::AMux: return cAMux != -1;
+    case Enu::MDRMux: return cMDRMux != -1;
+    case Enu::CMux: return cCMux != -1;
+    case Enu::ALU: return cALU != -1;
+    case Enu::CCk: return cCCk != -1;
+    case Enu::VCk: return cVCk != -1;
+    case Enu::ANDZ: return cANDZ != -1;
+    case Enu::ZCk: return cZCk != -1;
+    case Enu::NCk: return cNCk != -1;
+    case Enu::MemWrite: return cMemWrite != -1;
+    case Enu::MemRead: return cMemRead != -1;
     default: return true;
     }
 }
 
 void MicroCode::set(Enu::EMnemonic field, int value) {
     switch (field) {
-    case Enu::E_LoadCk: cLoadCk = value; break;
-    case Enu::E_C: cC = value; break;
-    case Enu::E_B: cB = value; break;
-    case Enu::E_A: cA = value; break;
-    case Enu::E_MARCk: cMARCk = value; break;
-    case Enu::E_MDRCk: cMDRCk = value; break;
-    case Enu::E_AMux: cAMux = value; break;
-    case Enu::E_MDRMux: cMDRMux = value; break;
-    case Enu::E_CMux: cCMux = value; break;
-    case Enu::E_ALU: cALU = value; break;
-    case Enu::E_CCk: cCCk = value; break;
-    case Enu::E_VCk: cVCk = value; break;
-    case Enu::E_ANDZ: cANDZ = value; break;
-    case Enu::E_ZCk: cZCk = value; break;
-    case Enu::E_NCk: cNCk = value; break;
-    case Enu::E_MemWrite: cMemWrite = value; break;
-    case Enu::E_MemRead: cMemRead = value; break;
+    case Enu::LoadCk: cLoadCk = value; break;
+    case Enu::C: cC = value; break;
+    case Enu::B: cB = value; break;
+    case Enu::A: cA = value; break;
+    case Enu::MARCk: cMARCk = value; break;
+    case Enu::MDRCk: cMDRCk = value; break;
+    case Enu::AMux: cAMux = value; break;
+    case Enu::MDRMux: cMDRMux = value; break;
+    case Enu::CMux: cCMux = value; break;
+    case Enu::ALU: cALU = value; break;
+    case Enu::CCk: cCCk = value; break;
+    case Enu::VCk: cVCk = value; break;
+    case Enu::ANDZ: cANDZ = value; break;
+    case Enu::ZCk: cZCk = value; break;
+    case Enu::NCk: cNCk = value; break;
+    case Enu::MemWrite: cMemWrite = value; break;
+    case Enu::MemRead: cMemRead = value; break;
     default: break;
     }
 }
 
 bool MicroCode::inRange(Enu::EMnemonic field, int value) {
     switch (field) {
-    case Enu::E_C: return 0 <= value && value <= 31;
-    case Enu::E_B: return 0 <= value && value <= 31;
-    case Enu::E_A: return 0 <= value && value <= 31;
-    case Enu::E_AMux: return 0 <= value && value <= 1;
-    case Enu::E_MDRMux: return 0 <= value && value <= 1;
-    case Enu::E_CMux: return 0 <= value && value <= 1;
-    case Enu::E_ALU: return 0 <= value && value <= 15;
-    case Enu::E_ANDZ: return 0 <= value && value <= 1;
+    case Enu::C: return 0 <= value && value <= 31;
+    case Enu::B: return 0 <= value && value <= 31;
+    case Enu::A: return 0 <= value && value <= 31;
+    case Enu::AMux: return 0 <= value && value <= 1;
+    case Enu::MDRMux: return 0 <= value && value <= 1;
+    case Enu::CMux: return 0 <= value && value <= 1;
+    case Enu::ALU: return 0 <= value && value <= 15;
+    case Enu::ANDZ: return 0 <= value && value <= 1;
     default: return true;
     }
 }

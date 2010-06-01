@@ -4,10 +4,6 @@
 using namespace Enu;
 
 QVector<int> Sim::Mem(65536);
-QVector<int> Sim::Reg(32);
-QVector<int> Sim::MARA(2);
-QVector<int> Sim::MARB(2);
-QVector<int> Sim::MDR(2);
 bool Sim::nBit, Sim::zBit, Sim::vBit, Sim::cBit;
 
 int Sim::aReg = 0;
@@ -21,6 +17,10 @@ int Sim::t3Reg = 0;
 int Sim::t4Reg = 0;
 int Sim::t5Reg = 0;
 int Sim::t6Reg = 0;
+
+int Sim::MARA = 0;
+int Sim::MARB = 0;
+int Sim::MDR = 0;
 
 QSet<int> Sim::modifiedBytes;
 

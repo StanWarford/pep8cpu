@@ -35,6 +35,8 @@ public:
     bool testRegPostcondition(Enu::EMnemonic reg, int value);
     bool testStatusPostcondition(Enu::EMnemonic bit, bool value);
 
+    void clearCpu();
+
 protected:
     void changeEvent(QEvent *e);
 

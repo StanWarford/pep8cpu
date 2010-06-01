@@ -149,49 +149,61 @@ void CpuPane::stopDebugging()
 
 void CpuPane::setRegister(Enu::EMnemonic reg, int value) {
     switch (reg) {
-    case Enu::E_A:
+    case Enu::A:
         Sim::aReg = value;
-        cpuPaneItems->aRegLineEdit->setText(QString("%1").arg(value, 4, 16));
+        cpuPaneItems->aRegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
         break;
-    case Enu::E_X:
+    case Enu::X:
         Sim::xReg = value;
-        cpuPaneItems->xRegLineEdit->setText(QString("%1").arg(value, 4, 16));
+        cpuPaneItems->xRegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
         break;
-    case Enu::E_SP:
+    case Enu::SP:
         Sim::spReg = value;
-        cpuPaneItems->spRegLineEdit->setText(QString("%1").arg(value, 4, 16));
+        cpuPaneItems->spRegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
         break;
-    case Enu::E_PC:
+    case Enu::PC:
         Sim::pcReg = value;
-        cpuPaneItems->pcRegLineEdit->setText(QString("%1").arg(value, 4, 16));
+        cpuPaneItems->pcRegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
         break;
-    case Enu::E_IR:
+    case Enu::IR:
         Sim::irReg = value;
-        cpuPaneItems->irRegLineEdit->setText(QString("%1").arg(value, 4, 16));
+        cpuPaneItems->irRegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
         break;
-    case Enu::E_T1:
+    case Enu::T1:
         Sim::t1Reg = value;
-        cpuPaneItems->t1RegLineEdit->setText(QString("%1").arg(value, 4, 16));
+        cpuPaneItems->t1RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
         break;
-    case Enu::E_T2:
+    case Enu::T2:
         Sim::t2Reg = value;
-        cpuPaneItems->t2RegLineEdit->setText(QString("%1").arg(value, 4, 16));
+        cpuPaneItems->t2RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
         break;
-    case Enu::E_T3:
+    case Enu::T3:
         Sim::t3Reg = value;
-        cpuPaneItems->t3RegLineEdit->setText(QString("%1").arg(value, 4, 16));
+        cpuPaneItems->t3RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
         break;
-    case Enu::E_T4:
+    case Enu::T4:
         Sim::t4Reg = value;
-        cpuPaneItems->t4RegLineEdit->setText(QString("%1").arg(value, 4, 16));
+        cpuPaneItems->t4RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
         break;
-    case Enu::E_T5:
+    case Enu::T5:
         Sim::t5Reg = value;
-        cpuPaneItems->t5RegLineEdit->setText(QString("%1").arg(value, 4, 16));
+        cpuPaneItems->t5RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
         break;
-    case Enu::E_T6:
+    case Enu::T6:
         Sim::t6Reg = value;
-        cpuPaneItems->t6RegLineEdit->setText(QString("%1").arg(value, 4, 16));
+        cpuPaneItems->t6RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        break;
+    case Enu::MARA:
+        Sim::MARA = value;
+        cpuPaneItems->MARALabel->setText(QString("0x%1").arg(value, 2, 16));
+        break;
+    case Enu::MARB:
+        Sim::MARB = value;
+        cpuPaneItems->MARBLabel->setText(QString("0x%1").arg(value, 2, 16));
+        break;
+    case Enu::MDR:
+        Sim::MDR = value;
+        cpuPaneItems->MDRLabel->setText(QString("0x%1").arg(value, 2, 16));
         break;
     default:
         break;
@@ -201,19 +213,19 @@ void CpuPane::setRegister(Enu::EMnemonic reg, int value) {
 void CpuPane::setStatusBit(Enu::EMnemonic bit, bool value)
 {
     switch (bit) {
-    case Enu::E_N:
+    case Enu::N:
         Sim::nBit = value;
         cpuPaneItems->nBitLabel->setText(QString("%1").arg(value ? 1 : 0));
         break;
-    case Enu::E_Z:
+    case Enu::Z:
         Sim::zBit = value;
         cpuPaneItems->zBitLabel->setText(QString("%1").arg(value ? 1 : 0));
         break;
-    case Enu::E_V:
+    case Enu::V:
         Sim::vBit = value;
         cpuPaneItems->vBitLabel->setText(QString("%1").arg(value ? 1 : 0));
         break;
-    case Enu::E_C:
+    case Enu::C:
         Sim::cBit = value;
         cpuPaneItems->cBitLabel->setText(QString("%1").arg(value ? 1 : 0));
         break;
@@ -235,39 +247,34 @@ void CpuPane::setStatusPrecondition(Enu::EMnemonic bit, bool value)
 bool CpuPane::testRegPostcondition(Enu::EMnemonic reg, int value) {
     (void)value;
     switch (reg) {
-    case Enu::E_A:
+    case Enu::A:
         return Sim::aReg == value;
-        break;
-    case Enu::E_X:
+    case Enu::X:
         return Sim::xReg == value;
-        break;
-    case Enu::E_SP:
+    case Enu::SP:
         return Sim::spReg == value;
-        break;
-    case Enu::E_PC:
+    case Enu::PC:
         return Sim::pcReg == value;
-        break;
-    case Enu::E_IR:
+    case Enu::IR:
         return Sim::irReg == value;
-        break;
-    case Enu::E_T1:
+    case Enu::T1:
         return Sim::t1Reg == value;
-        break;
-    case Enu::E_T2:
+    case Enu::T2:
         return Sim::t2Reg == value;
-        break;
-    case Enu::E_T3:
+    case Enu::T3:
         return Sim::t3Reg == value;
-        break;
-    case Enu::E_T4:
+    case Enu::T4:
         return Sim::t4Reg == value;
-        break;
-    case Enu::E_T5:
+    case Enu::T5:
         return Sim::t5Reg == value;
-        break;
-    case Enu::E_T6:
+    case Enu::T6:
         return Sim::t6Reg == value;
-        break;
+    case Enu::MARA:
+        return Sim::MARA == value;
+    case Enu::MARB:
+        return Sim::MARB == value;
+    case Enu::MDR:
+        return Sim::MDR == value;
     default:
         break;
     }
@@ -277,23 +284,61 @@ bool CpuPane::testRegPostcondition(Enu::EMnemonic reg, int value) {
 
 bool CpuPane::testStatusPostcondition(Enu::EMnemonic bit, bool value) {
     switch (bit) {
-    case Enu::E_N:
+    case Enu::N:
         return Sim::nBit == value;
-        break;
-    case Enu::E_Z:
+    case Enu::Z:
         return Sim::zBit == value;
-        break;
-    case Enu::E_V:
+    case Enu::V:
         return Sim::vBit == value;
-        break;
-    case Enu::E_C:
+    case Enu::C:
         return Sim::cBit == value;
-        break;
     default:
         break;
     }
 
     return true;
+}
+
+void CpuPane::clearCpu()
+{
+    cpuPaneItems->loadCk->setChecked(false);
+    cpuPaneItems->cLineEdit->setText("");
+    cpuPaneItems->bLineEdit->setText("");    
+    cpuPaneItems->aLineEdit->setText("");
+    cpuPaneItems->MARCk->setChecked(false);
+    cpuPaneItems->MDRCk->setChecked(false);
+    cpuPaneItems->aMuxTristateLabel->setText("");
+    cpuPaneItems->MDRMuxTristateLabel->setText("");
+    cpuPaneItems->cMuxTristateLabel->setText("");
+    cpuPaneItems->ALULineEdit->setText("");
+    cpuPaneItems->CCkCheckBox->setChecked(false);
+    cpuPaneItems->VCkCheckBox->setChecked(false);
+    cpuPaneItems->ANDZTristateLabel->setText("");
+    cpuPaneItems->ZCkCheckBox->setChecked(false);
+    cpuPaneItems->NCkCheckBox->setChecked(false);
+    cpuPaneItems->MemReadTristateLabel->setText("");
+    cpuPaneItems->MemWriteTristateLabel->setText("");
+
+    setRegister(Enu::A, 0);
+    setRegister(Enu::X, 0);
+    setRegister(Enu::SP, 0);
+    setRegister(Enu::PC, 0);
+    setRegister(Enu::IR, 0);
+    setRegister(Enu::T1, 0);
+    setRegister(Enu::T2, 0);
+    setRegister(Enu::T3, 0);
+    setRegister(Enu::T4, 0);
+    setRegister(Enu::T5, 0);
+    setRegister(Enu::T6, 0);
+
+    setRegister(Enu::MARA, 0);
+    setRegister(Enu::MARB, 0);
+    setRegister(Enu::MDR, 0);
+
+    setStatusBit(Enu::C, false);
+    setStatusBit(Enu::V, false);
+    setStatusBit(Enu::Z, false);
+    setStatusBit(Enu::N, false);
 }
 
 void CpuPane::changeEvent(QEvent *e)

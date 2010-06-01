@@ -386,12 +386,12 @@ void MainWindow::on_actionSystem_Stop_Debugging_triggered()
 
 void MainWindow::on_actionSystem_Clear_CPU_triggered()
 {
-
+    cpuPane->clearCpu();
 }
 
 void MainWindow::on_actionSystem_Clear_Memory_triggered()
 {
-
+    mainMemory->clearMemory();
 }
 
 void MainWindow::on_actionHelp_triggered()

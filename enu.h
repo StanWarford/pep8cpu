@@ -6,10 +6,10 @@ namespace Enu
     // Instruction mnemonics
     enum EMask
     {
-        N = 0x01,
-        Z = 0x02,
-        V = 0x04,
-        C = 0x08,
+        NMask = 0x01,
+        ZMask = 0x02,
+        VMask = 0x04,
+        CMask = 0x08,
 
         eNONUNARY = 0x00,
         eUNARY = 0x01,
@@ -17,19 +17,22 @@ namespace Enu
 
     enum BusState {
         UNDEFINED,
-        LOADED };
+        LOADED
+    };
 
     enum MainBusState {
         NVOID,
         MEM_READ_ADDR,
         MEM_WRITE_ADDR,
         MEM_READ_DATA,
-        MEM_WRITE_DATA };
+        MEM_WRITE_DATA
+    };
 
     enum EMnemonic {
-        E_LoadCk, E_C, E_B, E_A, E_MARCk, E_MDRCk, E_AMux, E_MDRMux, E_CMux,
-        E_ALU, E_CCk, E_VCk, E_ANDZ, E_ZCk, E_NCk, E_MemWrite, E_MemRead, E_Pre, E_Post,
-        E_Mem, E_X, E_SP, E_PC, E_IR, E_T1, E_T2, E_T3, E_T4, E_T5, E_T6, E_N, E_Z, E_V
+        LoadCk, C, B, A, MARCk, MDRCk, AMux, MDRMux, CMux,
+        ALU, CCk, VCk, ANDZ, ZCk, NCk, MemWrite, MemRead, Pre, Post,
+        Mem, X, SP, PC, IR, T1, T2, T3, T4, T5, T6, N, Z, V,
+        MARA, MARB, MDR,
     };
 }
 

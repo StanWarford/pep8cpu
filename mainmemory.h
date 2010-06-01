@@ -23,6 +23,9 @@ public:
     void setMemPrecondition(int memAddress, int value);
     bool testMemPostcondition(int memAddress, int value);
 
+    void clearMemory();
+    // Post: sets all memory to 0x00;
+
 public slots:
     // Highlights the label based on the label window color saved in the UI file
     void highlightOnFocus();

@@ -10,10 +10,6 @@ class Sim
 {
 public:
     static QVector<int> Mem;
-    static QVector<int> Reg;
-    static QVector<int> MARA;
-    static QVector<int> MARB;
-    static QVector<int> MDR;
     static bool nBit, zBit, vBit, cBit;
 
     static int aReg;
@@ -33,6 +29,9 @@ public:
     static const int m4Reg = 0xFAFC;
     static const int m5Reg = 0xFEFF;
 
+    static int MARA;
+    static int MARB;
+    static int MDR;
 
     // Used for keeping track of which bytes have been modified since last memory update:
     static QSet<int> modifiedBytes;

@@ -157,7 +157,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             else if (token == Asm::LT_PRE_POST) {
                 if (Pep::mnemonToSpecificationMap.contains(tokenString.toUpper())) {
-                    if (Pep::mnemonToSpecificationMap.value(tokenString.toUpper()) == Enu::E_Pre) {
+                    if (Pep::mnemonToSpecificationMap.value(tokenString.toUpper()) == Enu::Pre) {
                         processingPrecondition = true;
                         preconditionCode = new PreconditionCode();
                         code = preconditionCode;
@@ -496,12 +496,12 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 tokenString.remove(0, 2); // Remove "0x" prefix.
                 bool ok;
                 localValue = tokenString.toInt(&ok, 16);
-                if (localEnumMnemonic == Enu::E_IR && localValue >= 16777216) {
+                if (localEnumMnemonic == Enu::IR && localValue >= 16777216) {
                     errorString = "// ERROR: Hexidecimal register value is out of range (0x000000..0xFFFFFF).";
                     delete code;
                     return false;
                 }
-                if (localEnumMnemonic == Enu::E_T1 && localValue >= 256) {
+                if (localEnumMnemonic == Enu::T1 && localValue >= 256) {
                     errorString = "// ERROR: Hexidecimal register value is out of range (0x00..0xFF).";
                     delete code;
                     return false;

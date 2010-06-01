@@ -86,6 +86,16 @@ bool MainMemory::testMemPostcondition(int memAddress, int value)
     return Sim::Mem[memAddress] == value;
 }
 
+void MainMemory::clearMemory()
+{
+    for (int i = 0; i < ui->tableWidget->rowCount(); i++) {
+        ui->tableWidget->item(i, 0)->setText("0x00");
+    }
+    for (int i = 0; i < 65536; i++) {
+        Sim::Mem[i] = 0;
+    }
+}
+
 void MainMemory::highlightOnFocus()
 {
     if (ui->tableWidget->hasFocus()) {
