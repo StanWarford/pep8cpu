@@ -13,7 +13,7 @@ MicrocodeEditor::MicrocodeEditor(QWidget *parent) : QPlainTextEdit(parent)
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(textChanged()), this, SLOT(repaint()));
     connect(this, SIGNAL(updateRequest(const QRect &, int)), this, SLOT(updateLineNumberArea(const QRect &, int)));
-//    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+    //    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
 
     updateLineNumberAreaWidth(0);
 }
@@ -97,33 +97,54 @@ void MicrocodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
     QPainter painter(lineNumberArea);
     painter.fillRect(event->rect(), QColor(232, 232, 232)); // light grey
+    QTextBlock block;
+    int blockNumber;
+    int top;
+    int bottom;
 
-    QTextBlock block = firstVisibleBlock();
-    int blockNumber = block.blockNumber();
-    int top = (int) blockBoundingGeometry(block).translated(contentOffset()).top();
-    int bottom = top + (int) blockBoundingRect(block).height();
-    int lineNumber = 1;
-    QList<int> blockToLineNumber;
+    // Highlight the current line containing the cursor
+    if (textCursor().block().isVisible()) {
+        block = firstVisibleBlock();
+        blockNumber = block.blockNumber();
+        top = (int) blockBoundingGeometry(block).translated(contentOffset()).top();
+        bottom = top + (int) blockBoundingRect(block).height();
+        while (blockNumber != textCursor().block().blockNumber()){
+            block = block.next();
+            top = bottom;
+            bottom = top + (int) blockBoundingRect(block).height();
+            ++blockNumber;
+        }
+        painter.setPen(QColor(232, 232, 232));
+        painter.setBrush(QBrush(QColor(Qt::red).lighter(170)));
+        painter.drawRect(-1, top, lineNumberArea->width(), fontMetrics().height());
+    }
+
+    // Display the cycle numbers
+    block = firstVisibleBlock();
+    blockNumber = block.blockNumber();
+    top = (int) blockBoundingGeometry(block).translated(contentOffset()).top();
+    bottom = top + (int) blockBoundingRect(block).height();
+    int cycleNumber = 1;
+    QList<int> blockToCycleNumber;
     QStringList sourceCodeList = toPlainText().split('\n');
     for (int i = 0; i < sourceCodeList.size(); i++) {
         if (QRegExp("^//|^\\s*$|^unitpre|^unitpost", Qt::CaseInsensitive).indexIn(sourceCodeList.at(i)) == 0) {
-            blockToLineNumber << -1;
+            blockToCycleNumber << -1;
         }
         else {
-            blockToLineNumber << lineNumber++;
+            blockToCycleNumber << cycleNumber++;
         }
     }
-
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
-            QString number = blockToLineNumber[blockNumber] == -1 ? QString("") : QString::number(blockToLineNumber[blockNumber]);
+            QString number = blockToCycleNumber.at(blockNumber) == -1 ? QString("") : QString::number(blockToCycleNumber.at(blockNumber));
             painter.setPen(QColor(128, 128, 130)); // grey
             painter.drawText(-1, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight, number);
         }
-
         block = block.next();
         top = bottom;
         bottom = top + (int) blockBoundingRect(block).height();
         ++blockNumber;
     }
+    lineNumberArea->update();
 }
