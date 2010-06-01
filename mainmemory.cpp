@@ -132,6 +132,7 @@ void MainMemory::cellDataChanged(QTableWidgetItem *item)
     int base = contents.startsWith("0x", Qt::CaseInsensitive) ? 16 : 10;
     int address = ui->tableWidget->verticalHeaderItem(row)->text().toInt(&addrConvOk, 16);
     int data = item->text().toInt(&dataOk, base);
+    data = data % 256;
 
     if (contents.contains(rx) && dataOk && addrConvOk) {
         Sim::writeByte(address, data);
