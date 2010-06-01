@@ -151,59 +151,59 @@ void CpuPane::setRegister(Enu::EMnemonic reg, int value) {
     switch (reg) {
     case Enu::A:
         Sim::aReg = value;
-        cpuPaneItems->aRegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        cpuPaneItems->aRegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::X:
         Sim::xReg = value;
-        cpuPaneItems->xRegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        cpuPaneItems->xRegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::SP:
         Sim::spReg = value;
-        cpuPaneItems->spRegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        cpuPaneItems->spRegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::PC:
         Sim::pcReg = value;
-        cpuPaneItems->pcRegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        cpuPaneItems->pcRegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::IR:
         Sim::irReg = value;
-        cpuPaneItems->irRegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        cpuPaneItems->irRegLineEdit->setText(QString("0x%1").arg(value, 6, 16, QLatin1Char('0')));
         break;
     case Enu::T1:
         Sim::t1Reg = value;
-        cpuPaneItems->t1RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        cpuPaneItems->t1RegLineEdit->setText(QString("0x%1").arg(value, 2, 16, QLatin1Char('0')));
         break;
     case Enu::T2:
         Sim::t2Reg = value;
-        cpuPaneItems->t2RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        cpuPaneItems->t2RegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::T3:
         Sim::t3Reg = value;
-        cpuPaneItems->t3RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        cpuPaneItems->t3RegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::T4:
         Sim::t4Reg = value;
-        cpuPaneItems->t4RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        cpuPaneItems->t4RegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::T5:
         Sim::t5Reg = value;
-        cpuPaneItems->t5RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        cpuPaneItems->t5RegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::T6:
         Sim::t6Reg = value;
-        cpuPaneItems->t6RegLineEdit->setText(QString("0x%1").arg(value, 4, 16));
+        cpuPaneItems->t6RegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::MARA:
         Sim::MARA = value;
-        cpuPaneItems->MARALabel->setText(QString("0x%1").arg(value, 2, 16));
+        cpuPaneItems->MARALabel->setText(QString("0x%1").arg(value, 2, 16, QLatin1Char('0')));
         break;
     case Enu::MARB:
         Sim::MARB = value;
-        cpuPaneItems->MARBLabel->setText(QString("0x%1").arg(value, 2, 16));
+        cpuPaneItems->MARBLabel->setText(QString("0x%1").arg(value, 2, 16, QLatin1Char('0')));
         break;
     case Enu::MDR:
         Sim::MDR = value;
-        cpuPaneItems->MDRLabel->setText(QString("0x%1").arg(value, 2, 16));
+        cpuPaneItems->MDRLabel->setText(QString("0x%1").arg(value, 2, 16, QLatin1Char('0')));
         break;
     default:
         break;
