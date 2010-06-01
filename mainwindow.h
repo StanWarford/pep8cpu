@@ -80,8 +80,6 @@ private slots:
     void on_actionEdit_Remove_Error_Messages_triggered();
     void on_actionEdit_Font_triggered();
     // System
-    void on_actionSystem_Microassemble_triggered();
-    void on_actionSystem_Execute_triggered();
     void on_actionSystem_Run_triggered();
     void on_actionSystem_Start_Debugging_triggered();
     void on_actionSystem_Stop_Debugging_triggered();

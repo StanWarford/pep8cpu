@@ -109,8 +109,6 @@
     <property name="title">
      <string>System</string>
     </property>
-    <addaction name="actionSystem_Microassemble"/>
-    <addaction name="actionSystem_Execute"/>
     <addaction name="separator"/>
     <addaction name="actionSystem_Run"/>
     <addaction name="actionSystem_Start_Debugging"/>
@@ -153,7 +151,6 @@
    <addaction name="actionEdit_Undo"/>
    <addaction name="actionEdit_Redo"/>
    <addaction name="actionHelp"/>
-   <addaction name="actionSystem_Microassemble"/>
    <addaction name="actionSystem_Run"/>
    <addaction name="actionSystem_Start_Debugging"/>
    <addaction name="actionSystem_Stop_Debugging"/>
@@ -175,7 +172,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionFile_New">
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/new.png</normaloff>:/images/new.png</iconset>
    </property>
    <property name="text">
@@ -190,7 +187,7 @@
   </action>
   <action name="actionFile_Open">
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/open.png</normaloff>:/images/open.png</iconset>
    </property>
    <property name="text">
@@ -205,7 +202,7 @@
   </action>
   <action name="actionFile_Save">
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
@@ -234,7 +231,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/undo.png</normaloff>:/images/undo.png</iconset>
    </property>
    <property name="text">
@@ -252,7 +249,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/redo.png</normaloff>:/images/redo.png</iconset>
    </property>
    <property name="text">
@@ -267,7 +264,7 @@
   </action>
   <action name="actionEdit_Cut">
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/cut.png</normaloff>:/images/cut.png</iconset>
    </property>
    <property name="text">
@@ -282,7 +279,7 @@
   </action>
   <action name="actionEdit_Copy">
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/copy.png</normaloff>:/images/copy.png</iconset>
    </property>
    <property name="text">
@@ -297,7 +294,7 @@
   </action>
   <action name="actionEdit_Paste">
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/paste.png</normaloff>:/images/paste.png</iconset>
    </property>
    <property name="text">
@@ -347,7 +344,7 @@
   </action>
   <action name="actionHelp_CPU">
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
    </property>
    <property name="text">
@@ -367,7 +364,7 @@
   </action>
   <action name="actionSystem_Run">
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/run.png</normaloff>:/images/run.png</iconset>
    </property>
    <property name="text">
@@ -382,7 +379,7 @@
   </action>
   <action name="actionSystem_Start_Debugging">
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/debugger_start.png</normaloff>:/images/debugger_start.png</iconset>
    </property>
    <property name="text">
@@ -400,7 +397,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/stop.png</normaloff>:/images/stop.png</iconset>
    </property>
    <property name="text">
@@ -423,7 +420,7 @@
   </action>
   <action name="actionHelp">
    <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
+    <iconset>
      <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
    </property>
    <property name="text">
@@ -431,29 +428,6 @@
    </property>
    <property name="shortcut">
     <string>F1</string>
-   </property>
-  </action>
-  <action name="actionSystem_Microassemble">
-   <property name="icon">
-    <iconset resource="pep8cpuresources.qrc">
-     <normaloff>:/images/assemble.png</normaloff>:/images/assemble.png</iconset>
-   </property>
-   <property name="text">
-    <string>Microassemble</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+A</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionSystem_Execute">
-   <property name="text">
-    <string>Execute</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+E</string>
    </property>
   </action>
   <action name="actionFile_Print_Microcode">
@@ -481,8 +455,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="pep8cpuresources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

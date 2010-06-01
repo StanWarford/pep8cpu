@@ -317,7 +317,7 @@ void MainWindow::on_actionEdit_Font_triggered()
 }
 
 // System MainWindow triggers
-void MainWindow::on_actionSystem_Microassemble_triggered()
+void MainWindow::on_actionSystem_Run_triggered()
 {
     if (microcodePane->microAssemble()) {
         ui->statusBar->showMessage("MicroAssembly succeeded", 4000);
@@ -328,28 +328,40 @@ void MainWindow::on_actionSystem_Microassemble_triggered()
     }
     else {
         ui->statusBar->showMessage("MicroAssembly failed", 4000);
+        return;
     }
-}
-
-void MainWindow::on_actionSystem_Execute_triggered()
-{
-
-}
-
-void MainWindow::on_actionSystem_Run_triggered()
-{
 
 }
 
 void MainWindow::on_actionSystem_Start_Debugging_triggered()
 {
+    if (microcodePane->microAssemble()) {
+        ui->statusBar->showMessage("MicroAssembly succeeded", 4000);
+        objectCodePane->setObjectCode(microcodePane->codeToString());
+        for (int i = 0; i < Sim::codeList.size(); i++) {
+            Sim::codeList.at(i)->setPrecondition(mainMemory, cpuPane);
+        }
+    }
+    else {
+        ui->statusBar->showMessage("MicroAssembly failed", 4000);
+        return;
+    }
+
+    bool hasMicrocode = false;
+    for (int i = 0; i < Sim::codeList.size(); i++) {
+        if (Sim::codeList.at(i)->isMicrocode()) {
+            hasMicrocode = true;
+        }
+    }
+    if (!hasMicrocode) {
+        return;
+    }
+
     // enable the actions available while we're debugging
     ui->actionSystem_Stop_Debugging->setEnabled(true);
 
     // disable actions related to editing/starting debugging
     ui->actionSystem_Run->setEnabled(false);
-    ui->actionSystem_Execute->setEnabled(false);
-    ui->actionSystem_Microassemble->setEnabled(false);
     ui->actionSystem_Start_Debugging->setEnabled(false);
     microcodePane->setReadOnly(true);
 
@@ -367,8 +379,6 @@ void MainWindow::on_actionSystem_Stop_Debugging_triggered()
 
     // enable actions related to editing/starting debugging
     ui->actionSystem_Run->setEnabled(true);
-    ui->actionSystem_Execute->setEnabled(true);
-    ui->actionSystem_Microassemble->setEnabled(true);
     ui->actionSystem_Start_Debugging->setEnabled(true);
     microcodePane->setReadOnly(false);
     cpuPane->stopDebugging();
