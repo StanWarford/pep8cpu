@@ -100,6 +100,8 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(cpuPaneItems->t4RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
     connect(cpuPaneItems->t5RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
     connect(cpuPaneItems->t6RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
+
+    connect(cpuPaneItems->ALULineEdit, SIGNAL(textChanged(QString)), this, SLOT(ALUTextEdited(QString)));
 }
 
 CpuPane::~CpuPane()
@@ -479,7 +481,9 @@ void CpuPane::resumeButtonPushed()
 void CpuPane::on_copyToMicrocodePushButton_clicked()
 {
     MicroCode code;
-    code.set(Enu::LoadCk, cpuPaneItems->loadCk->isChecked());
+    if (cpuPaneItems->loadCk->isChecked()) {
+        code.set(Enu::LoadCk, 1);
+    }
     if (cpuPaneItems->cLineEdit->text() != "") {
         code.set(Enu::C, cpuPaneItems->cLineEdit->text().toInt());
     }
@@ -531,7 +535,67 @@ void CpuPane::on_copyToMicrocodePushButton_clicked()
     emit appendMicrocodeLine(code.getSourceCode());
 }
 
-
+void CpuPane::ALUTextEdited(QString str)
+{
+    if (str == "") {
+        cpuPaneItems->ALUFunctionLabel->setText("");
+    }
+    else {
+        int num = str.toInt();
+        switch (num) {
+        case 0:
+            cpuPaneItems->ALUFunctionLabel->setText("A");
+            break;
+        case 1:
+            cpuPaneItems->ALUFunctionLabel->setText("A plus B");
+            break;
+        case 2:
+            cpuPaneItems->ALUFunctionLabel->setText("A plus B plus Cin");
+            break;
+        case 3:
+            cpuPaneItems->ALUFunctionLabel->setText("A plus \xAC B plus 1");
+            break;
+        case 4:
+            cpuPaneItems->ALUFunctionLabel->setText("A plus \xAC B plus Cin");
+            break;
+        case 5:
+            cpuPaneItems->ALUFunctionLabel->setText("A \xb7 B");
+            break;
+        case 6:
+            cpuPaneItems->ALUFunctionLabel->setText("\xAC (A \xb7 B)");
+            break;
+        case 7:
+            cpuPaneItems->ALUFunctionLabel->setText("A + B");
+            break;
+        case 8:
+            cpuPaneItems->ALUFunctionLabel->setText("\xAC (A + B)");
+            break;
+        case 9:
+            cpuPaneItems->ALUFunctionLabel->setText("A XOR B");
+            break;
+        case 10:
+            cpuPaneItems->ALUFunctionLabel->setText("\xAC A");
+            break;
+        case 11:
+            cpuPaneItems->ALUFunctionLabel->setText("ASL A");
+            break;
+        case 12:
+            cpuPaneItems->ALUFunctionLabel->setText("ROL A");
+            break;
+        case 13:
+            cpuPaneItems->ALUFunctionLabel->setText("ASR A");
+            break;
+        case 14:
+            cpuPaneItems->ALUFunctionLabel->setText("ROR A");
+            break;
+        case 15:
+            cpuPaneItems->ALUFunctionLabel->setText("NZVC A");
+            break;
+        default:
+            break;
+        }
+    }
+}
 
 
 

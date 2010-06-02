@@ -59,6 +59,8 @@ private slots:
 
     void on_copyToMicrocodePushButton_clicked();
 
+    void ALUTextEdited(QString str);
+
 signals:
     void updateSimulation();
     void simulationFinished();

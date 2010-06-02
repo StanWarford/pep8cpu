@@ -145,10 +145,11 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ALULineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(ALULineEdit);
 
-    ALUFunctionLabel = new QLabel("fn label");
+    ALUFunctionLabel = new QLabel("");
     ALUFunctionLabel->setGeometry(330, 355, 100, 20);
     ALUFunctionLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    ALUFunctionLabel->setPalette(QPalette(Qt::transparent));
+//    ALUFunctionLabel->setPalette(QPalette(Qt::black));
+    ALUFunctionLabel->setFont(QFont(ALUFunctionLabel->font().family(), ALUFunctionLabel->font().pointSize() - 2));
     scene->addWidget(ALUFunctionLabel);
 
     CCkCheckBox = new QCheckBox ("CCk");
