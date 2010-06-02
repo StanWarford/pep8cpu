@@ -478,9 +478,66 @@ void CpuPane::resumeButtonPushed()
 
 void CpuPane::on_copyToMicrocodePushButton_clicked()
 {
-    QString string;
-
+    MicroCode code;
+    code.set(Enu::LoadCk, cpuPaneItems->loadCk->isChecked());
+    if (cpuPaneItems->cLineEdit->text() != "") {
+        code.set(Enu::C, cpuPaneItems->cLineEdit->text().toInt());
+    }
+    if (cpuPaneItems->bLineEdit->text() != "") {
+        code.set(Enu::B, cpuPaneItems->bLineEdit->text().toInt());
+    }
+    if (cpuPaneItems->aLineEdit->text() != "") {
+        code.set(Enu::A, cpuPaneItems->aLineEdit->text().toInt());
+    }
+    if (cpuPaneItems->MARCk->isChecked()) {
+        code.set(Enu::MARCk, 1);
+    }
+    if (cpuPaneItems->MDRCk->isChecked()) {
+        code.set(Enu::MDRCk, 1);
+    }
+    if (cpuPaneItems->aMuxTristateLabel->text() != "") {
+        code.set(Enu::MDRCk, cpuPaneItems->aMuxTristateLabel->text().toInt());
+    }
+    if (cpuPaneItems->MDRMuxTristateLabel->text() != "") {
+        code.set(Enu::MDRCk, cpuPaneItems->MDRMuxTristateLabel->text().toInt());
+    }
+    if (cpuPaneItems->cMuxTristateLabel->text() != "") {
+        code.set(Enu::CMux, cpuPaneItems->cMuxTristateLabel->text().toInt());
+    }
+    if (cpuPaneItems->ALULineEdit->text() != "") {
+        code.set(Enu::ALU, cpuPaneItems->ALULineEdit->text().toInt());
+    }
+    if (cpuPaneItems->CCkCheckBox->isChecked()) {
+        code.set(Enu::CCk, 1);
+    }
+    if (cpuPaneItems->VCkCheckBox->isChecked()) {
+        code.set(Enu::VCk, 1);
+    }
+    if (cpuPaneItems->ANDZTristateLabel->text() != "") {
+        code.set(Enu::CCk, cpuPaneItems->ANDZTristateLabel->text().toInt());
+    }
+    if (cpuPaneItems->ZCkCheckBox->isChecked()) {
+        code.set(Enu::ZCk, 1);
+    }
+    if (cpuPaneItems->NCkCheckBox->isChecked()) {
+        code.set(Enu::NCk, 1);
+    }
+    if (cpuPaneItems->MemReadTristateLabel->text() != "") {
+        code.set(Enu::MemRead, cpuPaneItems->MemReadTristateLabel->text().toInt());
+    }
+    if (cpuPaneItems->MemWriteTristateLabel->text() != "") {
+        code.set(Enu::MemWrite, cpuPaneItems->MemWriteTristateLabel->text().toInt());
+    }
+    emit appendMicrocodeLine(code.getSourceCode());
 }
+
+
+
+
+
+
+
+
 
 
 

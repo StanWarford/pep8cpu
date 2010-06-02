@@ -62,6 +62,7 @@ private slots:
 signals:
     void updateSimulation();
     void simulationFinished();
+    void appendMicrocodeLine(QString line);
 };
 
 #endif // CPUPANE_H

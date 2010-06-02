@@ -57,6 +57,8 @@ MainWindow::MainWindow(QWidget *parent) :
     Pep::initEnumMnemonMaps();
 
     readSettings();
+
+    connect(cpuPane, SIGNAL(appendMicrocodeLine(QString)), this, SLOT(appendMicrocodeLine(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -568,6 +570,11 @@ void MainWindow::simulationFinished()
         }
     }
     ui->statusBar->showMessage("Passed unit test", 4000);
+}
+
+void MainWindow::appendMicrocodeLine(QString line)
+{
+    microcodePane->appendMessageInSourceCodePaneAt(-1, line);
 }
 
 void MainWindow::helpCopyToMicrocodeButtonClicked()

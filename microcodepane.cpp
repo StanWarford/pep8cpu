@@ -88,7 +88,8 @@ void MicrocodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString mess
 {
     QTextCursor cursor(editor->document());
     if (lineNumber == -1) {
-        cursor.movePosition(QTextCursor::End);
+        editor->appendPlainText(message);
+        return;
     }
     else {
         cursor.setPosition(0);

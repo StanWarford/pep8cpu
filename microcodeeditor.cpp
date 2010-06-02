@@ -108,15 +108,17 @@ void MicrocodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
         blockNumber = block.blockNumber();
         top = (int) blockBoundingGeometry(block).translated(contentOffset()).top();
         bottom = top + (int) blockBoundingRect(block).height();
-        while (blockNumber != textCursor().block().blockNumber()){
+        while (blockNumber != textCursor().block().blockNumber() && block.isValid()) {
             block = block.next();
             top = bottom;
             bottom = top + (int) blockBoundingRect(block).height();
             ++blockNumber;
         }
-        painter.setPen(QColor(232, 232, 232));
-        painter.setBrush(QBrush(QColor(Qt::red).lighter(170)));
-        painter.drawRect(-1, top, lineNumberArea->width(), fontMetrics().height());
+        if (block.isValid()) {
+            painter.setPen(QColor(232, 232, 232));
+            painter.setBrush(QBrush(QColor(Qt::red).lighter(170)));
+            painter.drawRect(-1, top, lineNumberArea->width(), fontMetrics().height());
+        }
     }
 
     // Display the cycle numbers

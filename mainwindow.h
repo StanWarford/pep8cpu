@@ -101,6 +101,7 @@ private slots:
 
     void updateSimulation();
     void simulationFinished();
+    void appendMicrocodeLine(QString string);
 
     void helpCopyToMicrocodeButtonClicked();
 };
