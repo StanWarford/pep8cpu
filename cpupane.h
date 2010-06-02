@@ -57,6 +57,8 @@ private slots:
     void singleStepButtonPushed();
     void resumeButtonPushed();
 
+    void on_copyToMicrocodePushButton_clicked();
+
 signals:
     void updateSimulation();
     void simulationFinished();

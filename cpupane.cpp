@@ -100,7 +100,6 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(cpuPaneItems->t4RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
     connect(cpuPaneItems->t5RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
     connect(cpuPaneItems->t6RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
-
 }
 
 CpuPane::~CpuPane()
@@ -476,3 +475,17 @@ void CpuPane::resumeButtonPushed()
 {
 
 }
+
+void CpuPane::on_copyToMicrocodePushButton_clicked()
+{
+    QString string;
+
+}
+
+
+
+
+
+
+
+
