@@ -132,95 +132,95 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (a)</b> Specification for <code>STBYTEA there,n</code>.");
             }
             else if (row == eEX1207B) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1207b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207b.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (b)</b> Specification for <code>STBYTEA there,s</code>.");
             }
             else if (row == eEX1207C) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1207c.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207c.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (c)</b> Specification for <code>STBYTEA there,sf</code>.");
             }
             else if (row == eEX1207D) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1207d.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207d.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (d)</b> Specification for <code>STBYTEA there,x</code>.");
             }
             else if (row == eEX1207E) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1207e.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207e.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (e)</b> Specification for <code>STBYTEA there,sx</code>.");
             }
             else if (row == eEX1207F) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207f.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (f)</b> Specification for <code>STBYTEA there,sxf</code>.");
             }
             else if (row == eEX1207G) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207g.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (g)</b> Specification for <code>BR there</code>.");
             }
             else if (row == eEX1207H) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207h.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (h)</b> Specification for <code>CALL there</code>.");
             }
             else if (row == eEX1207I) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207i.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (i)</b> Specification for <code>NOTA</code>.");
             }
             else if (row == eEX1207J) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207j.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (j)</b> Specification for <code>NEGA</code>.");
             }
             else if (row == eEX1207K) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207k.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (k)</b> Specification for <code>ROLA</code>.");
             }
             else if (row == eEX1207L) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207l.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (l)</b> Specification for <code>RORA</code>.");
             }
             else if (row == eEX1207M) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207m.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (m)</b> Specification for <code>RET4</code>.");
             }
             else if (row == eEX1207N) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207n.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (n)</b> Specification for <code>ADDSP this,i</code>.");
             }
             else if (row == eEX1207O) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207o.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (o)</b> Specification for <code>SUBSP this,i</code>.");
             }
             else if (row == eEX1207P) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207p.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (p)</b> Specification for <code>SUBA this,i</code>.");
             }
             else if (row == eEX1207Q) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207q.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (q)</b> Specification for <code>ANDA this,i</code>.");
             }
             else if (row == eEX1207R) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207r.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (r)</b> Specification for <code>ORA this,i</code>.");
             }
             else if (row == eEX1207S) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207s.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (s)</b> Specification for <code>CPA this,i</code>.");
             }
             else if (row == eEX1207T) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207t.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (t)</b> Specification for <code>LDBYTEA this,i</code>.");
             }
             else if (row == eEX1207U) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207u.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (u)</b> Specification for <code>LDBYTEA this,d</code>.");
             }
             else if (row == eEX1207V) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207v.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (v)</b> Specification for <code>MOVSPA</code>.");
             }
             else if (row == eEX1207W) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207w.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (w)</b> Specification for <code>MOVFLGA</code>.");
             }
             else if (row == eEX1207X) {
-                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/fig1205b.pepcpu"));
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207x.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (x)</b> Specification for <code>RETTR</code>.");
             }
         }
