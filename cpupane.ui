@@ -144,6 +144,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="copyToMicrocodePushButton">
+       <property name="text">
+        <string>Copy to Microcode</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -163,6 +170,9 @@
        </property>
        <property name="text">
         <string>Single Step</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

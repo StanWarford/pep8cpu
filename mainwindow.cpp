@@ -374,6 +374,9 @@ void MainWindow::on_actionSystem_Start_Debugging_triggered()
 
 void MainWindow::on_actionSystem_Stop_Debugging_triggered()
 {
+    microcodePane->clearSimulationView();
+    objectCodePane->clearSimulationView();
+
     // disable the actions available while we're debugging
     ui->actionSystem_Stop_Debugging->setEnabled(false);
 
