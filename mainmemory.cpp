@@ -36,6 +36,8 @@ MainMemory::MainMemory(QWidget *parent) :
     connect(ui->verticalScrollBar, SIGNAL(actionTriggered(int)), this, SLOT(sliderMoved(int)));
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 
+    ui->scrollToLabel->setFont(QFont(ui->scrollToLabel->font().family(), ui->scrollToLabel->font().pointSize() - 2));
+    ui->lineEdit->setFont(QFont(ui->lineEdit->font().family(), ui->lineEdit->font().pointSize() - 2));
     connect(ui->lineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToAddress(QString)));
 
     ui->tableWidget->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
@@ -163,7 +165,9 @@ void MainMemory::scrollToAddress(QString string)
             } else {
                 int min = ui->verticalScrollBar->minimum();
                 int max = ui->verticalScrollBar->maximum();
-                ui->verticalScrollBar->setValue(min + static_cast<int>(8 * (byte / 4096 - 8) + ((byte - byte % 8) / 65536.0) * (max - min)));
+                ui->verticalScrollBar->setValue(byte);
+                sliderMoved(0);
+//                ui->verticalScrollBar->setValue(min + static_cast<int>(8 * (byte / 4096 - 8) + ((byte - byte % 8) / 65536.0) * (max - min)));
             }
         }
         else {
