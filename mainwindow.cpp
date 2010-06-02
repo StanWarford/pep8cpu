@@ -562,7 +562,7 @@ void MainWindow::simulationFinished()
     on_actionSystem_Stop_Debugging_triggered();
     for (int i = 0; i < Sim::codeList.size(); i++) {
         if (!Sim::codeList.at(i)->testPostcondition(mainMemory, cpuPane, errorString)) {
-            microcodePane->appendMessageInSourceCodePaneAt(0, errorString);
+            microcodePane->appendMessageInSourceCodePaneAt(-1, errorString);
             ui->statusBar->showMessage("Failed unit test", 4000);
             return;
         }

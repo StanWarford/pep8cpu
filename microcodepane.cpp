@@ -87,18 +87,23 @@ void MicrocodePane::removeErrorMessages()
 void MicrocodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString message)
 {
     QTextCursor cursor(editor->document());
-    cursor.setPosition(0);
-    for (int i = 0; i < lineNumber; i++) {
-        cursor.movePosition(QTextCursor::NextBlock);
-    }
-    cursor.movePosition(QTextCursor::EndOfBlock);
-    cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor, 1);
-    if (cursor.selectedText() == " ") {
-        cursor.setPosition(cursor.anchor());
+    if (lineNumber == -1) {
+        cursor.movePosition(QTextCursor::End);
     }
     else {
-        cursor.setPosition(cursor.anchor());
-        cursor.insertText(" ");
+        cursor.setPosition(0);
+        for (int i = 0; i < lineNumber; i++) {
+            cursor.movePosition(QTextCursor::NextBlock);
+        }
+        cursor.movePosition(QTextCursor::EndOfBlock);
+        cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor, 1);
+        if (cursor.selectedText() == " ") {
+            cursor.setPosition(cursor.anchor());
+        }
+        else {
+            cursor.setPosition(cursor.anchor());
+            cursor.insertText(" ");
+        }
     }
     cursor.insertText(message);
 }

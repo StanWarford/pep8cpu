@@ -110,6 +110,9 @@ void Pep::initEnumMnemonMaps()
     regSpecToMnemonMap.insert(T4, "T4"); mnemonToRegSpecMap.insert("T4", T4);
     regSpecToMnemonMap.insert(T5, "T5"); mnemonToRegSpecMap.insert("T5", T5);
     regSpecToMnemonMap.insert(T6, "T6"); mnemonToRegSpecMap.insert("T6", T6);
+    regSpecToMnemonMap.insert(MARA, "MARA"); mnemonToRegSpecMap.insert("MARA", MARA);
+    regSpecToMnemonMap.insert(MARB, "MARB"); mnemonToRegSpecMap.insert("MARB", MARB);
+    regSpecToMnemonMap.insert(MDR, "MDR"); mnemonToRegSpecMap.insert("MDR", MDR);
     statusSpecToMnemonMap.insert(N, "N"); mnemonToStatusSpecMap.insert("N", N);
     statusSpecToMnemonMap.insert(Z, "Z"); mnemonToStatusSpecMap.insert("Z", Z);
     statusSpecToMnemonMap.insert(V, "V"); mnemonToStatusSpecMap.insert("V", V);

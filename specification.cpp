@@ -70,6 +70,9 @@ bool RegSpecification::testUnitPost(MainMemory *, CpuPane *cpuPane, QString &err
     case Enu::T4: errorString = "// ERROR: Unit test failed for register T4."; return false;
     case Enu::T5: errorString = "// ERROR: Unit test failed for register T5."; return false;
     case Enu::T6: errorString = "// ERROR: Unit test failed for register T6."; return false;
+    case Enu::MARA: errorString = "// ERROR: Unit test failed for MARA."; return false;
+    case Enu::MARB: errorString = "// ERROR: Unit test failed for MARB."; return false;
+    case Enu::MDR: errorString = "// ERROR: Unit test failed for MDR."; return false;
     default: return false;
     }
 }
@@ -87,6 +90,9 @@ QString RegSpecification::getSourceCode() {
     case Enu::T4: return "T4=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
     case Enu::T5: return "T5=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
     case Enu::T6: return "T6=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::MARA: return "MARA=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::MARB: return "MARB=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::MDR: return "MDR=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
     default: return "";
     }
 }
