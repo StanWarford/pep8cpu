@@ -18,7 +18,8 @@ public:
     virtual void setCpuLabels(CpuPaneGraphicsItems *) { }
     virtual QString getObjectCode() { return ""; }
     virtual QString getSourceCode() { return ""; }
-    virtual void setPrecondition(MainMemory *, CpuPane *) { }
+    virtual bool hasUnitPre() { return false; }
+    virtual void setUnitPre(MainMemory *, CpuPane *) { }
     virtual bool testPostcondition(MainMemory *, CpuPane *, QString &) { return true; }
 };
 
@@ -70,7 +71,8 @@ class PreconditionCode: public Code
 public:
     ~PreconditionCode();
     QString getSourceCode();
-    void setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane);
+    bool hasUnitPre();
+    void setUnitPre(MainMemory *mainMemory, CpuPane *cpuPane);
     void appendSpecification(Specification *specification);
     void setComment(QString comment);
 private:

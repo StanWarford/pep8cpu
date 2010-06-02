@@ -10,8 +10,8 @@
 #include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+        QMainWindow(parent),
+        ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -322,15 +322,22 @@ void MainWindow::on_actionSystem_Run_triggered()
     if (microcodePane->microAssemble()) {
         ui->statusBar->showMessage("MicroAssembly succeeded", 4000);
         objectCodePane->setObjectCode(microcodePane->codeToString());
+        bool hasUnitPre = false;
         for (int i = 0; i < Sim::codeList.size(); i++) {
-            Sim::codeList.at(i)->setPrecondition(mainMemory, cpuPane);
+            hasUnitPre = hasUnitPre || Sim::codeList.at(i)->hasUnitPre();
+        }
+        if (hasUnitPre) {
+            mainMemory->clearMemory();
+            cpuPane->clearCpu();
+            for (int i = 0; i < Sim::codeList.size(); i++) {
+                Sim::codeList.at(i)->setUnitPre(mainMemory, cpuPane);
+            }
         }
     }
     else {
         ui->statusBar->showMessage("MicroAssembly failed", 4000);
         return;
     }
-
 }
 
 void MainWindow::on_actionSystem_Start_Debugging_triggered()
@@ -338,8 +345,16 @@ void MainWindow::on_actionSystem_Start_Debugging_triggered()
     if (microcodePane->microAssemble()) {
         ui->statusBar->showMessage("MicroAssembly succeeded", 4000);
         objectCodePane->setObjectCode(microcodePane->codeToString());
+        bool hasUnitPre = false;
         for (int i = 0; i < Sim::codeList.size(); i++) {
-            Sim::codeList.at(i)->setPrecondition(mainMemory, cpuPane);
+            hasUnitPre = hasUnitPre || Sim::codeList.at(i)->hasUnitPre();
+        }
+        if (hasUnitPre) {
+            mainMemory->clearMemory();
+            cpuPane->clearCpu();
+            for (int i = 0; i < Sim::codeList.size(); i++) {
+                Sim::codeList.at(i)->setUnitPre(mainMemory, cpuPane);
+            }
         }
     }
     else {

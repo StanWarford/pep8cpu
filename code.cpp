@@ -188,9 +188,13 @@ QString PreconditionCode::getSourceCode() {
     return str;
 }
 
-void PreconditionCode::setPrecondition(MainMemory *mainMemory, CpuPane *cpuPane) {
+bool PreconditionCode::hasUnitPre() {
+    return !preconditionList.isEmpty();
+}
+
+void PreconditionCode::setUnitPre(MainMemory *mainMemory, CpuPane *cpuPane) {
     for (int i = 0; i < preconditionList.size(); i++) {
-        preconditionList.at(i)->setPrecondition(mainMemory, cpuPane);
+        preconditionList.at(i)->setUnitPre(mainMemory, cpuPane);
     }
 }
 
@@ -222,7 +226,7 @@ QString PostconditionCode::getSourceCode() {
 
 bool PostconditionCode::testPostcondition(MainMemory *mainMemory, CpuPane *cpuPane, QString &errorString) {
     for (int i = 0; i < postconditionList.size(); i++) {
-        if (!postconditionList.at(i)->testPostcondition(mainMemory, cpuPane, errorString)) {
+        if (!postconditionList.at(i)->testUnitPost(mainMemory, cpuPane, errorString)) {
             return false;
         }
     }

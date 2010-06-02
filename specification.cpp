@@ -9,7 +9,7 @@ MemSpecification::MemSpecification(int memoryAddress, int memoryValue) {
     memValue = memoryValue;
 }
 
-void MemSpecification::setPrecondition(MainMemory *mainMemory, CpuPane *) {
+void MemSpecification::setUnitPre(MainMemory *mainMemory, CpuPane *) {
     if (memValue < 256) {
         mainMemory->setMemPrecondition(memAddress, memValue);
     }
@@ -19,19 +19,19 @@ void MemSpecification::setPrecondition(MainMemory *mainMemory, CpuPane *) {
     }
 }
 
-bool MemSpecification::testPostcondition(MainMemory *mainMemory, CpuPane *, QString &errorString) {
+bool MemSpecification::testUnitPost(MainMemory *mainMemory, CpuPane *, QString &errorString) {
     if (memValue < 256) {
         if (mainMemory->testMemPostcondition(memAddress, memValue)) {
             return true;
         }
-        errorString = "// Error: Unit test failed for byte Mem[." + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0')) + "].";
+        errorString = "// ERROR: Unit test failed for byte Mem[." + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0')) + "].";
         return false;
     }
     else {
         if ((mainMemory->testMemPostcondition(memAddress, memValue) / 256) && (mainMemory->testMemPostcondition(memAddress + 1, memValue) % 256)) {
             return true;
         }
-        errorString = "// Error: Unit test failed for word Mem[." + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0')) + "].";
+        errorString = "// ERROR: Unit test failed for word Mem[." + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0')) + "].";
         return false;
     }
 }
@@ -50,26 +50,26 @@ RegSpecification::RegSpecification(Enu::EMnemonic registerAddress, int registerV
     regValue = registerValue;
 }
 
-void RegSpecification::setPrecondition(MainMemory *, CpuPane *cpuPane) {
+void RegSpecification::setUnitPre(MainMemory *, CpuPane *cpuPane) {
     cpuPane->setRegPrecondition(regAddress, regValue);
 }
 
-bool RegSpecification::testPostcondition(MainMemory *, CpuPane *cpuPane, QString &errorString) {
+bool RegSpecification::testUnitPost(MainMemory *, CpuPane *cpuPane, QString &errorString) {
     if (cpuPane->testRegPostcondition(regAddress, regValue)) {
         return true;
     }
     switch (regAddress) {
-    case Enu::A: errorString = "// Error: Unit test failed for register A."; return false;
-    case Enu::X: errorString = "// Error: Unit test failed for register X."; return false;
-    case Enu::SP: errorString = "// Error: Unit test failed for register SP."; return false;
-    case Enu::PC: errorString = "// Error: Unit test failed for register PC."; return false;
-    case Enu::IR: errorString = "// Error: Unit test failed for register IR."; return false;
-    case Enu::T1: errorString = "// Error: Unit test failed for register T1."; return false;
-    case Enu::T2: errorString = "// Error: Unit test failed for register T2."; return false;
-    case Enu::T3: errorString = "// Error: Unit test failed for register T3."; return false;
-    case Enu::T4: errorString = "// Error: Unit test failed for register T4."; return false;
-    case Enu::T5: errorString = "// Error: Unit test failed for register T5."; return false;
-    case Enu::T6: errorString = "// Error: Unit test failed for register T6."; return false;
+    case Enu::A: errorString = "// ERROR: Unit test failed for register A."; return false;
+    case Enu::X: errorString = "// ERROR: Unit test failed for register X."; return false;
+    case Enu::SP: errorString = "// ERROR: Unit test failed for register SP."; return false;
+    case Enu::PC: errorString = "// ERROR: Unit test failed for register PC."; return false;
+    case Enu::IR: errorString = "// ERROR: Unit test failed for register IR."; return false;
+    case Enu::T1: errorString = "// ERROR: Unit test failed for register T1."; return false;
+    case Enu::T2: errorString = "// ERROR: Unit test failed for register T2."; return false;
+    case Enu::T3: errorString = "// ERROR: Unit test failed for register T3."; return false;
+    case Enu::T4: errorString = "// ERROR: Unit test failed for register T4."; return false;
+    case Enu::T5: errorString = "// ERROR: Unit test failed for register T5."; return false;
+    case Enu::T6: errorString = "// ERROR: Unit test failed for register T6."; return false;
     default: return false;
     }
 }
@@ -96,19 +96,19 @@ StatusBitSpecification::StatusBitSpecification(Enu::EMnemonic statusBitAddress, 
     nzvcValue = statusBitValue;
 }
 
-void StatusBitSpecification::setPrecondition(MainMemory *, CpuPane *cpuPane) {
+void StatusBitSpecification::setUnitPre(MainMemory *, CpuPane *cpuPane) {
     cpuPane->setStatusPrecondition(nzvcAddress, nzvcValue);
 }
 
-bool StatusBitSpecification::testPostcondition(MainMemory *, CpuPane *cpuPane, QString &errorString) {
+bool StatusBitSpecification::testUnitPost(MainMemory *, CpuPane *cpuPane, QString &errorString) {
     if (cpuPane->testStatusPostcondition(nzvcAddress, nzvcValue)) {
         return true;
     }
     switch (nzvcValue) {
-    case Enu::N: errorString = "// Error: Unit test failed for status bit N."; return false;
-    case Enu::Z: errorString = "// Error: Unit test failed for status bit Z."; return false;
-    case Enu::V: errorString = "// Error: Unit test failed for status bit V."; return false;
-    case Enu::C: errorString = "// Error: Unit test failed for status bit C."; return false;
+    case Enu::N: errorString = "// ERROR: Unit test failed for status bit N."; return false;
+    case Enu::Z: errorString = "// ERROR: Unit test failed for status bit Z."; return false;
+    case Enu::V: errorString = "// ERROR: Unit test failed for status bit V."; return false;
+    case Enu::C: errorString = "// ERROR: Unit test failed for status bit C."; return false;
     default: return false;
     }
 }

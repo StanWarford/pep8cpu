@@ -27,7 +27,7 @@ public:
     QString codeToString();
 
     void removeErrorMessages();
-    // Post: Searces for the string "//ERROR: " on each line and removes the end of the line.
+    // Post: Searces for the string "// ERROR: " on each line and removes the end of the line.
 
     void appendMessageInSourceCodePaneAt(int lineNumber, QString message);
     // Post: Appends message to the end of line lineNumber.

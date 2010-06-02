@@ -57,7 +57,7 @@ bool MicrocodePane::microAssemble()
         Sim::codeList.append(code);
         lineNum++;
     }
-    // we guarantee a /n at the end of our document for single step highlighting
+    // we guarantee a \n at the end of our document for single step highlighting
     if (!sourceCode.endsWith("\n")) {
         editor->appendPlainText("\n");
     }
