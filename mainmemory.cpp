@@ -78,9 +78,33 @@ void MainMemory::refreshMemory()
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 }
 
+void MainMemory::setMemAddress(int memAddress, int value)
+{
+    value = value % 256;
+    Sim::Mem[memAddress] = value;
+
+    bool addrConvOk;
+
+    int firstAddress = ui->tableWidget->verticalHeaderItem(0)->text().toInt(&addrConvOk, 16);
+    int lastAddress = firstAddress + ui->tableWidget->rowCount();
+
+    if (memAddress < firstAddress || lastAddress < memAddress) {
+        return;
+    }
+    
+    int lineAddress;
+    for (int i = firstAddress; i < lastAddress; i++) {
+        lineAddress = ui->tableWidget->verticalHeaderItem(i)->text().toInt(&addrConvOk, 16);
+        if (lineAddress == memAddress) {
+            ui->tableWidget->item(i, 0)->setText(QString("0x") + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper().trimmed());
+        }
+    }
+}
+
 void MainMemory::setMemPrecondition(int memAddress, int value)
 {
-    Sim::Mem[memAddress] = value;
+//    Sim::Mem[memAddress] = value;
+    setMemAddress(memAddress, value);
 }
 
 bool MainMemory::testMemPostcondition(int memAddress, int value)

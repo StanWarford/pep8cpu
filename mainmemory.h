@@ -20,6 +20,8 @@ public:
     // Refresh the memory to reflect the Sim::Mem object
     void refreshMemory();
 
+    void setMemAddress(int memAddress, int value);
+
     void setMemPrecondition(int memAddress, int value);
     bool testMemPostcondition(int memAddress, int value);
 
