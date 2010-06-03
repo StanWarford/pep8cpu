@@ -437,6 +437,11 @@ void CpuPane::labelClicked()
 {
     TristateLabel *label = qobject_cast<TristateLabel *>(sender());
     label->toggle();
+
+    Sim::nBit = cpuPaneItems->nBitLabel->text().toInt() == 0 ? false : true;
+    Sim::zBit = cpuPaneItems->zBitLabel->text().toInt() == 0 ? false : true;
+    Sim::vBit = cpuPaneItems->vBitLabel->text().toInt() == 0 ? false : true;
+    Sim::cBit = cpuPaneItems->cBitLabel->text().toInt() == 0 ? false : true;
 }
 
 void CpuPane::singleStepButtonPushed()
@@ -449,12 +454,147 @@ void CpuPane::singleStepButtonPushed()
         }
         if (!Sim::atEndOfSim()) {
 
-            if (cpuPaneItems->aLineEdit->text() != "" && cpuPaneItems->bLineEdit->text() != "") {
-                if (cpuPaneItems->MARCk->isChecked()) {
+            // MARCk
+            if (cpuPaneItems->MARCk->isChecked()) {
+                if (cpuPaneItems->aLineEdit->text() != "" && cpuPaneItems->bLineEdit->text() != "") {
+                    setRegister(Enu::MARA, cpuPaneItems->aLineEdit->text().toInt());
+                    setRegister(Enu::MARB, cpuPaneItems->bLineEdit->text().toInt());
+                }
+            }
+            else {
+                // error: MARCk is checked but we have incorrect input
+            }
 
+            // LoadCk
+            if (cpuPaneItems->loadCk->isChecked() && cpuPaneItems->cLineEdit->text() != "") {
+                int cDest = cpuPaneItems->cLineEdit->text().toInt();
+                if (cpuPaneItems->cMuxTristateLabel->text() == "0") {
+                    int nzvc = (Sim::nBit ? 8 : 0) + (Sim::zBit ? 4 : 0) + (Sim::vBit ? 2 : 0) + (Sim::cBit ? 1 : 0);
+                    qDebug() << QString("0x%1").arg(nzvc, 4, 16, QLatin1Char('0'));
+                    switch(cDest) {
+                    case 0:
+                        setRegister(Enu::A, (Sim::aReg & 0x00FF) | nzvc * 256);
+                    case 1:
+                        setRegister(Enu::A, (Sim::aReg & 0xFF00) | nzvc);
+                    case 2:
+                        setRegister(Enu::X, (Sim::xReg & 0x00FF) | nzvc * 256);
+                    case 3:
+                        setRegister(Enu::X, (Sim::xReg & 0xFF00) | nzvc);
+                    case 4:
+                        setRegister(Enu::SP, (Sim::spReg & 0x00FF) | nzvc * 256);
+                    case 5:
+                        setRegister(Enu::SP, (Sim::spReg & 0xFF00) | nzvc);
+                    case 6:
+                        setRegister(Enu::PC, (Sim::pcReg & 0x00FF) | nzvc * 256);
+                    case 7:
+                        setRegister(Enu::PC, (Sim::pcReg & 0xFF00) | nzvc);
+                    case 8:
+                        setRegister(Enu::IR, (Sim::irReg & 0x00FFFF) | nzvc * 65536);
+                    case 9:
+                        setRegister(Enu::IR, (Sim::irReg & 0xFF00FF) | nzvc * 256);
+                    case 10:
+                        setRegister(Enu::IR, (Sim::irReg & 0xFFFF00) | nzvc);
+                    case 11:
+                        setRegister(Enu::T1, nzvc);
+                    case 12:
+                        setRegister(Enu::T2, (Sim::t2Reg & 0x00FF) | nzvc * 256);
+                    case 13:
+                        setRegister(Enu::T2, (Sim::t2Reg & 0xFF00) | nzvc);
+                    case 14:
+                        setRegister(Enu::T3, (Sim::t3Reg & 0x00FF) | nzvc * 256);
+                    case 15:
+                        setRegister(Enu::T3, (Sim::t3Reg & 0xFF00) | nzvc);
+                    case 16:
+                        setRegister(Enu::T4, (Sim::t4Reg & 0x00FF) | nzvc * 256);
+                    case 17:
+                        setRegister(Enu::T4, (Sim::t4Reg & 0xFF00) | nzvc);
+                    case 18:
+                        setRegister(Enu::T5, (Sim::t5Reg & 0x00FF) | nzvc * 256);
+                    case 19:
+                        setRegister(Enu::T5, (Sim::t5Reg & 0xFF00) | nzvc);
+                    case 20:
+                        setRegister(Enu::T6, (Sim::t6Reg & 0x00FF) | nzvc * 256);
+                    case 21:
+                        setRegister(Enu::T6, (Sim::t6Reg & 0xFF00) | nzvc);
+                    default:
+                        break;
+                    }
+                }
+                else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
+                    // ALU operations. This will be big.
+                }
+                else {
+                    // error: CMux isn't set but we're trying to loadCk
                 }
             }
 
+            // MDRCk
+            if (cpuPaneItems->MDRCk->isChecked()) {
+                if (cpuPaneItems->MDRMuxTristateLabel->text() == "0") { // read from memory
+
+                }
+                else if (cpuPaneItems->MDRMuxTristateLabel->text() == "1") { // read through the C bus
+                    int cDest = cpuPaneItems->cLineEdit->text().toInt();
+                    if (cpuPaneItems->cMuxTristateLabel->text() == "0") {
+                        int nzvc = (Sim::nBit ? 8 : 0) + (Sim::zBit ? 4 : 0) + (Sim::vBit ? 2 : 0) + (Sim::cBit ? 1 : 0);
+                        qDebug() << QString("0x%1").arg(nzvc, 4, 16, QLatin1Char('0'));
+                        switch(cDest) {
+                        case 0:
+                            setRegister(Enu::A, (Sim::aReg & 0x00FF) | nzvc * 256);
+                        case 1:
+                            setRegister(Enu::A, (Sim::aReg & 0xFF00) | nzvc);
+                        case 2:
+                            setRegister(Enu::X, (Sim::xReg & 0x00FF) | nzvc * 256);
+                        case 3:
+                            setRegister(Enu::X, (Sim::xReg & 0xFF00) | nzvc);
+                        case 4:
+                            setRegister(Enu::SP, (Sim::spReg & 0x00FF) | nzvc * 256);
+                        case 5:
+                            setRegister(Enu::SP, (Sim::spReg & 0xFF00) | nzvc);
+                        case 6:
+                            setRegister(Enu::PC, (Sim::pcReg & 0x00FF) | nzvc * 256);
+                        case 7:
+                            setRegister(Enu::PC, (Sim::pcReg & 0xFF00) | nzvc);
+                        case 8:
+                            setRegister(Enu::IR, (Sim::irReg & 0x00FFFF) | nzvc * 65536);
+                        case 9:
+                            setRegister(Enu::IR, (Sim::irReg & 0xFF00FF) | nzvc * 256);
+                        case 10:
+                            setRegister(Enu::IR, (Sim::irReg & 0xFFFF00) | nzvc);
+                        case 11:
+                            setRegister(Enu::T1, nzvc);
+                        case 12:
+                            setRegister(Enu::T2, (Sim::t2Reg & 0x00FF) | nzvc * 256);
+                        case 13:
+                            setRegister(Enu::T2, (Sim::t2Reg & 0xFF00) | nzvc);
+                        case 14:
+                            setRegister(Enu::T3, (Sim::t3Reg & 0x00FF) | nzvc * 256);
+                        case 15:
+                            setRegister(Enu::T3, (Sim::t3Reg & 0xFF00) | nzvc);
+                        case 16:
+                            setRegister(Enu::T4, (Sim::t4Reg & 0x00FF) | nzvc * 256);
+                        case 17:
+                            setRegister(Enu::T4, (Sim::t4Reg & 0xFF00) | nzvc);
+                        case 18:
+                            setRegister(Enu::T5, (Sim::t5Reg & 0x00FF) | nzvc * 256);
+                        case 19:
+                            setRegister(Enu::T5, (Sim::t5Reg & 0xFF00) | nzvc);
+                        case 20:
+                            setRegister(Enu::T6, (Sim::t6Reg & 0x00FF) | nzvc * 256);
+                        case 21:
+                            setRegister(Enu::T6, (Sim::t6Reg & 0xFF00) | nzvc);
+                        default:
+                            break;
+                        }
+                    }
+                    else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
+
+                    }
+                }
+                else {
+                    // Error: CMux isn't set but we're trying to MDRCk
+                }
+            }
 
 
             Sim::memReadPrevStep = cpuPaneItems->MemReadTristateLabel->text() == "1";

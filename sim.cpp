@@ -159,30 +159,40 @@ void Sim::putRegByte(int reg, int value)
     case 10:
         irReg &= 0xFFFF00;
         irReg |= value % 256;
-
     case 11:
-
+        t1Reg = value % 256;
     case 12:
-
+        t2Reg &= 0x00FF;
+        t2Reg |= (value % 256) * 256;
     case 13:
-
+        t2Reg &= 0xFF00;
+        t2Reg |= value % 256;
     case 14:
-
+        t3Reg &= 0x00FF;
+        t3Reg |= (value % 256) * 256;
     case 15:
-
+        t3Reg &= 0xFF00;
+        t3Reg |= value % 256;
     case 16:
-
+        t4Reg &= 0x00FF;
+        t4Reg |= (value % 256) * 256;
     case 17:
-
+        t4Reg &= 0xFF00;
+        t4Reg |= value % 256;
     case 18:
-
+        t5Reg &= 0x00FF;
+        t5Reg |= (value % 256) * 256;
     case 19:
-
+        t5Reg &= 0xFF00;
+        t5Reg |= value % 256;
     case 20:
-
+        t6Reg &= 0x00FF;
+        t6Reg |= (value % 256) * 256;
     case 21:
-
+        t6Reg &= 0xFF00;
+        t6Reg |= value % 256;
     default:
+        // cannot store to ROM in M1 through M6, so do nothing
         break;
     }
 
