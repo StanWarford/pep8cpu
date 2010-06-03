@@ -50,6 +50,124 @@ void Sim::writeByte(int memAddr, int value)
     modifiedBytes.insert(memAddr & 0xffff);
 }
 
+int Sim::readRegByte(int reg)
+{
+    switch (reg) {
+    case 0:
+        return aReg & 65280; // Returns the left two bytes of 0x____
+    case 1:
+        return aReg & 255; // Returns the right two bytes of 0x____
+    case 2:
+        return xReg & 65280;
+    case 3:
+        return xReg & 255;
+    case 4:
+        return spReg & 65280;
+    case 5:
+        return spReg & 255;
+    case 6:
+        return pcReg & 65280;
+    case 7:
+        return pcReg & 255;
+    case 8:
+        return irReg & 16711680;
+    case 9:
+        return irReg & 65280;
+    case 10:
+        return irReg & 255;
+    case 11:
+        return t1Reg & 255;
+    case 12:
+        return t2Reg & 65280;
+    case 13:
+        return t2Reg & 255;
+    case 14:
+        return t3Reg & 65280;
+    case 15:
+        return t3Reg & 255;
+    case 16:
+        return t4Reg & 65280;
+    case 17:
+        return t4Reg & 255;
+    case 18:
+        return t5Reg & 65280;
+    case 19:
+        return t5Reg & 255;
+    case 20:
+        return t6Reg & 65280;
+    case 21:
+        return t6Reg & 255;
+    case 22:
+        return m1Reg & 65280;
+    case 23:
+        return m1Reg & 255;
+    case 24:
+        return m2Reg & 65280;
+    case 25:
+        return m2Reg & 255;
+    case 26:
+        return m3Reg & 65280;
+    case 27:
+        return m4Reg & 255;
+    case 28:
+        return m5Reg & 65280;
+    case 29:
+        return m5Reg & 255;
+    case 20:
+        return m6Reg & 65280;
+    case 31:
+        return m6Reg & 255;
+    default:
+        break;
+    }
+    return 0;
+}
+
+void Sim::putRegByte(int reg, int value)
+{
+    switch (reg) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+
+    case 9:
+
+    case 10:
+
+    case 11:
+
+    case 12:
+
+    case 13:
+
+    case 14:
+
+    case 15:
+
+    case 16:
+
+    case 17:
+
+    case 18:
+
+    case 19:
+
+    case 20:
+
+    case 21:
+
+    default:
+        break;
+    }
+
+}
+
 bool Sim::advanceSimulation()
 {
 

@@ -4,13 +4,15 @@
 
 #include <QDebug>
 
-MicrocodeEditor::MicrocodeEditor(QWidget *parent, bool highlightCurrentLine) : QPlainTextEdit(parent)
+MicrocodeEditor::MicrocodeEditor(QWidget *parent, bool highlightCurrentLine, bool isReadOnly) : QPlainTextEdit(parent)
 {
     setFont(QFont("Courier"));
 
     highlightCurLine = highlightCurrentLine;
 
     lineNumberArea = new LineNumberArea(this);
+
+    setReadOnly(isReadOnly);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(textChanged()), this, SLOT(repaint()));

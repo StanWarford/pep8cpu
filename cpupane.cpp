@@ -448,6 +448,15 @@ void CpuPane::singleStepButtonPushed()
             code = Sim::codeList.at(Sim::microCodeCurrentLine);
         }
         if (!Sim::atEndOfSim()) {
+
+            if (cpuPaneItems->aLineEdit->text() != "" && cpuPaneItems->bLineEdit->text() != "") {
+                if (cpuPaneItems->MARCk->isChecked()) {
+
+                }
+            }
+
+
+
             Sim::memReadPrevStep = cpuPaneItems->MemReadTristateLabel->text() == "1";
             Sim::memWritePrevStep = cpuPaneItems->MemWriteTristateLabel->text() == "1";
 
