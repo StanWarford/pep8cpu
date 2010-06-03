@@ -51,7 +51,7 @@ public:
     // Pre: 0 <= value < 256
     // Post: Value is stored in Mem[memAddr]
     static int readRegByte(int reg);
-    static int putRegByte(int reg, int value);
+    static void putRegByte(int reg, int value);
 
     static bool advanceSimulation();
 

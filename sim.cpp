@@ -108,15 +108,15 @@ int Sim::readRegByte(int reg)
     case 26:
         return m3Reg & 65280;
     case 27:
-        return m4Reg & 255;
+        return m3Reg & 255;
     case 28:
-        return m5Reg & 65280;
+        return m4Reg & 65280;
     case 29:
-        return m5Reg & 255;
-    case 20:
-        return m6Reg & 65280;
+        return m4Reg & 255;
+    case 30:
+        return m5Reg & 65280;
     case 31:
-        return m6Reg & 255;
+        return m5Reg & 255;
     default:
         break;
     }
@@ -127,18 +127,38 @@ void Sim::putRegByte(int reg, int value)
 {
     switch (reg) {
     case 0:
+        aReg &= 0x00FF;
+        aReg |= (value % 256) * 256;
     case 1:
+        aReg &= 0xFF00;
+        aReg |= value % 256;
     case 2:
+        xReg &= 0x00FF;
+        xReg |= (value % 256) * 256;
     case 3:
+        xReg &= 0xFF00;
+        xReg |= value % 256;
     case 4:
+        spReg &= 0x00FF;
+        spReg |= (value % 256) * 256;
     case 5:
+        spReg &= 0xFF00;
+        spReg |= value % 256;
     case 6:
+        pcReg &= 0x00FF;
+        pcReg |= (value % 256) * 256;
     case 7:
+        pcReg &= 0xFF00;
+        pcReg |= value % 256;
     case 8:
-
+        irReg &= 0x00FFFF;
+        irReg |= (value % 256) * 65536;
     case 9:
-
+        irReg &= 0xFF00FF;
+        irReg |= (value % 256) * 256;
     case 10:
+        irReg &= 0xFFFF00;
+        irReg |= value % 256;
 
     case 11:
 
