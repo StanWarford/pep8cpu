@@ -506,7 +506,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     delete code;
                     return false;
                 }
-                if (localValue >= 65536) {
+                if (localEnumMnemonic != Enu::IR && localEnumMnemonic != Enu::T1 && localValue >= 65536) {
                     errorString = "// ERROR: Hexidecimal register value is out of range (0x0000..0xFFFF).";
                     delete code;
                     return false;
