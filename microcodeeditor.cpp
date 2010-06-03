@@ -4,9 +4,11 @@
 
 #include <QDebug>
 
-MicrocodeEditor::MicrocodeEditor(QWidget *parent) : QPlainTextEdit(parent)
+MicrocodeEditor::MicrocodeEditor(QWidget *parent, bool highlightCurrentLine) : QPlainTextEdit(parent)
 {
     setFont(QFont("Courier"));
+
+    highlightCurLine = highlightCurrentLine;
 
     lineNumberArea = new LineNumberArea(this);
 
@@ -103,7 +105,7 @@ void MicrocodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
     int bottom;
 
     // Highlight the current line containing the cursor
-    if (textCursor().block().isVisible()) {
+    if (highlightCurLine && textCursor().block().isVisible()) {
         block = firstVisibleBlock();
         blockNumber = block.blockNumber();
         top = (int) blockBoundingGeometry(block).translated(contentOffset()).top();

@@ -18,7 +18,7 @@ class MicrocodeEditor : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    MicrocodeEditor(QWidget *parent = 0);
+    MicrocodeEditor(QWidget *parent = 0, bool highlightCurrentLine = true);
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
@@ -36,6 +36,8 @@ private slots:
 
 private:
     QWidget *lineNumberArea;
+
+    bool highlightCurLine;
 
     int getMicrocodeBlockNumbers();
 };

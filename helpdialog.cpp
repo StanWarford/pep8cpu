@@ -19,7 +19,7 @@ HelpDialog::HelpDialog(QWidget *parent) :
     ui->helpTreeWidget->expandAll();
 
     delete ui->helpTextEdit;
-    microcodeEditor = new MicrocodeEditor(this);
+    microcodeEditor = new MicrocodeEditor(this, false);
     ui->verticalLayout->insertWidget(0, microcodeEditor);
 
     leftHighlighter = new PepHighlighter(microcodeEditor->document());
