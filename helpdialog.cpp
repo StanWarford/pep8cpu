@@ -127,7 +127,11 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
         else {
             ui->helpSplitter->widget(0)->hide();
             ui->helpSplitter->widget(1)->show();
-            if (row == eEX1207A) {
+            if (row == eEX1205) {
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1205.pepcpu"));
+                ui->helpFigureLabel->setText("<b>Exercise 12.5</b> Specification to fetch the operand specifier and increment PC.");
+            }
+            else if (row == eEX1207A) {
                 microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207a.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (a)</b> Specification for <code>STBYTEA there,n</code>.");
             }
@@ -222,6 +226,10 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
             else if (row == eEX1207X) {
                 microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1207x.pepcpu"));
                 ui->helpFigureLabel->setText("<b>Exercise 12.7 (x)</b> Specification for <code>RETTR</code>.");
+            }
+            else if (row == eEX1208) {
+                microcodeEditor->setPlainText(Pep::resToString(":/help/figures/exer1208.pepcpu"));
+                ui->helpFigureLabel->setText("<b>Exercise 12.8</b> Specification for <code>DECO num,i</code>, which is a trap instruction.");
             }
         }
     }
