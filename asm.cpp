@@ -261,6 +261,16 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                         delete code;
                         return false;
                     }
+                    if (localEnumMnemonic == Enu::MemRead && microCode->has(Enu::MemWrite)) {
+                        errorString = "// ERROR: MemRead not allowed with MemWrite";
+                        delete code;
+                        return false;
+                    }
+                    if (localEnumMnemonic == Enu::MemWrite && microCode->has(Enu::MemRead)) {
+                        errorString = "// ERROR: MemWrite not allowed with MemRead";
+                        delete code;
+                        return false;
+                    }
                     microCode->set(localEnumMnemonic, 1);
                     state = Asm::PS_CONTINUE_PRE_SEMICOLON;
                 }
