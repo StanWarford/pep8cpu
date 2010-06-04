@@ -21,11 +21,11 @@ namespace Enu
     };
 
     enum MainBusState {
-        NVOID,
-        MEM_READ_ADDR,
-        MEM_WRITE_ADDR,
-        MEM_READ_DATA,
-        MEM_WRITE_DATA
+        None,
+        MemReadWait,
+        MemReadReady,
+        MemWriteWait,
+        MemWriteReady,
     };
 
     enum EMnemonic {
@@ -34,6 +34,7 @@ namespace Enu
         Mem, X, SP, PC, IR, T1, T2, T3, T4, T5, T6, N, Z, V,
         MARA, MARB, MDR,
     };
+
 }
 
 #endif // ENU_H

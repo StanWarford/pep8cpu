@@ -19,6 +19,8 @@ MicrocodeEditor::MicrocodeEditor(QWidget *parent, bool highlightCurrentLine, boo
     connect(this, SIGNAL(updateRequest(const QRect &, int)), this, SLOT(updateLineNumberArea(const QRect &, int)));
     //    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
 
+    connect(this, SIGNAL(cursorPositionChanged()), lineNumberArea, SLOT(update()));
+
     updateLineNumberAreaWidth(0);
 }
 
@@ -152,5 +154,5 @@ void MicrocodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
         bottom = top + (int) blockBoundingRect(block).height();
         ++blockNumber;
     }
-    lineNumberArea->update();
+//    lineNumberArea->update();
 }

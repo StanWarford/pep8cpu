@@ -22,6 +22,8 @@ int Sim::MARA = 0;
 int Sim::MARB = 0;
 int Sim::MDR = 0;
 
+Enu::MainBusState Sim::mainBusState;
+
 QSet<int> Sim::modifiedBytes;
 
 bool Sim::memReadPrevStep = false;

@@ -33,6 +33,8 @@ public:
     static int MARB;
     static int MDR;
 
+    static Enu::MainBusState mainBusState;
+
     // Used for keeping track of which bytes have been modified since last memory update:
     static QSet<int> modifiedBytes;
 

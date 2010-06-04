@@ -454,15 +454,19 @@ void CpuPane::singleStepButtonPushed()
         }
         if (!Sim::atEndOfSim()) {
 
+
+            // Update Bus State
+            setMainBusState();
+
             // MARCk
             if (cpuPaneItems->MARCk->isChecked()) {
                 if (cpuPaneItems->aLineEdit->text() != "" && cpuPaneItems->bLineEdit->text() != "") {
                     setRegister(Enu::MARA, cpuPaneItems->aLineEdit->text().toInt());
                     setRegister(Enu::MARB, cpuPaneItems->bLineEdit->text().toInt());
                 }
-            }
-            else {
-                // error: MARCk is checked but we have incorrect input
+                else {
+                    // error: MARCk is checked but we have incorrect input
+                }
             }
 
             // LoadCk
@@ -535,57 +539,10 @@ void CpuPane::singleStepButtonPushed()
                 }
                 else if (cpuPaneItems->MDRMuxTristateLabel->text() == "1") { // read through the C bus
                     int cDest = cpuPaneItems->cLineEdit->text().toInt();
-                    if (cpuPaneItems->cMuxTristateLabel->text() == "0") {
+                    if (cpuPaneItems->cMuxTristateLabel->text() == "0") { // CMux is set to 0, read in NZVC
                         int nzvc = (Sim::nBit ? 8 : 0) + (Sim::zBit ? 4 : 0) + (Sim::vBit ? 2 : 0) + (Sim::cBit ? 1 : 0);
                         qDebug() << QString("0x%1").arg(nzvc, 4, 16, QLatin1Char('0'));
-                        switch(cDest) {
-                        case 0:
-                            setRegister(Enu::A, (Sim::aReg & 0x00FF) | nzvc * 256);
-                        case 1:
-                            setRegister(Enu::A, (Sim::aReg & 0xFF00) | nzvc);
-                        case 2:
-                            setRegister(Enu::X, (Sim::xReg & 0x00FF) | nzvc * 256);
-                        case 3:
-                            setRegister(Enu::X, (Sim::xReg & 0xFF00) | nzvc);
-                        case 4:
-                            setRegister(Enu::SP, (Sim::spReg & 0x00FF) | nzvc * 256);
-                        case 5:
-                            setRegister(Enu::SP, (Sim::spReg & 0xFF00) | nzvc);
-                        case 6:
-                            setRegister(Enu::PC, (Sim::pcReg & 0x00FF) | nzvc * 256);
-                        case 7:
-                            setRegister(Enu::PC, (Sim::pcReg & 0xFF00) | nzvc);
-                        case 8:
-                            setRegister(Enu::IR, (Sim::irReg & 0x00FFFF) | nzvc * 65536);
-                        case 9:
-                            setRegister(Enu::IR, (Sim::irReg & 0xFF00FF) | nzvc * 256);
-                        case 10:
-                            setRegister(Enu::IR, (Sim::irReg & 0xFFFF00) | nzvc);
-                        case 11:
-                            setRegister(Enu::T1, nzvc);
-                        case 12:
-                            setRegister(Enu::T2, (Sim::t2Reg & 0x00FF) | nzvc * 256);
-                        case 13:
-                            setRegister(Enu::T2, (Sim::t2Reg & 0xFF00) | nzvc);
-                        case 14:
-                            setRegister(Enu::T3, (Sim::t3Reg & 0x00FF) | nzvc * 256);
-                        case 15:
-                            setRegister(Enu::T3, (Sim::t3Reg & 0xFF00) | nzvc);
-                        case 16:
-                            setRegister(Enu::T4, (Sim::t4Reg & 0x00FF) | nzvc * 256);
-                        case 17:
-                            setRegister(Enu::T4, (Sim::t4Reg & 0xFF00) | nzvc);
-                        case 18:
-                            setRegister(Enu::T5, (Sim::t5Reg & 0x00FF) | nzvc * 256);
-                        case 19:
-                            setRegister(Enu::T5, (Sim::t5Reg & 0xFF00) | nzvc);
-                        case 20:
-                            setRegister(Enu::T6, (Sim::t6Reg & 0x00FF) | nzvc * 256);
-                        case 21:
-                            setRegister(Enu::T6, (Sim::t6Reg & 0xFF00) | nzvc);
-                        default:
-                            break;
-                        }
+                        setRegister(Enu::MDR, nzvc);
                     }
                     else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
 
@@ -746,9 +703,169 @@ void CpuPane::ALUTextEdited(QString str)
     }
 }
 
+void CpuPane::setMainBusState()
+{
+    int a, b;
 
+    bool marUnchanged = true;
+    if (cpuPaneItems->MARCk->isChecked()) {
+        if (cpuPaneItems->aLineEdit->text() != "" && cpuPaneItems->bLineEdit->text() != "") {
+            a = cpuPaneItems->aLineEdit->text().toInt();
+            b = cpuPaneItems->bLineEdit->text().toInt();
 
+            marUnchanged = a == Sim::MARA && b == Sim::MARB;
+        }
+        else {
+            // error: MARCk is checked but we have incorrect input
+        }
+    }
 
+    switch (Sim::mainBusState) {
+    case Enu::None:
+        if (cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (1st)
+            Sim::mainBusState = Enu::MemReadWait;
+        }
+        else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (1st)
+            Sim::mainBusState = Enu::MemWriteWait;
+        }
+        break;
+    case Enu::MemReadWait:
+        if (marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (2nd with unchanged MAR)
+            Sim::mainBusState = Enu::MemReadReady;
+        }
+        else if (!marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead
+            // do nothing, already MemReadWait - need another MemRead because the MAR changed
+        }
+        else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after a sinle MemRead)
+            Sim::mainBusState = Enu::MemWriteWait;
+        }
+        break;
+    case Enu::MemReadReady:
+        if (marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead again (more than 2 in a row)
+            // do nothing, already MemReadReady
+        }
+        else if (!marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead
+            Sim::mainBusState = Enu::MemReadWait; // go back to MemReadWait because the MAR changed
+        }
+        else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after 2+ MemReads)
+            Sim::mainBusState = Enu::MemWriteWait;
+        }
+        break;
+    case Enu::MemWriteWait:
+        if (cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (after a MemWrite)
+            Sim::mainBusState = Enu::MemReadWait;
+        }
+        else if (marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (2nd in a row)
+            Sim::mainBusState = Enu::MemWriteReady;
+        }
+        else if (!marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (with changed MAR)
+            // do nothing, MAR changed, still MemReadWait
+        }
+        break;
+    case Enu::MemWriteReady:
+        if (cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (after 2+ MemWrites)
+            Sim::mainBusState = Enu::MemReadWait;
+        }
+        else if (marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after 2+ in a row)
+            // do nothing, already MemWriteReady
+        }
+        else if (!marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (with changed MAR)
+            Sim::mainBusState = Enu::MemWriteWait;
+        }
+        break;
+    default:
+        break;
+    }
+}
+
+int CpuPane::getALUOutput()
+{
+    int a = -1;
+    int b = -1;
+    if (cpuPaneItems->aMuxTristateLabel->text() == "0") {
+        a = Sim::MDR;
+    }
+    else if (cpuPaneItems->aMuxTristateLabel->text() == "1" && cpuPaneItems->aLineEdit->text() != "") {
+        a = cpuPaneItems->aLineEdit->text().toInt();
+    }
+
+    if (cpuPaneItems->bLineEdit->text() != "") {
+        b = cpuPaneItems->bLineEdit->text().toInt();
+    }
+
+    int ALUFn;
+    if (cpuPaneItems->ALULineEdit->text() == "") {
+        return -1;
+    }
+
+    ALUFn = cpuPaneItems->ALULineEdit->text().toInt();
+
+    switch(ALUFn) {
+    case 0: // A
+        if (a != -1) {
+            return a;
+        }
+        break;
+    case 1: // A plus B
+        if (a != -1 && b != -1) {
+            return a + b;
+        }
+        break;
+    case 2: // A plus B plus Cin
+        if (a != -1 && b != -1) {
+            return a + b + Sim::cBit ? 1 : 0;
+        }
+        break;
+    case 3: // A plus ~B plus 1
+        if (a != -1 && b != -1) {
+            return a + ~b + 1;
+        }
+        break;
+    case 4: // A plus ~B plus Cin
+        if (a != -1 && b != -1) {
+            return a + ~b + Sim::cBit ? 1 : 0;
+        }
+        break;
+    case 5: // A xor B
+        if (a != -1 && b != -1) {
+            return a ^ b;
+        }
+        break;
+    case 6: // ~(A xor B)
+        cpuPaneItems->ALUFunctionLabel->setText("\xAC (A \xb7 B)");
+        break;
+    case 7: //
+        cpuPaneItems->ALUFunctionLabel->setText("A + B");
+        break;
+    case 8:
+        cpuPaneItems->ALUFunctionLabel->setText("\xAC (A + B)");
+        break;
+    case 9:
+        cpuPaneItems->ALUFunctionLabel->setText("A XOR B");
+        break;
+    case 10:
+        cpuPaneItems->ALUFunctionLabel->setText("\xAC A");
+        break;
+    case 11:
+        cpuPaneItems->ALUFunctionLabel->setText("ASL A");
+        break;
+    case 12:
+        cpuPaneItems->ALUFunctionLabel->setText("ROL A");
+        break;
+    case 13:
+        cpuPaneItems->ALUFunctionLabel->setText("ASR A");
+        break;
+    case 14:
+        cpuPaneItems->ALUFunctionLabel->setText("ROR A");
+        break;
+    case 15:
+        cpuPaneItems->ALUFunctionLabel->setText("NZVC A");
+        break;
+    default:
+        break;
+    }
+    return 0;
+}
 
 
 

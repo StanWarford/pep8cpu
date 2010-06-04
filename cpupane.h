@@ -61,6 +61,10 @@ private slots:
 
     void ALUTextEdited(QString str);
 
+    //simulation helpers
+    void setMainBusState();
+    int getALUOutput();
+
 signals:
     void updateSimulation();
     void simulationFinished();
