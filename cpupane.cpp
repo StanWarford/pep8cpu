@@ -525,7 +525,56 @@ void CpuPane::singleStepButtonPushed()
                     }
                 }
                 else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
-                    // ALU operations. This will be big.
+                    int aluOut = getALUOutput();
+
+                    switch(cDest) {
+                    case 0:
+                        setRegister(Enu::A, (Sim::aReg & 0x00FF) | aluOut * 256);
+                    case 1:
+                        setRegister(Enu::A, (Sim::aReg & 0xFF00) | aluOut);
+                    case 2:
+                        setRegister(Enu::X, (Sim::xReg & 0x00FF) | aluOut * 256);
+                    case 3:
+                        setRegister(Enu::X, (Sim::xReg & 0xFF00) | aluOut);
+                    case 4:
+                        setRegister(Enu::SP, (Sim::spReg & 0x00FF) | aluOut * 256);
+                    case 5:
+                        setRegister(Enu::SP, (Sim::spReg & 0xFF00) | aluOut);
+                    case 6:
+                        setRegister(Enu::PC, (Sim::pcReg & 0x00FF) | aluOut * 256);
+                    case 7:
+                        setRegister(Enu::PC, (Sim::pcReg & 0xFF00) | aluOut);
+                    case 8:
+                        setRegister(Enu::IR, (Sim::irReg & 0x00FFFF) | aluOut * 65536);
+                    case 9:
+                        setRegister(Enu::IR, (Sim::irReg & 0xFF00FF) | aluOut * 256);
+                    case 10:
+                        setRegister(Enu::IR, (Sim::irReg & 0xFFFF00) | aluOut);
+                    case 11:
+                        setRegister(Enu::T1, aluOut);
+                    case 12:
+                        setRegister(Enu::T2, (Sim::t2Reg & 0x00FF) | aluOut * 256);
+                    case 13:
+                        setRegister(Enu::T2, (Sim::t2Reg & 0xFF00) | aluOut);
+                    case 14:
+                        setRegister(Enu::T3, (Sim::t3Reg & 0x00FF) | aluOut * 256);
+                    case 15:
+                        setRegister(Enu::T3, (Sim::t3Reg & 0xFF00) | aluOut);
+                    case 16:
+                        setRegister(Enu::T4, (Sim::t4Reg & 0x00FF) | aluOut * 256);
+                    case 17:
+                        setRegister(Enu::T4, (Sim::t4Reg & 0xFF00) | aluOut);
+                    case 18:
+                        setRegister(Enu::T5, (Sim::t5Reg & 0x00FF) | aluOut * 256);
+                    case 19:
+                        setRegister(Enu::T5, (Sim::t5Reg & 0xFF00) | aluOut);
+                    case 20:
+                        setRegister(Enu::T6, (Sim::t6Reg & 0x00FF) | aluOut * 256);
+                    case 21:
+                        setRegister(Enu::T6, (Sim::t6Reg & 0xFF00) | aluOut);
+                    default:
+                        break;
+                    }
                 }
                 else {
                     // error: CMux isn't set but we're trying to loadCk
@@ -826,40 +875,58 @@ int CpuPane::getALUOutput()
             return a + ~b + Sim::cBit ? 1 : 0;
         }
         break;
-    case 5: // A xor B
+    case 5: // A and B
+        if (a != -1 && b != -1) {
+            return a & b;
+        }
+        break;
+    case 6: // ~(A and B)
+        if (a != -1 && b != -1) {
+            return ~(a & b);
+        }
+        break;
+    case 7: // A + B
+        if (a != -1 && b != -1) {
+            return a | b;
+        }
+        break;
+    case 8: // ~(A + B)
+        if (a != -1 && b != -1) {
+            return ~(a | b);
+        }
+        break;
+    case 9: // A xor B
         if (a != -1 && b != -1) {
             return a ^ b;
         }
         break;
-    case 6: // ~(A xor B)
-        cpuPaneItems->ALUFunctionLabel->setText("\xAC (A \xb7 B)");
+    case 10: // ~A
+        if (a != -1 && b != -1) {
+            return ~a;
+        }
         break;
-    case 7: //
-        cpuPaneItems->ALUFunctionLabel->setText("A + B");
+    case 11: // ASL A
+        if (a != -1 && b != -1) {
+            return a << 1;
+        }
         break;
-    case 8:
-        cpuPaneItems->ALUFunctionLabel->setText("\xAC (A + B)");
+    case 12: // ROL A
+        if (a != -1 && b != -1) {
+            return (a >> 1) + Sim::cBit;
+        }
         break;
-    case 9:
-        cpuPaneItems->ALUFunctionLabel->setText("A XOR B");
+    case 13: // ASR A
+        if (a != -1 && b != -1) {
+            return a >> 1;
+        }
         break;
-    case 10:
-        cpuPaneItems->ALUFunctionLabel->setText("\xAC A");
+    case 14: // ROR A
+        if (a != -1 && b != -1) {
+            return ((a >> 1) & 127) | (Sim::cBit * 128);
+        }
         break;
-    case 11:
-        cpuPaneItems->ALUFunctionLabel->setText("ASL A");
-        break;
-    case 12:
-        cpuPaneItems->ALUFunctionLabel->setText("ROL A");
-        break;
-    case 13:
-        cpuPaneItems->ALUFunctionLabel->setText("ASR A");
-        break;
-    case 14:
-        cpuPaneItems->ALUFunctionLabel->setText("ROR A");
-        break;
-    case 15:
-        cpuPaneItems->ALUFunctionLabel->setText("NZVC A");
+    case 15: // NZVC A
+            // what does this do?
         break;
     default:
         break;
