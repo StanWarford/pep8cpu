@@ -910,42 +910,57 @@ int CpuPane::getALUOutput()
     case 7: // A + B
         if (a != -1 && b != -1) {
             c = a | b;
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
             return c;
         }
         break;
     case 8: // ~(A + B)
         if (a != -1 && b != -1) {
-            return ~(a | b);
+            c = ~(a | b);
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
+            return c;
         }
         break;
     case 9: // A xor B
         if (a != -1 && b != -1) {
-            return a ^ b;
+            c = (a ^ b) & 0xff; // or ((a & ~b) | (~a & b)) & 0xff
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
+            return c;
         }
         break;
     case 10: // ~A
         if (a != -1 && b != -1) {
-            return ~a;
+            c = ~a;
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, Enu::eUNARY);
+            return c;
         }
         break;
     case 11: // ASL A
         if (a != -1 && b != -1) {
-            return a << 1;
+            c = (a << 1) & 254; // 254 because 0 gets shifted in
+            aluSetStatusBits(a, b, c, (a & 128) / 128, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
+            return c;
         }
         break;
     case 12: // ROL A
         if (a != -1 && b != -1) {
+            c = ((a << 1) & 254) + Sim::cBit ? 1 : 0;
+            aluSetStatusBits(a, b, c, (a & 128) / 128, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
             return (a >> 1) + Sim::cBit;
         }
         break;
     case 13: // ASR A
         if (a != -1 && b != -1) {
-            return a >> 1;
+            c = ((a >> 1) & 127) | (a & 128);
+            aluSetStatusBits(a, b, c, a & 1, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
+            return c;
         }
         break;
     case 14: // ROR A
         if (a != -1 && b != -1) {
-            return ((a >> 1) & 127) | (Sim::cBit * 128);
+            c = ((a >> 1) & 127) | (Sim::cBit * 128);
+            aluSetStatusBits(a, b, c, a & 1, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
+            return c;
         }
         break;
     case 15: // NZVC A
