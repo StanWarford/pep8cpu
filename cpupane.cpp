@@ -304,7 +304,7 @@ void CpuPane::clearCpu()
 {
     cpuPaneItems->loadCk->setChecked(false);
     cpuPaneItems->cLineEdit->setText("");
-    cpuPaneItems->bLineEdit->setText("");    
+    cpuPaneItems->bLineEdit->setText("");
     cpuPaneItems->aLineEdit->setText("");
     cpuPaneItems->MARCk->setChecked(false);
     cpuPaneItems->MDRCk->setChecked(false);
@@ -849,45 +849,68 @@ int CpuPane::getALUOutput()
 
     ALUFn = cpuPaneItems->ALULineEdit->text().toInt();
 
+    int c;
+    int carry;
+
     switch(ALUFn) {
     case 0: // A
         if (a != -1) {
+            aluSetStatusBits(a, 0, a, 0, Enu::NMask|Enu::ZMask);
             return a;
         }
         break;
     case 1: // A plus B
         if (a != -1 && b != -1) {
-            return a + b;
+            c = a + b;
+            carry = ((c & 0x1ff) >> 8 ) & 0x1 == 1;
+            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
+            return c;
         }
         break;
     case 2: // A plus B plus Cin
         if (a != -1 && b != -1) {
-            return a + b + Sim::cBit ? 1 : 0;
+            c = a + b + Sim::cBit ? 1 : 0;
+            carry = ((c & 0x1ff) >> 8) & 0x1;
+            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
+            return c;
         }
         break;
     case 3: // A plus ~B plus 1
         if (a != -1 && b != -1) {
-            return a + ~b + 1;
+            int busVal = (a & 0xff) + (~b & 0xff) + 1;
+            c = busVal & 0xff;
+            carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
+            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
+            return c;
         }
         break;
     case 4: // A plus ~B plus Cin
         if (a != -1 && b != -1) {
-            return a + ~b + Sim::cBit ? 1 : 0;
+            int busVal = (a & 0xff) + (~b & 0xff) + Sim::cBit ? 1 : 0;
+            c = busVal & 0xff;
+            carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
+            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
+            return c;
         }
         break;
     case 5: // A and B
         if (a != -1 && b != -1) {
-            return a & b;
+            c = a & b;
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
+            return c;
         }
         break;
     case 6: // ~(A and B)
         if (a != -1 && b != -1) {
-            return ~(a & b);
+            c = ~(a & b) & 0xff;
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
+            return c;
         }
         break;
     case 7: // A + B
         if (a != -1 && b != -1) {
-            return a | b;
+            c = a | b;
+            return c;
         }
         break;
     case 8: // ~(A + B)
@@ -934,6 +957,42 @@ int CpuPane::getALUOutput()
     return 0;
 }
 
+void CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, int unary)
+{
+    Sim::nBit = 0;
+    Sim::zBit = 0;
+    Sim::vBit = 0;
+    Sim::cBit = 0;
+
+    if (bitMask & Enu::NMask && c > 127) {
+        Sim::nBit = true;
+    }
+    if (bitMask & Enu::ZMask && c == 0) {
+        Sim::zBit = true;
+    }
+    if (bitMask & Enu::CMask && carry & 0x1) {
+        Sim::cBit = true;
+    }
+    if (bitMask & Enu::VMask) {
+        switch(unary) {
+        case 0:
+            if (((c > 127 && a < 128 && b < 128) || (c < 128 && a > 127 && b > 127)))
+                Sim::vBit = true;
+            break;
+        case 1:
+            if (((c > 127 && a < 128) || (c < 128 && a > 127)))
+                Sim::vBit = true;
+            break;
+        default:
+            break;
+        }
+    }
+
+    setStatusBit(Enu::C, Sim::cBit);
+    setStatusBit(Enu::V, Sim::vBit);
+    setStatusBit(Enu::Z, Sim::zBit);
+    setStatusBit(Enu::N, Sim::nBit);
+}
 
 
 

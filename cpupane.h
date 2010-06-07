@@ -64,6 +64,7 @@ private slots:
     //simulation helpers
     void setMainBusState();
     int getALUOutput();
+    void aluSetStatusBits(int a, int b, int c, int carry, int bitMask, int unary = 0);
 
 signals:
     void updateSimulation();
