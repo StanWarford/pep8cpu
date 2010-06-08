@@ -454,10 +454,6 @@ void CpuPane::singleStepButtonPushed()
         }
         if (!Sim::atEndOfSim()) {
 
-
-            // Update Bus State
-            setMainBusState();
-
             // MARCk
             if (cpuPaneItems->MARCk->isChecked()) {
                 if (cpuPaneItems->aLineEdit->text() != "" && cpuPaneItems->bLineEdit->text() != "") {
@@ -647,11 +643,28 @@ void CpuPane::singleStepButtonPushed()
                 }
             }
 
-            if (cpuPaneItems->MemReadTristateLabel->text() == "1") {
-
+            // Update Bus State
+            setMainBusState();
+            if (cpuPaneItems->MemReadTristateLabel->text() == "1" && Sim::mainBusState == Enu::MemReadReady) {
+                bool ok;
+                int a = cpuPaneItems->MARALabel->text().remove(0, 2).toInt(&ok, 16) * 256;
+                int b = cpuPaneItems->MARBLabel->text().remove(0, 2).toInt(&ok, 16);
+                int address = a + b;
+                if (cpuPaneItems->MDRMuxTristateLabel->text() == "0" && cpuPaneItems->MDRCk->isChecked()) {
+                    setRegister(Enu::MDR, Sim::Mem[address]);
+                    emit readByte(address);
+                }
             }
-            else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") {
-
+            else if (cpuPaneItems->MemWriteTristateLabel->text() == "1" && Sim::mainBusState == Enu::MemWriteReady) {
+                bool ok;
+                int a = cpuPaneItems->MARALabel->text().remove(0, 2).toInt(&ok, 16) * 256;
+                int b = cpuPaneItems->MARBLabel->text().remove(0, 2).toInt(&ok, 16);
+                int address = a + b;
+                if (cpuPaneItems->MDRCk->isChecked()) {
+                    int byteToWrite = cpuPaneItems->MDRLabel->text().remove(0, 2).toInt(&ok, 16);
+                    Sim::Mem[address] = byteToWrite;
+                    emit writeByte(address);
+                }
             }
 
             Sim::memReadPrevStep = cpuPaneItems->MemReadTristateLabel->text() == "1";

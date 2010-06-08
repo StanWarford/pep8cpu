@@ -70,6 +70,8 @@ signals:
     void updateSimulation();
     void simulationFinished();
     void appendMicrocodeLine(QString line);
+    void readByte(int address);
+    void writeByte(int address);
 };
 
 #endif // CPUPANE_H
