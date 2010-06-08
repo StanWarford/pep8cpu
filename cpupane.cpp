@@ -31,8 +31,8 @@ struct MainBus
 };
 
 CpuPane::CpuPane(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::CpuPane)
+        QWidget(parent),
+        ui(new Ui::CpuPane)
 {
     ui->setupUi(this);
 
@@ -478,46 +478,67 @@ void CpuPane::singleStepButtonPushed()
                     switch(cDest) {
                     case 0:
                         setRegister(Enu::A, (Sim::aReg & 0x00FF) | nzvc * 256);
+                        break;
                     case 1:
                         setRegister(Enu::A, (Sim::aReg & 0xFF00) | nzvc);
+                        break;
                     case 2:
                         setRegister(Enu::X, (Sim::xReg & 0x00FF) | nzvc * 256);
+                        break;
                     case 3:
                         setRegister(Enu::X, (Sim::xReg & 0xFF00) | nzvc);
+                        break;
                     case 4:
                         setRegister(Enu::SP, (Sim::spReg & 0x00FF) | nzvc * 256);
+                        break;
                     case 5:
                         setRegister(Enu::SP, (Sim::spReg & 0xFF00) | nzvc);
+                        break;
                     case 6:
                         setRegister(Enu::PC, (Sim::pcReg & 0x00FF) | nzvc * 256);
+                        break;
                     case 7:
                         setRegister(Enu::PC, (Sim::pcReg & 0xFF00) | nzvc);
+                        break;
                     case 8:
                         setRegister(Enu::IR, (Sim::irReg & 0x00FFFF) | nzvc * 65536);
+                        break;
                     case 9:
                         setRegister(Enu::IR, (Sim::irReg & 0xFF00FF) | nzvc * 256);
+                        break;
                     case 10:
                         setRegister(Enu::IR, (Sim::irReg & 0xFFFF00) | nzvc);
+                        break;
                     case 11:
                         setRegister(Enu::T1, nzvc);
+                        break;
                     case 12:
                         setRegister(Enu::T2, (Sim::t2Reg & 0x00FF) | nzvc * 256);
+                        break;
                     case 13:
                         setRegister(Enu::T2, (Sim::t2Reg & 0xFF00) | nzvc);
+                        break;
                     case 14:
                         setRegister(Enu::T3, (Sim::t3Reg & 0x00FF) | nzvc * 256);
+                        break;
                     case 15:
                         setRegister(Enu::T3, (Sim::t3Reg & 0xFF00) | nzvc);
+                        break;
                     case 16:
                         setRegister(Enu::T4, (Sim::t4Reg & 0x00FF) | nzvc * 256);
+                        break;
                     case 17:
                         setRegister(Enu::T4, (Sim::t4Reg & 0xFF00) | nzvc);
+                        break;
                     case 18:
                         setRegister(Enu::T5, (Sim::t5Reg & 0x00FF) | nzvc * 256);
+                        break;
                     case 19:
                         setRegister(Enu::T5, (Sim::t5Reg & 0xFF00) | nzvc);
+                        break;
                     case 20:
                         setRegister(Enu::T6, (Sim::t6Reg & 0x00FF) | nzvc * 256);
+                        break;
                     case 21:
                         setRegister(Enu::T6, (Sim::t6Reg & 0xFF00) | nzvc);
                     default:
@@ -530,48 +551,70 @@ void CpuPane::singleStepButtonPushed()
                     switch(cDest) {
                     case 0:
                         setRegister(Enu::A, (Sim::aReg & 0x00FF) | aluOut * 256);
+                        break;
                     case 1:
                         setRegister(Enu::A, (Sim::aReg & 0xFF00) | aluOut);
+                        break;
                     case 2:
                         setRegister(Enu::X, (Sim::xReg & 0x00FF) | aluOut * 256);
+                        break;
                     case 3:
                         setRegister(Enu::X, (Sim::xReg & 0xFF00) | aluOut);
+                        break;
                     case 4:
                         setRegister(Enu::SP, (Sim::spReg & 0x00FF) | aluOut * 256);
+                        break;
                     case 5:
                         setRegister(Enu::SP, (Sim::spReg & 0xFF00) | aluOut);
+                        break;
                     case 6:
                         setRegister(Enu::PC, (Sim::pcReg & 0x00FF) | aluOut * 256);
+                        break;
                     case 7:
                         setRegister(Enu::PC, (Sim::pcReg & 0xFF00) | aluOut);
+                        break;
                     case 8:
                         setRegister(Enu::IR, (Sim::irReg & 0x00FFFF) | aluOut * 65536);
+                        break;
                     case 9:
                         setRegister(Enu::IR, (Sim::irReg & 0xFF00FF) | aluOut * 256);
+                        break;
                     case 10:
                         setRegister(Enu::IR, (Sim::irReg & 0xFFFF00) | aluOut);
+                        break;
                     case 11:
                         setRegister(Enu::T1, aluOut);
+                        break;
                     case 12:
                         setRegister(Enu::T2, (Sim::t2Reg & 0x00FF) | aluOut * 256);
+                        break;
                     case 13:
                         setRegister(Enu::T2, (Sim::t2Reg & 0xFF00) | aluOut);
+                        break;
                     case 14:
                         setRegister(Enu::T3, (Sim::t3Reg & 0x00FF) | aluOut * 256);
+                        break;
                     case 15:
                         setRegister(Enu::T3, (Sim::t3Reg & 0xFF00) | aluOut);
+                        break;
                     case 16:
                         setRegister(Enu::T4, (Sim::t4Reg & 0x00FF) | aluOut * 256);
+                        break;
                     case 17:
                         setRegister(Enu::T4, (Sim::t4Reg & 0xFF00) | aluOut);
+                        break;
                     case 18:
                         setRegister(Enu::T5, (Sim::t5Reg & 0x00FF) | aluOut * 256);
+                        break;
                     case 19:
                         setRegister(Enu::T5, (Sim::t5Reg & 0xFF00) | aluOut);
+                        break;
                     case 20:
                         setRegister(Enu::T6, (Sim::t6Reg & 0x00FF) | aluOut * 256);
+                        break;
                     case 21:
                         setRegister(Enu::T6, (Sim::t6Reg & 0xFF00) | aluOut);
+                        break;
                     default:
                         break;
                     }
@@ -594,7 +637,9 @@ void CpuPane::singleStepButtonPushed()
                         setRegister(Enu::MDR, nzvc);
                     }
                     else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
+                        int aluOut = getALUOutput();
 
+                        setRegister(Enu::MDR, aluOut);
                     }
                 }
                 else {
@@ -602,6 +647,12 @@ void CpuPane::singleStepButtonPushed()
                 }
             }
 
+            if (cpuPaneItems->MemReadTristateLabel->text() == "1") {
+
+            }
+            else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") {
+
+            }
 
             Sim::memReadPrevStep = cpuPaneItems->MemReadTristateLabel->text() == "1";
             Sim::memWritePrevStep = cpuPaneItems->MemWriteTristateLabel->text() == "1";
@@ -835,11 +886,13 @@ int CpuPane::getALUOutput()
         a = Sim::MDR;
     }
     else if (cpuPaneItems->aMuxTristateLabel->text() == "1" && cpuPaneItems->aLineEdit->text() != "") {
-        a = cpuPaneItems->aLineEdit->text().toInt();
+        //        a = cpuPaneItems->aLineEdit->text().toInt();
+        a = Sim::readRegByte(cpuPaneItems->aLineEdit->text().toInt());
     }
 
     if (cpuPaneItems->bLineEdit->text() != "") {
-        b = cpuPaneItems->bLineEdit->text().toInt();
+        //        b = cpuPaneItems->bLineEdit->text().toInt();
+        b = Sim::readRegByte(cpuPaneItems->bLineEdit->text().toInt());
     }
 
     int ALUFn;
@@ -855,8 +908,9 @@ int CpuPane::getALUOutput()
     switch(ALUFn) {
     case 0: // A
         if (a != -1) {
+            c = a;
             aluSetStatusBits(a, 0, a, 0, Enu::NMask|Enu::ZMask);
-            return a;
+            return c;
         }
         break;
     case 1: // A plus B
@@ -964,7 +1018,7 @@ int CpuPane::getALUOutput()
         }
         break;
     case 15: // NZVC A
-            // what does this do?
+        // what does this do?
         break;
     default:
         break;

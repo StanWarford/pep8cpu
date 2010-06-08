@@ -80,12 +80,17 @@ void MainMemory::refreshMemory()
 
 void MainMemory::setMemAddress(int memAddress, int value)
 {
-    value = value % 256;
+    if (memAddress > 0xffff || memAddress < 0) {
+        qDebug() << "invalid address: " << memAddress;
+    }
+    if (value > 255) {
+        value = value & 255;
+        qDebug() << "setMemAddr of num larger than 255: val: " << value << ", addr: " << memAddress;
+    }
+
     Sim::Mem[memAddress] = value;
 
-    bool addrConvOk;
-
-    int firstAddress = ui->tableWidget->verticalHeaderItem(0)->text().toInt(&addrConvOk, 16);
+    int firstAddress = ui->tableWidget->verticalHeaderItem(0)->text().toInt();
     int lastAddress = firstAddress + ui->tableWidget->rowCount();
 
     if (memAddress < firstAddress || lastAddress < memAddress) {
@@ -94,7 +99,7 @@ void MainMemory::setMemAddress(int memAddress, int value)
     
     int lineAddress;
     for (int i = firstAddress; i < lastAddress; i++) {
-        lineAddress = ui->tableWidget->verticalHeaderItem(i)->text().toInt(&addrConvOk, 16);
+        lineAddress = ui->tableWidget->verticalHeaderItem(i)->text().toInt();
         if (lineAddress == memAddress) {
             ui->tableWidget->item(i, 0)->setText(QString("0x") + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper().trimmed());
         }
