@@ -63,7 +63,7 @@ private:
     QString curFile;
     QString curPath;
 
-private slots:    
+private slots:
 
     // File
     void on_actionFile_New_triggered();
@@ -104,6 +104,8 @@ private slots:
     void appendMicrocodeLine(QString string);
 
     void helpCopyToMicrocodeButtonClicked();
+
+    void updateMemAddress(int address);
 };
 
 #endif // MAINWINDOW_H

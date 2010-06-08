@@ -200,6 +200,34 @@ void Sim::putRegByte(int reg, int value)
 
 }
 
+bool Sim::aluFnIsUnary(int fn)
+{
+    switch (fn) {
+    case 0:
+        return true;
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+        return false;
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+        return true;
+    default:
+        break;
+    }
+    return false;
+}
+
 bool Sim::advanceSimulation()
 {
 
@@ -210,3 +238,9 @@ bool Sim::atEndOfSim()
 {
     return microCodeCurrentLine >= codeList.size() - 1;
 }
+
+
+
+
+
+

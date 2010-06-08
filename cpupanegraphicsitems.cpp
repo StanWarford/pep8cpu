@@ -347,7 +347,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     irRegLineEdit->setPalette(QPalette(seqCircuitColor));
     irRegLineEdit->setFrame(false);
     scene->addWidget(irRegLineEdit);
-    
+
     ph = new QLabel("11");
     ph->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ph->setPalette(QPalette(seqCircuitColor));
@@ -905,7 +905,7 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
     QPolygon poly;
     QColor color;
 
-    int cMux = cMuxTristateLabel->text().toInt(&ok, 10);
+    int cMux = cMuxTristateLabel->text().toInt(&ok);
 
     color = ok ? Qt::black : Qt::gray;
     painter->setPen(QPen(QBrush(color), 1));
@@ -930,13 +930,12 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
             cMuxerLabel->setPalette(QPalette(combCircuitYellow));
             break;
         case (1):
-#warning "Is this right?"
             if (ALULineEdit->text() == "") { // CBus.state == UNDEFINED
-                if (cMuxTristateLabel->hasFocus())
-                    qDebug() << "WARNING: CMux select: There is no ALU output";
+                qDebug() << "WARNING: CMux select: There is no ALU output";
                 cMuxerLabel->setPalette(QPalette(Qt::white));
                 color = Qt::white;
-            } else {
+            }
+            else {
                 cMuxerLabel->setPalette(QPalette(combCircuitBlue));
                 color = Qt::blue;
             }
@@ -944,6 +943,7 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
         }
     }
     else {
+        qDebug() << "text to int conversion failed on CMux";
         cMuxerLabel->setPalette(QPalette(Qt::white));
         color = Qt::white;
     }
@@ -1165,13 +1165,13 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintCBitOut(QPainter *painter)
 {
-    bool ok;
     QColor color;
     QPolygon poly;
 
-    if (cBitLabel->text().toInt(&ok, 10) == 1) {
+    if (cBitLabel->text() == "1") {
         color = Qt::black;
-    } else {
+    }
+    else {
         color = Qt::gray;
     }
     painter->setPen(QPen(QBrush(color), 1));
@@ -1195,13 +1195,13 @@ void CpuPaneGraphicsItems::repaintCBitOut(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintVBitOut(QPainter *painter)
 {
-    bool ok;
     QPolygon poly;
     QColor color;
 
-    if (vBitLabel->text().toInt(&ok, 10) == 1) {
+    if (vBitLabel->text() == "1") {
         color = Qt::black;
-    } else {
+    }
+    else {
         color = Qt::gray;
     }
     painter->setPen(QPen(QBrush(color), 1));
@@ -1221,12 +1221,12 @@ void CpuPaneGraphicsItems::repaintVBitOut(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintZBitOut(QPainter *painter)
 {
-    bool ok;
     QPolygon poly;
     QColor color;
-    if (zBitLabel->text().toInt(&ok, 10) == 1) {
+    if (zBitLabel->text() == "1") {
         color = Qt::black;
-    } else {
+    }
+    else {
         color = Qt::gray;
     }
     painter->setPen(QPen(QBrush(color), 1));
@@ -1249,12 +1249,12 @@ void CpuPaneGraphicsItems::repaintZBitOut(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintNBitOut(QPainter *painter)
 {
-    bool ok;
     QPolygon poly;
     QColor color;
-    if (nBitLabel->text().toInt(&ok, 10) == 1) {
+    if (nBitLabel->text() == "1") {
         color = Qt::black;
-    } else {
+    }
+    else {
         color = Qt::gray;
     }
     painter->setPen(QPen(QBrush(color), 1));
@@ -1283,11 +1283,11 @@ void CpuPaneGraphicsItems::repaintANDZSelect(QPainter *painter)
     if (ok)
     {
         if (andz == 1) {
-            if (/*zBitLabel->text().toInt(&ok, 10) == 1 && Sim::zBit*/ true) {
+            if (Sim::zBit) {
                 output = true;
             }
         } else {
-            // output = Sim::zBit; // what is this?
+            output = Sim::zBit; // what is this?
         }
     }
 
@@ -1316,10 +1316,7 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
     QPolygon poly;
     QColor color;
 
-    bool ok;
-    ALULineEdit->text().toInt(&ok, 10);
-
-    color = ok ? Qt::black : Qt::gray;
+    color = ALULineEdit->text() != "" ? Qt::black : Qt::gray;
     painter->setPen(QPen(QBrush(color), 1));
     painter->setBrush(color);
 
@@ -1334,10 +1331,30 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
 
     painter->setPen(Qt::black);
 
-#warning "something like this..."
-    if (/*LOADED == CBus.state*/ aLineEdit->text() != "" && aMuxTristateLabel->text() != "" && bLineEdit->text() != "") {
-        painter->setBrush(Qt::blue);
-    } else {
+    if (ALULineEdit->text() != "") {
+        int aluFn = ALULineEdit->text().toInt();
+        if (aMuxTristateLabel->text() == "0" && Sim::aluFnIsUnary(aluFn)) {
+            painter->setBrush(Qt::blue);
+        }
+        else if (aMuxTristateLabel->text() == "0" && bLineEdit->text() != "") {
+            painter->setBrush(Qt::blue);
+        }
+        else if (aMuxTristateLabel->text() == "1") {
+            if (aLineEdit->text() != "" && Sim::aluFnIsUnary(aluFn)) {
+                painter->setBrush(Qt::blue);
+            }
+            else if (aLineEdit->text() != "" && bLineEdit->text() != "") {
+                painter->setBrush(Qt::blue);
+            }
+            else {
+                painter->setBrush(Qt::white);
+            }
+        }
+        else {
+            painter->setBrush(Qt::white);
+        }
+    }
+    else {
         painter->setBrush(Qt::white);
     }
 

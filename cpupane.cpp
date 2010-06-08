@@ -1036,7 +1036,7 @@ int CpuPane::getALUOutput()
     default:
         break;
     }
-    return 0;
+    return -1;
 }
 
 void CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, int unary)

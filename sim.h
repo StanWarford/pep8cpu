@@ -55,9 +55,13 @@ public:
     static int readRegByte(int reg);
     static void putRegByte(int reg, int value);
 
+    static bool aluFnIsUnary(int fn);
+
     static bool advanceSimulation();
 
     static bool atEndOfSim();
+
+
 
 };
 

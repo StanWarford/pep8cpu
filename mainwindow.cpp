@@ -55,6 +55,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(cpuPane, SIGNAL(updateSimulation()), this, SLOT(updateSimulation()));
     connect(cpuPane, SIGNAL(simulationFinished()), this, SLOT(simulationFinished()));
 
+    connect(cpuPane, SIGNAL(writeByte(int)), this, SLOT(updateMemAddress(int)));
+
     Pep::initEnumMnemonMaps();
 
     readSettings();
@@ -588,8 +590,10 @@ void MainWindow::helpCopyToMicrocodeButtonClicked()
     }
 }
 
-
-
+void MainWindow::updateMemAddress(int address)
+{
+    mainMemory->setMemAddress(address, Sim::Mem[address]);
+}
 
 
 
