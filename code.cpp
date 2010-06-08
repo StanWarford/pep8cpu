@@ -184,7 +184,9 @@ QString PreconditionCode::getSourceCode() {
     if (str.endsWith(", ")) {
         str.chop(2);
     }
-    str.append(" " + cComment);
+    if (!cComment.isEmpty()) {
+        str.append(" " + cComment);
+    }
     return str;
 }
 
@@ -220,7 +222,9 @@ QString PostconditionCode::getSourceCode() {
     if (str.endsWith(", ")) {
         str.chop(2);
     }
-    str.append(" " + cComment);
+    if (!cComment.isEmpty()) {
+        str.append(" " + cComment);
+    }
     return str;
 }
 
