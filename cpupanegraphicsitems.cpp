@@ -943,7 +943,6 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
         }
     }
     else {
-        qDebug() << "text to int conversion failed on CMux";
         cMuxerLabel->setPalette(QPalette(Qt::white));
         color = Qt::white;
     }

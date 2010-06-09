@@ -6,10 +6,10 @@ namespace Enu
     // Instruction mnemonics
     enum EMask
     {
-        NMask = 0x01,
-        ZMask = 0x02,
-        VMask = 0x04,
-        CMask = 0x08,
+        NMask = 0x08,
+        ZMask = 0x04,
+        VMask = 0x02,
+        CMask = 0x01,
 
         eNONUNARY = 0x00,
         eUNARY = 0x01,
