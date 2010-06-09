@@ -66,30 +66,30 @@ private:
     QString cComment;
 };
 
-class PreconditionCode: public Code
+class UnitPreCode: public Code
 {
 public:
-    ~PreconditionCode();
+    ~UnitPreCode();
     QString getSourceCode();
     bool hasUnitPre();
     void setUnitPre(MainMemory *mainMemory, CpuPane *cpuPane);
     void appendSpecification(Specification *specification);
     void setComment(QString comment);
 private:
-    QList<Specification *> preconditionList;
+    QList<Specification *> unitPreList;
     QString cComment;
 };
 
-class PostconditionCode: public Code
+class UnitPostCode: public Code
 {
 public:
-    ~PostconditionCode();
+    ~UnitPostCode();
     QString getSourceCode();
     bool testPostcondition(MainMemory *mainMemory, CpuPane *cpuPane, QString &errorString);
     void appendSpecification(Specification *specification);
     void setComment(QString comment);
 private:
-    QList<Specification *> postconditionList;
+    QList<Specification *> unitPostList;
     QString cComment;
 };
 

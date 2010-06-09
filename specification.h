@@ -16,13 +16,14 @@ public:
 
 class MemSpecification: public Specification {    
 public:
-    MemSpecification(int memoryAddress, int memoryValue);
+    MemSpecification(int memoryAddress, int memoryValue, int numberBytes);
     void setUnitPre(MainMemory *mainMemory, CpuPane *cpuPane);
     bool testUnitPost(MainMemory *mainMemory, CpuPane *cpuPane, QString &errorString);
     QString getSourceCode();
 private:
     int memAddress;
     int memValue;
+    int numBytes;
 };
 
 class RegSpecification: public Specification {

@@ -96,8 +96,9 @@ QString MicroCode::getSourceCode()
     if (cMDRCk != -1) { str.append("MDRCk, "); }
 
     if (str.endsWith(", ") || str.endsWith("; ")) { str.chop(2); }
-    str.append(" " + cComment);
-
+    if (!cComment.isEmpty()) {
+        str.append(" " + cComment);
+    }
     return str;
 }
 
@@ -170,16 +171,16 @@ QString CommentOnlyCode::getSourceCode() {
     return cComment;
 }
 
-PreconditionCode::~PreconditionCode() {
-    while (!preconditionList.isEmpty()) {
-        delete preconditionList.takeFirst();
+UnitPreCode::~UnitPreCode() {
+    while (!unitPreList.isEmpty()) {
+        delete unitPreList.takeFirst();
     }
 }
 
-QString PreconditionCode::getSourceCode() {
+QString UnitPreCode::getSourceCode() {
     QString str = "UnitPre: ";
-    for (int i = 0; i < preconditionList.size(); i++) {
-        str.append(preconditionList.at(i)->getSourceCode() + ", ");
+    for (int i = 0; i < unitPreList.size(); i++) {
+        str.append(unitPreList.at(i)->getSourceCode() + ", ");
     }
     if (str.endsWith(", ")) {
         str.chop(2);
@@ -190,34 +191,34 @@ QString PreconditionCode::getSourceCode() {
     return str;
 }
 
-bool PreconditionCode::hasUnitPre() {
-    return !preconditionList.isEmpty();
+bool UnitPreCode::hasUnitPre() {
+    return !unitPreList.isEmpty();
 }
 
-void PreconditionCode::setUnitPre(MainMemory *mainMemory, CpuPane *cpuPane) {
-    for (int i = 0; i < preconditionList.size(); i++) {
-        preconditionList.at(i)->setUnitPre(mainMemory, cpuPane);
+void UnitPreCode::setUnitPre(MainMemory *mainMemory, CpuPane *cpuPane) {
+    for (int i = 0; i < unitPreList.size(); i++) {
+        unitPreList.at(i)->setUnitPre(mainMemory, cpuPane);
     }
 }
 
-void PreconditionCode::appendSpecification(Specification *specification) {
-    preconditionList.append(specification);
+void UnitPreCode::appendSpecification(Specification *specification) {
+    unitPreList.append(specification);
 }
 
-void PreconditionCode::setComment(QString comment) {
+void UnitPreCode::setComment(QString comment) {
     cComment = comment;
 }
 
-PostconditionCode::~PostconditionCode() {
-    while (!postconditionList.isEmpty()) {
-        delete postconditionList.takeFirst();
+UnitPostCode::~UnitPostCode() {
+    while (!unitPostList.isEmpty()) {
+        delete unitPostList.takeFirst();
     }
 }
 
-QString PostconditionCode::getSourceCode() {
+QString UnitPostCode::getSourceCode() {
     QString str = "UnitPost: ";
-    for (int i = 0; i < postconditionList.size(); i++) {
-        str.append(postconditionList.at(i)->getSourceCode() + ", ");
+    for (int i = 0; i < unitPostList.size(); i++) {
+        str.append(unitPostList.at(i)->getSourceCode() + ", ");
     }
     if (str.endsWith(", ")) {
         str.chop(2);
@@ -228,19 +229,19 @@ QString PostconditionCode::getSourceCode() {
     return str;
 }
 
-bool PostconditionCode::testPostcondition(MainMemory *mainMemory, CpuPane *cpuPane, QString &errorString) {
-    for (int i = 0; i < postconditionList.size(); i++) {
-        if (!postconditionList.at(i)->testUnitPost(mainMemory, cpuPane, errorString)) {
+bool UnitPostCode::testPostcondition(MainMemory *mainMemory, CpuPane *cpuPane, QString &errorString) {
+    for (int i = 0; i < unitPostList.size(); i++) {
+        if (!unitPostList.at(i)->testUnitPost(mainMemory, cpuPane, errorString)) {
             return false;
         }
     }
     return true;
 }
 
-void PostconditionCode::appendSpecification(Specification *specification) {
-    postconditionList.append(specification);
+void UnitPostCode::appendSpecification(Specification *specification) {
+    unitPostList.append(specification);
 }
 
-void PostconditionCode::setComment(QString comment) {
+void UnitPostCode::setComment(QString comment) {
     cComment = comment;
 }

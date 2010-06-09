@@ -4,30 +4,31 @@ Specification::Specification()
 {
 }
 
-MemSpecification::MemSpecification(int memoryAddress, int memoryValue) {
+MemSpecification::MemSpecification(int memoryAddress, int memoryValue, int numberBytes) {
     memAddress = memoryAddress;
     memValue = memoryValue;
+    numBytes = numberBytes;
 }
 
 void MemSpecification::setUnitPre(MainMemory *mainMemory, CpuPane *) {
-    if (memValue < 256) {
+    if (numBytes == 1) {
         mainMemory->setMemPrecondition(memAddress, memValue);
     }
-    else {
+    else { // numBytes == 2
         mainMemory->setMemPrecondition(memAddress, memValue / 256);
         mainMemory->setMemPrecondition(memAddress + 1, memValue % 256);
     }
 }
 
 bool MemSpecification::testUnitPost(MainMemory *mainMemory, CpuPane *, QString &errorString) {
-    if (memValue < 256) {
+    if (numBytes == 1) {
         if (mainMemory->testMemPostcondition(memAddress, memValue)) {
             return true;
         }
         errorString = "// ERROR: Unit test failed for byte Mem[." + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0')) + "].";
         return false;
     }
-    else {
+    else { // numBytes == 2
         if ((mainMemory->testMemPostcondition(memAddress, memValue) / 256) && (mainMemory->testMemPostcondition(memAddress + 1, memValue) % 256)) {
             return true;
         }
@@ -40,7 +41,7 @@ QString MemSpecification::getSourceCode() {
     return "Mem["
             + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0'))
             + "]="
-            + (memValue < 256 ?
+            + (numBytes == 1 ?
                QString("0x%1").arg(memValue, 2, 16, QLatin1Char('0')) :
                QString("0x%1").arg(memValue, 4, 16, QLatin1Char('0'))) ;
 }

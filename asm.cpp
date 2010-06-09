@@ -109,8 +109,8 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
     // The concrete code objects asssigned to code.
     MicroCode *microCode = NULL;
     CommentOnlyCode *commentOnlyCode = NULL;
-    PreconditionCode *preconditionCode = NULL;
-    PostconditionCode *postconditionCode = NULL;
+    UnitPreCode *preconditionCode = NULL;
+    UnitPostCode *postconditionCode = NULL;
     BlankLineCode *blankLineCode = NULL;
 
     Asm::ParseState state = Asm::PS_START;
@@ -159,13 +159,13 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 if (Pep::mnemonToSpecificationMap.contains(tokenString.toUpper())) {
                     if (Pep::mnemonToSpecificationMap.value(tokenString.toUpper()) == Enu::Pre) {
                         processingPrecondition = true;
-                        preconditionCode = new PreconditionCode();
+                        preconditionCode = new UnitPreCode();
                         code = preconditionCode;
                         state = PS_START_SPECIFICATION;
                     }
                     else { // E_Post
                         processingPrecondition = false;
-                        postconditionCode = new PostconditionCode();
+                        postconditionCode = new UnitPostCode();
                         code = postconditionCode;
                         state = PS_START_SPECIFICATION;
                     }
@@ -476,10 +476,10 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                     return false;
                 }
                 if (processingPrecondition) {
-                    preconditionCode->appendSpecification(new MemSpecification(localAddressValue, localValue));
+                    preconditionCode->appendSpecification(new MemSpecification(localAddressValue, localValue, tokenString.length() > 2 ? 2 : 1));
                 }
                 else {
-                    postconditionCode->appendSpecification(new MemSpecification(localAddressValue, localValue));
+                    postconditionCode->appendSpecification(new MemSpecification(localAddressValue, localValue, tokenString.length() > 2 ? 2 : 1));
                 }
                 state = Asm::PS_EXPECT_SPEC_COMMA;
             }
