@@ -129,6 +129,11 @@
       </item>
       <item>
        <property name="text">
+        <string>Pep/8 Reference</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
         <string>Examples</string>
        </property>
        <item>

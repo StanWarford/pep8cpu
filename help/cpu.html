@@ -24,7 +24,7 @@ Interactive
   <p>
   With the interactive mode, the user sets the control signals individually for a single cycle.
   There are six kinds of control signals &mdash; register address signals, multiplexer signals,
-  ALU function signals, the ANDZ signal, the memory read/write signals, and the clock signals.
+  the ALU function signal, the ANDZ signal, the memory read/write signals, and the clock signals.
   <p>
  <h3>Register address signals</h3>
 There are three register address signals &mdash; A, B, and C.
@@ -38,8 +38,20 @@ To set a register address signal, enter a decimal integer value in the range 0..
  <p>
 
  <h3>Multiplexer signals</h3>
+ There are three multiplexer signals &mdash; AMux, MDRMux, and CMux.
+ Each multiplexer control signal determines whether the output comes from the left input or the right input.
+ A zero on a multiplexer control line sends the left input to the output, and a one sends the right input to the output.
+ You set the control signal by clicking on the control signal box.
+ Each click cycles through (1) zero, (2) one, and (3) no input, in sequence.
+ <p>
+ For example, the following figure shows the AMux control signal set to zero, which selects the left (yellow) input,
+ and the CMux control signal set to one, which selects the right (blue) input.
+ <p>
+ <i>Figure with AMux=0, CMux=1, ALU=0</i>
   <p>
- <h3>ALU function signals</h3>
+ <h3>The ALU function signal</h3>
+ The ALU function signal is a single four-bit value that you enter as a decimal number.
+
   <p>
  <h3>The ANDZ signal</h3>
   <p>

@@ -36,5 +36,6 @@
         <file>help/figures/exer1207x.pepcpu</file>
         <file>help/figures/exer1205.pepcpu</file>
         <file>help/figures/exer1208.pepcpu</file>
+        <file>help/pep8reference.html</file>
     </qresource>
 </RCC>

@@ -38,8 +38,9 @@ private:
     enum Row {
         eCPU = 0,
         eMICROCODE = 1,
-        eEXAMPLES = 2,
-        eEXCERCISES = 3,
+        ePEP8REFERENCE = 2,
+        eEXAMPLES = 3,
+        eEXCERCISES = 4,
 
         eFIG1205 = 0,
         eFIG1205B = 1,

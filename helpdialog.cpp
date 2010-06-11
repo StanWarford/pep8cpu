@@ -73,15 +73,20 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
 
 //    qDebug() << "Selected: " << ui->helpTreeWidget->currentIndex();
 
-    if (!isHelpSubCat && row == eCPU) {
+    if (!isHelpSubCat && row == eCPU) { // Interactive mode
         ui->helpSplitter->widget(1)->hide();
         ui->helpTopWebView->show();
         ui->helpTopWebView->load(QUrl("qrc:/help/cpu.html"));
     }
-    else if (!isHelpSubCat && row == eMICROCODE) {  // Writing Trap Handlers
+    else if (!isHelpSubCat && row == eMICROCODE) { // Microcode mode
         ui->helpSplitter->widget(1)->hide();
         ui->helpTopWebView->show();
         ui->helpTopWebView->load(QUrl("qrc:/help/microcode.html"));
+    }
+    else if (!isHelpSubCat && row == ePEP8REFERENCE) { // Pep/8 Reference
+        ui->helpSplitter->widget(1)->hide();
+        ui->helpTopWebView->show();
+        ui->helpTopWebView->load(QUrl("qrc:/help/pep8reference.html"));
     }
     else if ((!isHelpSubCat && row == eEXAMPLES) || parentRow == eEXAMPLES) {
         if (!isHelpSubCat) {
