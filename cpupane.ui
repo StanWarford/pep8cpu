@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>539</width>
+    <width>604</width>
     <height>427</height>
    </rect>
   </property>
@@ -128,6 +128,36 @@
       </widget>
      </item>
      <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="clockPushButton">
+       <property name="text">
+        <string>Clock</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="copyToMicrocodePushButton">
+       <property name="text">
+        <string>Copy to Microcode</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QFrame" name="frame">
        <property name="minimumSize">
         <size>
@@ -142,26 +172,6 @@
         <enum>QFrame::Raised</enum>
        </property>
       </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="copyToMicrocodePushButton">
-       <property name="text">
-        <string>Copy to Microcode</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
      <item>
       <widget class="QPushButton" name="singleStepPushButton">

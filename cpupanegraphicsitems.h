@@ -14,6 +14,8 @@ public:
     CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem *itemParent = 0, QGraphicsScene *scene = 0);
     QRectF boundingRect() const;
 
+    bool aluHasCorrectOutput();
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     // OUTSIDE REGISTERS

@@ -634,6 +634,44 @@ QRectF CpuPaneGraphicsItems::boundingRect() const
     return QRectF(0,0, 650, 620);
 }
 
+
+bool CpuPaneGraphicsItems::aluHasCorrectOutput()
+{
+    if (ALULineEdit->text() == "") {
+        return false;
+    }
+    bool ok;
+    int alu = ALULineEdit->text().toInt(&ok);
+    if (!ok) {
+        qDebug() << "ALU text to int conversion failed - non-number in the ALU line edit";
+        return false;
+    }
+    qDebug() << "alu fn: " << alu;
+    if (Sim::aluFnIsUnary(alu)) { // unary
+        if (aMuxTristateLabel->text() == "0") {
+            return true;
+        }
+        else if (aMuxTristateLabel->text() == "1" && aLineEdit->text() != "") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else { // nonunary
+        if (aMuxTristateLabel->text() == "0" && bLineEdit->text() != "") {
+            return true;
+        }
+        else if (aMuxTristateLabel->text() == "1" && aLineEdit->text() != "" && bLineEdit->text() != "") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    return false;
+}
+
 void CpuPaneGraphicsItems::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     (void)option;
@@ -901,13 +939,10 @@ void CpuPaneGraphicsItems::repaintAMuxSelect(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
 {
-    bool ok;
     QPolygon poly;
     QColor color;
 
-    int cMux = cMuxTristateLabel->text().toInt(&ok);
-
-    color = ok ? Qt::black : Qt::gray;
+    color = cMuxTristateLabel->text() != "" ? Qt::black : Qt::gray;
     painter->setPen(QPen(QBrush(color), 1));
     painter->setBrush(color);
 
@@ -923,23 +958,19 @@ void CpuPaneGraphicsItems::repaintCMuxSelect(QPainter *painter)
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
-    if (ok) {
-        switch (cMux) {
-        case (0):
-            color = Qt::yellow;
-            cMuxerLabel->setPalette(QPalette(combCircuitYellow));
-            break;
-        case (1):
-            if (ALULineEdit->text() == "") { // CBus.state == UNDEFINED
-                qDebug() << "WARNING: CMux select: There is no ALU output";
-                cMuxerLabel->setPalette(QPalette(Qt::white));
-                color = Qt::white;
-            }
-            else {
-                cMuxerLabel->setPalette(QPalette(combCircuitBlue));
-                color = Qt::blue;
-            }
-            break;
+    if (cMuxTristateLabel->text() == "0") {
+        color = Qt::yellow;
+        cMuxerLabel->setPalette(QPalette(combCircuitYellow));
+    }
+    else if (cMuxTristateLabel->text() == "1") {
+        if (!aluHasCorrectOutput() || ALULineEdit->text() == "15") { // CBus.state == UNDEFINED or NZVC A
+            qDebug() << "WARNING: CMux select: There is no ALU output";
+            cMuxerLabel->setPalette(QPalette(Qt::white));
+            color = Qt::white;
+        }
+        else {
+            cMuxerLabel->setPalette(QPalette(combCircuitBlue));
+            color = Qt::blue;
         }
     }
     else {
@@ -1164,15 +1195,9 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintCBitOut(QPainter *painter)
 {
-    QColor color;
+    QColor color = Qt::black;
     QPolygon poly;
 
-    if (cBitLabel->text() == "1") {
-        color = Qt::black;
-    }
-    else {
-        color = Qt::gray;
-    }
     painter->setPen(QPen(QBrush(color), 1));
     painter->setBrush(color);
 
@@ -1195,14 +1220,8 @@ void CpuPaneGraphicsItems::repaintCBitOut(QPainter *painter)
 void CpuPaneGraphicsItems::repaintVBitOut(QPainter *painter)
 {
     QPolygon poly;
-    QColor color;
+    QColor color = Qt::black;
 
-    if (vBitLabel->text() == "1") {
-        color = Qt::black;
-    }
-    else {
-        color = Qt::gray;
-    }
     painter->setPen(QPen(QBrush(color), 1));
     painter->setBrush(color);
 
@@ -1221,13 +1240,8 @@ void CpuPaneGraphicsItems::repaintVBitOut(QPainter *painter)
 void CpuPaneGraphicsItems::repaintZBitOut(QPainter *painter)
 {
     QPolygon poly;
-    QColor color;
-    if (zBitLabel->text() == "1") {
-        color = Qt::black;
-    }
-    else {
-        color = Qt::gray;
-    }
+    QColor color = Qt::black;
+
     painter->setPen(QPen(QBrush(color), 1));
     painter->setBrush(color);
 
@@ -1249,13 +1263,8 @@ void CpuPaneGraphicsItems::repaintZBitOut(QPainter *painter)
 void CpuPaneGraphicsItems::repaintNBitOut(QPainter *painter)
 {
     QPolygon poly;
-    QColor color;
-    if (nBitLabel->text() == "1") {
-        color = Qt::black;
-    }
-    else {
-        color = Qt::gray;
-    }
+    QColor color = Qt::black;
+
     painter->setPen(QPen(QBrush(color), 1));
     painter->setBrush(color);
 
@@ -1272,22 +1281,24 @@ void CpuPaneGraphicsItems::repaintNBitOut(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintANDZSelect(QPainter *painter)
 {
-    bool ok, output = false;
+    bool output = false;
     QPolygon poly;
 
-    int andz = ANDZTristateLabel->text().toInt(&ok, 10);
+    QColor color = Qt::gray;
 
-    painter->setPen(ok ? Qt::black : Qt::gray);
-    painter->setBrush(ok ? Qt::black : Qt::gray);
-    if (ok)
-    {
-        if (andz == 1) {
-            if (Sim::zBit) {
-                output = true;
-            }
-        } else {
-            output = Sim::zBit; // what is this?
+    if (ANDZTristateLabel->text() != "") {
+        color = Qt::black;
+    }
+    painter->setPen(color);
+    painter->setBrush(color);
+
+#warning "move this to the cpupane.cpp"
+    if (ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
+        if (Sim::zBit) {
+            output = true;
         }
+    } else if (ANDZTristateLabel->text() == "1") { // zOut && zCurr
+        output = Sim::zBit; // what is this?
     }
 
     painter->drawLine(437,484, 437,476);
@@ -1298,8 +1309,12 @@ void CpuPaneGraphicsItems::repaintANDZSelect(QPainter *painter)
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
-    painter->setPen(output ? Qt::black : Qt::gray);
-    painter->setBrush(output ? Qt::black : Qt::gray);
+    color = Qt::gray;
+    if (ALULineEdit->text() != "" && ANDZTristateLabel->text() != "") {
+        color = Qt::black;
+    }
+    painter->setPen(color);
+    painter->setBrush(color);
 
     // ANDZ out
     painter->drawLine(458,507, 465,507);
@@ -1330,7 +1345,7 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
 
     painter->setPen(Qt::black);
 
-    if (ALULineEdit->text() != "") {
+    if (ALULineEdit->text() != "" && ALULineEdit->text() != "15") {
         int aluFn = ALULineEdit->text().toInt();
         if (aMuxTristateLabel->text() == "0" && Sim::aluFnIsUnary(aluFn)) {
             painter->setBrush(Qt::blue);
@@ -1363,9 +1378,12 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
                    356,424, 356,394);
     painter->drawPolygon(poly);
 
+    qDebug() << "ALU has correct output? " << aluHasCorrectOutput();
+
     // Draw status bit lines
-    painter->setPen(Sim::nBit ? Qt::black : Qt::gray);
-    painter->setBrush(Sim::nBit ? Qt::black : Qt::gray);
+    painter->setPen(aluHasCorrectOutput() ? Qt::black : Qt::gray);
+    painter->setBrush(aluHasCorrectOutput() ? Qt::black : Qt::gray);
+
     // N
     painter->drawLine(371,395, 371,558);
     painter->drawLine(371,558, 465,558);
@@ -1375,8 +1393,6 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
-    painter->setPen(Sim::zBit ? Qt::black : Qt::gray);
-    painter->setBrush(Sim::zBit ? Qt::black : Qt::gray);
     // Z
     painter->drawLine(386,395, 386,507);
     painter->drawLine(386,507, 404,507);
@@ -1386,8 +1402,6 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
-    painter->setPen(Sim::zBit ? Qt::black : Qt::gray);
-    painter->setBrush(Sim::zBit ? Qt::black : Qt::gray);
     // V
     painter->drawLine(401,395, 401,451);
     painter->drawLine(401,451, 466,451);
@@ -1397,8 +1411,6 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
-    painter->setPen(Sim::cBit ? Qt::black : Qt::gray);
-    painter->setBrush(Sim::cBit ? Qt::black : Qt::gray);
     // C
     painter->drawLine(416,395, 416,415);
     painter->drawLine(416,415, 465,415);
