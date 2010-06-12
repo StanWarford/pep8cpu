@@ -23,7 +23,7 @@
    <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Pep/8 Help</string>
+   <string>Pep/8 CPU Help</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -113,19 +113,18 @@
       </column>
       <item>
        <property name="text">
-        <string>Interactive</string>
+        <string>Using Pep/8 CPU</string>
        </property>
-       <property name="flags">
-        <set>ItemIsSelectable|ItemIsEnabled</set>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Microcode</string>
-       </property>
-       <property name="flags">
-        <set>ItemIsSelectable|ItemIsEnabled</set>
-       </property>
+       <item>
+        <property name="text">
+         <string>Interactive</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Microcode</string>
+        </property>
+       </item>
       </item>
       <item>
        <property name="text">

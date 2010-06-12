@@ -73,12 +73,17 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
 
 //    qDebug() << "Selected: " << ui->helpTreeWidget->currentIndex();
 
-    if (!isHelpSubCat && row == eCPU) { // Interactive mode
+    if (!isHelpSubCat && row == eUSINGPEP8CPU) { // Using Pep/8 CPU
+        ui->helpSplitter->widget(1)->hide();
+        ui->helpTopWebView->show();
+        ui->helpTopWebView->load(QUrl("qrc:/help/usingpep8cpu.html"));
+    }
+    else if (isHelpSubCat && parentRow == eUSINGPEP8CPU && row == eCPU) { // Interactive mode
         ui->helpSplitter->widget(1)->hide();
         ui->helpTopWebView->show();
         ui->helpTopWebView->load(QUrl("qrc:/help/cpu.html"));
     }
-    else if (!isHelpSubCat && row == eMICROCODE) { // Microcode mode
+    else if (isHelpSubCat && parentRow == eUSINGPEP8CPU && row == eMICROCODE) { // Microcode mode
         ui->helpSplitter->widget(1)->hide();
         ui->helpTopWebView->show();
         ui->helpTopWebView->load(QUrl("qrc:/help/microcode.html"));
