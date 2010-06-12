@@ -621,7 +621,7 @@ void CpuPane::singleStepButtonPushed()
         else if (cpuPaneItems->MDRMuxTristateLabel->text() == "1") { // read through the C bus
             if (cpuPaneItems->cMuxTristateLabel->text() == "0") { // CMux is set to 0, read in NZVC
                 int nzvc = (Sim::nBit ? 8 : 0) + (Sim::zBit ? 4 : 0) + (Sim::vBit ? 2 : 0) + (Sim::cBit ? 1 : 0);
-                qDebug() << QString("0x%1").arg(nzvc, 4, 16, QLatin1Char('0'));
+//                qDebug() << QString("0x%1").arg(nzvc, 4, 16, QLatin1Char('0'));
                 setRegister(Enu::MDR, nzvc);
             }
             else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
@@ -1024,7 +1024,6 @@ int CpuPane::getALUOutput()
         break;
     case 15: // NZVC A
         if (a != -1) {
-            qDebug() << a;
             c = -1;
             setStatusBit(Enu::N, (a & Enu::NMask) != 0);
             setStatusBit(Enu::Z, (a & Enu::ZMask) != 0);

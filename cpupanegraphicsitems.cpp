@@ -634,7 +634,6 @@ QRectF CpuPaneGraphicsItems::boundingRect() const
     return QRectF(0,0, 650, 620);
 }
 
-
 bool CpuPaneGraphicsItems::aluHasCorrectOutput()
 {
     if (ALULineEdit->text() == "") {
@@ -646,7 +645,7 @@ bool CpuPaneGraphicsItems::aluHasCorrectOutput()
         qDebug() << "ALU text to int conversion failed - non-number in the ALU line edit";
         return false;
     }
-    qDebug() << "alu fn: " << alu;
+
     if (Sim::aluFnIsUnary(alu)) { // unary
         if (aMuxTristateLabel->text() == "0") {
             return true;
@@ -1063,11 +1062,10 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
 {
     QPolygon poly;
     QColor color;
-    bool ok;
-    bool isHigh = MemReadTristateLabel->text().toInt(&ok, 10) == 1;
+    bool isHigh = MemReadTristateLabel->text() == "1";
 
     // Draw memread select line
-    if (ok && isHigh) {
+    if (isHigh) {
         MemWriteTristateLabel->setDisabled(true);
         color = Qt::black;
     }
@@ -1085,18 +1083,22 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
-    if (MemWriteTristateLabel->text().toInt(&ok, 10) == 1) {
+    if (MemWriteTristateLabel->text() == "1") {
         // Do not paint main bus if MemWrite is isHigh
         return;
     }
 
     // Draw main bus
     if (isHigh) {
-        if (!Sim::memReadPrevStep) { // MEM_READ_ADDR == MainBus.state
+        qDebug() << "mainBusState: " << Sim::mainBusState;
+        if (Sim::mainBusState == Enu::MemReadWait) { // MEM_READ_ADDR == MainBus.state
             color = Qt::yellow;
         }
-        else if (Sim::memReadPrevStep) { // MEM_READ_DATA == MainBus.state
+        else if (Sim::mainBusState == Enu::MemReadReady) { // MEM_READ_DATA == MainBus.state
             color = QColor(16, 150, 24); // green
+        }
+        else {
+            color = Qt::white;
         }
     }
     else {
@@ -1116,7 +1118,7 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
             << QPoint(136-123, 360) << QPoint(136-123, 365) << QPoint(145-70, 365);
     painter->drawPolygon(poly);
 
-    if (/*MainBus.state != MEM_READ_DATA*/ !Sim::memReadPrevStep) {
+    if (Sim::mainBusState != Enu::MemReadReady) {
         color = Qt::white;
     }
     painter->setBrush(color);
@@ -1132,8 +1134,7 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
 {
         QPolygon poly;
         QColor color;
-        bool ok;
-        bool isHigh = MemWriteTristateLabel->text().toInt(&ok, 10) == 1;
+        bool isHigh = MemWriteTristateLabel->text() == "1";
 
         // Draw memwrite select line
         if (isHigh) {
@@ -1155,23 +1156,28 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
         painter->drawPolygon(poly);
         painter->setRenderHint(QPainter::Antialiasing, false);
 
-        if (MemReadTristateLabel->text().toInt(&ok, 10) == 1) {
+        if (MemReadTristateLabel->text() == "1") {
             // Do not paint main bus if MemRead is high
             return;
         }
 
         // Draw main bus
-        if (isHigh)
-        {
-            if (!Sim::memWritePrevStep) { // MEM_WRITE_ADDR == MainBus.state
+        if (isHigh) {
+            qDebug() << "mainBusState: " << Sim::mainBusState;
+            if (Sim::mainBusState == Enu::MemWriteWait) { // MEM_WRITE_ADDR == MainBus.state
                 color = Qt::yellow;
             }
-            else {
-                color = QColor(16, 150, 24);
+            else if (Sim::mainBusState == Enu::MemWriteReady) {
+                color = QColor(16, 150, 24); // green
             }
-        } else {
+            else {
+                color = Qt::white;
+            }
+        }
+        else {
             color = Qt::white;
         }
+
         painter->setPen(QPen(QBrush(Qt::black), 1));
         painter->setBrush(color);
 
@@ -1378,8 +1384,6 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
                    356,424, 356,394);
     painter->drawPolygon(poly);
 
-    qDebug() << "ALU has correct output? " << aluHasCorrectOutput();
-
     // Draw status bit lines
     painter->setPen(aluHasCorrectOutput() ? Qt::black : Qt::gray);
     painter->setBrush(aluHasCorrectOutput() ? Qt::black : Qt::gray);
@@ -1423,12 +1427,14 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
 {
-    bool ok;
     QPolygon poly;
-    QColor color;
-    int mdrMux = MDRMuxTristateLabel->text().toInt(&ok, 10);
-    painter->setPen(ok ? Qt::black : Qt::gray);
-    painter->setBrush(ok ? Qt::black : Qt::gray);
+    QColor color = Qt::gray;
+
+    if (MDRMuxTristateLabel->text() != "") {
+        color = Qt::black;
+    }
+    painter->setPen(color);
+    painter->setBrush(color);
 
     /* MDRMux Select */
     painter->drawLine(257,303, 265,303); painter->drawLine(265,303, 265,324);
@@ -1441,36 +1447,29 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
     painter->setRenderHint(QPainter::Antialiasing, false);
     painter->setPen(Qt::black);
 
-    if (ok)
-    {
-        switch (mdrMux)
-        {
-        case(0):
-            if (MemReadTristateLabel->text().toInt() == 1 && Sim::memReadPrevStep) { // MainBus.state == MEM_READ_DATA
-                MDRMuxerDataLabel->setPalette(QPalette(combCircuitGreen));
-                painter->setBrush(QBrush(QColor(16, 150, 24))); // green
-            }
-            else {
-                MDRMuxerDataLabel->setPalette(QPalette(Qt::white));
-                painter->setBrush(Qt::white);
-            }
-            break;
-        case(1):
-            if (cMuxTristateLabel->text() == "") { // CMuxBus.state == UNDEFINED
-                MDRMuxerDataLabel->setPalette(QPalette(Qt::white));
-                painter->setBrush(Qt::white);
-            }
-            else {
-                if (cMuxTristateLabel->text() == "0") {
-                    MDRMuxerDataLabel->setPalette(QPalette(combCircuitYellow));
-                    painter->setBrush(Qt::yellow);
-                }
-                else if (true /*ALU has output*/){
-                    MDRMuxerDataLabel->setPalette(QPalette(combCircuitBlue));
-                    painter->setBrush(Qt::blue);
-                }
-            }
-            break;
+
+    if (MDRMuxTristateLabel->text() == "0") {
+        if (Sim::mainBusState == Enu::MemReadReady) { //MemReadTristateLabel->text().toInt() == 1 && Sim::memReadPrevStep) { // MainBus.state == MEM_READ_DATA
+            MDRMuxerDataLabel->setPalette(QPalette(combCircuitGreen));
+            painter->setBrush(QBrush(QColor(16, 150, 24))); // green
+        }
+        else {
+            MDRMuxerDataLabel->setPalette(QPalette(Qt::white));
+            painter->setBrush(Qt::white);
+        }
+    }
+    else if (MDRMuxTristateLabel->text() == "1") {
+        if (cMuxTristateLabel->text() == "") { // CMuxBus.state == UNDEFINED
+            MDRMuxerDataLabel->setPalette(QPalette(Qt::white));
+            painter->setBrush(Qt::white);
+        }
+        else if (cMuxTristateLabel->text() == "0") {
+            MDRMuxerDataLabel->setPalette(QPalette(combCircuitYellow));
+            painter->setBrush(Qt::yellow);
+        }
+        else if (aluHasCorrectOutput()) {
+            MDRMuxerDataLabel->setPalette(QPalette(combCircuitBlue));
+            painter->setBrush(Qt::blue);
         }
     }
     else {
