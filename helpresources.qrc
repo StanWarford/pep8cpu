@@ -38,5 +38,6 @@
         <file>help/figures/exer1208.pepcpu</file>
         <file>help/pep8reference.html</file>
         <file>help/usingpep8cpu.html</file>
+        <file>help/exercises.html</file>
     </qresource>
 </RCC>

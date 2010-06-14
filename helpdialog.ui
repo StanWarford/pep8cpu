@@ -117,12 +117,12 @@
        </property>
        <item>
         <property name="text">
-         <string>Interactive</string>
+         <string>Interactive Mode</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Microcode</string>
+         <string>Microcode Mode</string>
         </property>
        </item>
       </item>

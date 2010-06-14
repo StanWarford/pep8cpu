@@ -6,27 +6,30 @@
 <table bgcolor="#FB9F14" width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr><td>
 <p style="text-align:center; font-family:helvetica, arial, sans-serif; font-size:14pt; font-weight:bold; color: #29315E">
-Interactive
+Interactive Mode
 </p>
 </td></tr>
 </table>
 <p>
-   Reference: <i>Computer Systems</i>, Chapter 12, Section 12.1.
-  <p>
-  With the interactive mode, the user sets the control signals individually for a single cycle.
-  There are six kinds of control signals &mdash; register address signals, multiplexer signals,
-  the ALU function signal, the ANDZ signal, the memory read/write signals, and the clock signals.
-  <p>
- <h3>Register address signals</h3>
+Reference: <i>Computer Systems</i>, Chapter 12, Section 12.1.
+<p>
+With the interactive mode, the user sets the memory values and the control signals individually for a single cycle.
+A memory value is set by
+Each control signal is activated by a GUI widget on the right side of the CPU pane.
+<p>
+There are six kinds of control signals &mdash; register address signals, multiplexer signals,
+the ALU function signal, the ANDZ signal, the memory read/write signals, and the clock signals.
+<p>
+<h3>Register address signals</h3>
 There are three register address signals &mdash; A, B, and C.
 Each signal is five bits and accesses one of the 32 one-byte registers in the two-port register bank.
 To set a register address signal, enter a decimal integer value in the range 0..31.
 <p>
- For example, the following figure shows a register address of 7 for A, 23 for B, and 7 for C.
- Address 7 is the least significant byte of the program counter, and address 23 is the ROM value of 1.
- <p>
- <img src="qrc:/help/images/registeraddresssignals.png" alt="registeraddresssignals" hspace=10 vspace=10>
- <p>
+For example, the following figure shows a register address of 7 for A, 23 for B, and 7 for C.
+Address 7 is the least significant byte of the program counter, and address 23 is the ROM value of 1.
+<p>
+<img src="qrc:/help/images/registeraddresssignals.png" alt="registeraddresssignals" hspace=10 vspace=10>
+<p>
 
  <h3>Multiplexer signals</h3>
  There are three multiplexer signals &mdash; AMux, MDRMux, and CMux.
@@ -39,18 +42,18 @@ To set a register address signal, enter a decimal integer value in the range 0..
  and the CMux control signal set to one, which selects the right (blue) input.
  <p>
  <i>Figure with AMux=0, CMux=1, ALU=0</i>
-  <p>
+ <p>
  <h3>The ALU function signal</h3>
  The ALU function signal is a single four-bit value that you enter as a decimal number.
 
   <p>
- <h3>The ANDZ signal</h3>
+  <h3>The ANDZ signal</h3>
   <p>
- <h3>The memory read/write signals</h3>
+  <h3>The memory read/write signals</h3>
   <p>
- <h3>The clock signals</h3>
+  <h3>The clock signals</h3>
   <p>
-<img src="qrc:/help/images/pep8help.png" alt="pep8help" hspace=10 vspace=10>
-<p>
-</body>
-</html>
+  <img src="qrc:/help/images/pep8help.png" alt="pep8help" hspace=10 vspace=10>
+  <p>
+  </body>
+  </html>
