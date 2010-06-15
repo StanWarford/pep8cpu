@@ -135,7 +135,9 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
             qDebug() << "row: " << row << "parentRow: " << parentRow;
             ui->helpSplitter->widget(1)->hide();
             ui->helpTopWebView->show();
-            ui->helpTopWebView->load(QUrl("qrc:/help/excercises.html"));
+//            qDebug() << "Executing: ui->helpTopWebView->load(QUrl(\"qrc:/help/excercises.html\"));";
+            ui->helpTopWebView->load(QUrl("qrc:/help/exercises.html"));
+//            qDebug() << "Executed: ui->helpTopWebView->load(QUrl(\"qrc:/help/excercises.html\"));";
         }
         else {
             ui->helpSplitter->widget(0)->hide();
