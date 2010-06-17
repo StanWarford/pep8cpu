@@ -1,7 +1,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 4.01//EN">
 
 <html>
-<head><title> Pep/8: CPU Documentation </title></head>
+<head>
+ <title> Pep/8 CPU: Using Pep/8 CPU </title>
+  <style type="text/css" media="all">
+   img { vertical-align:text-top; }
+   code { font-family:Courier, 'Courier New', monospace; font-size:11pt }
+  </style>
+</head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000033" alink="#0066FF">
 <table bgcolor="#FB9F14" width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr><td>
@@ -10,31 +16,32 @@ Using Pep/8 CPU
 </p>
 </td></tr>
 </table>
-<p>
  <p>
- This CPU simulator is an implementation of the data section of the Pep/8 CPU as shown in Figure 12.2 of the textbook
+ This CPU simulator is an implementation of the data section of the Pep/8 central processing unit as shown in Figure 12.2 of the textbook
  <i>Computer Systems</i>, J. Stanley Warford, Fourth edition, Jones and Bartlett, Publishers, 2010.
  <p>
  The simulator has two modes of operation &mdash; interactive and microcode.
- The application starts up in the interactive mode, which you can see by the fact that the two buttons "Clock" and
- "Copy to Microcode" are enabled and the two buttons "Single Step" and "Resume" are disabled.
+ The application starts up in the interactive mode, which you can see by the fact that the two buttons Clock and
+ Copy to Microcode are enabled and the two buttons Single Step and Resume are disabled.
  <p>
- <i>Figure with app in interactive mode showing the four buttons.</i>
+ <img src="qrc:/help/images/fourbuttonsinteractivemode.png" alt="fourbuttonsinteractivemode" hspace=10 vspace=10>
  <p>
- You switch from interactive to microcode mode by entering a microcode program in the Microcode pane and selecting
+ You switch from interactive to microcode mode by entering a microcode program in the Microcode panel and selecting
 System->Start Debugging from the menu or clicking the corresponding Start Debugging icon on the toolbar.
 <p>
-<i>Figures side-by-side showing menu item and toobar icon.</i>
+<img src="qrc:/help/images/startdebuggingmenu.png" alt="startdebuggingmenu" hspace=10 vspace=10>
+<img src="qrc:/help/images/startdebuggingicon.png" alt="startdebuggingicon" hspace=10 vspace=10>
 <p>
-When you are in microcode mode, the two buttons "Clock" and "Copy to Microcode" are disabled and the
-two buttons "Single Step" and "Resume" are enabled.
+When you are in microcode mode, the two buttons Clock and Copy to Microcode are disabled and the
+two buttons Single Step and Resume are enabled.
 <p>
-<i>Figure with app in microcode mode showing the four buttons.</i>
+<img src="qrc:/help/images/fourbuttonsmicrocodemode.png" alt="fourbuttonsmicrocodemode" hspace=10 vspace=10>
 <p>
-You exit the microcode mode in one of two ways &mdash; by running a microcode sequence to completion
-or by selecting System->Stop Debugging from the menu or clicking the corresponding Stop Debugging icon on the toolbar.
+You exit the microcode mode in one of three ways &mdash; by running a microcode sequence to completion,
+by selecting System->Stop Debugging from the menu, or by clicking the corresponding Stop Debugging icon on the toolbar.
 <p>
-<i>Figures side-by-side showing menu item and toobar icon.</i>
- <p>
+<img src="qrc:/help/images/stopdebuggingmenu.png" alt="stopdebuggingmenu" hspace=10 vspace=10>
+<img src="qrc:/help/images/stopdebuggingicon.png" alt="stopdebuggingicon" hspace=10 vspace=10>
+<p>
 </body>
 </html>

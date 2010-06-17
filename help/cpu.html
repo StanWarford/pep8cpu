@@ -1,7 +1,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 4.01//EN">
 
 <html>
-<head><title> Pep/8: CPU Documentation </title></head>
+<head>
+ <title> Pep/8 CPU: Interactive Mode </title>
+  <style type="text/css" media="all">
+   img { vertical-align:text-top; }
+   code { font-family:Courier, 'Courier New', monospace; font-size:11pt }
+  </style>
+</head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000033" alink="#0066FF">
 <table bgcolor="#FB9F14" width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr><td>
@@ -13,25 +19,44 @@ Interactive Mode
 <p>
 Reference: <i>Computer Systems</i>, Chapter 12, Section 12.1.
 <p>
-With the interactive mode, the user sets the memory values and the control signals individually for a single cycle.
-A memory value is set by
-Each control signal is activated by a GUI widget on the right side of the CPU pane.
+With the interactive mode, the user controls the execution of a single CPU cycle.
+The general process is to make the following settings:
 <p>
-There are six kinds of control signals &mdash; register address signals, multiplexer signals,
-the ALU function signal, the ANDZ signal, the memory read/write signals, and the clock signals.
+1. <a href="#Memory">Initialize the memory values</a>
 <p>
-<h3>Register address signals</h3>
+2. <a href="#Register">Initialize the register values</a>
+<p>
+3. <a href="#Control">Set the control signals</a>
+<p>
+4. <a href="#Clock">Enable the clock signals</a>
+<p>
+After making these settings, you can click the Clock button at the bottom of the CPU panel to see the effect of the cycle
+on the state of the CPU.
+If you are satisfied with the effect of the cycle, you may click the Copy to Microcode button, which
+will insert a line of microcode text in the microcode panel at the position of the text cursor.
+<p>
+<img src="qrc:/help/images/clockandcopybuttons.png" alt="clockandcopybuttons" hspace=10 vspace=10>
+<p>
+<h3><a name="Memory">1. Initialize the memory values</a></h3>
+<h3><a name="Register">2. Initialize the register values</a></h3>
+<h3><a name="Control">3. Set the control signals</a></h3>
+Each control signal is activated by a GUI widget on the right side of the CPU panel.
+<p>
+There are five kinds of control signals &mdash; register address signals, multiplexer signals,
+the ALU function signal, the ANDZ signal, and the memory read/write signals.
+<p>
+<h4>Register address signals</h4>
 There are three register address signals &mdash; A, B, and C.
 Each signal is five bits and accesses one of the 32 one-byte registers in the two-port register bank.
 To set a register address signal, enter a decimal integer value in the range 0..31.
 <p>
 For example, the following figure shows a register address of 7 for A, 23 for B, and 7 for C.
-Address 7 is the least significant byte of the program counter, and address 23 is the ROM value of 1.
+Address 7 is the least significant byte of the program counter, and address 23 is the least
+significant of ROM register M1, which has a value of 1.
 <p>
 <img src="qrc:/help/images/registeraddresssignals.png" alt="registeraddresssignals" hspace=10 vspace=10>
 <p>
-
- <h3>Multiplexer signals</h3>
+ <h4>Multiplexer signals</h4>
  There are three multiplexer signals &mdash; AMux, MDRMux, and CMux.
  Each multiplexer control signal determines whether the output comes from the left input or the right input.
  A zero on a multiplexer control line sends the left input to the output, and a one sends the right input to the output.
@@ -43,15 +68,15 @@ Address 7 is the least significant byte of the program counter, and address 23 i
  <p>
  <i>Figure with AMux=0, CMux=1, ALU=0</i>
  <p>
- <h3>The ALU function signal</h3>
+ <h4>The ALU function signal</h4>
  The ALU function signal is a single four-bit value that you enter as a decimal number.
 
   <p>
-  <h3>The ANDZ signal</h3>
+  <h4>The ANDZ signal</h4>
   <p>
-  <h3>The memory read/write signals</h3>
+  <h4>The memory read/write signals</h4>
   <p>
-  <h3>The clock signals</h3>
+  <h3><a name="Clock">4. Enable the clock signals</a></h3>
   <p>
   <img src="qrc:/help/images/pep8help.png" alt="pep8help" hspace=10 vspace=10>
   <p>

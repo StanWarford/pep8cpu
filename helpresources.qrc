@@ -39,5 +39,12 @@
         <file>help/pep8reference.html</file>
         <file>help/usingpep8cpu.html</file>
         <file>help/exercises.html</file>
+        <file>help/images/fourbuttonsinteractivemode.png</file>
+        <file>help/images/fourbuttonsmicrocodemode.png</file>
+        <file>help/images/startdebuggingicon.png</file>
+        <file>help/images/startdebuggingmenu.png</file>
+        <file>help/images/stopdebuggingicon.png</file>
+        <file>help/images/stopdebuggingmenu.png</file>
+        <file>help/images/clockandcopybuttons.png</file>
     </qresource>
 </RCC>
