@@ -38,10 +38,19 @@ will insert a line of microcode text in the microcode panel at the position of t
 <img src="qrc:/help/images/clockandcopybuttons.png" alt="clockandcopybuttons" hspace=10 vspace=10>
 <p>
 <h3><a name="Memory">1. Initialize the memory values</a></h3>
+You initialize a memory value by clicking on the value cell in the memory panel on the left side of the main window.
+Enter a one-byte value in hexadecimal then press Enter (Return) or click outside the cell.
+The following figure shows the user entering the hexadecimal value 0xab in the cell at address 0x0001.
+<p>
+<img src="qrc:/help/images/settingmemory.png" alt="settingmemory" hspace=10 vspace=10>
+<p>
+If you want to clear all the values in memory to all zeros select System->Clear Memory from the menu.
+<p>
+<img src="qrc:/help/images/clearmemory.png" alt="clearmemory" hspace=10 vspace=10>
 <h3><a name="Register">2. Initialize the register values</a></h3>
+
 <h3><a name="Control">3. Set the control signals</a></h3>
 Each control signal is activated by a GUI widget on the right side of the CPU panel.
-<p>
 There are five kinds of control signals &mdash; register address signals, multiplexer signals,
 the ALU function signal, the ANDZ signal, and the memory read/write signals.
 <p>

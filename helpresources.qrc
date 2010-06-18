@@ -46,5 +46,8 @@
         <file>help/images/stopdebuggingicon.png</file>
         <file>help/images/stopdebuggingmenu.png</file>
         <file>help/images/clockandcopybuttons.png</file>
+        <file>help/images/settingmemory.png</file>
+        <file>help/images/clearcpu.png</file>
+        <file>help/images/clearmemory.png</file>
     </qresource>
 </RCC>

@@ -96,7 +96,6 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
     }
     else if ((!isHelpSubCat && row == eEXAMPLES) || parentRow == eEXAMPLES) {
         if (!isHelpSubCat) {
-            qDebug() << "row: " << row << "parentRow: " << parentRow;
             ui->helpSplitter->widget(1)->hide();
             ui->helpTopWebView->show();
             ui->helpTopWebView->load(QUrl("qrc:/help/examples.html"));
@@ -132,12 +131,9 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
     }
     else if ((!isHelpSubCat && row == eEXCERCISES) || parentRow == eEXCERCISES) {
         if (!isHelpSubCat) {
-            qDebug() << "row: " << row << "parentRow: " << parentRow;
             ui->helpSplitter->widget(1)->hide();
             ui->helpTopWebView->show();
-//            qDebug() << "Executing: ui->helpTopWebView->load(QUrl(\"qrc:/help/excercises.html\"));";
             ui->helpTopWebView->load(QUrl("qrc:/help/exercises.html"));
-//            qDebug() << "Executed: ui->helpTopWebView->load(QUrl(\"qrc:/help/excercises.html\"));";
         }
         else {
             ui->helpSplitter->widget(0)->hide();
