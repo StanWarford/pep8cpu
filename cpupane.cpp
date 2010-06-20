@@ -85,6 +85,7 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(cpuPaneItems->cBitLabel, SIGNAL(clicked()), this, SLOT(labelClicked()));
 
     // Simulation control connections
+    connect(ui->clockPushButton, SIGNAL(clicked()), this, SLOT(clockButtonPushed()));
     connect(ui->singleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStepButtonPushed()));
     connect(ui->resumePushButton, SIGNAL(clicked()), this, SLOT(resumeButtonPushed()));
 
@@ -102,6 +103,9 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(cpuPaneItems->t6RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
 
     connect(cpuPaneItems->ALULineEdit, SIGNAL(textChanged(QString)), this, SLOT(ALUTextEdited(QString)));
+
+    ui->spinBox->hide();
+    ui->singleStepPushButton->setEnabled(false);
 }
 
 CpuPane::~CpuPane()
@@ -442,6 +446,14 @@ void CpuPane::labelClicked()
     Sim::zBit = cpuPaneItems->zBitLabel->text().toInt() == 0 ? false : true;
     Sim::vBit = cpuPaneItems->vBitLabel->text().toInt() == 0 ? false : true;
     Sim::cBit = cpuPaneItems->cBitLabel->text().toInt() == 0 ? false : true;
+}
+
+void CpuPane::clockButtonPushed()
+{
+#warning "temp - change later"
+    Sim::codeList.clear();
+    singleStepButtonPushed();
+
 }
 
 void CpuPane::singleStepButtonPushed()

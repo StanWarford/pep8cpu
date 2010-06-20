@@ -54,6 +54,7 @@ private slots:
 
     void labelClicked();
 
+    void clockButtonPushed();
     void singleStepButtonPushed();
     void resumeButtonPushed();
 
