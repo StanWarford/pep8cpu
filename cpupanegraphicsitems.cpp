@@ -1091,10 +1091,12 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
     // Draw main bus
     if (isHigh) {
         qDebug() << "mainBusState: " << Sim::mainBusState;
-        if (Sim::mainBusState == Enu::MemReadWait) { // MEM_READ_ADDR == MainBus.state
+        if (Sim::mainBusState == Enu::None && MemReadTristateLabel->text() == "1") {
+            // We haven't read yet, but are about to
             color = Qt::yellow;
         }
-        else if (Sim::mainBusState == Enu::MemReadReady) { // MEM_READ_DATA == MainBus.state
+        else if ((Sim::mainBusState == Enu::MemReadReady || Sim::mainBusState == Enu::MemReadWait) && MemReadTristateLabel->text() == "1") {
+            // We have read once, and are about to again
             color = QColor(16, 150, 24); // green
         }
         else {
@@ -1164,10 +1166,10 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
         // Draw main bus
         if (isHigh) {
             qDebug() << "mainBusState: " << Sim::mainBusState;
-            if (Sim::mainBusState == Enu::MemWriteWait) { // MEM_WRITE_ADDR == MainBus.state
+            if (Sim::mainBusState == Enu::None && MemWriteTristateLabel->text() == "1") { // We have not yet written, but are about to
                 color = Qt::yellow;
             }
-            else if (Sim::mainBusState == Enu::MemWriteReady) {
+            else if (Sim::mainBusState == Enu::MemWriteWait && MemWriteTristateLabel->text() == "1") { // We have written once, and are about to again
                 color = QColor(16, 150, 24); // green
             }
             else {
@@ -1287,7 +1289,6 @@ void CpuPaneGraphicsItems::repaintNBitOut(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintANDZSelect(QPainter *painter)
 {
-    bool output = false;
     QPolygon poly;
 
     QColor color = Qt::gray;
@@ -1299,13 +1300,13 @@ void CpuPaneGraphicsItems::repaintANDZSelect(QPainter *painter)
     painter->setBrush(color);
 
 #warning "move this to the cpupane.cpp"
-    if (ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
-        if (Sim::zBit) {
-            output = true;
-        }
-    } else if (ANDZTristateLabel->text() == "1") { // zOut && zCurr
-        output = Sim::zBit; // what is this?
-    }
+//    if (ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
+//        if (Sim::zBit) {
+//            output = true;
+//        }
+//    } else if (ANDZTristateLabel->text() == "1") { // zOut && zCurr
+//        output = Sim::zBit; // what is this?
+//    }
 
     painter->drawLine(437,484, 437,476);
     painter->drawLine(437,476, 543,476);

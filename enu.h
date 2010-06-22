@@ -15,11 +15,6 @@ namespace Enu
         eUNARY = 0x01,
     };
 
-    enum BusState {
-        UNDEFINED,
-        LOADED
-    };
-
     enum MainBusState {
         None,
         MemReadWait,
