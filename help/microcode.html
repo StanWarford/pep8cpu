@@ -17,12 +17,177 @@ Microcode Mode
 </td></tr>
 </table>
 <p>
-The Pep/8 CPU simulator has two modes of operation &mdash; interactive and microcode.
-This help page describes the microcode mode of operation.
-See the Interactive help page for instructions on the interactive mode of operation.
+Reference: <i>Computer Systems</i>, Chapter 12, Section 12.1.
 <p>
+A microprogram consists of a sequence of microcode statements, which, when executed, implement
+a single ISA3 instruction.
+To test an implementation of an ISA3 instruction, you can manually set initial values
+in memory and the CPU in interactive mode, set the control signals for each individual cycle,
+then inspect the state of the machine after the last cycle.
 <p>
-<img src="qrc:/help/images/pep8help.png" alt="pep8help" hspace=10 vspace=10>
+Alternatively, you can write a microprogram in the Microcode pane, invoke the microassembler
+to translate the microprogram to binary, then execute the sequence.
+One advantage of writing a microprogram is the built-in unit test facility of the microassembler.
+<p>
+<a name = "Topics">Topics:</a>
+<a href="#Writing">Writing a microprogram</a>,
+<a href="#Unit">Unit tests</a>,
+<a href="#Executing">Executing a microprogram</a>,
+
+<h3><a name="Writing">Writing a microprogram</a></h3>
+There are two ways to write a microprogram.
+One way is to enter the text in the Microcode pane.
+When you write a microprogram the editor automatically numbers the statements that correspond to CPU cycles.
+<p>
+Another way to enter a single microcode statement is to set the control signals with the input widgets in the CPU pane
+and then click the Copy to Microcode button.
+For example, suppose you are at the following point writing your program.
+<p>
+<img src="qrc:/help/images/copycode1.png" alt="copycode1" hspace=10 vspace=10>
+<p>
+You could enter this text on the keyboard
+<pre>
+A=6, B=7; MARCk
+</pre>
+for the next cycle.
+However, instead of typing the text you can experiment with the CPU pane to see the effect of the next cycle.
+In the following figure, the user has entered 6 for control signal A, 7 for control signal B, and checked the MARCk
+check box.
+After clicking the Clock button in interactive mode, the user sees that the content of the program counter (PC)
+has been correctly transferred to MARA and MARB.
+<p>
+<img src="qrc:/help/images/copycode2.png" alt="copycode2" hspace=10 vspace=10>
+<p>
+At this point, the user clicks the Copy to Microcode button.
+<p>
+<img src="qrc:/help/images/copycode3.png" alt="copycode3" hspace=10 vspace=10>
+<p>
+The effect is that the microcode text corresponding to the settings in the CPU pane is generated and inserted
+in the microcode pane as the following figure shows.
+<p>
+<img src="qrc:/help/images/copycode4.png" alt="copycode4" hspace=10 vspace=10>
+<p>
+Once you execute your program so that an object code listing appears in the Object Code pane,
+you can select Edit->Format From Object Code from the menu.
+Your source code will be replaced with a standard formatted source code extracted from the object code.
+<p>
+<img src="qrc:/help/images/formatfromobject.png" alt="formatfromobject" hspace=10 vspace=10>
+<p>
+
+<a href="#Topics">Scroll to topics</a>.
+<p>
+<h3><a name="Unit">Unit tests</a></h3>
+To establish a unit test for your program write the unit test precondition with the <code>UnitPre</code>
+keyword and the unit test postcondition with the <code>UnitPost</code> keyword
+at the beginning of a line and followed by a colon <code>:</code> .
+The <code>UnitPre</code> statement clears all memory and CPU vaules to zero
+then sets values in memory and the CPU before the first microcode statement executes.
+The <code>UnitPost</code> statement tests whether a memory cell or CPU register has a specified value
+after the last microcode statement executes.
+If a unit test fails, an error message is displayed in the Microcode pane, as in the following figure.
+<p>
+<i>Figure with postcondition failure error message</i>
+<p>
+There can be as many keywords as you like placed anywhere in the microprogram listing without affecting the unit test.
+However, the convention is to place the <code>UnitPre</code> statements followed by the <code>UnitPost</code> statements
+before the first cycle statement in the microprogram.
+<h4>Specifying register values</h4>
+The instruction register IR is a three-byte register.
+If you specify
+<pre>
+IR=0xa
+</pre>
+the value stored in <code>UnitPre</code> or tested in <code>UnitPost</code> is
+<pre>
+IR=0x00000a
+</pre>
+The instruction register T1 is a one-byte register.
+If you specify
+<pre>
+T1=0xabc
+</pre>
+you will get the error message
+<pre>
+// ERROR: Hexidecimal register value is out of range (0x00..0xFF).
+</pre>
+All other registers in the register bank except IR and T1 are two-byte registers.
+For example, if you specify <code>PC=0x12345</code> you will get an out-of-range message,
+and if you specify <code>PC=0x1</code> the value 0x0001 will be stored or tested.
+<p>
+The NZVC bits are one-bit registers.
+For example, <code>N=1</code> is a valid specification.
+Although the specification <code>N=0</code> is technically not necessary in <code>UnitPre</code> because all register values are cleared
+to zero before applying unit preconditions, such a specification is valid and somtimes included for emphasis.
+<h4>Specifying memory values</h4>
+Pep/8 main memory is byte addressable.
+For example, if you specify
+<pre>
+Mem[0x1234]=0x5
+</pre>
+the one-byte value 0x05 at memory address 0x1234 is set or tested.
+<p>
+It is frequently necessary to specify two adjacent bytes in memory, as with the following specification.
+<pre>
+Mem[0xabcd]=0x11, Mem[0xabce]=0x22
+</pre>
+You can specify a two-byte value for adjacent memory cells by writing a single value in the range 0x0100..0xffff.
+For example, you can write the above specification as
+<pre>
+Mem[0xabcd]=0x1122
+</pre>
+<a href="#Topics">Scroll to topics</a>.
+<p>
+<h3><a name="Executing">Executing a microprogram</a></h3>
+After writing a microcode program in the Micorocode pane, there are two ways to execute the program.
+You can run the program or you can debug it step by step.
+<h4>Running a program</h4>
+The first way to execute a program is to select System->Run from the menu or click the corresponding Run icon on the toolbar.
+<p>
+<img src="qrc:/help/images/runmenu.png" alt="runmenu" hspace=10 vspace=10>
+<img src="qrc:/help/images/runicon.png" alt="runicon" hspace=10 vspace=10>
+<p>
+Pep/8 CPU will attempt to microassemble your microcode program.
+If there are errors, they will appear in red in the Microcode pane, as in the following figure.
+<p>
+<img src="qrc:/help/images/errormessage.png" alt="errormessage" hspace=10 vspace=10>
+<p>
+If you would like, you can select Edit->Remove Error Messages from the menu to delete the error message.
+Then, you can correct your error and try to run your program again.
+It is not necessary to remove the error message before correcting your program, as error messages
+are automatically removed when you rerun your program.
+<p>
+<img src="qrc:/help/images/removeerrormessages.png" alt="removeerrormessages" hspace=10 vspace=10>
+<p>
+If there are no errors, the translated program will appear in the Object Code pane and the microcode sequence will
+execute.
+The following figure shows the Object Code pane from the above corrected program.
+<p>
+<img src="qrc:/help/images/objectcode.png" alt="objectcode" hspace=10 vspace=10>
+<p>
+<i>Describe unit test success and failure here.</i>
+<h4>Debugging a program</h4>
+The second way to execute a program is to select System->Start Debugging from the menu
+or click the corresponding Start Debugging icon on the toolbar.
+<p>
+<img src="qrc:/help/images/startdebuggingmenu.png" alt="startdebuggingmenu" hspace=10 vspace=10>
+<img src="qrc:/help/images/startdebuggingicon.png" alt="startdebuggingicon" hspace=10 vspace=10>
+<p>
+Pep/8 CPU will attempt to microassemble your microcode program.
+If there are errors, they will appear in red in the Microcode pane, as shown in the previous section.
+Otherwise, the object code will appear in the Object Code pane and Pep/8 CPU will enter Microcode Mode
+with the two buttons Clock and Copy to Microcode disabled and the
+two buttons Single Step and Resume enabled.
+<p>
+<img src="qrc:/help/images/fourbuttonsmicrocodemode.png" alt="fourbuttonsmicrocodemode" hspace=10 vspace=10>
+<p>
+
+<p>
+<img src="qrc:/help/images/debugging.png" alt="debugging" hspace=10 vspace=10>
+<p>
+
+
+<p>
+<a href="#Topics">Scroll to topics</a>.
 <p>
 
 </body>

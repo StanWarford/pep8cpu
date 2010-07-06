@@ -9,7 +9,6 @@
         <file>help/cpu.html</file>
         <file>help/microcode.html</file>
         <file>help/examples.html</file>
-        <file>help/images/registeraddresssignals.png</file>
         <file>help/figures/exer1207a.pepcpu</file>
         <file>help/figures/exer1207b.pepcpu</file>
         <file>help/figures/exer1207c.pepcpu</file>
@@ -49,5 +48,30 @@
         <file>help/images/settingmemory.png</file>
         <file>help/images/clearcpu.png</file>
         <file>help/images/clearmemory.png</file>
+        <file>help/images/settingregister.png</file>
+        <file>help/images/multiplexersignals.png</file>
+        <file>help/images/andzsignal.png</file>
+        <file>help/images/memreadwrite.png</file>
+        <file>help/images/clocksignal.png</file>
+        <file>help/images/copyexample.png</file>
+        <file>help/images/copyexercise.png</file>
+        <file>help/images/cyclenumbers.png</file>
+        <file>help/images/copycode1.png</file>
+        <file>help/images/copycode2.png</file>
+        <file>help/images/copycode3.png</file>
+        <file>help/images/copycode4.png</file>
+        <file>help/images/togglevbit.png</file>
+        <file>help/images/formatfromobject.png</file>
+        <file>help/images/runicon.png</file>
+        <file>help/images/runmenu.png</file>
+        <file>help/images/resumebutton.png</file>
+        <file>help/images/errormessage.png</file>
+        <file>help/images/removeerrormessages.png</file>
+        <file>help/images/registeraddresssignals.png</file>
+        <file>help/images/objectcode.png</file>
+        <file>help/images/debugging.png</file>
+        <file>help/images/interactiveuse.png</file>
+        <file>help/images/microcodeuse.png</file>
+        <file>help/images/byteconverter.png</file>
     </qresource>
 </RCC>

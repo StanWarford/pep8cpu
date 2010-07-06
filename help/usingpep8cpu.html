@@ -17,17 +17,49 @@ Using Pep/8 CPU
 </td></tr>
 </table>
  <p>
- This CPU simulator is an implementation of the data section of the Pep/8 central processing unit as shown in Figure 12.2 of the textbook
- <i>Computer Systems</i>, J. Stanley Warford, Fourth edition, Jones and Bartlett, Publishers, 2010.
- <p>
- The simulator has two modes of operation &mdash; interactive and microcode.
- The application starts up in the interactive mode, which you can see by the fact that the two buttons Clock and
- Copy to Microcode are enabled and the two buttons Single Step and Resume are disabled.
+
+Pep/8 CPU is a central processing unit simulator for writing microcode programs.
+It is designed to be used with the textbook, <i>Computer Systems</i>, J. Stanley Warford, Fourth edition, Jones and Bartlett, Publishers, 2010.
+The goal of the book is to teach the fundamentals of the classic von Neumann machine.
+You should use the Pep/8 system in conjunction with the textbook to write microcode programs.
+<p>
+ <a name = "Topics">Topics:</a>
+ <a href="#Modes">Interactive and microcode modes</a>,
+ <a href="#File">Microcode files</a>,
+ <a href="#Byte">Byte converter</a>.
+
+<h3><a name="Modes">Interactive and microcode use</a></h3>
+
+ There are two ways to use the Pep/8 CPU simulator &mdash; interactive and microcode.
+ When the application starts up, the two buttons Clock and Copy to Microcode are enabled
+ and the two buttons Single Step and Resume are disabled.
  <p>
  <img src="qrc:/help/images/fourbuttonsinteractivemode.png" alt="fourbuttonsinteractivemode" hspace=10 vspace=10>
  <p>
- You switch from interactive to microcode mode by entering a microcode program in the Microcode panel and selecting
-System->Start Debugging from the menu or clicking the corresponding Start Debugging icon on the toolbar.
+ In this state, you can experiment with the CPU one cycle at a time interactively.
+ You can set individual control signals via the GUI widgets on the right side of the CPU pane.
+ For example, in the following figure the user has set register address A to 6, register address B to 7,
+ and clicked the MARCk check box.
+ <p>
+ <img src="qrc:/help/images/interactiveuse.png" alt="interactiveuse" hspace=10 vspace=10>
+<p>
+The A bus and B bus are colored red to indicate that the A and B adresses are set.
+When the user clicks the Clock button, the CPU pane shows the effect of this single CPU cycle.
+<p>
+Alternatively, you can write a microprogram in the microcode pane.
+The following figure shows the first few lines of a microprogram.
+ <p>
+ <img src="qrc:/help/images/microcodeuse.png" alt="microcodeuse" hspace=10 vspace=10>
+<p>
+Comments begin with <code>//</code> as in C++ and Java.
+Pep/8 CPU features automated unit code testing.
+The keywords <code>UnitPre</code> and <code>UnitPost</code> in the above figure specify a unit test for the program.
+<p>
+After writing a microprogram the user can either run the program or use the debugger to see the effect of each
+cycle in the CPU pane.
+<!--
+ To switch from interactive to microcode mode enter a microcode program in the Microcode pane and select
+System->Start Debugging from the menu or click the corresponding Start Debugging icon on the toolbar.
 <p>
 <img src="qrc:/help/images/startdebuggingmenu.png" alt="startdebuggingmenu" hspace=10 vspace=10>
 <img src="qrc:/help/images/startdebuggingicon.png" alt="startdebuggingicon" hspace=10 vspace=10>
@@ -37,11 +69,63 @@ two buttons Single Step and Resume are enabled.
 <p>
 <img src="qrc:/help/images/fourbuttonsmicrocodemode.png" alt="fourbuttonsmicrocodemode" hspace=10 vspace=10>
 <p>
-You exit the microcode mode in one of three ways &mdash; by running a microcode sequence to completion,
-by selecting System->Stop Debugging from the menu, or by clicking the corresponding Stop Debugging icon on the toolbar.
+To exit the microcode mode, run a microcode sequence to completion by clicking the Resume button,
+select System->Stop Debugging from the menu, or click the corresponding Stop Debugging icon on the toolbar.
 <p>
+<img src="qrc:/help/images/resumebutton.png" alt="resumebutton" hspace=10 vspace=10>
 <img src="qrc:/help/images/stopdebuggingmenu.png" alt="stopdebuggingmenu" hspace=10 vspace=10>
 <img src="qrc:/help/images/stopdebuggingicon.png" alt="stopdebuggingicon" hspace=10 vspace=10>
 <p>
+-->
+<p>
+<a href="#Topics">Scroll to topics</a>.
+
+<h3><a name="File">Microcode files</a></h3>
+The Pep/8 CPU system uses the file extension <code>.pepcpu</code> to store microcode programs.
+The files are text files that you can modify with your favorite text editor or word processor outside the Pep/8 CPU application.
+<p>
+When you write a microprogram the editor automatically numbers the statements that correspond to CPU cycles.
+The following figure shows the auto-cycle number feature of the editor.
+Comments and unit test specifications are excluded from the numbering.
+<p>
+<img src="qrc:/help/images/cyclenumbers.png" alt="cyclenumbers" hspace=10 vspace=10>
+<p>
+When you save a microprogram the editor includes the cycle numbers in the text.
+For example, here are the first few lines of text from the file that is saved from the above figure.
+<pre>
+// File: fig1205.pepcpu
+// Computer Systems, Fourth Edition
+// Figure 12.5
+// Fetch the instruction specifier and increment PC by 1
+
+UnitPre: IR=0x000000, PC=0x00ff, Mem[0x00ff]=0xab
+UnitPre: N=1, Z=0, V=1, C=0
+UnitPost: IR=0xab0000, PC=0x0100
+UnitPost: N=1, Z=0, V=1, C=0, T1=0x0a // T1 stores NZVC=1010
+
+// Save the status bits in T1
+1. CMux=0, C=11; LoadCk
+
+// MAR <- PC, fetch instruction specifier.
+2. A=6, B=7; MARCk
+3. MemRead
+4. MemRead, MDRMux=0; MDRCk
+</pre>
+When you open a previously saved microprogram the editor strips any cycle numbers in the text and auto-renumbers them.
+<p>
+<a href="#Topics">Scroll to topics</a>.
+<p>
+<h3><a name="Byte">Byte converter</a></h3>
+
+Any time the Pep/8 CPU application is running, the byte converter is available in the tool bar.
+The four input fields represent the value of a single byte as displayed from left to right in decimal, hexadecimal, binary, and ASCII.
+Simply enter any value in any input field and the other fields will show the same value in the corresponding format.
+Here is the result of entering the letter <code>P</code> in the ASCII field.
+ <p>
+<img src="qrc:/help/images/byteconverter.png" alt="byteconverter" hspace=10 vspace=10>
+<p>
+<a href="#Topics">Scroll to topics</a>.
+<p>
+
 </body>
 </html>
