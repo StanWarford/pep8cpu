@@ -572,6 +572,7 @@ void MainWindow::simulationFinished()
             return;
         }
     }
+#warning "need a case for when we don't have unit tests"
     ui->statusBar->showMessage("Passed unit test", 4000);
 }
 
