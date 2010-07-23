@@ -9,7 +9,7 @@
 class Sim
 {
 public:
-    static QVector<int> Mem;
+    static QVector<quint8> Mem;
     static bool nBit, zBit, vBit, cBit;
 
     static QVector<quint8> regBank;

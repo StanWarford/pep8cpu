@@ -1299,15 +1299,6 @@ void CpuPaneGraphicsItems::repaintANDZSelect(QPainter *painter)
     painter->setPen(color);
     painter->setBrush(color);
 
-#warning "move this to the cpupane.cpp"
-//    if (ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
-//        if (Sim::zBit) {
-//            output = true;
-//        }
-//    } else if (ANDZTristateLabel->text() == "1") { // zOut && zCurr
-//        output = Sim::zBit; // what is this?
-//    }
-
     painter->drawLine(437,484, 437,476);
     painter->drawLine(437,476, 543,476);
 
