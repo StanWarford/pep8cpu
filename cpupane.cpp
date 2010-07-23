@@ -131,8 +131,8 @@ void CpuPane::startDebugging()
     }
     code->setCpuLabels(cpuPaneItems);
     emit updateSimulation();
-    Sim::microProgramCounter++;
-    Sim::microCodeCurrentLine++;
+//    Sim::microProgramCounter++;
+//    Sim::microCodeCurrentLine++;
 }
 
 void CpuPane::stopDebugging()
@@ -145,6 +145,11 @@ void CpuPane::stopDebugging()
 }
 
 void CpuPane::setRegister(Enu::EMnemonic reg, int value) {
+    if (value > 256) {
+        qDebug() << "Val > 256, error setting reg " << reg << " with val " << value;
+        value = value % 256;
+    }
+
     switch (reg) {
     case Enu::A:
         Sim::aReg = value;
