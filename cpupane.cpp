@@ -866,13 +866,16 @@ bool CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool
         //        setStatusBit(Enu::N, Sim::nBit);
     }
 
-#warning "we should check this carefully - I'm not sure I'm handling the andz correctly"
     if (cpuPaneItems->ZCkCheckBox->isChecked()) {
         if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
+            setStatusBit(Enu::Z, bitMask & Enu::ZMask && c == 0);
         }
         else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
+            setStatusBit(Enu::Z, bitMask & Enu::ZMask && c == 0 && Sim::zBit);
         }
         else {
+            errorString = "// ERROR: ZCk without ANDZ";
+            return false;
         }
         //        if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
         //            Sim::zBit = false;
@@ -899,28 +902,35 @@ bool CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool
         //        setStatusBit(Enu::N, Sim::nBit);
     }
 
-    if (cpuPaneItems->CCkCheckBox->isChecked()) {
-        Sim::cBit = false;
-        if (bitMask & Enu::CMask && carry & 0x1) {
-            Sim::cBit = true;
+    if (cpuPaneItems->VCkCheckBox->isChecked()) {
+        if (isUnary) {
+            setStatusBit(Enu::V, (c > 127 && a < 128) || (c < 128 && a > 127));
         }
-        setStatusBit(Enu::C, Sim::cBit);
+        else {
+            setStatusBit(Enu::V, (c > 127 && a < 128 && b < 128) || (c < 128 && a > 127 && b > 127));
+        }
+//        Sim::vBit = false;
+//        if (bitMask & Enu::VMask) {
+//            if (isUnary) {
+//                if (((c > 127 && a < 128 && b < 128) || (c < 128 && a > 127 && b > 127))) {
+//                    Sim::vBit = true;
+//                }
+//            }
+//            else {
+//                if (((c > 127 && a < 128) || (c < 128 && a > 127)))
+//                    Sim::vBit = true;
+//            }
+//            setStatusBit(Enu::V, Sim::vBit);
+//        }
     }
 
-    if (cpuPaneItems->VCkCheckBox->isChecked()) {
-        Sim::vBit = false;
-        if (bitMask & Enu::VMask) {
-            if (isUnary) {
-                if (((c > 127 && a < 128 && b < 128) || (c < 128 && a > 127 && b > 127))) {
-                    Sim::vBit = true;
-                }
-            }
-            else {
-                if (((c > 127 && a < 128) || (c < 128 && a > 127)))
-                    Sim::vBit = true;
-            }
-            setStatusBit(Enu::V, Sim::vBit);
-        }
+    if (cpuPaneItems->CCkCheckBox->isChecked()) {
+        setStatusBit(Enu::C, bitMask & Enu::CMask && carry & 0x1);
+//        Sim::cBit = false;
+//        if (bitMask & Enu::CMask && carry & 0x1) {
+//            Sim::cBit = true;
+//        }
+//        setStatusBit(Enu::C, Sim::cBit);
     }
 }
 
