@@ -28,6 +28,7 @@ public:
     void stopDebugging();
 
     void setRegister(Enu::EMnemonic reg, int value);
+    void setRegisterByte(int reg, quint8 value);
     void setStatusBit(Enu::EMnemonic bit, bool value);
 
     void setRegPrecondition(Enu::EMnemonic reg, int value);
@@ -64,8 +65,14 @@ private slots:
 
     //simulation helpers
     void setMainBusState();
-    int getALUOutput();
     void aluSetStatusBits(int a, int b, int c, int carry, int bitMask, int unary = 0);
+
+    bool getALUOut(quint8& out, QString& errorString);
+    bool getCMuxOut(quint8& out, QString& errorString);
+    bool getAMuxOut(quint8& out, QString& errorString);
+    bool getMDRMuxOut(quint8& out, QString& errorString);
+    bool getABusOut(quint8& out, QString& errorString);
+    bool getBBusOut(quint8& out, QString& errorString);
 
 signals:
     void updateSimulation();

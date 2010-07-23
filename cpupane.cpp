@@ -145,72 +145,181 @@ void CpuPane::stopDebugging()
 }
 
 void CpuPane::setRegister(Enu::EMnemonic reg, int value) {
-    if (value > 256) {
-        qDebug() << "Val > 256, error setting reg " << reg << " with val " << value;
-        value = value % 256;
-    }
-
     switch (reg) {
     case Enu::A:
-        Sim::aReg = value;
+        Sim::regBank[0] = (value & 65280) / 256;
+        Sim::regBank[1] = (value & 255);
         cpuPaneItems->aRegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::X:
-        Sim::xReg = value;
+        Sim::regBank[2] = (value & 65280) / 256;
+        Sim::regBank[3] = (value & 255);
         cpuPaneItems->xRegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::SP:
-        Sim::spReg = value;
+        Sim::regBank[4] = (value & 65280) / 256;
+        Sim::regBank[5] = (value & 255);
         cpuPaneItems->spRegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::PC:
-        Sim::pcReg = value;
+        Sim::regBank[6] = (value & 65280) / 256;
+        Sim::regBank[7] = (value & 255);
         cpuPaneItems->pcRegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::IR:
-        Sim::irReg = value;
+        Sim::regBank[8] = (value & 0xFF0000) / 65536;
+        Sim::regBank[9] = (value & 65280) / 256;
+        Sim::regBank[10] = (value & 255);
         cpuPaneItems->irRegLineEdit->setText(QString("0x%1").arg(value, 6, 16, QLatin1Char('0')));
         break;
     case Enu::T1:
-        Sim::t1Reg = value;
+        Sim::regBank[11] = (value & 65280) / 256;
+        Sim::regBank[12] = (value & 255);
         cpuPaneItems->t1RegLineEdit->setText(QString("0x%1").arg(value, 2, 16, QLatin1Char('0')));
         break;
     case Enu::T2:
-        Sim::t2Reg = value;
+        Sim::regBank[13] = (value & 65280) / 256;
+        Sim::regBank[14] = (value & 255);
         cpuPaneItems->t2RegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::T3:
-        Sim::t3Reg = value;
+        Sim::regBank[15] = (value & 65280) / 256;
+        Sim::regBank[16] = (value & 255);
         cpuPaneItems->t3RegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::T4:
-        Sim::t4Reg = value;
+        Sim::regBank[17] = (value & 65280) / 256;
+        Sim::regBank[18] = (value & 255);
         cpuPaneItems->t4RegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::T5:
-        Sim::t5Reg = value;
+        Sim::regBank[19] = (value & 65280) / 256;
+        Sim::regBank[20] = (value & 255);
         cpuPaneItems->t5RegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::T6:
-        Sim::t6Reg = value;
+        Sim::regBank[21] = (value & 65280) / 256;
+        Sim::regBank[22] = (value & 255);
         cpuPaneItems->t6RegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
         break;
     case Enu::MARA:
-        Sim::MARA = value;
+        Sim::regBank[23] = (value & 65280) / 256;
+        Sim::regBank[24] = (value & 255);
         cpuPaneItems->MARALabel->setText(QString("0x%1").arg(value, 2, 16, QLatin1Char('0')));
         break;
     case Enu::MARB:
-        Sim::MARB = value;
+        Sim::regBank[25] = (value & 65280) / 256;
+        Sim::regBank[26] = (value & 255);
         cpuPaneItems->MARBLabel->setText(QString("0x%1").arg(value, 2, 16, QLatin1Char('0')));
         break;
     case Enu::MDR:
-        Sim::MDR = value;
+        Sim::regBank[27] = (value & 65280) / 256;
+        Sim::regBank[28] = (value & 255);
         cpuPaneItems->MDRLabel->setText(QString("0x%1").arg(value, 2, 16, QLatin1Char('0')));
         break;
     default:
+        // the remainder of the array is 'read only' in our simulated CPU
         break;
     }
 }
+
+void CpuPane::setRegisterByte(int reg, quint8 value) {
+    QLatin1Char ch = QLatin1Char('0');
+    switch (reg) {
+    case 0:
+        Sim::regBank[0] = value;
+        cpuPaneItems->aRegLineEdit->setText(QString("0x%1").arg(value * 256 + Sim::regBank[1], 4, 16, ch));
+        break;
+    case 1:
+        Sim::regBank[1] = value;
+        cpuPaneItems->xRegLineEdit->setText(QString("0x%1").arg(Sim::regBank[0] * 256 + value, 4, 16, ch));
+        break;
+    case 2:
+        Sim::regBank[2] = value;
+        cpuPaneItems->spRegLineEdit->setText(QString("0x%1").arg(value * 256 + Sim::regBank[3], 4, 16, ch));
+        break;
+    case 3:
+        Sim::regBank[3] = value;
+        cpuPaneItems->pcRegLineEdit->setText(QString("0x%1").arg(Sim::regBank[2] * 256 + value, 4, 16, ch));
+        break;
+    case 4:
+        Sim::regBank[4] = value;
+        cpuPaneItems->irRegLineEdit->setText(QString("0x%1").arg(value * 256 + Sim::regBank[3], 6, 16, ch));
+        break;
+    case 5:
+        Sim::regBank[5] = value;
+        cpuPaneItems->t1RegLineEdit->setText(QString("0x%1").arg(Sim::regBank[4] * 256 + value, 2, 16, ch));
+        break;
+    case 6:
+        Sim::regBank[6] = value;
+        cpuPaneItems->t2RegLineEdit->setText(QString("0x%1").arg(value * 256 + Sim::regBank[3], 4, 16, ch));
+        break;
+    case 7:
+        Sim::regBank[7] = value;
+        cpuPaneItems->t3RegLineEdit->setText(QString("0x%1").arg(Sim::regBank[6] * 256 + value, 4, 16, ch));
+        break;
+    case 8:
+        Sim::regBank[8] = value;
+        cpuPaneItems->t4RegLineEdit->setText(QString("0x%1").arg(value * 65536 + Sim::regBank[9] + Sim::regBank[10], 4, 16, ch));
+        break;
+    case 9:
+        Sim::regBank[9] = value;
+        cpuPaneItems->t5RegLineEdit->setText(QString("0x%1").arg(Sim::regBank[8] * 65536 + value * 256 + Sim::regBank[10], 4, 16, ch));
+        break;
+    case 10:
+        Sim::regBank[10] = value;
+        cpuPaneItems->t6RegLineEdit->setText(QString("0x%1").arg(Sim::regBank[8] * 65536 + Sim::regBank[9] * 256 + value, 4, 16, ch));
+        break;
+    case 11:
+        Sim::regBank[11] = value;
+        cpuPaneItems->t1RegLineEdit->setText(QString("0x%1").arg(value, 2, 16, ch));
+        break;
+    case 12:
+        Sim::regBank[12] = value;
+        cpuPaneItems->t2RegLineEdit->setText(QString("0x%1").arg(value * 256 + Sim::regBank[13], 4, 16, ch));
+        break;
+    case 13:
+        Sim::regBank[13] = value;
+        cpuPaneItems->t3RegLineEdit->setText(QString("0x%1").arg(Sim::regBank[12] * 256 + value, 4, 16, ch));
+        break;
+    case 14:
+        Sim::regBank[14] = value;
+        cpuPaneItems->t4RegLineEdit->setText(QString("0x%1").arg(value * 256 + Sim::regBank[15], 4, 16, ch));
+        break;
+    case 15:
+        Sim::regBank[15] = value;
+        cpuPaneItems->t5RegLineEdit->setText(QString("0x%1").arg(Sim::regBank[6] * 256 + value, 4, 16, ch));
+        break;
+    case 16:
+        Sim::regBank[16] = value;
+        cpuPaneItems->t6RegLineEdit->setText(QString("0x%1").arg(value * 256 + Sim::regBank[17], 4, 16, ch));
+        break;
+    case 17:
+        Sim::regBank[17] = value;
+        cpuPaneItems->t2RegLineEdit->setText(QString("0x%1").arg(Sim::regBank[6] * 256 + value, 4, 16, ch));
+        break;
+    case 18:
+        Sim::regBank[18] = value;
+        cpuPaneItems->t3RegLineEdit->setText(QString("0x%1").arg(value * 256 + Sim::regBank[19], 4, 16, ch));
+        break;
+    case 19:
+        Sim::regBank[19] = value;
+        cpuPaneItems->t4RegLineEdit->setText(QString("0x%1").arg(Sim::regBank[6] * 256 + value, 4, 16, ch));
+        break;
+    case 20:
+        Sim::regBank[20] = value;
+        cpuPaneItems->t5RegLineEdit->setText(QString("0x%1").arg(value * 256 + Sim::regBank[21], 4, 16, ch));
+        break;
+    case 21:
+        Sim::regBank[21] = value;
+        cpuPaneItems->t6RegLineEdit->setText(QString("0x%1").arg(Sim::regBank[6] * 256 + value, 4, 16, ch));
+        break;
+    default:
+        // the remainder of the array is 'read only' in our simulated CPU, or outside the bounds
+        break;
+    }
+}
+
 
 void CpuPane::setStatusBit(Enu::EMnemonic bit, bool value)
 {
@@ -250,27 +359,27 @@ bool CpuPane::testRegPostcondition(Enu::EMnemonic reg, int value) {
     (void)value;
     switch (reg) {
     case Enu::A:
-        return Sim::aReg == value;
+        return Sim::regBank[0] * 256 + Sim::regBank[1] == value;
     case Enu::X:
-        return Sim::xReg == value;
+        return Sim::regBank[2] * 256 + Sim::regBank[3] == value;
     case Enu::SP:
-        return Sim::spReg == value;
+        return Sim::regBank[4] * 256 + Sim::regBank[5] == value;
     case Enu::PC:
-        return Sim::pcReg == value;
+        return Sim::regBank[6] * 256 + Sim::regBank[7] == value;
     case Enu::IR:
-        return Sim::irReg == value;
+        return Sim::regBank[8] * 256 + Sim::regBank[9] == value;
     case Enu::T1:
-        return Sim::t1Reg == value;
+        return Sim::regBank[10] * 256 + Sim::regBank[11] == value;
     case Enu::T2:
-        return Sim::t2Reg == value;
+        return Sim::regBank[12] * 256 + Sim::regBank[13] == value;
     case Enu::T3:
-        return Sim::t3Reg == value;
+        return Sim::regBank[14] * 256 + Sim::regBank[15] == value;
     case Enu::T4:
-        return Sim::t4Reg == value;
+        return Sim::regBank[16] * 256 + Sim::regBank[17] == value;
     case Enu::T5:
-        return Sim::t5Reg == value;
+        return Sim::regBank[18] * 256 + Sim::regBank[19] == value;
     case Enu::T6:
-        return Sim::t6Reg == value;
+        return Sim::regBank[20] * 256 + Sim::regBank[21] == value;
     case Enu::MARA:
         return Sim::MARA == value;
     case Enu::MARB:
@@ -392,37 +501,59 @@ void CpuPane::regTextEdited(QString str)
     }
 
     if (lineEdit == cpuPaneItems->aRegLineEdit) {
-        Sim::aReg = regValue;
+//        Sim::aReg = regValue;
+        Sim::regBank[0] = (regValue & 0xFF00) / 256;
+        Sim::regBank[1] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->xRegLineEdit) {
-        Sim::xReg = regValue;
+//        Sim::xReg = regValue;
+        Sim::regBank[2] = (regValue & 0xFF00) / 256;
+        Sim::regBank[3] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->spRegLineEdit) {
-        Sim::spReg = regValue;
+//        Sim::spReg = regValue;
+        Sim::regBank[4] = (regValue & 0xFF00) / 256;
+        Sim::regBank[5] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->pcRegLineEdit) {
-        Sim::pcReg = regValue;
+//        Sim::pcReg = regValue;
+        Sim::regBank[6] = (regValue & 0xFF00) / 256;
+        Sim::regBank[7] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->irRegLineEdit) {
-        Sim::irReg = regValue;
+//        Sim::irReg = regValue;
+        Sim::regBank[8] = (regValue & 0xFF00) / 256;
+        Sim::regBank[9] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t1RegLineEdit) {
-        Sim::t1Reg = regValue;
+//        Sim::t1Reg = regValue;
+        Sim::regBank[10] = (regValue & 0xFF00) / 256;
+        Sim::regBank[11] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t2RegLineEdit) {
-        Sim::t2Reg = regValue;
+//        Sim::t2Reg = regValue;
+        Sim::regBank[12] = (regValue & 0xFF00) / 256;
+        Sim::regBank[13] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t3RegLineEdit) {
-        Sim::t3Reg = regValue;
+//        Sim::t3Reg = regValue;
+        Sim::regBank[14] = (regValue & 0xFF00) / 256;
+        Sim::regBank[15] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t4RegLineEdit) {
-        Sim::t4Reg = regValue;
+//        Sim::t4Reg = regValue;
+        Sim::regBank[16] = (regValue & 0xFF00) / 256;
+        Sim::regBank[17] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t5RegLineEdit) {
-        Sim::t5Reg = regValue;
+//        Sim::t5Reg = regValue;
+        Sim::regBank[18] = (regValue & 0xFF00) / 256;
+        Sim::regBank[19] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t6RegLineEdit) {
-        Sim::t6Reg = regValue;
+//        Sim::t6Reg = regValue;
+        Sim::regBank[20] = (regValue & 0xFF00) / 256;
+        Sim::regBank[21] = regValue & 0xFF;
     }
 }
 
@@ -447,7 +578,7 @@ void CpuPane::labelClicked()
 
 void CpuPane::clockButtonPushed()
 {
-#warning "a TON of this is duplicated from the singleStepButtonPushed() function - should factor out
+#warning "a TON of this is duplicated from the singleStepButtonPushed() function - should factor out"
     Sim::codeList.clear();
 //    singleStepButtonPushed();
 
@@ -478,8 +609,10 @@ void CpuPane::clockButtonPushed()
 
     if (cpuPaneItems->MARCk->isChecked()) {
         if (cpuPaneItems->aLineEdit->text() != "" && cpuPaneItems->bLineEdit->text() != "") {
-            setRegister(Enu::MARA, Sim::readRegByte(cpuPaneItems->aLineEdit->text().toInt()));
-            setRegister(Enu::MARB, Sim::readRegByte(cpuPaneItems->bLineEdit->text().toInt()));
+//            setRegister(Enu::MARA, Sim::readRegByte(cpuPaneItems->aLineEdit->text().toInt()));
+//            setRegister(Enu::MARB, Sim::readRegByte(cpuPaneItems->bLineEdit->text().toInt()));
+            setRegister(Enu::MARA, Sim::regBank.at(cpuPaneItems->aLineEdit->text().toInt()));
+            setRegister(Enu::MARB, Sim::regBank.at(cpuPaneItems->bLineEdit->text().toInt()));
         }
         else {
             // error: MARCk is checked but we have incorrect input
@@ -489,156 +622,10 @@ void CpuPane::clockButtonPushed()
     // LoadCk
     if (cpuPaneItems->loadCk->isChecked() && cpuPaneItems->cLineEdit->text() != "") {
         int cDest = cpuPaneItems->cLineEdit->text().toInt();
-        if (cpuPaneItems->cMuxTristateLabel->text() == "0") {
-            int nzvc = (Sim::nBit ? 8 : 0) + (Sim::zBit ? 4 : 0) + (Sim::vBit ? 2 : 0) + (Sim::cBit ? 1 : 0);
-            switch(cDest) {
-            case 0:
-                setRegister(Enu::A, (Sim::aReg & 0x00FF) | nzvc * 256);
-                break;
-            case 1:
-                setRegister(Enu::A, (Sim::aReg & 0xFF00) | nzvc);
-                break;
-            case 2:
-                setRegister(Enu::X, (Sim::xReg & 0x00FF) | nzvc * 256);
-                break;
-            case 3:
-                setRegister(Enu::X, (Sim::xReg & 0xFF00) | nzvc);
-                break;
-            case 4:
-                setRegister(Enu::SP, (Sim::spReg & 0x00FF) | nzvc * 256);
-                break;
-            case 5:
-                setRegister(Enu::SP, (Sim::spReg & 0xFF00) | nzvc);
-                break;
-            case 6:
-                setRegister(Enu::PC, (Sim::pcReg & 0x00FF) | nzvc * 256);
-                break;
-            case 7:
-                setRegister(Enu::PC, (Sim::pcReg & 0xFF00) | nzvc);
-                break;
-            case 8:
-                setRegister(Enu::IR, (Sim::irReg & 0x00FFFF) | nzvc * 65536);
-                break;
-            case 9:
-                setRegister(Enu::IR, (Sim::irReg & 0xFF00FF) | nzvc * 256);
-                break;
-            case 10:
-                setRegister(Enu::IR, (Sim::irReg & 0xFFFF00) | nzvc);
-                break;
-            case 11:
-                setRegister(Enu::T1, nzvc);
-                break;
-            case 12:
-                setRegister(Enu::T2, (Sim::t2Reg & 0x00FF) | nzvc * 256);
-                break;
-            case 13:
-                setRegister(Enu::T2, (Sim::t2Reg & 0xFF00) | nzvc);
-                break;
-            case 14:
-                setRegister(Enu::T3, (Sim::t3Reg & 0x00FF) | nzvc * 256);
-                break;
-            case 15:
-                setRegister(Enu::T3, (Sim::t3Reg & 0xFF00) | nzvc);
-                break;
-            case 16:
-                setRegister(Enu::T4, (Sim::t4Reg & 0x00FF) | nzvc * 256);
-                break;
-            case 17:
-                setRegister(Enu::T4, (Sim::t4Reg & 0xFF00) | nzvc);
-                break;
-            case 18:
-                setRegister(Enu::T5, (Sim::t5Reg & 0x00FF) | nzvc * 256);
-                break;
-            case 19:
-                setRegister(Enu::T5, (Sim::t5Reg & 0xFF00) | nzvc);
-                break;
-            case 20:
-                setRegister(Enu::T6, (Sim::t6Reg & 0x00FF) | nzvc * 256);
-                break;
-            case 21:
-                setRegister(Enu::T6, (Sim::t6Reg & 0xFF00) | nzvc);
-            default:
-                break;
-            }
-        }
-        else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
-            int aluOut = getALUOutput(); // ALSO sets status bits if the clocks are checked
+        quint8 out = 0;
+        QString errorString = "";
+        if (getCMuxOut(out, errorString)) {
 
-            if (aluOut != -1) {
-                switch(cDest) {
-                case 0:
-                    setRegister(Enu::A, (Sim::aReg & 0x00FF) | aluOut * 256); // or | aluOut << 8, need to check syntax
-                    break;
-                case 1:
-                    setRegister(Enu::A, (Sim::aReg & 0xFF00) | aluOut);
-                    break;
-                case 2:
-                    setRegister(Enu::X, (Sim::xReg & 0x00FF) | aluOut * 256);
-                    break;
-                case 3:
-                    setRegister(Enu::X, (Sim::xReg & 0xFF00) | aluOut);
-                    break;
-                case 4:
-                    setRegister(Enu::SP, (Sim::spReg & 0x00FF) | aluOut * 256);
-                    break;
-                case 5:
-                    setRegister(Enu::SP, (Sim::spReg & 0xFF00) | aluOut);
-                    break;
-                case 6:
-                    setRegister(Enu::PC, (Sim::pcReg & 0x00FF) | aluOut * 256);
-                    break;
-                case 7:
-                    setRegister(Enu::PC, (Sim::pcReg & 0xFF00) | aluOut);
-                    break;
-                case 8:
-                    setRegister(Enu::IR, (Sim::irReg & 0x00FFFF) | aluOut * 65536);
-                    break;
-                case 9:
-                    setRegister(Enu::IR, (Sim::irReg & 0xFF00FF) | aluOut * 256);
-                    break;
-                case 10:
-                    setRegister(Enu::IR, (Sim::irReg & 0xFFFF00) | aluOut);
-                    break;
-                case 11:
-                    setRegister(Enu::T1, aluOut);
-                    break;
-                case 12:
-                    setRegister(Enu::T2, (Sim::t2Reg & 0x00FF) | aluOut * 256);
-                    break;
-                case 13:
-                    setRegister(Enu::T2, (Sim::t2Reg & 0xFF00) | aluOut);
-                    break;
-                case 14:
-                    setRegister(Enu::T3, (Sim::t3Reg & 0x00FF) | aluOut * 256);
-                    break;
-                case 15:
-                    setRegister(Enu::T3, (Sim::t3Reg & 0xFF00) | aluOut);
-                    break;
-                case 16:
-                    setRegister(Enu::T4, (Sim::t4Reg & 0x00FF) | aluOut * 256);
-                    break;
-                case 17:
-                    setRegister(Enu::T4, (Sim::t4Reg & 0xFF00) | aluOut);
-                    break;
-                case 18:
-                    setRegister(Enu::T5, (Sim::t5Reg & 0x00FF) | aluOut * 256);
-                    break;
-                case 19:
-                    setRegister(Enu::T5, (Sim::t5Reg & 0xFF00) | aluOut);
-                    break;
-                case 20:
-                    setRegister(Enu::T6, (Sim::t6Reg & 0x00FF) | aluOut * 256);
-                    break;
-                case 21:
-                    setRegister(Enu::T6, (Sim::t6Reg & 0xFF00) | aluOut);
-                    break;
-                default:
-                    break;
-                }
-            }
-        }
-        else {
-            // error: CMux isn't set but we're trying to loadCk
         }
     }
 
@@ -658,10 +645,11 @@ void CpuPane::clockButtonPushed()
                 setRegister(Enu::MDR, nzvc);
             }
             else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
-                int aluOut = getALUOutput();
+                quint8 out;
+                QString errorString;
 
-                if (aluOut != -1) {
-                    setRegister(Enu::MDR, aluOut);
+                if (getALUOut(out, errorString)) {
+                    setRegister(Enu::MDR, out);
                 }
             }
         }
@@ -672,7 +660,7 @@ void CpuPane::clockButtonPushed()
 
     if (cpuPaneItems->ALULineEdit->text() == "15") { // NZVC A alu function
         if (cpuPaneItems->aMuxTristateLabel->text() == "0" || (cpuPaneItems->aMuxTristateLabel->text() == "1" && cpuPaneItems->aLineEdit->text() != "")) {
-            getALUOutput();
+//            getALUOut();
         }
     }
 
@@ -712,8 +700,8 @@ void CpuPane::singleStepButtonPushed()
     // MARCk
     if (cpuPaneItems->MARCk->isChecked()) {
         if (cpuPaneItems->aLineEdit->text() != "" && cpuPaneItems->bLineEdit->text() != "") {
-            setRegister(Enu::MARA, Sim::readRegByte(cpuPaneItems->aLineEdit->text().toInt()));
-            setRegister(Enu::MARB, Sim::readRegByte(cpuPaneItems->bLineEdit->text().toInt()));
+            setRegister(Enu::MARA, Sim::regBank[cpuPaneItems->aLineEdit->text().toInt()]);
+            setRegister(Enu::MARB, Sim::regBank[cpuPaneItems->bLineEdit->text().toInt()]);
         }
         else {
             // error: MARCk is checked but we have incorrect input
@@ -723,156 +711,10 @@ void CpuPane::singleStepButtonPushed()
     // LoadCk
     if (cpuPaneItems->loadCk->isChecked() && cpuPaneItems->cLineEdit->text() != "") {
         int cDest = cpuPaneItems->cLineEdit->text().toInt();
-        if (cpuPaneItems->cMuxTristateLabel->text() == "0") {
-            int nzvc = (Sim::nBit ? 8 : 0) + (Sim::zBit ? 4 : 0) + (Sim::vBit ? 2 : 0) + (Sim::cBit ? 1 : 0);
-            switch(cDest) {
-            case 0:
-                setRegister(Enu::A, (Sim::aReg & 0x00FF) | nzvc * 256);
-                break;
-            case 1:
-                setRegister(Enu::A, (Sim::aReg & 0xFF00) | nzvc);
-                break;
-            case 2:
-                setRegister(Enu::X, (Sim::xReg & 0x00FF) | nzvc * 256);
-                break;
-            case 3:
-                setRegister(Enu::X, (Sim::xReg & 0xFF00) | nzvc);
-                break;
-            case 4:
-                setRegister(Enu::SP, (Sim::spReg & 0x00FF) | nzvc * 256);
-                break;
-            case 5:
-                setRegister(Enu::SP, (Sim::spReg & 0xFF00) | nzvc);
-                break;
-            case 6:
-                setRegister(Enu::PC, (Sim::pcReg & 0x00FF) | nzvc * 256);
-                break;
-            case 7:
-                setRegister(Enu::PC, (Sim::pcReg & 0xFF00) | nzvc);
-                break;
-            case 8:
-                setRegister(Enu::IR, (Sim::irReg & 0x00FFFF) | nzvc * 65536);
-                break;
-            case 9:
-                setRegister(Enu::IR, (Sim::irReg & 0xFF00FF) | nzvc * 256);
-                break;
-            case 10:
-                setRegister(Enu::IR, (Sim::irReg & 0xFFFF00) | nzvc);
-                break;
-            case 11:
-                setRegister(Enu::T1, nzvc);
-                break;
-            case 12:
-                setRegister(Enu::T2, (Sim::t2Reg & 0x00FF) | nzvc * 256);
-                break;
-            case 13:
-                setRegister(Enu::T2, (Sim::t2Reg & 0xFF00) | nzvc);
-                break;
-            case 14:
-                setRegister(Enu::T3, (Sim::t3Reg & 0x00FF) | nzvc * 256);
-                break;
-            case 15:
-                setRegister(Enu::T3, (Sim::t3Reg & 0xFF00) | nzvc);
-                break;
-            case 16:
-                setRegister(Enu::T4, (Sim::t4Reg & 0x00FF) | nzvc * 256);
-                break;
-            case 17:
-                setRegister(Enu::T4, (Sim::t4Reg & 0xFF00) | nzvc);
-                break;
-            case 18:
-                setRegister(Enu::T5, (Sim::t5Reg & 0x00FF) | nzvc * 256);
-                break;
-            case 19:
-                setRegister(Enu::T5, (Sim::t5Reg & 0xFF00) | nzvc);
-                break;
-            case 20:
-                setRegister(Enu::T6, (Sim::t6Reg & 0x00FF) | nzvc * 256);
-                break;
-            case 21:
-                setRegister(Enu::T6, (Sim::t6Reg & 0xFF00) | nzvc);
-            default:
-                break;
-            }
-        }
-        else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
-            int aluOut = getALUOutput(); // ALSO sets status bits if the clocks are checked
+        quint8 out;
+        QString errorString;
+        if (getCMuxOut(out, errorString)) {
 
-            if (aluOut != -1) {
-                switch(cDest) {
-                case 0:
-                    setRegister(Enu::A, (Sim::aReg & 0x00FF) | aluOut * 256); // or | aluOut << 8, need to check syntax
-                    break;
-                case 1:
-                    setRegister(Enu::A, (Sim::aReg & 0xFF00) | aluOut);
-                    break;
-                case 2:
-                    setRegister(Enu::X, (Sim::xReg & 0x00FF) | aluOut * 256);
-                    break;
-                case 3:
-                    setRegister(Enu::X, (Sim::xReg & 0xFF00) | aluOut);
-                    break;
-                case 4:
-                    setRegister(Enu::SP, (Sim::spReg & 0x00FF) | aluOut * 256);
-                    break;
-                case 5:
-                    setRegister(Enu::SP, (Sim::spReg & 0xFF00) | aluOut);
-                    break;
-                case 6:
-                    setRegister(Enu::PC, (Sim::pcReg & 0x00FF) | aluOut * 256);
-                    break;
-                case 7:
-                    setRegister(Enu::PC, (Sim::pcReg & 0xFF00) | aluOut);
-                    break;
-                case 8:
-                    setRegister(Enu::IR, (Sim::irReg & 0x00FFFF) | aluOut * 65536);
-                    break;
-                case 9:
-                    setRegister(Enu::IR, (Sim::irReg & 0xFF00FF) | aluOut * 256);
-                    break;
-                case 10:
-                    setRegister(Enu::IR, (Sim::irReg & 0xFFFF00) | aluOut);
-                    break;
-                case 11:
-                    setRegister(Enu::T1, aluOut);
-                    break;
-                case 12:
-                    setRegister(Enu::T2, (Sim::t2Reg & 0x00FF) | aluOut * 256);
-                    break;
-                case 13:
-                    setRegister(Enu::T2, (Sim::t2Reg & 0xFF00) | aluOut);
-                    break;
-                case 14:
-                    setRegister(Enu::T3, (Sim::t3Reg & 0x00FF) | aluOut * 256);
-                    break;
-                case 15:
-                    setRegister(Enu::T3, (Sim::t3Reg & 0xFF00) | aluOut);
-                    break;
-                case 16:
-                    setRegister(Enu::T4, (Sim::t4Reg & 0x00FF) | aluOut * 256);
-                    break;
-                case 17:
-                    setRegister(Enu::T4, (Sim::t4Reg & 0xFF00) | aluOut);
-                    break;
-                case 18:
-                    setRegister(Enu::T5, (Sim::t5Reg & 0x00FF) | aluOut * 256);
-                    break;
-                case 19:
-                    setRegister(Enu::T5, (Sim::t5Reg & 0xFF00) | aluOut);
-                    break;
-                case 20:
-                    setRegister(Enu::T6, (Sim::t6Reg & 0x00FF) | aluOut * 256);
-                    break;
-                case 21:
-                    setRegister(Enu::T6, (Sim::t6Reg & 0xFF00) | aluOut);
-                    break;
-                default:
-                    break;
-                }
-            }
-        }
-        else {
-            // error: CMux isn't set but we're trying to loadCk
         }
     }
 
@@ -892,10 +734,11 @@ void CpuPane::singleStepButtonPushed()
                 setRegister(Enu::MDR, nzvc);
             }
             else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
-                int aluOut = getALUOutput();
+                quint8 out = 0;
+                QString errorString = "";
 
-                if (aluOut != -1) {
-                    setRegister(Enu::MDR, aluOut);
+                if (getALUOut(out, errorString)) {
+                    setRegister(Enu::MDR, out);
                 }
             }
         }
@@ -906,7 +749,7 @@ void CpuPane::singleStepButtonPushed()
 
     if (cpuPaneItems->ALULineEdit->text() == "15") { // NZVC A alu function
         if (cpuPaneItems->aMuxTristateLabel->text() == "0" || (cpuPaneItems->aMuxTristateLabel->text() == "1" && cpuPaneItems->aLineEdit->text() != "")) {
-            getALUOutput();
+//            getALUOut();
         }
     }
 
@@ -1134,160 +977,7 @@ void CpuPane::setMainBusState()
     }
 }
 
-int CpuPane::getALUOutput()
-{
-    int a = -1;
-    int b = -1;
-    if (cpuPaneItems->aMuxTristateLabel->text() == "0") {
-        a = Sim::MDR;
-    }
-    else if (cpuPaneItems->aMuxTristateLabel->text() == "1" && cpuPaneItems->aLineEdit->text() != "") {
-        a = Sim::readRegByte(cpuPaneItems->aLineEdit->text().toInt());
-    }
 
-    if (cpuPaneItems->bLineEdit->text() != "") {
-        b = Sim::readRegByte(cpuPaneItems->bLineEdit->text().toInt());
-    }
-
-    int ALUFn;
-    bool ok;
-    ALUFn = cpuPaneItems->ALULineEdit->text().toInt(&ok);
-
-    if (!ok) {
-        qDebug() << "no ALU input";
-        return -1;
-    }
-
-    int c;
-    int carry;
-
-    switch(ALUFn) {
-    case 0: // A
-        if (a != -1) {
-            c = a;
-            aluSetStatusBits(a, 0, a, 0, Enu::NMask|Enu::ZMask);
-            return c;
-        }
-        break;
-    case 1: // A plus B
-        if (a != -1 && b != -1) {
-            c = a + b;
-            carry = ((c & 0x1ff) >> 8 ) & 0x1 == 1;
-            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
-            return c;
-        }
-        break;
-    case 2: // A plus B plus Cin
-        if (a != -1 && b != -1) {
-            c = a + b + Sim::cBit ? 1 : 0;
-            carry = ((c & 0x1ff) >> 8) & 0x1;
-            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
-            return c;
-        }
-        break;
-    case 3: // A plus ~B plus 1
-        if (a != -1 && b != -1) {
-            int busVal = (a & 0xff) + (~b & 0xff) + 1;
-            c = busVal & 0xff;
-            carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
-            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
-            return c;
-        }
-        break;
-    case 4: // A plus ~B plus Cin
-        if (a != -1 && b != -1) {
-            int busVal = (a & 0xff) + (~b & 0xff) + Sim::cBit ? 1 : 0;
-            c = busVal & 0xff;
-            carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
-            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
-            return c;
-        }
-        break;
-    case 5: // A and B
-        if (a != -1 && b != -1) {
-            c = a & b;
-            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
-            return c;
-        }
-        break;
-    case 6: // ~(A and B)
-        if (a != -1 && b != -1) {
-            c = ~(a & b) & 0xff;
-            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
-            return c;
-        }
-        break;
-    case 7: // A + B
-        if (a != -1 && b != -1) {
-            c = a | b;
-            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
-            return c;
-        }
-        break;
-    case 8: // ~(A + B)
-        if (a != -1 && b != -1) {
-            c = ~(a | b);
-            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
-            return c;
-        }
-        break;
-    case 9: // A xor B
-        if (a != -1 && b != -1) {
-            c = (a ^ b) & 0xff; // or ((a & ~b) | (~a & b)) & 0xff
-            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
-            return c;
-        }
-        break;
-    case 10: // ~A
-        if (a != -1) {
-            c = ~a;
-            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, Enu::eUNARY);
-            return c;
-        }
-        break;
-    case 11: // ASL A
-        if (a != -1) {
-            c = (a << 1) & 254; // 254 because 0 gets shifted in
-            aluSetStatusBits(a, b, c, (a & 128) / 128, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
-            return c;
-        }
-        break;
-    case 12: // ROL A
-        if (a != -1) {
-            c = ((a << 1) & 254) + Sim::cBit ? 1 : 0;
-            aluSetStatusBits(a, b, c, (a & 128) / 128, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
-            return (a >> 1) + Sim::cBit;
-        }
-        break;
-    case 13: // ASR A
-        if (a != -1) {
-            c = ((a >> 1) & 127) | (a & 128);
-            aluSetStatusBits(a, b, c, a & 1, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
-            return c;
-        }
-        break;
-    case 14: // ROR A
-        if (a != -1) {
-            c = ((a >> 1) & 127) | (Sim::cBit * 128);
-            aluSetStatusBits(a, b, c, a & 1, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
-            return c;
-        }
-        break;
-    case 15: // NZVC A
-        if (a != -1) {
-            c = -1;
-            setStatusBit(Enu::N, (a & Enu::NMask) != 0);
-            setStatusBit(Enu::Z, (a & Enu::ZMask) != 0);
-            setStatusBit(Enu::V, (a & Enu::VMask) != 0);
-            setStatusBit(Enu::C, (a & Enu::CMask) != 0);
-            return c;
-        }
-        break;
-    default:
-        break;
-    }
-    return -1;
-}
 
 void CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, int unary)
 {
@@ -1353,4 +1043,231 @@ void CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, int 
         setStatusBit(Enu::V, Sim::vBit);
     }
 
+}
+
+bool CpuPane::getALUOut(quint8 &out, QString &errorString)
+{
+    quint8 a = -1;
+    quint8 b = -1;
+
+    int ALUFn;
+    bool ok;
+    ALUFn = cpuPaneItems->ALULineEdit->text().toInt(&ok);
+
+    if (!ok) {
+        qDebug() << "no ALU input";
+        errorString.append("No ALU input\n");
+        return false;
+    }
+
+    int c;
+    int carry;
+
+    switch(ALUFn) {
+    case 0: // A
+        if (getAMuxOut(a, errorString)) {
+            c = a;
+            aluSetStatusBits(a, 0, a, 0, Enu::NMask|Enu::ZMask);
+            out = c;
+            return true;
+        }
+        break;
+    case 1: // A plus B
+        if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
+            c = a + b;
+            carry = ((c & 0x1ff) >> 8 ) & 0x1 == 1;
+            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
+            out = c;
+            return true;
+        }
+        break;
+    case 2: // A plus B plus Cin
+        if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
+            c = a + b + Sim::cBit ? 1 : 0;
+            carry = ((c & 0x1ff) >> 8) & 0x1;
+            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
+            out = c;
+            return true;
+        }
+        break;
+    case 3: // A plus ~B plus 1
+        if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
+            int busVal = (a & 0xff) + (~b & 0xff) + 1;
+            c = busVal & 0xff;
+            carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
+            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
+            out = c;
+            return true;
+        }
+        break;
+    case 4: // A plus ~B plus Cin
+        if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
+            int busVal = (a & 0xff) + (~b & 0xff) + Sim::cBit ? 1 : 0;
+            c = busVal & 0xff;
+            carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
+            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask);
+            out = c;
+            return true;
+        }
+        break;
+    case 5: // A and B
+        if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
+            c = a & b;
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
+            out = c;
+            return true;
+        }
+        break;
+    case 6: // ~(A and B)
+        if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
+            c = ~(a & b) & 0xff;
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
+            out = c;
+            return true;
+        }
+        break;
+    case 7: // A + B
+        if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
+            c = a | b;
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
+            out = c;
+            return true;
+        }
+        break;
+    case 8: // ~(A + B)
+        if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
+            c = ~(a | b);
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
+            out = c;
+            return true;
+        }
+        break;
+    case 9: // A xor B
+        if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
+            c = (a ^ b) & 0xff; // or ((a & ~b) | (~a & b)) & 0xff
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask);
+            out = c;
+            return true;
+        }
+        break;
+    case 10: // ~A
+        if (getAMuxOut(a, errorString)) {
+            c = ~a;
+            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, Enu::eUNARY);
+            out = c;
+            return true;
+        }
+        break;
+    case 11: // ASL A
+        if (getAMuxOut(a, errorString)) {
+            c = (a << 1) & 254; // 254 because 0 gets shifted in
+            aluSetStatusBits(a, b, c, (a & 128) / 128, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
+            out = c;
+            return true;
+        }
+        break;
+    case 12: // ROL A
+        if (getAMuxOut(a, errorString)) {
+            c = ((a << 1) & 254) + Sim::cBit ? 1 : 0;
+            aluSetStatusBits(a, b, c, (a & 128) / 128, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
+            out = (a >> 1) + Sim::cBit;
+            return true;
+        }
+        break;
+    case 13: // ASR A
+        if (getAMuxOut(a, errorString)) {
+            c = ((a >> 1) & 127) | (a & 128);
+            aluSetStatusBits(a, b, c, a & 1, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
+            out = c;
+            return true;
+        }
+        break;
+    case 14: // ROR A
+        if (getAMuxOut(a, errorString)) {
+            c = ((a >> 1) & 127) | (Sim::cBit * 128);
+            aluSetStatusBits(a, b, c, a & 1, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, Enu::eUNARY);
+            out = c;
+            return true;
+        }
+        break;
+    case 15: // NZVC A
+        if (getAMuxOut(a, errorString)) {
+            c = -1;
+            setStatusBit(Enu::N, (a & Enu::NMask) != 0);
+            setStatusBit(Enu::Z, (a & Enu::ZMask) != 0);
+            setStatusBit(Enu::V, (a & Enu::VMask) != 0);
+            setStatusBit(Enu::C, (a & Enu::CMask) != 0);
+#warning "is this right?"
+            out = c;
+            return true;
+        }
+        break;
+    default:
+        break;
+    }
+    return false;
+}
+
+bool CpuPane::getCMuxOut(quint8 &out, QString &errorString)
+{
+    if (cpuPaneItems->cMuxTristateLabel->text() == "0") {
+        int nzvc = (Sim::nBit ? 8 : 0) + (Sim::zBit ? 4 : 0) + (Sim::vBit ? 2 : 0) + (Sim::cBit ? 1 : 0);
+        out = nzvc * 256;
+        return true;
+    }
+    else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
+        return getALUOut(out, errorString);
+    }
+    return false;
+}
+
+bool CpuPane::getAMuxOut(quint8 &out, QString &errorString)
+{
+    if (cpuPaneItems->aMuxTristateLabel->text() == "0") {
+        out = Sim::MDR;
+        return true;
+    }
+    else if (cpuPaneItems->aMuxTristateLabel->text() == "1") {
+        out = getABusOut(out, errorString);
+        return true;
+    }
+    else {
+        errorString.append("Nothing on A bus\n");
+    }
+    return false;
+}
+
+bool CpuPane::getMDRMuxOut(quint8 &out, QString &errorString)
+{
+    if (cpuPaneItems->MDRMuxTristateLabel->text() == "0") {
+        // get mem out
+    }
+    else if (cpuPaneItems->MDRMuxTristateLabel->text() == "1") {
+        if (getCMuxOut(out, errorString)) { return true; }
+    }
+    return false;
+}
+
+bool CpuPane::getABusOut(quint8 &out, QString &errorString)
+{
+    if (cpuPaneItems->aLineEdit->text() != "") {
+        out = Sim::regBank[cpuPaneItems->aLineEdit->text().toInt()];
+        return true;
+    }
+    else {
+        errorString.append("Nothing in A line edit\n");
+    }
+    return false;
+}
+
+bool CpuPane::getBBusOut(quint8 &out, QString &errorString)
+{
+    if (cpuPaneItems->bLineEdit->text() != "") {
+        out = Sim::regBank[cpuPaneItems->bLineEdit->text().toInt()];
+        return true;
+    }
+    else {
+        errorString.append("Nothing in B line edit\n");
+    }
+    return false;
 }
