@@ -497,57 +497,57 @@ void CpuPane::regTextEdited(QString str)
     }
 
     if (lineEdit == cpuPaneItems->aRegLineEdit) {
-        //        Sim::aReg = regValue;
+        // Sim::aReg = regValue;
         Sim::regBank[0] = (regValue & 0xFF00) / 256;
         Sim::regBank[1] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->xRegLineEdit) {
-        //        Sim::xReg = regValue;
+        // Sim::xReg = regValue;
         Sim::regBank[2] = (regValue & 0xFF00) / 256;
         Sim::regBank[3] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->spRegLineEdit) {
-        //        Sim::spReg = regValue;
+        // Sim::spReg = regValue;
         Sim::regBank[4] = (regValue & 0xFF00) / 256;
         Sim::regBank[5] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->pcRegLineEdit) {
-        //        Sim::pcReg = regValue;
+        // Sim::pcReg = regValue;
         Sim::regBank[6] = (regValue & 0xFF00) / 256;
         Sim::regBank[7] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->irRegLineEdit) {
-        //        Sim::irReg = regValue;
+        // Sim::irReg = regValue;
         Sim::regBank[8] = (regValue & 0xFF00) / 256;
         Sim::regBank[9] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t1RegLineEdit) {
-        //        Sim::t1Reg = regValue;
+        // Sim::t1Reg = regValue;
         Sim::regBank[10] = (regValue & 0xFF00) / 256;
         Sim::regBank[11] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t2RegLineEdit) {
-        //        Sim::t2Reg = regValue;
+        // Sim::t2Reg = regValue;
         Sim::regBank[12] = (regValue & 0xFF00) / 256;
         Sim::regBank[13] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t3RegLineEdit) {
-        //        Sim::t3Reg = regValue;
+        // Sim::t3Reg = regValue;
         Sim::regBank[14] = (regValue & 0xFF00) / 256;
         Sim::regBank[15] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t4RegLineEdit) {
-        //        Sim::t4Reg = regValue;
+        // Sim::t4Reg = regValue;
         Sim::regBank[16] = (regValue & 0xFF00) / 256;
         Sim::regBank[17] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t5RegLineEdit) {
-        //        Sim::t5Reg = regValue;
+        //  Sim::t5Reg = regValue;
         Sim::regBank[18] = (regValue & 0xFF00) / 256;
         Sim::regBank[19] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t6RegLineEdit) {
-        //        Sim::t6Reg = regValue;
+        //  Sim::t6Reg = regValue;
         Sim::regBank[20] = (regValue & 0xFF00) / 256;
         Sim::regBank[21] = regValue & 0xFF;
     }
@@ -626,8 +626,15 @@ void CpuPane::singleStepButtonPushed()
     }
 
     if (cpuPaneItems->ALULineEdit->text() == "15") { // NZVC A alu function
-        if (cpuPaneItems->aMuxTristateLabel->text() == "0" || (cpuPaneItems->aMuxTristateLabel->text() == "1" && cpuPaneItems->aLineEdit->text() != "")) {
-            //            getALUOut();
+        // We need to do this because we have no guarantee that it'll get triggered by clocking something else.
+        // In fact, it most likely won't because the ALU output is zeros
+        quint8 out;
+        QString tmpErrStr;
+        if (getALUOut(out, tmpErrStr)) {
+            // do nothing - the work was done in the aluSetStatusBits() inside getALUOut
+        }
+        else {
+            // incorrect input to the ALU
         }
     }
 
@@ -859,11 +866,11 @@ bool CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool
 {
     if (cpuPaneItems->NCkCheckBox->isChecked()) {
         setStatusBit(Enu::N, bitMask & Enu::NMask && c > 127);
-        //        Sim::nBit = false;
-        //        if (bitMask & Enu::NMask && c > 127) {
-        //            Sim::nBit = true;
-        //        }
-        //        setStatusBit(Enu::N, Sim::nBit);
+        //  Sim::nBit = false;
+        //  if (bitMask & Enu::NMask && c > 127) {
+        //Sim::nBit = true;
+        //  }
+        //  setStatusBit(Enu::N, Sim::nBit);
     }
 
     if (cpuPaneItems->ZCkCheckBox->isChecked()) {
@@ -877,29 +884,29 @@ bool CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool
             errorString = "// ERROR: ZCk without ANDZ";
             return false;
         }
-        //        if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
-        //            Sim::zBit = false;
-        //            if (bitMask & Enu::ZMask && c == 0) {
-        //                Sim::zBit = true;
-        //            }
-        //            setStatusBit(Enu::Z, Sim::zBit);
-        //        } else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
-        //            if (bitMask & Enu::ZMask) {
-        //                Sim::zBit = c == 0 && Sim::zBit;
-        //            }
-        //            setStatusBit(Enu::Z, Sim::zBit);
-        //        }
-        //        else {
-        //            Sim::zBit = false;
-        //            setStatusBit(Enu::Z, Sim::zBit);
-        //        }
-
-        // previously:
-        //        Sim::nBit = false;
-        //        if (bitMask & Enu::NMask && c > 127) {
-        //            Sim::nBit = true;
-        //        }
-        //        setStatusBit(Enu::N, Sim::nBit);
+        //if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
+        //    Sim::zBit = false;
+        //    if (bitMask & Enu::ZMask && c == 0) {
+        //        Sim::zBit = true;
+        //    }
+        //    setStatusBit(Enu::Z, Sim::zBit);
+        //} else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
+        //    if (bitMask & Enu::ZMask) {
+        //        Sim::zBit = c == 0 && Sim::zBit;
+        //    }
+        //    setStatusBit(Enu::Z, Sim::zBit);
+        //}
+        //else {
+        //    Sim::zBit = false;
+        //    setStatusBit(Enu::Z, Sim::zBit);
+        //}
+        //
+        //previously:
+        //Sim::nBit = false;
+        //if (bitMask & Enu::NMask && c > 127) {
+        //    Sim::nBit = true;
+        //}
+        //setStatusBit(Enu::N, Sim::nBit);
     }
 
     if (cpuPaneItems->VCkCheckBox->isChecked()) {
@@ -1102,7 +1109,7 @@ bool CpuPane::getCMuxOut(quint8 &out, QString &errorString)
     if (cpuPaneItems->cMuxTristateLabel->text() == "0") {
         int nzvc = (Sim::nBit ? 8 : 0) + (Sim::zBit ? 4 : 0) + (Sim::vBit ? 2 : 0) + (Sim::cBit ? 1 : 0);
         out = nzvc * 256;
-        //                qDebug() << QString("0x%1").arg(nzvc, 4, 16, QLatin1Char('0'));
+        // qDebug() << QString("0x%1").arg(nzvc, 4, 16, QLatin1Char('0'));
         return true;
     }
     else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {

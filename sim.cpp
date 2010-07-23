@@ -6,7 +6,7 @@ using namespace Enu;
 QVector<quint8> Sim::Mem(65536);
 bool Sim::nBit, Sim::zBit, Sim::vBit, Sim::cBit;
 
-QVector<quint8> Sim::regBank;
+QVector<quint8> Sim::regBank(32);
 
 quint8 Sim::MARA = 0;
 quint8 Sim::MARB = 0;
