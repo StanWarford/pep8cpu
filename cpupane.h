@@ -65,7 +65,7 @@ private slots:
 
     //simulation helpers
     void setMainBusState();
-    void aluSetStatusBits(int a, int b, int c, int carry, int bitMask, int unary = 0);
+    bool aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool isUnary, QString &errorString);
 
     bool getALUOut(quint8& out, QString& errorString);
     bool getCMuxOut(quint8& out, QString& errorString);
