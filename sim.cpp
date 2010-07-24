@@ -81,7 +81,19 @@ bool Sim::atEndOfSim()
     return microCodeCurrentLine >= codeList.size() - 1;
 }
 
-
+void Sim::initMRegs()
+{
+    regBank[22] = 0x00;
+    regBank[23] = 0x01;
+    regBank[24] = 0x02;
+    regBank[25] = 0x03;
+    regBank[26] = 0x04;
+    regBank[27] = 0x08;
+    regBank[28] = 0xFA;
+    regBank[29] = 0xFC;
+    regBank[30] = 0xFE;
+    regBank[31] = 0xFF;
+}
 
 
 

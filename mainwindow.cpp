@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     resize(1164, 800);
 
+    // initialize the read-only registers to the correct values
+    Sim::initMRegs();
+
     mainMemory = new MainMemory(ui->mainSplitter);
     delete ui->memoryFrame;
     cpuPane = new CpuPane(ui->mainSplitter);

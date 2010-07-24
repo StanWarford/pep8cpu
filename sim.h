@@ -13,11 +13,6 @@ public:
     static bool nBit, zBit, vBit, cBit;
 
     static QVector<quint8> regBank;
-//    static const uint m1Reg = 0x0001;
-//    static const uint m2Reg = 0x0203;
-//    static const uint m3Reg = 0x0408;
-//    static const uint m4Reg = 0xFAFC;
-//    static const uint m5Reg = 0xFEFF;
 
     static quint8 MARA;
     static quint8 MARB;
@@ -49,7 +44,7 @@ public:
 
     static bool atEndOfSim();
 
-
+    static void initMRegs();
 
 };
 

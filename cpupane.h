@@ -37,6 +37,7 @@ public:
     bool testStatusPostcondition(Enu::EMnemonic bit, bool value);
 
     void clearCpu();
+    void clearCpuControlSignals();
 
 protected:
     void changeEvent(QEvent *e);
