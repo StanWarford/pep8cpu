@@ -916,29 +916,30 @@ bool CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool
         else {
             setStatusBit(Enu::V, (c > 127 && a < 128 && b < 128) || (c < 128 && a > 127 && b > 127));
         }
-//        Sim::vBit = false;
-//        if (bitMask & Enu::VMask) {
-//            if (isUnary) {
-//                if (((c > 127 && a < 128 && b < 128) || (c < 128 && a > 127 && b > 127))) {
-//                    Sim::vBit = true;
-//                }
-//            }
-//            else {
-//                if (((c > 127 && a < 128) || (c < 128 && a > 127)))
-//                    Sim::vBit = true;
-//            }
-//            setStatusBit(Enu::V, Sim::vBit);
-//        }
+        //        Sim::vBit = false;
+        //        if (bitMask & Enu::VMask) {
+        //            if (isUnary) {
+        //                if (((c > 127 && a < 128 && b < 128) || (c < 128 && a > 127 && b > 127))) {
+        //                    Sim::vBit = true;
+        //                }
+        //            }
+        //            else {
+        //                if (((c > 127 && a < 128) || (c < 128 && a > 127)))
+        //                    Sim::vBit = true;
+        //            }
+        //            setStatusBit(Enu::V, Sim::vBit);
+        //        }
     }
 
     if (cpuPaneItems->CCkCheckBox->isChecked()) {
         setStatusBit(Enu::C, bitMask & Enu::CMask && carry & 0x1);
-//        Sim::cBit = false;
-//        if (bitMask & Enu::CMask && carry & 0x1) {
-//            Sim::cBit = true;
-//        }
-//        setStatusBit(Enu::C, Sim::cBit);
+        //        Sim::cBit = false;
+        //        if (bitMask & Enu::CMask && carry & 0x1) {
+        //            Sim::cBit = true;
+        //        }
+        //        setStatusBit(Enu::C, Sim::cBit);
     }
+    return true;
 }
 
 bool CpuPane::getALUOut(quint8 &out, QString &errorString)
@@ -963,27 +964,30 @@ bool CpuPane::getALUOut(quint8 &out, QString &errorString)
     case 0: // A
         if (getAMuxOut(a, errorString)) {
             c = a;
-            aluSetStatusBits(a, 0, a, 0, Enu::NMask|Enu::ZMask, false, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, 0, a, 0, Enu::NMask|Enu::ZMask, false, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 1: // A plus B
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             c = a + b;
             carry = (((c & 0x1ff) >> 8 ) & 0x1) == 1;
-            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, false, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, false, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 2: // A plus B plus Cin
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             c = a + b + Sim::cBit ? 1 : 0;
             carry = ((c & 0x1ff) >> 8) & 0x1;
-            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, false, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, false, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 3: // A plus ~B plus 1
@@ -991,9 +995,10 @@ bool CpuPane::getALUOut(quint8 &out, QString &errorString)
             int busVal = (a & 0xff) + (~b & 0xff) + 1;
             c = busVal & 0xff;
             carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
-            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, false, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, false, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 4: // A plus ~B plus Cin
@@ -1001,9 +1006,10 @@ bool CpuPane::getALUOut(quint8 &out, QString &errorString)
             int busVal = (a & 0xff) + (~b & 0xff) + Sim::cBit ? 1 : 0;
             c = busVal & 0xff;
             carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
-            aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, false, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, carry, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, false, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 5: // A and B
@@ -1017,73 +1023,82 @@ bool CpuPane::getALUOut(quint8 &out, QString &errorString)
     case 6: // ~(A and B)
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             c = ~(a & b) & 0xff;
-            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, false, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, false, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 7: // A + B
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             c = a | b;
-            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, false, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, false, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 8: // ~(A + B)
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             c = ~(a | b);
-            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, false, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, false, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 9: // A xor B
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             c = (a ^ b) & 0xff; // or ((a & ~b) | (~a & b)) & 0xff
-            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, false, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, false, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 10: // ~A
         if (getAMuxOut(a, errorString)) {
             c = ~a;
-            aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, true, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, 0, Enu::NMask|Enu::ZMask, true, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 11: // ASL A
         if (getAMuxOut(a, errorString)) {
             c = (a << 1) & 254; // 254 because 0 gets shifted in
-            aluSetStatusBits(a, b, c, (a & 128) / 128, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, true, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, (a & 128) / 128, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, true, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 12: // ROL A
         if (getAMuxOut(a, errorString)) {
             c = ((a << 1) & 254) + Sim::cBit ? 1 : 0;
-            aluSetStatusBits(a, b, c, (a & 128) / 128, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, true, errorString);
-            out = (a >> 1) + Sim::cBit;
-            return true;
+            if (aluSetStatusBits(a, b, c, (a & 128) / 128, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, true, errorString)) {
+                out = (a >> 1) + Sim::cBit;
+                return true;
+            }
         }
         break;
     case 13: // ASR A
         if (getAMuxOut(a, errorString)) {
             c = ((a >> 1) & 127) | (a & 128);
-            aluSetStatusBits(a, b, c, a & 1, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, true, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, a & 1, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, true, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 14: // ROR A
         if (getAMuxOut(a, errorString)) {
             c = ((a >> 1) & 127) | (Sim::cBit * 128);
-            aluSetStatusBits(a, b, c, a & 1, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, true, errorString);
-            out = c;
-            return true;
+            if (aluSetStatusBits(a, b, c, a & 1, Enu::CMask|Enu::VMask|Enu::NMask|Enu::ZMask, true, errorString)) {
+                out = c;
+                return true;
+            }
         }
         break;
     case 15: // NZVC A
