@@ -471,13 +471,12 @@ void CpuPane::changeEvent(QEvent *e)
     }
 }
 
-void CpuPane::setMainBusState()
+void CpuPane::updateMainBusState(QString& errorString)
 {
     bool marUnchanged = true;
     if (cpuPaneItems->MARCk->isChecked()) {
         quint8 a, b;
-        QString errStr;
-        if (getABusOut(a, errStr) && getBBusOut(b, errStr)) {
+        if (getABusOut(a, errorString) && getBBusOut(b, errorString)) {
             marUnchanged = (a == Sim::MARA) && (b == Sim::MARB);
         }
         else {
@@ -493,6 +492,7 @@ void CpuPane::setMainBusState()
         else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (1st)
             Sim::mainBusState = Enu::MemWriteWait;
         }
+        //else: mainBusState = None, but it already is.
         break;
     case Enu::MemReadWait:
         if (marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (2nd with unchanged MAR)
@@ -503,6 +503,9 @@ void CpuPane::setMainBusState()
         }
         else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after a sinle MemRead)
             Sim::mainBusState = Enu::MemWriteWait;
+        }
+        else {
+            Sim::mainBusState = Enu::None;
         }
         break;
     case Enu::MemReadReady:
@@ -515,6 +518,9 @@ void CpuPane::setMainBusState()
         else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after 2+ MemReads)
             Sim::mainBusState = Enu::MemWriteWait;
         }
+        else {
+            Sim::mainBusState = Enu::None;
+        }
         break;
     case Enu::MemWriteWait:
         if (cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (after a MemWrite)
@@ -525,6 +531,9 @@ void CpuPane::setMainBusState()
         }
         else if (!marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (with changed MAR)
             // do nothing, MAR changed, still MemReadWait
+        }
+        else {
+            Sim::mainBusState = Enu::None;
         }
         break;
     case Enu::MemWriteReady:
@@ -537,8 +546,12 @@ void CpuPane::setMainBusState()
         else if (!marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (with changed MAR)
             Sim::mainBusState = Enu::MemWriteWait;
         }
+        else {
+            Sim::mainBusState = Enu::None;
+        }
         break;
     default:
+        Sim::mainBusState = Enu::None; // Just in case the mBS is malformed somehow
         break;
     }
 
@@ -629,7 +642,7 @@ bool CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool
 bool CpuPane::step(QString &errorString)
 {
     // Update Bus State
-    setMainBusState(); // FSM that sets Sim::mainBusState to Enu::BusState - 5 possible states
+    updateMainBusState(errorString); // FSM that sets Sim::mainBusState to Enu::BusState - 5 possible states
 
     bool hasIssues = false; // used to indicate if there were issues during simulation
 
@@ -834,7 +847,6 @@ void CpuPane::singleStepButtonPushed()
         stopDebugging();
         clearCpuControlSignals();
         emit simulationFinished();
-        return;
     }
     else {        
         Sim::microProgramCounter++;
@@ -845,14 +857,37 @@ void CpuPane::singleStepButtonPushed()
             code = Sim::codeList.at(Sim::microCodeCurrentLine);
         }
         code->setCpuLabels(cpuPaneItems);
+        emit updateSimulation();
     }
-
-    emit updateSimulation();
 }
 
 void CpuPane::resumeButtonPushed()
 {
+    while (!Sim::atEndOfSim()) {
+        QString errorString;
+        if (!step(errorString)) {
+            // simulation had issues.
+        }
 
+        if (!Sim::atEndOfSim()) {
+            Sim::microProgramCounter++;
+            Sim::microCodeCurrentLine++;
+            Code *code = Sim::codeList.at(Sim::microCodeCurrentLine);
+            while (!Sim::atEndOfSim() && !code->isMicrocode()) {
+                Sim::microCodeCurrentLine++;
+                code = Sim::codeList.at(Sim::microCodeCurrentLine);
+            }
+            code->setCpuLabels(cpuPaneItems);
+            emit updateSimulation();
+        }
+    }
+
+    Sim::codeList.clear();
+    Sim::microCodeCurrentLine = 0;
+    Sim::microProgramCounter = 0;
+    stopDebugging();
+    clearCpuControlSignals();
+    emit simulationFinished();
 }
 
 void CpuPane::on_copyToMicrocodePushButton_clicked()

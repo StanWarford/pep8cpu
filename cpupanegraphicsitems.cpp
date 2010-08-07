@@ -671,12 +671,8 @@ bool CpuPaneGraphicsItems::aluHasCorrectOutput()
     return false;
 }
 
-void CpuPaneGraphicsItems::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void CpuPaneGraphicsItems::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    (void)option;
-    (void)widget;
-
-    QPolygon poly;
     painter->setRenderHint(QPainter::Antialiasing, false);
     painter->setPen(Qt::black);
 
@@ -1090,12 +1086,11 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
 
     // Draw main bus
     if (isHigh) {
-        qDebug() << "mainBusState: " << Sim::mainBusState;
-        if (Sim::mainBusState == Enu::None && MemReadTristateLabel->text() == "1") {
-            // We haven't read yet, but are about to
+        if (Sim::mainBusState == Enu::None) {
+            // We haven't memRead yet, but are about to
             color = Qt::yellow;
         }
-        else if ((Sim::mainBusState == Enu::MemReadReady || Sim::mainBusState == Enu::MemReadWait) && MemReadTristateLabel->text() == "1") {
+        else if (Sim::mainBusState == Enu::MemReadReady || Sim::mainBusState == Enu::MemReadWait) {
             // We have read once, and are about to again
             color = QColor(16, 150, 24); // green
         }
@@ -1439,9 +1434,8 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
     painter->setRenderHint(QPainter::Antialiasing, false);
     painter->setPen(Qt::black);
 
-
     if (MDRMuxTristateLabel->text() == "0") {
-        if (Sim::mainBusState == Enu::MemReadReady) { //MemReadTristateLabel->text().toInt() == 1 && Sim::memReadPrevStep) { // MainBus.state == MEM_READ_DATA
+        if (Sim::mainBusState == Enu::MemReadReady) {
             MDRMuxerDataLabel->setPalette(QPalette(combCircuitGreen));
             painter->setBrush(QBrush(QColor(16, 150, 24))); // green
         }
@@ -1451,7 +1445,7 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
         }
     }
     else if (MDRMuxTristateLabel->text() == "1") {
-        if (cMuxTristateLabel->text() == "") { // CMuxBus.state == UNDEFINED
+        if (cMuxTristateLabel->text() == "") {
             MDRMuxerDataLabel->setPalette(QPalette(Qt::white));
             painter->setBrush(Qt::white);
         }

@@ -50,7 +50,7 @@ private:
     CpuPaneGraphicsItems *cpuPaneItems;
 
     //simulation helpers
-    void setMainBusState();
+    void updateMainBusState(QString& errorString);
     bool aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool isUnary, QString &errorString);
 
     // called by the push buttons to simulate a single step; returns true if there were no issues
