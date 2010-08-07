@@ -645,8 +645,6 @@ bool CpuPane::step(QString &errorString)
     // Update Bus State
     updateMainBusState(errorString); // FSM that sets Sim::mainBusState to Enu::BusState - 5 possible states
 
-    bool hasIssues = false; // used to indicate if there were issues during simulation
-
     if (Sim::mainBusState == Enu::MemReadReady) { // we are performing a 2nd consecutive MemRead
         // do nothing - the memread is performed in the getMDRMuxOut fn
     }
@@ -665,7 +663,7 @@ bool CpuPane::step(QString &errorString)
         }
         else {
             // error: MARCk is checked but we have incorrect input
-            hasIssues += true;
+            return false;
         }
     }
 
@@ -678,7 +676,7 @@ bool CpuPane::step(QString &errorString)
         }
         else {
             // error: nothing on the C line edit
-            hasIssues += true;
+            return false;
         }
     }
 
@@ -690,7 +688,7 @@ bool CpuPane::step(QString &errorString)
             // getMDRMuxOut sets the MDR - this is because it checks if we're reading from memory
         }
         else {
-            hasIssues += true;
+            return false;
         }
     }
 
@@ -704,11 +702,11 @@ bool CpuPane::step(QString &errorString)
         }
         else {
             // incorrect input to the ALU
-            hasIssues += true;
+            return false;
         }
     }
 
-    return hasIssues;
+    return true;
 }
 
 void CpuPane::regTextEdited(QString str)
