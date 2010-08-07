@@ -67,7 +67,6 @@ private slots:
     void singleStepButtonPushed();
     void resumeButtonPushed();
 
-    void on_dismissPushButton_clicked();
     void on_copyToMicrocodePushButton_clicked();
 
     void ALUTextEdited(QString str);
