@@ -124,6 +124,12 @@ void CpuPane::startDebugging()
 
     Sim::microProgramCounter = 0;
     Sim::microCodeCurrentLine = 0;
+
+    // Clear memread/write state from previous simulations
+    Sim::mainBusState = Enu::None;
+    Sim::memReadPrevStep = false;
+    Sim::memWritePrevStep = false;
+
     Code *code = Sim::codeList.at(Sim::microCodeCurrentLine);
     while (!Sim::atEndOfSim() && !code->isMicrocode()) {
         Sim::microCodeCurrentLine++;
@@ -465,6 +471,232 @@ void CpuPane::changeEvent(QEvent *e)
     }
 }
 
+void CpuPane::setMainBusState()
+{
+    bool marUnchanged = true;
+    if (cpuPaneItems->MARCk->isChecked()) {
+        quint8 a, b;
+        QString errStr;
+        if (getABusOut(a, errStr) && getBBusOut(b, errStr)) {
+            marUnchanged = (a == Sim::MARA) && (b == Sim::MARB);
+        }
+        else {
+            // error: MARCk is checked but we have incorrect input
+        }
+    }
+
+    switch (Sim::mainBusState) {
+    case Enu::None:
+        if (cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (1st)
+            Sim::mainBusState = Enu::MemReadWait;
+        }
+        else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (1st)
+            Sim::mainBusState = Enu::MemWriteWait;
+        }
+        break;
+    case Enu::MemReadWait:
+        if (marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (2nd with unchanged MAR)
+            Sim::mainBusState = Enu::MemReadReady;
+        }
+        else if (!marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead
+            // do nothing, already MemReadWait - need another MemRead because the MAR changed
+        }
+        else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after a sinle MemRead)
+            Sim::mainBusState = Enu::MemWriteWait;
+        }
+        break;
+    case Enu::MemReadReady:
+        if (marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead again (more than 2 in a row)
+            // do nothing, already MemReadReady
+        }
+        else if (!marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead
+            Sim::mainBusState = Enu::MemReadWait; // go back to MemReadWait because the MAR changed
+        }
+        else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after 2+ MemReads)
+            Sim::mainBusState = Enu::MemWriteWait;
+        }
+        break;
+    case Enu::MemWriteWait:
+        if (cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (after a MemWrite)
+            Sim::mainBusState = Enu::MemReadWait;
+        }
+        else if (marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (2nd in a row)
+            Sim::mainBusState = Enu::MemWriteReady;
+        }
+        else if (!marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (with changed MAR)
+            // do nothing, MAR changed, still MemReadWait
+        }
+        break;
+    case Enu::MemWriteReady:
+        if (cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (after 2+ MemWrites)
+            Sim::mainBusState = Enu::MemReadWait;
+        }
+        else if (marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after 2+ in a row)
+            // do nothing, already MemWriteReady
+        }
+        else if (!marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (with changed MAR)
+            Sim::mainBusState = Enu::MemWriteWait;
+        }
+        break;
+    default:
+        break;
+    }
+
+    Sim::memReadPrevStep = cpuPaneItems->MemReadTristateLabel->text() == "1";
+    Sim::memWritePrevStep = cpuPaneItems->MemWriteTristateLabel->text() == "1";
+}
+
+bool CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool isUnary, QString &errorString)
+{
+    if (cpuPaneItems->NCkCheckBox->isChecked()) {
+        setStatusBit(Enu::N, bitMask & Enu::NMask && c > 127);
+        //  Sim::nBit = false;
+        //  if (bitMask & Enu::NMask && c > 127) {
+        //Sim::nBit = true;
+        //  }
+        //  setStatusBit(Enu::N, Sim::nBit);
+    }
+
+    if (cpuPaneItems->ZCkCheckBox->isChecked()) {
+        if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
+            setStatusBit(Enu::Z, bitMask & Enu::ZMask && c == 0);
+        }
+        else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
+            setStatusBit(Enu::Z, bitMask & Enu::ZMask && c == 0 && Sim::zBit);
+        }
+        else {
+            errorString = "// ERROR: ZCk without ANDZ";
+            return false;
+        }
+        //if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
+        //    Sim::zBit = false;
+        //    if (bitMask & Enu::ZMask && c == 0) {
+        //        Sim::zBit = true;
+        //    }
+        //    setStatusBit(Enu::Z, Sim::zBit);
+        //} else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
+        //    if (bitMask & Enu::ZMask) {
+        //        Sim::zBit = c == 0 && Sim::zBit;
+        //    }
+        //    setStatusBit(Enu::Z, Sim::zBit);
+        //}
+        //else {
+        //    Sim::zBit = false;
+        //    setStatusBit(Enu::Z, Sim::zBit);
+        //}
+        //
+        //previously:
+        //Sim::nBit = false;
+        //if (bitMask & Enu::NMask && c > 127) {
+        //    Sim::nBit = true;
+        //}
+        //setStatusBit(Enu::N, Sim::nBit);
+    }
+
+    if (cpuPaneItems->VCkCheckBox->isChecked()) {
+        if (isUnary) {
+            setStatusBit(Enu::V, (c > 127 && a < 128) || (c < 128 && a > 127));
+        }
+        else {
+            setStatusBit(Enu::V, (c > 127 && a < 128 && b < 128) || (c < 128 && a > 127 && b > 127));
+        }
+        //        Sim::vBit = false;
+        //        if (bitMask & Enu::VMask) {
+        //            if (isUnary) {
+        //                if (((c > 127 && a < 128 && b < 128) || (c < 128 && a > 127 && b > 127))) {
+        //                    Sim::vBit = true;
+        //                }
+        //            }
+        //            else {
+        //                if (((c > 127 && a < 128) || (c < 128 && a > 127)))
+        //                    Sim::vBit = true;
+        //            }
+        //            setStatusBit(Enu::V, Sim::vBit);
+        //        }
+    }
+
+    if (cpuPaneItems->CCkCheckBox->isChecked()) {
+        setStatusBit(Enu::C, bitMask & Enu::CMask && carry & 0x1);
+        //        Sim::cBit = false;
+        //        if (bitMask & Enu::CMask && carry & 0x1) {
+        //            Sim::cBit = true;
+        //        }
+        //        setStatusBit(Enu::C, Sim::cBit);
+    }
+    return true;
+}
+
+bool CpuPane::step(QString &errorString)
+{
+    // Update Bus State
+    setMainBusState(); // FSM that sets Sim::mainBusState to Enu::BusState - 5 possible states
+
+    bool hasIssues = false; // used to indicate if there were issues during simulation
+
+    if (Sim::mainBusState == Enu::MemReadReady) { // we are performing a 2nd consecutive MemRead
+        // do nothing - the memread is performed in the getMDRMuxOut fn
+    }
+    else if (Sim::mainBusState == Enu::MemWriteReady) { // we are performing a 2nd consecutive MemWrite
+        int address = Sim::MARA * 256 + Sim::MARB;
+        Sim::Mem[address] = Sim::MDR;
+        emit writeByte(address);
+    }
+
+    // MARCk
+    if (cpuPaneItems->MARCk->isChecked()) {
+        quint8 a, b;
+        if (getABusOut(a, errorString) && getBBusOut(b, errorString)) {
+            setRegister(Enu::MARA, a);
+            setRegister(Enu::MARB, b);
+        }
+        else {
+            // error: MARCk is checked but we have incorrect input
+            hasIssues += true;
+        }
+    }
+
+    // LoadCk
+    if (cpuPaneItems->loadCk->isChecked()) {
+        int cDest = cpuPaneItems->cLineEdit->text().toInt();
+        quint8 out;
+        if (getCMuxOut(out, errorString)) {
+            setRegisterByte(cDest, out);
+        }
+        else {
+            // error: nothing on the C line edit
+            hasIssues += true;
+        }
+    }
+
+    // MDRCk
+    if (cpuPaneItems->MDRCk->isChecked()) {
+        quint8 out = 0;
+        QString errorString = "";
+        if (getMDRMuxOut(out, errorString)) {
+            // getMDRMuxOut sets the MDR - this is because it checks if we're reading from memory
+        }
+        else {
+            hasIssues += true;
+        }
+    }
+
+    if (cpuPaneItems->ALULineEdit->text() == "15") { // NZVC A alu function
+        // We need to do this because we have no guarantee that it'll get triggered by clocking something else.
+        // In fact, it most likely won't because the ALU output is zeros
+        quint8 out;
+        QString tmpErrStr;
+        if (getALUOut(out, tmpErrStr)) {
+            // do nothing - the work was done in the aluSetStatusBits() inside getALUOut
+        }
+        else {
+            // incorrect input to the ALU
+            hasIssues += true;
+        }
+    }
+
+    return hasIssues;
+}
+
 void CpuPane::regTextEdited(QString str)
 {
     qDebug() << "str: " << str;
@@ -579,72 +811,21 @@ void CpuPane::labelClicked()
 
 void CpuPane::clockButtonPushed()
 {
-
+    QString errorString;
+    if (!step(errorString)) {
+        // simulation had issues.
+#warning "how do we want to display simulation issues?"
+    }
+    clearCpuControlSignals();
 }
 
 void CpuPane::singleStepButtonPushed()
 {
-    // Update Bus State
-    setMainBusState(); // FSM that sets Sim::mainBusState to Enu::BusState - 5 possible states
-
     QString errorString;
-    if (Sim::mainBusState == Enu::MemReadReady) { // we are performing a 2nd consecutive MemRead
-        // do nothing - the memread is performed in the getMDRMuxOut fn
+    if (!step(errorString)) {
+        // simulation had issues.
+#warning "how do we want to display simulation issues?"
     }
-    else if (Sim::mainBusState == Enu::MemWriteReady) { // we are performing a 2nd consecutive MemWrite
-        int address = Sim::MARA * 256 + Sim::MARB;
-        Sim::Mem[address] = Sim::MDR;
-        emit writeByte(address);
-    }
-
-    // MARCk
-    if (cpuPaneItems->MARCk->isChecked()) {
-        quint8 a, b;
-        if (getABusOut(a, errorString) && getBBusOut(b, errorString)) {
-            setRegister(Enu::MARA, a);
-            setRegister(Enu::MARB, b);
-        }
-        else {
-            // error: MARCk is checked but we have incorrect input
-        }
-    }
-
-    // LoadCk
-    if (cpuPaneItems->loadCk->isChecked()) {
-        int cDest = cpuPaneItems->cLineEdit->text().toInt();
-        quint8 out;
-        if (getCMuxOut(out, errorString)) {
-            setRegisterByte(cDest, out);
-        }
-        else {
-            // error: nothing on the C line edit
-        }
-    }
-
-    // MDRCk
-    if (cpuPaneItems->MDRCk->isChecked()) {
-        quint8 out = 0;
-        QString errorString = "";
-        if (getMDRMuxOut(out, errorString)) {
-            // getMDRMuxOut sets the MDR - this is because it checks if we're reading from memory
-        }
-    }
-
-    if (cpuPaneItems->ALULineEdit->text() == "15") { // NZVC A alu function
-        // We need to do this because we have no guarantee that it'll get triggered by clocking something else.
-        // In fact, it most likely won't because the ALU output is zeros
-        quint8 out;
-        QString tmpErrStr;
-        if (getALUOut(out, tmpErrStr)) {
-            // do nothing - the work was done in the aluSetStatusBits() inside getALUOut
-        }
-        else {
-            // incorrect input to the ALU
-        }
-    }
-
-    Sim::memReadPrevStep = cpuPaneItems->MemReadTristateLabel->text() == "1";
-    Sim::memWritePrevStep = cpuPaneItems->MemWriteTristateLabel->text() == "1";
 
     if (Sim::atEndOfSim()) {
         Sim::codeList.clear();
@@ -653,6 +834,7 @@ void CpuPane::singleStepButtonPushed()
         stopDebugging();
         clearCpuControlSignals();
         emit simulationFinished();
+        return;
     }
     else {        
         Sim::microProgramCounter++;
@@ -790,158 +972,6 @@ void CpuPane::ALUTextEdited(QString str)
             break;
         }
     }
-}
-
-void CpuPane::setMainBusState()
-{
-    bool marUnchanged = true;
-    if (cpuPaneItems->MARCk->isChecked()) {
-        quint8 a, b;
-        QString errStr;
-        if (getABusOut(a, errStr) && getBBusOut(b, errStr)) {
-            marUnchanged = (a == Sim::MARA) && (b == Sim::MARB);
-        }
-        else {
-            // error: MARCk is checked but we have incorrect input
-        }
-    }
-
-    switch (Sim::mainBusState) {
-    case Enu::None:
-        if (cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (1st)
-            Sim::mainBusState = Enu::MemReadWait;
-        }
-        else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (1st)
-            Sim::mainBusState = Enu::MemWriteWait;
-        }
-        break;
-    case Enu::MemReadWait:
-        if (marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (2nd with unchanged MAR)
-            Sim::mainBusState = Enu::MemReadReady;
-        }
-        else if (!marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead
-            // do nothing, already MemReadWait - need another MemRead because the MAR changed
-        }
-        else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after a sinle MemRead)
-            Sim::mainBusState = Enu::MemWriteWait;
-        }
-        break;
-    case Enu::MemReadReady:
-        if (marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead again (more than 2 in a row)
-            // do nothing, already MemReadReady
-        }
-        else if (!marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead
-            Sim::mainBusState = Enu::MemReadWait; // go back to MemReadWait because the MAR changed
-        }
-        else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after 2+ MemReads)
-            Sim::mainBusState = Enu::MemWriteWait;
-        }
-        break;
-    case Enu::MemWriteWait:
-        if (cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (after a MemWrite)
-            Sim::mainBusState = Enu::MemReadWait;
-        }
-        else if (marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (2nd in a row)
-            Sim::mainBusState = Enu::MemWriteReady;
-        }
-        else if (!marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (with changed MAR)
-            // do nothing, MAR changed, still MemReadWait
-        }
-        break;
-    case Enu::MemWriteReady:
-        if (cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (after 2+ MemWrites)
-            Sim::mainBusState = Enu::MemReadWait;
-        }
-        else if (marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after 2+ in a row)
-            // do nothing, already MemWriteReady
-        }
-        else if (!marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (with changed MAR)
-            Sim::mainBusState = Enu::MemWriteWait;
-        }
-        break;
-    default:
-        break;
-    }
-}
-
-bool CpuPane::aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool isUnary, QString &errorString)
-{
-    if (cpuPaneItems->NCkCheckBox->isChecked()) {
-        setStatusBit(Enu::N, bitMask & Enu::NMask && c > 127);
-        //  Sim::nBit = false;
-        //  if (bitMask & Enu::NMask && c > 127) {
-        //Sim::nBit = true;
-        //  }
-        //  setStatusBit(Enu::N, Sim::nBit);
-    }
-
-    if (cpuPaneItems->ZCkCheckBox->isChecked()) {
-        if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
-            setStatusBit(Enu::Z, bitMask & Enu::ZMask && c == 0);
-        }
-        else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
-            setStatusBit(Enu::Z, bitMask & Enu::ZMask && c == 0 && Sim::zBit);
-        }
-        else {
-            errorString = "// ERROR: ZCk without ANDZ";
-            return false;
-        }
-        //if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
-        //    Sim::zBit = false;
-        //    if (bitMask & Enu::ZMask && c == 0) {
-        //        Sim::zBit = true;
-        //    }
-        //    setStatusBit(Enu::Z, Sim::zBit);
-        //} else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
-        //    if (bitMask & Enu::ZMask) {
-        //        Sim::zBit = c == 0 && Sim::zBit;
-        //    }
-        //    setStatusBit(Enu::Z, Sim::zBit);
-        //}
-        //else {
-        //    Sim::zBit = false;
-        //    setStatusBit(Enu::Z, Sim::zBit);
-        //}
-        //
-        //previously:
-        //Sim::nBit = false;
-        //if (bitMask & Enu::NMask && c > 127) {
-        //    Sim::nBit = true;
-        //}
-        //setStatusBit(Enu::N, Sim::nBit);
-    }
-
-    if (cpuPaneItems->VCkCheckBox->isChecked()) {
-        if (isUnary) {
-            setStatusBit(Enu::V, (c > 127 && a < 128) || (c < 128 && a > 127));
-        }
-        else {
-            setStatusBit(Enu::V, (c > 127 && a < 128 && b < 128) || (c < 128 && a > 127 && b > 127));
-        }
-        //        Sim::vBit = false;
-        //        if (bitMask & Enu::VMask) {
-        //            if (isUnary) {
-        //                if (((c > 127 && a < 128 && b < 128) || (c < 128 && a > 127 && b > 127))) {
-        //                    Sim::vBit = true;
-        //                }
-        //            }
-        //            else {
-        //                if (((c > 127 && a < 128) || (c < 128 && a > 127)))
-        //                    Sim::vBit = true;
-        //            }
-        //            setStatusBit(Enu::V, Sim::vBit);
-        //        }
-    }
-
-    if (cpuPaneItems->CCkCheckBox->isChecked()) {
-        setStatusBit(Enu::C, bitMask & Enu::CMask && carry & 0x1);
-        //        Sim::cBit = false;
-        //        if (bitMask & Enu::CMask && carry & 0x1) {
-        //            Sim::cBit = true;
-        //        }
-        //        setStatusBit(Enu::C, Sim::cBit);
-    }
-    return true;
 }
 
 bool CpuPane::getALUOut(quint8 &out, QString &errorString)

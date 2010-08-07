@@ -49,6 +49,13 @@ private:
 
     CpuPaneGraphicsItems *cpuPaneItems;
 
+    //simulation helpers
+    void setMainBusState();
+    bool aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool isUnary, QString &errorString);
+
+    // called by the push buttons to simulate a single step; returns true if there were no issues
+    bool step(QString& errorString);
+
 private slots:
     void regTextEdited(QString str);
 
@@ -63,10 +70,6 @@ private slots:
     void on_copyToMicrocodePushButton_clicked();
 
     void ALUTextEdited(QString str);
-
-    //simulation helpers
-    void setMainBusState();
-    bool aluSetStatusBits(int a, int b, int c, int carry, int bitMask, bool isUnary, QString &errorString);
 
     bool getALUOut(quint8& out, QString& errorString);
     bool getCMuxOut(quint8& out, QString& errorString);
