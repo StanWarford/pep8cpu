@@ -83,7 +83,7 @@ private slots:
     void onCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*);
 
 signals:
-    void clicked();
+    void copyToMicrocodeClicked();
 
 };
 
