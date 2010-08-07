@@ -1072,10 +1072,10 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
     painter->setPen(QPen(QBrush(color), 1));
     painter->setBrush(color);
 
-    painter->drawLine(166-70, 585, 543, 585);
+    painter->drawLine(166-70, 585, 543, 585); // memRead line from the label to the bus
 
     painter->setRenderHint(QPainter::Antialiasing);
-    poly << QPoint(166-70, 582) << QPoint(166-70, 588) << QPoint(158-70, 585);
+    poly << QPoint(166-70, 582) << QPoint(166-70, 588) << QPoint(158-70, 585);// memRead arrowhead
     painter->drawPolygon(poly);
     painter->setRenderHint(QPainter::Antialiasing, false);
 
@@ -1106,7 +1106,7 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
     painter->setPen(QPen(QBrush(Qt::black), 1));
     painter->setBrush(color);
 
-    /* Main Bus */
+    // Main Bus
     poly.clear();
     poly << QPoint(145-70, 132) << QPoint(155-70, 132) << QPoint(155-70, 334) << QPoint(180, 334)
             << QPoint(180, 326) << QPoint(175, 326) << QPoint(185, 316) << QPoint(195, 326) << QPoint(190, 326)
@@ -1146,10 +1146,10 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
         painter->setPen(QPen(QBrush(color), 1));
         painter->setBrush(color);
 
-        painter->drawLine(166-70, 605, 543, 605);
+        painter->drawLine(166-70, 605, 543, 605); // memWrite line from label to bus
 
         painter->setRenderHint(QPainter::Antialiasing);
-        poly << QPoint(166-70, 602) << QPoint(166-70, 608) << QPoint(158-70, 605);
+        poly << QPoint(166-70, 602) << QPoint(166-70, 608) << QPoint(158-70, 605); // memWrite arrowhead
         painter->drawPolygon(poly);
         painter->setRenderHint(QPainter::Antialiasing, false);
 
@@ -1161,10 +1161,12 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
         // Draw main bus
         if (isHigh) {
             qDebug() << "mainBusState: " << Sim::mainBusState;
-            if (Sim::mainBusState == Enu::None && MemWriteTristateLabel->text() == "1") { // We have not yet written, but are about to
+            if (Sim::mainBusState == Enu::None) {
+                // We have not yet memWrite'n, but are about to clock for the first time
                 color = Qt::yellow;
             }
-            else if (Sim::mainBusState == Enu::MemWriteWait && MemWriteTristateLabel->text() == "1") { // We have written once, and are about to again
+            else if (Sim::mainBusState == Enu::MemWriteWait && MemWriteTristateLabel->text() == "1") {
+                // We have written once, and are about to again
                 color = QColor(16, 150, 24); // green
             }
             else {

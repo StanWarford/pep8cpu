@@ -92,6 +92,7 @@ CpuPane::CpuPane(QWidget *parent) :
 
     ui->spinBox->hide();
     ui->singleStepPushButton->setEnabled(false);
+    ui->cpuErrorSplitter->widget(0)->hide();
 }
 
 CpuPane::~CpuPane()
@@ -828,6 +829,8 @@ void CpuPane::clockButtonPushed()
     if (!step(errorString)) {
         // simulation had issues.
 #warning "how do we want to display simulation issues?"
+        ui->cpuErrorSplitter->widget(0)->show();
+        ui->errorTextEdit->setText(errorString);
     }
     clearCpuControlSignals();
 }
@@ -888,6 +891,11 @@ void CpuPane::resumeButtonPushed()
     stopDebugging();
     clearCpuControlSignals();
     emit simulationFinished();
+}
+
+void CpuPane::on_dismissPushButton_clicked()
+{
+    ui->cpuErrorSplitter->widget(0)->hide();
 }
 
 void CpuPane::on_copyToMicrocodePushButton_clicked()
