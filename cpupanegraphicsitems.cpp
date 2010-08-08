@@ -1425,7 +1425,7 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
     painter->setPen(color);
     painter->setBrush(color);
 
-    /* MDRMux Select */
+    // MDRMux Select
     painter->drawLine(257,303, 265,303); painter->drawLine(265,303, 265,324);
     painter->drawLine(265,324, 279,324); painter->drawLine(291,324, 335,324);
     painter->drawLine(347,324, 416,324); painter->drawLine(428,324, 543,324);
@@ -1465,9 +1465,8 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
         painter->setBrush(Qt::white);
     }
 
-    /* MDRMux Bus */
-    poly.setPoints(7, 205,293, 205,286, 200,286, 210,276, 220,286,
-                215,286, 215,293);
+    // MDRMux Bus
+    poly.setPoints(7, 205,293, 205,286, 200,286, 210,276, 220,286, 215,286, 215,293); // arrow
     painter->drawPolygon(poly);
 }
 

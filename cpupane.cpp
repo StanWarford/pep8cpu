@@ -829,6 +829,7 @@ void CpuPane::clockButtonPushed()
 #warning "how do we want to display simulation issues?"
         QMessageBox::warning(0, "Pep/8", errorString);
     }
+    scene->invalidate();
     clearCpuControlSignals();
 }
 
@@ -840,6 +841,8 @@ void CpuPane::singleStepButtonPushed()
 #warning "how do we want to display simulation issues?"
         QMessageBox::warning(0, "Pep/8", errorString);
     }
+
+    scene->invalidate();
 
     if (Sim::atEndOfSim()) {
         Sim::codeList.clear();
@@ -1191,7 +1194,7 @@ bool CpuPane::getCMuxOut(quint8 &out, QString &errorString)
 {
     if (cpuPaneItems->cMuxTristateLabel->text() == "0") {
         out = (Sim::nBit ? 8 : 0) + (Sim::zBit ? 4 : 0) + (Sim::vBit ? 2 : 0) + (!!Sim::cBit);
-        // qDebug() << QString("0x%1").arg(nzvc, 4, 16, QLatin1Char('0'));
+        // qDebug() << QString("0x%1").arg(out, 4, 16, QLatin1Char('0'));
         return true;
     }
     else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
