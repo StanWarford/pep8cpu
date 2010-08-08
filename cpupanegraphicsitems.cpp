@@ -1437,7 +1437,7 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
     painter->setPen(Qt::black);
 
     if (MDRMuxTristateLabel->text() == "0") {
-        if (Sim::mainBusState == Enu::MemReadWait && MemReadTristateLabel->text() == "1") {
+        if ((Sim::mainBusState == Enu::MemReadWait && MemReadTristateLabel->text() == "1") || Sim::mainBusState == Enu::MemReadReady) {
             MDRMuxerDataLabel->setPalette(QPalette(combCircuitGreen));
             painter->setBrush(QBrush(QColor(16, 150, 24))); // green
         }

@@ -38,6 +38,8 @@ public:
     // Pre: 0 <= value < 256
     // Post: Value is stored in Mem[memAddr]
 
+    static int getAluMask(int fn);
+
     static bool aluFnIsUnary(int fn);
 
     static bool advanceSimulation();

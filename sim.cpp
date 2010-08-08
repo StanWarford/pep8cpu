@@ -42,6 +42,32 @@ void Sim::writeByte(int memAddr, int value)
     modifiedBytes.insert(memAddr & 0xffff);
 }
 
+int Sim::getAluMask(int fn) {
+    switch (fn) {
+    case 0:
+        return Enu::NMask & Enu::ZMask;
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    default:
+        break;
+    }
+    return 0;
+
+}
+
 bool Sim::aluFnIsUnary(int fn)
 {
     switch (fn) {
