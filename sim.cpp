@@ -44,28 +44,25 @@ void Sim::writeByte(int memAddr, int value)
 
 int Sim::getAluMask(int fn) {
     switch (fn) {
-    case 0:
-        return Enu::NMask & Enu::ZMask;
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-    case 10:
-    case 11:
-    case 12:
-    case 13:
-    case 14:
-    case 15:
-    default:
-        break;
+    case 0: return Enu::NMask & Enu::ZMask;
+    case 1: return Enu::NMask & Enu::ZMask & Enu::VMask & Enu::CMask;
+    case 2: return Enu::NMask & Enu::ZMask & Enu::VMask & Enu::CMask;
+    case 3: return Enu::NMask & Enu::ZMask & Enu::VMask & Enu::CMask;
+    case 4: return Enu::NMask & Enu::ZMask & Enu::VMask & Enu::CMask;
+    case 5: return Enu::NMask & Enu::ZMask;
+    case 6: return Enu::NMask & Enu::ZMask;
+    case 7: return Enu::NMask & Enu::ZMask;
+    case 8: return Enu::NMask & Enu::ZMask;
+    case 9: return Enu::NMask & Enu::ZMask;
+    case 10: return Enu::NMask & Enu::ZMask;
+    case 11: return Enu::NMask & Enu::ZMask & Enu::VMask & Enu::CMask;
+    case 12: return Enu::NMask & Enu::ZMask & Enu::CMask;
+    case 13: return Enu::NMask & Enu::ZMask & Enu::CMask;
+    case 14: return Enu::NMask & Enu::ZMask & Enu::CMask;
+    case 15: break;
+    default: break;
     }
     return 0;
-
 }
 
 bool Sim::aluFnIsUnary(int fn)
