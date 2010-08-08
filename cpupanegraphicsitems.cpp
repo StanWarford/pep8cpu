@@ -18,7 +18,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     seqCircuitColor = QColor(0xffdd77);// 0xffee99); //QColor(Qt::gray).lighter(140);
     combCircuitRed = QColor(Qt::red).lighter(190);
     combCircuitBlue = QColor(Qt::blue).lighter(190);
-    combCircuitYellow = QColor(Qt::yellow).lighter(190);
+    combCircuitYellow = QColor(Qt::yellow).lighter(170);
     combCircuitGreen = QColor(Qt::green).lighter(190);
 
     loadCk = new QCheckBox("LoadCk");
@@ -1437,7 +1437,7 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
     painter->setPen(Qt::black);
 
     if (MDRMuxTristateLabel->text() == "0") {
-        if (Sim::mainBusState == Enu::MemReadReady) {
+        if (Sim::mainBusState == Enu::MemReadWait && MemReadTristateLabel->text() == "1") {
             MDRMuxerDataLabel->setPalette(QPalette(combCircuitGreen));
             painter->setBrush(QBrush(QColor(16, 150, 24))); // green
         }
