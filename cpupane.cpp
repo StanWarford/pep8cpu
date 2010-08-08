@@ -616,10 +616,10 @@ bool CpuPane::step(QString &errorString)
     // Status bit calculations
     //
     int aluFn = cpuPaneItems->ALULineEdit->text().toInt();
-    int a, b, c, carry;
+    int c, carry;
     int bitMask = Sim::getAluMask(aluFn);
     bool isUnary = Sim::aluFnIsUnary(aluFn);
-    quint8 out;
+    quint8 out, a, b;
     getALUOut(out, a, b, c, carry, errorString);
 
     // NCk
@@ -964,7 +964,7 @@ void CpuPane::ALUTextEdited(QString str)
     }
 }
 
-bool CpuPane::getALUOut(quint8 &out, int& a, int& b, int &c, int& carry, QString &errorString)
+bool CpuPane::getALUOut(quint8 &out, quint8& a, quint8& b, int &c, int& carry, QString &errorString)
 {
     a = 0;
     b = 0;
@@ -1125,7 +1125,9 @@ bool CpuPane::getCMuxOut(quint8 &out, QString &errorString)
         return true;
     }
     else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
-        return getALUOut(out, errorString);
+        quint8 a, b;
+        int c, carry;
+        return getALUOut(out, a, b, c, carry, errorString);
     }
     else {
         errorString.append("No destination set for C bus\n");
