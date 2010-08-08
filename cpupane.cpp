@@ -612,10 +612,15 @@ bool CpuPane::step(QString &errorString)
         }
     }
 
-
+    //
+    // Status bit calculations
+    //
+    int aluFn = cpuPaneItems->ALULineEdit->text().toInt();
     int bitMask;
     int a, b, c, carry;
-    bool isUnary = Sim::aluFnIsUnary(0); // change this!
+    bool isUnary = Sim::aluFnIsUnary(aluFn); // change this!
+    quint8 out;
+    getALUOut(out, a, b, c, carry, errorString);
 
     // NCk
     if (cpuPaneItems->NCkCheckBox->isChecked()) {
@@ -973,11 +978,11 @@ void CpuPane::ALUTextEdited(QString str)
     }
 }
 
-bool CpuPane::getALUOut(quint8 &out, int a, int b, int c, int carry, int mask, QString &errorString)
+bool CpuPane::getALUOut(quint8 &out, int a, int b, int carry, QString &errorString)
 {
     a = 0;
     b = 0;
-    c = 0;
+    int c = 0;
     carry = 0;
 
     int ALUFn;
@@ -994,7 +999,9 @@ bool CpuPane::getALUOut(quint8 &out, int a, int b, int c, int carry, int mask, Q
     case 0: // A
         if (getAMuxOut(a, errorString)) {
             c = a;
-            //            if (aluSetStatusBits(a, 0, a, 0, Enu::NMask|Enu::ZMask, false, errorString)) {
+            b = 0;
+            carry = 0;
+            // aluSetStatusBits(a, 0, a, 0, Enu::NMask|Enu::ZMask, false, errorString)
             out = c;
             return true;
         }
