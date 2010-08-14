@@ -31,6 +31,7 @@ public:
 protected:
     void changeEvent(QEvent *e);
     void closeEvent(QCloseEvent *e);
+    bool eventFilter(QObject *, QEvent *);
 
 private:
     Ui::MainWindow *ui;

@@ -64,6 +64,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     readSettings();
 
+    installEventFilter(this);
+
     connect(cpuPane, SIGNAL(appendMicrocodeLine(QString)), this, SLOT(appendMicrocodeLine(QString)));
 }
 
@@ -94,6 +96,25 @@ void MainWindow::closeEvent(QCloseEvent *event)
     else {
         event->ignore();
     }
+}
+
+bool MainWindow::eventFilter(QObject *, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
+
+        }
+    }
+    else if (event->type() == QEvent::FileOpen) {
+        if (ui->actionSystem_Stop_Debugging->isEnabled()) {
+            ui->statusBar->showMessage("Open failed, currently debugging.", 4000);
+            return false;
+        }
+        loadFile(static_cast<QFileOpenEvent *>(event)->file());
+        return true;
+    }
+    return false;
 }
 
 void MainWindow::readSettings()

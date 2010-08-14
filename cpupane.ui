@@ -142,6 +142,9 @@
        <property name="text">
         <string>Clock</string>
        </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
        <property name="default">
         <bool>true</bool>
        </property>
@@ -177,6 +180,9 @@
        </property>
        <property name="text">
         <string>Single Step</string>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
        </property>
        <property name="default">
         <bool>true</bool>
