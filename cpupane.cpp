@@ -621,7 +621,7 @@ bool CpuPane::step(QString &errorString)
         }
     }
 
-    if (aluFn = 15) {
+    if (aluFn == 15) {
         if (cpuPaneItems->NCkCheckBox->isChecked()) { // NCk
             setStatusBit(Enu::N, 8 & a);
         }
@@ -711,57 +711,46 @@ void CpuPane::regTextEdited(QString str)
     }
 
     if (lineEdit == cpuPaneItems->aRegLineEdit) {
-        // Sim::aReg = regValue;
         Sim::regBank[0] = (regValue & 0xFF00) / 256;
         Sim::regBank[1] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->xRegLineEdit) {
-        // Sim::xReg = regValue;
         Sim::regBank[2] = (regValue & 0xFF00) / 256;
         Sim::regBank[3] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->spRegLineEdit) {
-        // Sim::spReg = regValue;
         Sim::regBank[4] = (regValue & 0xFF00) / 256;
         Sim::regBank[5] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->pcRegLineEdit) {
-        // Sim::pcReg = regValue;
         Sim::regBank[6] = (regValue & 0xFF00) / 256;
         Sim::regBank[7] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->irRegLineEdit) {
-        // Sim::irReg = regValue;
         Sim::regBank[8] = (regValue & 0xFF00) / 256;
         Sim::regBank[9] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t1RegLineEdit) {
-        // Sim::t1Reg = regValue;
         Sim::regBank[10] = (regValue & 0xFF00) / 256;
         Sim::regBank[11] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t2RegLineEdit) {
-        // Sim::t2Reg = regValue;
         Sim::regBank[12] = (regValue & 0xFF00) / 256;
         Sim::regBank[13] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t3RegLineEdit) {
-        // Sim::t3Reg = regValue;
         Sim::regBank[14] = (regValue & 0xFF00) / 256;
         Sim::regBank[15] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t4RegLineEdit) {
-        // Sim::t4Reg = regValue;
         Sim::regBank[16] = (regValue & 0xFF00) / 256;
         Sim::regBank[17] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t5RegLineEdit) {
-        //  Sim::t5Reg = regValue;
         Sim::regBank[18] = (regValue & 0xFF00) / 256;
         Sim::regBank[19] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t6RegLineEdit) {
-        //  Sim::t6Reg = regValue;
         Sim::regBank[20] = (regValue & 0xFF00) / 256;
         Sim::regBank[21] = regValue & 0xFF;
     }
@@ -805,8 +794,6 @@ void CpuPane::singleStepButtonPushed()
         QMessageBox::warning(0, "Pep/8", errorString);
     }
 
-    scene->invalidate();
-
     if (Sim::atEndOfSim()) {
         Sim::codeList.clear();
         Sim::microCodeCurrentLine = 0;
@@ -826,6 +813,9 @@ void CpuPane::singleStepButtonPushed()
         code->setCpuLabels(cpuPaneItems);
         emit updateSimulation();
     }
+
+    scene->invalidate();
+
 }
 
 void CpuPane::resumeButtonPushed()

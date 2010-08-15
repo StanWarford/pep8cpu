@@ -1200,6 +1200,8 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintCBitOut(QPainter *painter)
 {
+    cBitLabel->text() = Sim::cBit ? "1" : "0";
+
     QColor color = Qt::black;
     QPolygon poly;
 
@@ -1224,6 +1226,8 @@ void CpuPaneGraphicsItems::repaintCBitOut(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintVBitOut(QPainter *painter)
 {
+    vBitLabel->text() = Sim::vBit ? "1" : "0";
+
     QPolygon poly;
     QColor color = Qt::black;
 
@@ -1244,6 +1248,8 @@ void CpuPaneGraphicsItems::repaintVBitOut(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintZBitOut(QPainter *painter)
 {
+    zBitLabel->text() = Sim::zBit ? "1" : "0";
+
     QPolygon poly;
     QColor color = Qt::black;
 
@@ -1267,6 +1273,8 @@ void CpuPaneGraphicsItems::repaintZBitOut(QPainter *painter)
 
 void CpuPaneGraphicsItems::repaintNBitOut(QPainter *painter)
 {
+    nBitLabel->text() = Sim::nBit ? "1" : "0";
+
     QPolygon poly;
     QColor color = Qt::black;
 
