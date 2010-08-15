@@ -621,38 +621,54 @@ bool CpuPane::step(QString &errorString)
         }
     }
 
-    // NCk
-    if (cpuPaneItems->NCkCheckBox->isChecked()) {
-        setStatusBit(Enu::N, bitMask & Enu::NMask && result > 127);
-    }
-
-    // ZCk
-    if (cpuPaneItems->ZCkCheckBox->isChecked()) {
-        if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
-            setStatusBit(Enu::Z, bitMask & Enu::ZMask && result == 0);
+    if (aluFn = 15) {
+        if (cpuPaneItems->NCkCheckBox->isChecked()) { // NCk
+            setStatusBit(Enu::N, 8 & a);
         }
-        else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
-            setStatusBit(Enu::Z, bitMask & Enu::ZMask && result == 0 && Sim::zBit);
+        if (cpuPaneItems->ZCkCheckBox->isChecked()) { // ZCk
+            setStatusBit(Enu::Z, 4 & a);
         }
-        else {
-            errorString.append("ZCk without ANDZ");
-            return false;
+        if (cpuPaneItems->VCkCheckBox->isChecked()) { // VCk
+            setStatusBit(Enu::V, 2 & a);
+        }
+        if (cpuPaneItems->CCkCheckBox->isChecked()) { // CCk
+            setStatusBit(Enu::C, 1 & a);
         }
     }
-
-    // VCk
-    if (cpuPaneItems->VCkCheckBox->isChecked()) {
-        if (isUnary) {
-            setStatusBit(Enu::V, (result > 127 && a < 128) || (result < 128 && a > 127));
+    else {
+        // NCk
+        if (cpuPaneItems->NCkCheckBox->isChecked()) {
+            setStatusBit(Enu::N, bitMask & Enu::NMask && result > 127);
         }
-        else {
-            setStatusBit(Enu::V, (result > 127 && a < 128 && b < 128) || (result < 128 && a > 127 && b > 127));
-        }
-    }
 
-    // CCk
-    if (cpuPaneItems->CCkCheckBox->isChecked()) {
-        setStatusBit(Enu::C, bitMask & Enu::CMask && carry & 0x1);
+        // ZCk
+        if (cpuPaneItems->ZCkCheckBox->isChecked()) {
+            if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
+                setStatusBit(Enu::Z, bitMask & Enu::ZMask && result == 0);
+            }
+            else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
+                setStatusBit(Enu::Z, bitMask & Enu::ZMask && result == 0 && Sim::zBit);
+            }
+            else {
+                errorString.append("ZCk without ANDZ");
+                return false;
+            }
+        }
+
+        // VCk
+        if (cpuPaneItems->VCkCheckBox->isChecked()) {
+            if (isUnary) {
+                setStatusBit(Enu::V, (result > 127 && a < 128) || (result < 128 && a > 127));
+            }
+            else {
+                setStatusBit(Enu::V, (result > 127 && a < 128 && b < 128) || (result < 128 && a > 127 && b > 127));
+            }
+        }
+
+        // CCk
+        if (cpuPaneItems->CCkCheckBox->isChecked()) {
+            setStatusBit(Enu::C, bitMask & Enu::CMask && carry & 0x1);
+        }
     }
 
     return true;
@@ -1091,6 +1107,7 @@ bool CpuPane::getALUOut(quint8 &out, quint8& a, quint8& b, int &result, int& car
     case 15: // NZVC A
         if (getAMuxOut(a, errorString)) {
             out = 0;
+            carry = 1 & a;
         }
         break;
     default:
