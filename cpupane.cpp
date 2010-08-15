@@ -592,7 +592,6 @@ bool CpuPane::step(QString &errorString)
         }
         else {
             // error: MARCk is checked but we have incorrect input
-            QMessageBox::warning(this, "Pep8CPU", errorString);
             return false;
         }
     }
@@ -606,7 +605,6 @@ bool CpuPane::step(QString &errorString)
         }
         else {
             // error: nothing on the C line edit
-            QMessageBox::warning(this, "Pep8CPU", errorString);
             return false;
         }
     }
@@ -619,7 +617,6 @@ bool CpuPane::step(QString &errorString)
             // getMDRMuxOut sets the MDR - this is because it checks if we're reading from memory
         }
         else {
-            QMessageBox::warning(this, "Pep8CPU", errorString);
             return false;
         }
     }
@@ -654,7 +651,6 @@ bool CpuPane::step(QString &errorString)
             }
             else {
                 errorString.append("ZCk without ANDZ");
-                QMessageBox::warning(this, "Pep8CPU", errorString);
                 return false;
             }
         }
@@ -795,7 +791,6 @@ void CpuPane::clockButtonPushed()
     QString errorString;
     if (!step(errorString)) {
         // simulation had issues.
-#warning "how do we want to display simulation issues?"
         QMessageBox::warning(0, "Pep/8", errorString);
     }
     scene->invalidate();
@@ -807,7 +802,6 @@ void CpuPane::singleStepButtonPushed()
     QString errorString;
     if (!step(errorString)) {
         // simulation had issues.
-#warning "how do we want to display simulation issues?"
         QMessageBox::warning(0, "Pep/8", errorString);
     }
 
