@@ -367,6 +367,8 @@ void MainWindow::on_actionSystem_Run_triggered()
         ui->statusBar->showMessage("MicroAssembly failed", 4000);
         return;
     }
+
+#warning "do run stuff"
 }
 
 void MainWindow::on_actionSystem_Start_Debugging_triggered()
@@ -586,17 +588,18 @@ void MainWindow::updateSimulation()
 void MainWindow::simulationFinished()
 {
     QString errorString;
-    microcodePane->clearSimulationView(); // why is this not clearing the extraSelection?
+    microcodePane->clearSimulationView();
     objectCodePane->clearSimulationView();
     on_actionSystem_Stop_Debugging_triggered();
     for (int i = 0; i < Sim::codeList.size(); i++) {
         if (!Sim::codeList.at(i)->testPostcondition(mainMemory, cpuPane, errorString)) {
             microcodePane->appendMessageInSourceCodePaneAt(-1, errorString);
-            ui->statusBar->showMessage("Failed unit test", 4000);
+            QMessageBox::warning(this, "Pep8CPU", "Failed unit test");
             return;
         }
     }
 #warning "need a case for when we don't have unit tests"
+
     ui->statusBar->showMessage("Passed unit test", 4000);
 }
 

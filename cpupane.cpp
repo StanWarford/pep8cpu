@@ -156,12 +156,12 @@ void CpuPane::setRegister(Enu::EMnemonic reg, int value) {
     case Enu::A:
         Sim::regBank[0] = (value & 65280) / 256;
         Sim::regBank[1] = (value & 255);
-        cpuPaneItems->aRegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
+        cpuPaneItems->aRegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::X:
         Sim::regBank[2] = (value & 65280) / 256;
         Sim::regBank[3] = (value & 255);
-        cpuPaneItems->xRegLineEdit->setText(QString("0x%1").arg(value, 4, 16, QLatin1Char('0')));
+        cpuPaneItems->xRegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::SP:
         Sim::regBank[4] = (value & 65280) / 256;
@@ -795,12 +795,12 @@ void CpuPane::singleStepButtonPushed()
     }
 
     if (Sim::atEndOfSim()) {
+        emit simulationFinished();
         Sim::codeList.clear();
         Sim::microCodeCurrentLine = 0;
         Sim::microProgramCounter = 0;
         stopDebugging();
         clearCpuControlSignals();
-        emit simulationFinished();
     }
     else {        
         Sim::microProgramCounter++;
@@ -841,13 +841,13 @@ void CpuPane::resumeButtonPushed()
     }
 
     scene->invalidate();
+    emit simulationFinished();
 
     Sim::codeList.clear();
     Sim::microCodeCurrentLine = 0;
     Sim::microProgramCounter = 0;
     stopDebugging();
     clearCpuControlSignals();
-    emit simulationFinished();
 }
 
 void CpuPane::on_copyToMicrocodePushButton_clicked()
