@@ -42,8 +42,6 @@ public:
 
     static bool aluFnIsUnary(int fn);
 
-    static bool advanceSimulation();
-
     static bool atEndOfSim();
 
     static void initMRegs();

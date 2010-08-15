@@ -819,7 +819,7 @@ void CpuPane::singleStepButtonPushed()
         Sim::microProgramCounter++;
         Sim::microCodeCurrentLine++;
         Code *code = Sim::codeList.at(Sim::microCodeCurrentLine);
-        while (!Sim::atEndOfSim() && !code->isMicrocode()) {
+        while (!code->isMicrocode() && !Sim::atEndOfSim()) {
             Sim::microCodeCurrentLine++;
             code = Sim::codeList.at(Sim::microCodeCurrentLine);
         }
@@ -849,6 +849,8 @@ void CpuPane::resumeButtonPushed()
             emit updateSimulation();
         }
     }
+
+    scene->invalidate();
 
     Sim::codeList.clear();
     Sim::microCodeCurrentLine = 0;

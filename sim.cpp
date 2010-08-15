@@ -93,15 +93,9 @@ bool Sim::aluFnIsUnary(int fn)
     return false;
 }
 
-bool Sim::advanceSimulation()
-{
-
-    return true;
-}
-
 bool Sim::atEndOfSim()
 {
-    return microCodeCurrentLine >= codeList.size() - 1;
+    return microCodeCurrentLine + 1 >= codeList.size() - 1;
 }
 
 void Sim::initMRegs()
