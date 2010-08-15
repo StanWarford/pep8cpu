@@ -565,9 +565,7 @@ bool CpuPane::step(QString &errorString)
     // Update Bus State
     updateMainBusState(errorString); // FSM that sets Sim::mainBusState to Enu::BusState - 5 possible states
 
-    //
     // Status bit calculations
-    //
     int aluFn = cpuPaneItems->ALULineEdit->text().toInt();
     int result, carry;
     int bitMask = Sim::getAluMask(aluFn);
@@ -575,44 +573,11 @@ bool CpuPane::step(QString &errorString)
     quint8 out, a, b;
     getALUOut(out, a, b, result, carry, errorString); // ignore boolean returned - error would have been handled earlier
 
-    // NCk
-    if (cpuPaneItems->NCkCheckBox->isChecked()) {
-        setStatusBit(Enu::N, bitMask & Enu::NMask && result > 127);
-    }
-
-    // ZCk
-    if (cpuPaneItems->ZCkCheckBox->isChecked()) {
-        if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
-            setStatusBit(Enu::Z, bitMask & Enu::ZMask && result == 0);
-        }
-        else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
-            setStatusBit(Enu::Z, bitMask & Enu::ZMask && result == 0 && Sim::zBit);
-        }
-        else {
-            errorString.append("ZCk without ANDZ");
-            return false;
-        }
-    }
-
-    // VCk
-    if (cpuPaneItems->VCkCheckBox->isChecked()) {
-        if (isUnary) {
-            setStatusBit(Enu::V, (result > 127 && a < 128) || (result < 128 && a > 127));
-        }
-        else {
-            setStatusBit(Enu::V, (result > 127 && a < 128 && b < 128) || (result < 128 && a > 127 && b > 127));
-        }
-    }
-
-    // CCk
-    if (cpuPaneItems->CCkCheckBox->isChecked()) {
-        setStatusBit(Enu::C, bitMask & Enu::CMask && carry & 0x1);
-    }
-
     if (Sim::mainBusState == Enu::MemReadReady) { // we are performing a 2nd consecutive MemRead
         // do nothing - the memread is performed in the getMDRMuxOut fn
     }
-    else if (Sim::mainBusState == Enu::MemWriteReady) { // we are performing a 2nd consecutive MemWrite
+    else if (Sim::mainBusState == Enu::MemWriteReady) {
+        // we are performing a 2nd consecutive MemWrite
         int address = Sim::MARA * 256 + Sim::MARB;
         Sim::Mem[address] = Sim::MDR;
         emit writeByte(address);
@@ -654,6 +619,40 @@ bool CpuPane::step(QString &errorString)
         else {
             return false;
         }
+    }
+
+    // NCk
+    if (cpuPaneItems->NCkCheckBox->isChecked()) {
+        setStatusBit(Enu::N, bitMask & Enu::NMask && result > 127);
+    }
+
+    // ZCk
+    if (cpuPaneItems->ZCkCheckBox->isChecked()) {
+        if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
+            setStatusBit(Enu::Z, bitMask & Enu::ZMask && result == 0);
+        }
+        else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
+            setStatusBit(Enu::Z, bitMask & Enu::ZMask && result == 0 && Sim::zBit);
+        }
+        else {
+            errorString.append("ZCk without ANDZ");
+            return false;
+        }
+    }
+
+    // VCk
+    if (cpuPaneItems->VCkCheckBox->isChecked()) {
+        if (isUnary) {
+            setStatusBit(Enu::V, (result > 127 && a < 128) || (result < 128 && a > 127));
+        }
+        else {
+            setStatusBit(Enu::V, (result > 127 && a < 128 && b < 128) || (result < 128 && a > 127 && b > 127));
+        }
+    }
+
+    // CCk
+    if (cpuPaneItems->CCkCheckBox->isChecked()) {
+        setStatusBit(Enu::C, bitMask & Enu::CMask && carry & 0x1);
     }
 
     return true;
