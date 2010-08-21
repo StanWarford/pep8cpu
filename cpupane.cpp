@@ -359,7 +359,6 @@ void CpuPane::setStatusPrecondition(Enu::EMnemonic bit, bool value)
 }
 
 bool CpuPane::testRegPostcondition(Enu::EMnemonic reg, int value) {
-    (void)value;
     switch (reg) {
     case Enu::A:
         return Sim::regBank[0] * 256 + Sim::regBank[1] == value;
