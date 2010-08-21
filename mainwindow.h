@@ -15,6 +15,7 @@
 #include "pep.h"
 #include "sim.h"
 #include "helpdialog.h"
+#include "aboutpep.h"
 
 #include <QDir>
 
@@ -49,6 +50,7 @@ private:
     ObjectCodePane *objectCodePane;
 
     HelpDialog *helpDialog;
+    AboutPep *aboutPepDialog;
 
     void readSettings();
     void writeSettings();
@@ -88,6 +90,7 @@ private slots:
     void on_actionSystem_Clear_Memory_triggered();
     // Help
     void on_actionHelp_triggered();
+    void on_actionHelp_About_Pep8CPU_triggered();
 
     // Byte converter
     void slotByteConverterDecEdited(const QString &);

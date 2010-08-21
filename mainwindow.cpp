@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mainSplitter->insertWidget(1, cpuPane);
 
     helpDialog = new HelpDialog(this);
+    aboutPepDialog = new AboutPep(this);
 
     // Byte converter setup
     byteConverterDec = new ByteConverterDec();
@@ -446,6 +447,11 @@ void MainWindow::on_actionSystem_Clear_Memory_triggered()
 void MainWindow::on_actionHelp_triggered()
 {
     helpDialog->show();
+}
+
+void MainWindow::on_actionHelp_About_Pep8CPU_triggered()
+{
+    aboutPepDialog->show();
 }
 
 // Byte Converter slots

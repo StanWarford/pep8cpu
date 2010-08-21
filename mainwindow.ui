@@ -73,7 +73,7 @@
      <x>0</x>
      <y>0</y>
      <width>1035</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -122,6 +122,9 @@
     </property>
     <addaction name="actionHelp_CPU"/>
     <addaction name="actionHelp_Microcode"/>
+    <addaction name="separator"/>
+    <addaction name="actionHelp_About_Pep8CPU"/>
+    <addaction name="actionHelp_About_Qt"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -442,6 +445,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionHelp_About_Pep8CPU">
+   <property name="text">
+    <string>About Pep8CPU</string>
+   </property>
+  </action>
+  <action name="actionHelp_About_Qt">
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>
