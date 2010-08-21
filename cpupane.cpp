@@ -369,9 +369,9 @@ bool CpuPane::testRegPostcondition(Enu::EMnemonic reg, int value) {
     case Enu::PC:
         return Sim::regBank[6] * 256 + Sim::regBank[7] == value;
     case Enu::IR:
-        return Sim::regBank[8] * 256 + Sim::regBank[9] == value;
+        return Sim::regBank[8] * 65536 + Sim::regBank[9] * 256 + Sim::regBank[10] == value;
     case Enu::T1:
-        return Sim::regBank[10] * 256 + Sim::regBank[11] == value;
+        return Sim::regBank[11] == value;
     case Enu::T2:
         return Sim::regBank[12] * 256 + Sim::regBank[13] == value;
     case Enu::T3:
