@@ -1,4 +1,5 @@
 #include "specification.h"
+#include <QDebug>
 
 Specification::Specification()
 {
@@ -111,7 +112,7 @@ bool StatusBitSpecification::testUnitPost(MainMemory *, CpuPane *cpuPane, QStrin
     if (cpuPane->testStatusPostcondition(nzvcAddress, nzvcValue)) {
         return true;
     }
-    switch (nzvcValue) {
+    switch (nzvcAddress) {
     case Enu::N: errorString = "// ERROR: Unit test failed for status bit N."; return false;
     case Enu::Z: errorString = "// ERROR: Unit test failed for status bit Z."; return false;
     case Enu::V: errorString = "// ERROR: Unit test failed for status bit V."; return false;

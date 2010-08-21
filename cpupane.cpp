@@ -391,7 +391,6 @@ bool CpuPane::testRegPostcondition(Enu::EMnemonic reg, int value) {
     default:
         break;
     }
-
     return true;
 }
 
@@ -408,7 +407,6 @@ bool CpuPane::testStatusPostcondition(Enu::EMnemonic bit, bool value) {
     default:
         break;
     }
-
     return true;
 }
 
