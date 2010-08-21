@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     tristatelabel.cpp \
     objectcodelabel.cpp \
     specification.cpp \
-    byteconverterinstr.cpp
+    byteconverterinstr.cpp \
+    aboutpep.cpp
 HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
@@ -55,7 +56,8 @@ HEADERS += mainwindow.h \
     tristatelabel.h \
     objectcodelabel.h \
     specification.h \
-    byteconverterinstr.h
+    byteconverterinstr.h \
+    aboutpep.h
 FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \
@@ -66,7 +68,8 @@ FORMS += mainwindow.ui \
     cpupane.ui \
     helpdialog.ui \
     objectcodepane.ui \
-    byteconverterinstr.ui
+    byteconverterinstr.ui \
+    aboutpep.ui
 OTHER_FILES += help/images/registeraddresssignals.png
 RESOURCES += pep8cpuresources.qrc \
     helpresources.qrc
