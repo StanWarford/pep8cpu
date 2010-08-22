@@ -156,69 +156,69 @@ void CpuPane::setRegister(Enu::EMnemonic reg, int value) {
     case Enu::A:
         Sim::regBank[0] = (value & 65280) / 256;
         Sim::regBank[1] = (value & 255);
-        cpuPaneItems->aRegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->aRegLineEdit->setText("0x" + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::X:
         Sim::regBank[2] = (value & 65280) / 256;
         Sim::regBank[3] = (value & 255);
-        cpuPaneItems->xRegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->xRegLineEdit->setText("0x" + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::SP:
         Sim::regBank[4] = (value & 65280) / 256;
         Sim::regBank[5] = (value & 255);
-        cpuPaneItems->spRegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->spRegLineEdit->setText("0x" + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::PC:
         Sim::regBank[6] = (value & 65280) / 256;
         Sim::regBank[7] = (value & 255);
-        cpuPaneItems->pcRegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->pcRegLineEdit->setText("0x" + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::IR:
         Sim::regBank[8] = (value & 0xFF0000) / 65536;
         Sim::regBank[9] = (value & 65280) / 256;
         Sim::regBank[10] = (value & 255);
-        cpuPaneItems->irRegLineEdit->setText(QString("0x") + QString("%1").arg(value, 6, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->irRegLineEdit->setText("0x" + QString("%1").arg(value, 6, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T1:
         Sim::regBank[11] = (value & 255);
-        cpuPaneItems->t1RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->t1RegLineEdit->setText("0x" + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T2:
         Sim::regBank[12] = (value & 65280) / 256;
         Sim::regBank[13] = (value & 255);
-        cpuPaneItems->t2RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->t2RegLineEdit->setText("0x" + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T3:
         Sim::regBank[14] = (value & 65280) / 256;
         Sim::regBank[15] = (value & 255);
-        cpuPaneItems->t3RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->t3RegLineEdit->setText("0x" + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T4:
         Sim::regBank[16] = (value & 65280) / 256;
         Sim::regBank[17] = (value & 255);
-        cpuPaneItems->t4RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->t4RegLineEdit->setText("0x" + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T5:
         Sim::regBank[18] = (value & 65280) / 256;
         Sim::regBank[19] = (value & 255);
-        cpuPaneItems->t5RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->t5RegLineEdit->setText("0x" + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T6:
         Sim::regBank[20] = (value & 65280) / 256;
         Sim::regBank[21] = (value & 255);
-        cpuPaneItems->t6RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->t6RegLineEdit->setText("0x" + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::MARA:
         Sim::MARA = value;
-        cpuPaneItems->MARALabel->setText(QString("0x") + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->MARALabel->setText("0x" + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::MARB:
         Sim::MARB = value;
-        cpuPaneItems->MARBLabel->setText(QString("0x") + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->MARBLabel->setText("0x" + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::MDR:
         Sim::MDR = value;
-        cpuPaneItems->MDRLabel->setText(QString("0x") + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
+        cpuPaneItems->MDRLabel->setText("0x" + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
         break;
     default:
         // the remainder of the array is 'read only' in our simulated CPU
@@ -231,91 +231,91 @@ void CpuPane::setRegisterByte(int reg, quint8 value) {
     switch (reg) {
     case 0:
         Sim::regBank[0] = value;
-        cpuPaneItems->aRegLineEdit->setText(QString("0x") + QString("%1").arg(value * 256 + Sim::regBank[1], 4, 16, ch).toUpper());
+        cpuPaneItems->aRegLineEdit->setText("0x" + QString("%1").arg(value * 256 + Sim::regBank[1], 4, 16, ch).toUpper());
         break;
     case 1:
         Sim::regBank[1] = value;
-        cpuPaneItems->aRegLineEdit->setText(QString("0x") + QString("%1").arg(Sim::regBank[0] * 256 + value, 4, 16, ch).toUpper());
+        cpuPaneItems->aRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[0] * 256 + value, 4, 16, ch).toUpper());
         break;
     case 2:
         Sim::regBank[2] = value;
-        cpuPaneItems->xRegLineEdit->setText(QString("0x") + QString("%1").arg(value * 256 + Sim::regBank[3], 4, 16, ch).toUpper());
+        cpuPaneItems->xRegLineEdit->setText("0x" + QString("%1").arg(value * 256 + Sim::regBank[3], 4, 16, ch).toUpper());
         break;
     case 3:
         Sim::regBank[3] = value;
-        cpuPaneItems->xRegLineEdit->setText(QString("0x") + QString("%1").arg(Sim::regBank[2] * 256 + value, 4, 16, ch).toUpper());
+        cpuPaneItems->xRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[2] * 256 + value, 4, 16, ch).toUpper());
         break;
     case 4:
         Sim::regBank[4] = value;
-        cpuPaneItems->spRegLineEdit->setText(QString("0x") + QString("%1").arg(value * 256 + Sim::regBank[3], 6, 16, ch).toUpper());
+        cpuPaneItems->spRegLineEdit->setText("0x" + QString("%1").arg(value * 256 + Sim::regBank[3], 6, 16, ch).toUpper());
         break;
     case 5:
         Sim::regBank[5] = value;
-        cpuPaneItems->spRegLineEdit->setText(QString("0x") + QString("%1").arg(Sim::regBank[4] * 256 + value, 2, 16, ch).toUpper());
+        cpuPaneItems->spRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[4] * 256 + value, 2, 16, ch).toUpper());
         break;
     case 6:
         Sim::regBank[6] = value;
-        cpuPaneItems->pcRegLineEdit->setText(QString("0x") + QString("%1").arg(value * 256 + Sim::regBank[3], 4, 16, ch).toUpper());
+        cpuPaneItems->pcRegLineEdit->setText("0x" + QString("%1").arg(value * 256 + Sim::regBank[3], 4, 16, ch).toUpper());
         break;
     case 7:
         Sim::regBank[7] = value;
-        cpuPaneItems->pcRegLineEdit->setText(QString("0x") + QString("%1").arg(Sim::regBank[6] * 256 + value, 4, 16, ch).toUpper());
+        cpuPaneItems->pcRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[6] * 256 + value, 4, 16, ch).toUpper());
         break;
     case 8:
         Sim::regBank[8] = value;
-        cpuPaneItems->irRegLineEdit->setText(QString("0x") + QString("%1").arg(value * 65536 + Sim::regBank[9] + Sim::regBank[10], 4, 16, ch).toUpper());
+        cpuPaneItems->irRegLineEdit->setText("0x" + QString("%1").arg(value * 65536 + Sim::regBank[9] + Sim::regBank[10], 4, 16, ch).toUpper());
         break;
     case 9:
         Sim::regBank[9] = value;
-        cpuPaneItems->irRegLineEdit->setText(QString("0x") + QString("%1").arg(Sim::regBank[8] * 65536 + value * 256 + Sim::regBank[10], 4, 16, ch).toUpper());
+        cpuPaneItems->irRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[8] * 65536 + value * 256 + Sim::regBank[10], 4, 16, ch).toUpper());
         break;
     case 10:
         Sim::regBank[10] = value;
-        cpuPaneItems->irRegLineEdit->setText(QString("0x") + QString("%1").arg(Sim::regBank[8] * 65536 + Sim::regBank[9] * 256 + value, 4, 16, ch).toUpper());
+        cpuPaneItems->irRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[8] * 65536 + Sim::regBank[9] * 256 + value, 4, 16, ch).toUpper());
         break;
     case 11:
         Sim::regBank[11] = value;
-        cpuPaneItems->t1RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 2, 16, ch).toUpper());
+        cpuPaneItems->t1RegLineEdit->setText("0x" + QString("%1").arg(value, 2, 16, ch).toUpper());
         break;
     case 12:
         Sim::regBank[12] = value;
-        cpuPaneItems->t2RegLineEdit->setText(QString("0x") + QString("%1").arg(value * 256 + Sim::regBank[13], 4, 16, ch).toUpper());
+        cpuPaneItems->t2RegLineEdit->setText("0x" + QString("%1").arg(value * 256 + Sim::regBank[13], 4, 16, ch).toUpper());
         break;
     case 13:
         Sim::regBank[13] = value;
-        cpuPaneItems->t2RegLineEdit->setText(QString("0x") + QString("%1").arg(Sim::regBank[12] * 256 + value, 4, 16, ch).toUpper());
+        cpuPaneItems->t2RegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[12] * 256 + value, 4, 16, ch).toUpper());
         break;
     case 14:
         Sim::regBank[14] = value;
-        cpuPaneItems->t3RegLineEdit->setText(QString("0x") + QString("%1").arg(value * 256 + Sim::regBank[15], 4, 16, ch).toUpper());
+        cpuPaneItems->t3RegLineEdit->setText("0x" + QString("%1").arg(value * 256 + Sim::regBank[15], 4, 16, ch).toUpper());
         break;
     case 15:
         Sim::regBank[15] = value;
-        cpuPaneItems->t3RegLineEdit->setText(QString("0x") + QString("%1").arg(Sim::regBank[14] * 256 + value, 4, 16, ch).toUpper());
+        cpuPaneItems->t3RegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[14] * 256 + value, 4, 16, ch).toUpper());
         break;
     case 16:
         Sim::regBank[16] = value;
-        cpuPaneItems->t4RegLineEdit->setText(QString("0x") + QString("%1").arg(value * 256 + Sim::regBank[17], 4, 16, ch).toUpper());
+        cpuPaneItems->t4RegLineEdit->setText("0x" + QString("%1").arg(value * 256 + Sim::regBank[17], 4, 16, ch).toUpper());
         break;
     case 17:
         Sim::regBank[17] = value;
-        cpuPaneItems->t4RegLineEdit->setText(QString("0x") + QString("%1").arg(Sim::regBank[16] * 256 + value, 4, 16, ch).toUpper());
+        cpuPaneItems->t4RegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[16] * 256 + value, 4, 16, ch).toUpper());
         break;
     case 18:
         Sim::regBank[18] = value;
-        cpuPaneItems->t5RegLineEdit->setText(QString("0x") + QString("%1").arg(value * 256 + Sim::regBank[19], 4, 16, ch).toUpper());
+        cpuPaneItems->t5RegLineEdit->setText("0x" + QString("%1").arg(value * 256 + Sim::regBank[19], 4, 16, ch).toUpper());
         break;
     case 19:
         Sim::regBank[19] = value;
-        cpuPaneItems->t5RegLineEdit->setText(QString("0x") + QString("%1").arg(Sim::regBank[18] * 256 + value, 4, 16, ch).toUpper());
+        cpuPaneItems->t5RegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[18] * 256 + value, 4, 16, ch).toUpper());
         break;
     case 20:
         Sim::regBank[20] = value;
-        cpuPaneItems->t6RegLineEdit->setText(QString("0x") + QString("%1").arg(value * 256 + Sim::regBank[21], 4, 16, ch).toUpper());
+        cpuPaneItems->t6RegLineEdit->setText("0x" + QString("%1").arg(value * 256 + Sim::regBank[21], 4, 16, ch).toUpper());
         break;
     case 21:
         Sim::regBank[21] = value;
-        cpuPaneItems->t6RegLineEdit->setText(QString("0x") + QString("%1").arg(Sim::regBank[20] * 256 + value, 4, 16, ch).toUpper());
+        cpuPaneItems->t6RegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[20] * 256 + value, 4, 16, ch).toUpper());
         break;
     default:
         // the remainder of the array is 'read only' in our simulated CPU, or outside the bounds

@@ -26,25 +26,27 @@ bool MemSpecification::testUnitPost(MainMemory *mainMemory, CpuPane *, QString &
         if (mainMemory->testMemPostcondition(memAddress, memValue)) {
             return true;
         }
-        errorString = "// ERROR: Unit test failed for byte Mem[." + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0')) + "].";
+        errorString = "// ERROR: Unit test failed for byte Mem[0x" +
+                      QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper() + "].";
         return false;
     }
     else { // numBytes == 2
         if ((mainMemory->testMemPostcondition(memAddress, memValue) / 256) && (mainMemory->testMemPostcondition(memAddress + 1, memValue) % 256)) {
             return true;
         }
-        errorString = "// ERROR: Unit test failed for word Mem[." + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0')) + "].";
+        errorString = "// ERROR: Unit test failed for word Mem[0x" +
+                      QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper() + "].";
         return false;
     }
 }
 
 QString MemSpecification::getSourceCode() {
-    return "Mem["
-            + QString("0x%1").arg(memAddress, 4, 16, QLatin1Char('0'))
-            + "]="
+    return "Mem[0x"
+            + QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper()
+            + "]=0x"
             + (numBytes == 1 ?
-               QString("0x%1").arg(memValue, 2, 16, QLatin1Char('0')) :
-               QString("0x%1").arg(memValue, 4, 16, QLatin1Char('0'))) ;
+               QString("%1").arg(memValue, 2, 16, QLatin1Char('0')).toUpper() :
+               QString("%1").arg(memValue, 4, 16, QLatin1Char('0')).toUpper()) ;
 }
 
 RegSpecification::RegSpecification(Enu::EMnemonic registerAddress, int registerValue) {

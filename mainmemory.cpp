@@ -26,7 +26,7 @@ MainMemory::MainMemory(QWidget *parent) :
     ui->tableWidget->setVerticalHeaderLabels(rows);
 
     int address = 0x0000;
-    ui->tableWidget->setItem(0, 0, new QTableWidgetItem(QString("0x") + QString("%1").arg(Sim::readByte(address), 2, 16).toUpper().trimmed()));
+    ui->tableWidget->setItem(0, 0, new QTableWidgetItem("0x" + QString("%1").arg(Sim::readByte(address), 2, 16).toUpper().trimmed()));
 
     refreshMemory();
 
@@ -54,7 +54,7 @@ void MainMemory::populateMemoryItems()
 //    qDebug() << "scroll value: " << ui->verticalScrollBar->value();
     int scrollBarValue = ui->verticalScrollBar->value();
     for (int i = scrollBarValue; i < scrollBarValue + ui->tableWidget->rowCount(); i++) {
-        rows << QString("0x") + QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
+        rows << "0x" + QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
     }
     ui->tableWidget->setVerticalHeaderLabels(rows);
 
@@ -71,7 +71,7 @@ void MainMemory::refreshMemory()
     for (int i = 0; i < ui->tableWidget->rowCount(); i++) {
         address = ui->tableWidget->verticalHeaderItem(i)->text().toInt(&ok, 16);
         if (ok) {
-            ui->tableWidget->item(i, 0)->setText(QString("0x") +
+            ui->tableWidget->item(i, 0)->setText("0x" +
                                                  QString("%1").arg(Sim::readByte(address), 2, 16, QLatin1Char('0')).toUpper());
         }
     }
@@ -102,7 +102,7 @@ void MainMemory::setMemAddress(int memAddress, int value)
     for (int i = firstAddress; i < lastAddress; i++) {
         lineAddress = ui->tableWidget->verticalHeaderItem(i)->text().toInt();
         if (lineAddress == memAddress) {
-            ui->tableWidget->item(i, 0)->setText(QString("0x") + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper().trimmed());
+            ui->tableWidget->item(i, 0)->setText("0x" + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper().trimmed());
         }
     }
 }
@@ -174,12 +174,12 @@ void MainMemory::cellDataChanged(QTableWidgetItem *item)
     if (contents.contains(rx) && dataOk && addrConvOk) {
         Sim::writeByte(address, data);
         qDebug() << "Sim::Mem[" << address << "]: " << Sim::readByte(address);
-        ui->tableWidget->item(row, 0)->setText(QString("0x") + QString("%1").arg(data, 2, 16, QLatin1Char('0')).toUpper().trimmed());
+        ui->tableWidget->item(row, 0)->setText("0x" + QString("%1").arg(data, 2, 16, QLatin1Char('0')).toUpper().trimmed());
     }
     else if (addrConvOk && !dataOk) {
         qDebug() << "Conversion from text to int failed. data = " << item->text();
         data = Sim::readByte(address);
-        ui->tableWidget->item(row, 0)->setText(QString("0x") + QString("%1").arg(data, 2, 16, QLatin1Char('0')).toUpper().trimmed());
+        ui->tableWidget->item(row, 0)->setText("0x" + QString("%1").arg(data, 2, 16, QLatin1Char('0')).toUpper().trimmed());
     }
     else if (addrConvOk) { // we have problems, the labels are incorrectly formatted
         populateMemoryItems();
@@ -238,7 +238,7 @@ void MainMemory::resizeEvent(QResizeEvent *)
         int address;
 
         for (int i = oldRowCount; i < newRowCount; i++) {
-            rows << QString("0x") + QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
+            rows << "0x" + QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
         }
         ui->tableWidget->setVerticalHeaderLabels(rows);
 
@@ -247,7 +247,7 @@ void MainMemory::resizeEvent(QResizeEvent *)
         for (int row = oldRowCount; row < newRowCount; row++) {
             address = ui->tableWidget->verticalHeaderItem(row)->text().toInt(&addrConvOk, 16);
             if (addrConvOk) {
-                ui->tableWidget->setItem(row, 0, new QTableWidgetItem(QString("0x") + QString("%1").arg(Sim::readByte(address), 2, 16).toUpper().trimmed()));
+                ui->tableWidget->setItem(row, 0, new QTableWidgetItem("0x" + QString("%1").arg(Sim::readByte(address), 2, 16).toUpper().trimmed()));
             }
             else { // malformed address labels
             }
