@@ -879,10 +879,10 @@ void CpuPane::on_copyToMicrocodePushButton_clicked()
         code.set(Enu::MDRCk, 1);
     }
     if (cpuPaneItems->aMuxTristateLabel->text() != "") {
-        code.set(Enu::MDRCk, cpuPaneItems->aMuxTristateLabel->text().toInt());
+        code.set(Enu::AMux, cpuPaneItems->aMuxTristateLabel->text().toInt());
     }
     if (cpuPaneItems->MDRMuxTristateLabel->text() != "") {
-        code.set(Enu::MDRCk, cpuPaneItems->MDRMuxTristateLabel->text().toInt());
+        code.set(Enu::MDRMux, cpuPaneItems->MDRMuxTristateLabel->text().toInt());
     }
     if (cpuPaneItems->cMuxTristateLabel->text() != "") {
         code.set(Enu::CMux, cpuPaneItems->cMuxTristateLabel->text().toInt());
@@ -897,7 +897,7 @@ void CpuPane::on_copyToMicrocodePushButton_clicked()
         code.set(Enu::VCk, 1);
     }
     if (cpuPaneItems->ANDZTristateLabel->text() != "") {
-        code.set(Enu::CCk, cpuPaneItems->ANDZTristateLabel->text().toInt());
+        code.set(Enu::ANDZ, cpuPaneItems->ANDZTristateLabel->text().toInt());
     }
     if (cpuPaneItems->ZCkCheckBox->isChecked()) {
         code.set(Enu::ZCk, 1);
