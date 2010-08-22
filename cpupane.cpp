@@ -807,7 +807,8 @@ void CpuPane::singleStepButtonPushed()
             Sim::microCodeCurrentLine++;
             code = Sim::codeList.at(Sim::microCodeCurrentLine);
         }
-        if (Sim::atEndOfSim()) {
+        if (!code->isMicrocode()) {
+            // this will trigger if we're at the end of the simulation and have nothing more to execute
             emit simulationFinished();
             Sim::codeList.clear();
             Sim::microCodeCurrentLine = 0;

@@ -7,6 +7,8 @@
 #include <QGridLayout>
 #include <QDebug>
 
+#include <QScrollArea>
+
 MicrocodePane::MicrocodePane(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::MicrocodePane)
