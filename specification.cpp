@@ -81,20 +81,20 @@ bool RegSpecification::testUnitPost(MainMemory *, CpuPane *cpuPane, QString &err
 
 QString RegSpecification::getSourceCode() {
     switch (regAddress) {
-    case Enu::A: return "A=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
-    case Enu::X: return "X=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
-    case Enu::SP: return "SP=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
-    case Enu::PC: return "PC=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
-    case Enu::IR: return "IR=" + QString("0x%1").arg(regValue, 6, 16, QLatin1Char('0'));
-    case Enu::T1: return "T1=" + QString("0x%1").arg(regValue, 2, 16, QLatin1Char('0'));
-    case Enu::T2: return "T2=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
-    case Enu::T3: return "T3=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
-    case Enu::T4: return "T4=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
-    case Enu::T5: return "T5=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
-    case Enu::T6: return "T6=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
-    case Enu::MARA: return "MARA=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
-    case Enu::MARB: return "MARB=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
-    case Enu::MDR: return "MDR=" + QString("0x%1").arg(regValue, 4, 16, QLatin1Char('0'));
+    case Enu::A: return "A=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
+    case Enu::X: return "X=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
+    case Enu::SP: return "SP=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
+    case Enu::PC: return "PC=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
+    case Enu::IR: return "IR=0x" + QString("%1").arg(regValue, 6, 16, QLatin1Char('0')).toUpper();
+    case Enu::T1: return "T1=0x" + QString("%1").arg(regValue, 2, 16, QLatin1Char('0')).toUpper();
+    case Enu::T2: return "T2=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
+    case Enu::T3: return "T3=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
+    case Enu::T4: return "T4=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
+    case Enu::T5: return "T5=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
+    case Enu::T6: return "T6=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
+    case Enu::MARA: return "MARA=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
+    case Enu::MARB: return "MARB=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
+    case Enu::MDR: return "MDR=0x" + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper();
     default: return "";
     }
 }

@@ -148,7 +148,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     ALUFunctionLabel = new QLabel("");
     ALUFunctionLabel->setGeometry(330, 355, 100, 20);
     ALUFunctionLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-//    ALUFunctionLabel->setPalette(QPalette(Qt::black));
+    ALUFunctionLabel->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
     ALUFunctionLabel->setFont(QFont(ALUFunctionLabel->font().family(), ALUFunctionLabel->font().pointSize() - 2));
     scene->addWidget(ALUFunctionLabel);
 
@@ -612,7 +612,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     poly << QPoint(314,342) << QPoint(366,342) << QPoint(370,353) << QPoint(390,353) << QPoint(394,342)
             << QPoint(447,342) << QPoint(421,394) << QPoint(340,394);
     ALUPoly = scene->addPolygon(poly, QPen(QBrush(QColor(Qt::blue)), 2, Qt::SolidLine, Qt::SquareCap,
-                                                                  Qt::BevelJoin), QBrush(QColor(QColor(Qt::blue).lighter(190))));
+                                                                  Qt::BevelJoin), QBrush(QColor(Qt::blue).lighter(190)));
     ALUPoly->setZValue(-1);
 
     // Status Bits
