@@ -1078,7 +1078,7 @@ bool CpuPane::getALUOut(quint8 &out, quint8& a, quint8& b, int &result, int& car
         break;
     case 13: // ASR A
         if (getAMuxOut(a, errorString)) {
-            result = a >> 1; // old: ((a >> 1) & 127) | (a & 128);
+            result = ((a >> 1) & 127) | (a & 128);
 #warning "we have a disagreement here, I believe"
             carry = a & 1;
             out = result;
