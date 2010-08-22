@@ -146,7 +146,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     scene->addWidget(ALULineEdit);
 
     ALUFunctionLabel = new QLabel("");
-    ALUFunctionLabel->setGeometry(330, 355, 100, 20);
+    ALUFunctionLabel->setGeometry(332, 355, 98, 20);
     ALUFunctionLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     ALUFunctionLabel->setPalette(QPalette(QColor(Qt::blue).lighter(190)));
     ALUFunctionLabel->setFont(QFont(ALUFunctionLabel->font().family(), ALUFunctionLabel->font().pointSize() - 2));
