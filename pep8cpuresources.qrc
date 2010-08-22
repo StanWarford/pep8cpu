@@ -14,6 +14,6 @@
         <file>images/debugger_start.png</file>
         <file>images/help.png</file>
         <file>images/stop.png</file>
-        <file>images/Pep8-icon.png</file>
+        <file>images/Pep8cpu-icon.png</file>
     </qresource>
 </RCC>

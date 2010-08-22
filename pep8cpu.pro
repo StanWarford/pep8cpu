@@ -72,6 +72,7 @@ FORMS += mainwindow.ui \
     aboutpep.ui
 OTHER_FILES += help/images/registeraddresssignals.png \
     help/figures/exer1204.pepcpu \
-    help/figures/exer1206.pepcpu
+    help/figures/exer1206.pepcpu \
+    images/Pep8cpu-icon.png
 RESOURCES += pep8cpuresources.qrc \
     helpresources.qrc
