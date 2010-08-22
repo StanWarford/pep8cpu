@@ -79,12 +79,6 @@ void MicrocodeEditor::highlightSimulatedLine()
     setExtraSelections(extraSelections);
 }
 
-void MicrocodeEditor::highlightCurrentLine()
-{
-    int curLine = document()->findBlockByNumber(textCursor().position()).blockNumber();
-
-}
-
 void MicrocodeEditor::clearSimulationView()
 {
     QList<QTextEdit::ExtraSelection> extraSelections;

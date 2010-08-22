@@ -802,8 +802,19 @@ void CpuPane::singleStepButtonPushed()
         Sim::microCodeCurrentLine++;
         Code *code = Sim::codeList.at(Sim::microCodeCurrentLine);
         while (!code->isMicrocode() && !Sim::atEndOfSim()) {
+            // iterate through the code list until we're at the end of the sim,
+            // or until we're at another line of microcode
             Sim::microCodeCurrentLine++;
             code = Sim::codeList.at(Sim::microCodeCurrentLine);
+        }
+        if (Sim::atEndOfSim()) {
+            emit simulationFinished();
+            Sim::codeList.clear();
+            Sim::microCodeCurrentLine = 0;
+            Sim::microProgramCounter = 0;
+            clearCpuControlSignals();
+            scene->invalidate();
+            return;
         }
         code->setCpuLabels(cpuPaneItems);
         emit updateSimulation();
@@ -1078,7 +1089,6 @@ bool CpuPane::getALUOut(quint8 &out, quint8& a, quint8& b, int &result, int& car
     case 13: // ASR A
         if (getAMuxOut(a, errorString)) {
             result = ((a >> 1) & 127) | (a & 128);
-#warning "we have a disagreement here, I believe"
             carry = a & 1;
             out = result;
         }

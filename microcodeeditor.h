@@ -24,7 +24,6 @@ public:
     int lineNumberAreaWidth();
 
     void highlightSimulatedLine();
-    void highlightCurrentLine();
     void clearSimulationView();
 
 protected:

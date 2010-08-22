@@ -28,6 +28,8 @@ public:
     void clearMemory();
     // Post: sets all memory to 0x00;
 
+    void showMemEdited(int address);
+
 public slots:
     // Highlights the label based on the label window color saved in the UI file
     void highlightOnFocus();

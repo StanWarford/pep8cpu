@@ -128,6 +128,11 @@ void MainMemory::clearMemory()
     }
 }
 
+void MainMemory::showMemEdited(int address)
+{
+
+}
+
 void MainMemory::highlightOnFocus()
 {
     if (ui->tableWidget->hasFocus()) {
@@ -193,8 +198,9 @@ void MainMemory::scrollToAddress(QString string)
             if (byte > 65535) {
                 ui->lineEdit->setText("0xFFFF");
             } else {
-                int min = ui->verticalScrollBar->minimum();
-                int max = ui->verticalScrollBar->maximum();
+#warning "fix this whole thing"
+//                int min = ui->verticalScrollBar->minimum();
+//                int max = ui->verticalScrollBar->maximum();
                 ui->verticalScrollBar->setValue(byte);
                 sliderMoved(0);
 //                ui->verticalScrollBar->setValue(min + static_cast<int>(8 * (byte / 4096 - 8) + ((byte - byte % 8) / 65536.0) * (max - min)));

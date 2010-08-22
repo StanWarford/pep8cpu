@@ -595,6 +595,7 @@ void MainWindow::simulationFinished()
 {
     QString errorString;
     on_actionSystem_Stop_Debugging_triggered();
+
     for (int i = 0; i < Sim::codeList.size(); i++) {
         if (!Sim::codeList.at(i)->testPostcondition(mainMemory, cpuPane, errorString)) {
             microcodePane->appendMessageInSourceCodePaneAt(-1, errorString);
@@ -625,6 +626,7 @@ void MainWindow::helpCopyToMicrocodeButtonClicked()
 void MainWindow::updateMemAddress(int address)
 {
     mainMemory->setMemAddress(address, Sim::Mem[address]);
+    mainMemory->showMemEdited(address);
 }
 
 
