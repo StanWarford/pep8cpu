@@ -180,33 +180,32 @@ void CpuPane::setRegister(Enu::EMnemonic reg, int value) {
         cpuPaneItems->irRegLineEdit->setText(QString("0x") + QString("%1").arg(value, 6, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T1:
-        Sim::regBank[11] = (value & 65280) / 256;
-        Sim::regBank[12] = (value & 255);
+        Sim::regBank[11] = (value & 255);
         cpuPaneItems->t1RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T2:
-        Sim::regBank[13] = (value & 65280) / 256;
-        Sim::regBank[14] = (value & 255);
+        Sim::regBank[12] = (value & 65280) / 256;
+        Sim::regBank[13] = (value & 255);
         cpuPaneItems->t2RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T3:
-        Sim::regBank[15] = (value & 65280) / 256;
-        Sim::regBank[16] = (value & 255);
+        Sim::regBank[14] = (value & 65280) / 256;
+        Sim::regBank[15] = (value & 255);
         cpuPaneItems->t3RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T4:
-        Sim::regBank[17] = (value & 65280) / 256;
-        Sim::regBank[18] = (value & 255);
+        Sim::regBank[16] = (value & 65280) / 256;
+        Sim::regBank[17] = (value & 255);
         cpuPaneItems->t4RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T5:
-        Sim::regBank[19] = (value & 65280) / 256;
-        Sim::regBank[20] = (value & 255);
+        Sim::regBank[18] = (value & 65280) / 256;
+        Sim::regBank[19] = (value & 255);
         cpuPaneItems->t5RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::T6:
-        Sim::regBank[21] = (value & 65280) / 256;
-        Sim::regBank[22] = (value & 255);
+        Sim::regBank[20] = (value & 65280) / 256;
+        Sim::regBank[21] = (value & 255);
         cpuPaneItems->t6RegLineEdit->setText(QString("0x") + QString("%1").arg(value, 4, 16, QLatin1Char('0')).toUpper());
         break;
     case Enu::MARA:
@@ -620,16 +619,16 @@ bool CpuPane::step(QString &errorString)
 
     if (aluFn == 15) {
         if (cpuPaneItems->NCkCheckBox->isChecked()) { // NCk
-            setStatusBit(Enu::N, 8 & a);
+            setStatusBit(Enu::N, Enu::NMask & a);
         }
         if (cpuPaneItems->ZCkCheckBox->isChecked()) { // ZCk
-            setStatusBit(Enu::Z, 4 & a);
+            setStatusBit(Enu::Z, Enu::ZMask & a);
         }
         if (cpuPaneItems->VCkCheckBox->isChecked()) { // VCk
-            setStatusBit(Enu::V, 2 & a);
+            setStatusBit(Enu::V, Enu::VMask & a);
         }
         if (cpuPaneItems->CCkCheckBox->isChecked()) { // CCk
-            setStatusBit(Enu::C, 1 & a);
+            setStatusBit(Enu::C, Enu::CMask & a);
         }
     }
     else {
