@@ -594,8 +594,6 @@ void MainWindow::updateSimulation()
 void MainWindow::simulationFinished()
 {
     QString errorString;
-    microcodePane->clearSimulationView();
-    objectCodePane->clearSimulationView();
     on_actionSystem_Stop_Debugging_triggered();
     for (int i = 0; i < Sim::codeList.size(); i++) {
         if (!Sim::codeList.at(i)->testPostcondition(mainMemory, cpuPane, errorString)) {

@@ -634,21 +634,21 @@ bool CpuPane::step(QString &errorString)
     }
     else {
         // NCk
-        if (cpuPaneItems->NCkCheckBox->isChecked()) {
-            setStatusBit(Enu::N, bitMask & Enu::NMask && result > 127);
+        if (cpuPaneItems->NCkCheckBox->isChecked() && (bitMask & Enu::NMask)) {
+            setStatusBit(Enu::N, (result % 256) > 127);
         }
 
         // ZCk
         if (cpuPaneItems->ZCkCheckBox->isChecked()) {
-            if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
-                setStatusBit(Enu::Z, bitMask & Enu::ZMask && result == 0);
-            }
-            else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
-                setStatusBit(Enu::Z, bitMask & Enu::ZMask && result == 0 && Sim::zBit);
-            }
-            else {
+            if (cpuPaneItems->ANDZTristateLabel->text() == ""){
                 errorString.append("ZCk without ANDZ");
                 return false;
+            }
+            if (cpuPaneItems->ANDZTristateLabel->text() == "0" && (bitMask & Enu::ZMask)) { // zOut from ALU goes straight through
+                setStatusBit(Enu::Z, (result % 256) == 0);
+            }
+            else if (cpuPaneItems->ANDZTristateLabel->text() == "1" && (bitMask & Enu::ZMask)) { // zOut && zCurr
+                setStatusBit(Enu::Z, (result % 256) == 0 && Sim::zBit);
             }
         }
 
@@ -663,8 +663,8 @@ bool CpuPane::step(QString &errorString)
         }
 
         // CCk
-        if (cpuPaneItems->CCkCheckBox->isChecked()) {
-            setStatusBit(Enu::C, bitMask & Enu::CMask && carry & 0x1);
+        if (cpuPaneItems->CCkCheckBox->isChecked() && (bitMask & Enu::CMask)) {
+            setStatusBit(Enu::C, carry & 0x1);
         }
     }
 
@@ -796,7 +796,6 @@ void CpuPane::singleStepButtonPushed()
         Sim::codeList.clear();
         Sim::microCodeCurrentLine = 0;
         Sim::microProgramCounter = 0;
-        stopDebugging();
         clearCpuControlSignals();
     }
     else {        
@@ -1079,7 +1078,8 @@ bool CpuPane::getALUOut(quint8 &out, quint8& a, quint8& b, int &result, int& car
         break;
     case 13: // ASR A
         if (getAMuxOut(a, errorString)) {
-            result = ((a >> 1) & 127) | (a & 128);
+            result = a >> 1; // old: ((a >> 1) & 127) | (a & 128);
+#warning "we have a disagreement here, I believe"
             carry = a & 1;
             out = result;
         }
