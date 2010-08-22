@@ -73,5 +73,7 @@
         <file>help/images/interactiveuse.png</file>
         <file>help/images/microcodeuse.png</file>
         <file>help/images/byteconverter.png</file>
+        <file>help/figures/exer1204.pepcpu</file>
+        <file>help/figures/exer1206.pepcpu</file>
     </qresource>
 </RCC>

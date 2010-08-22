@@ -70,6 +70,8 @@ FORMS += mainwindow.ui \
     objectcodepane.ui \
     byteconverterinstr.ui \
     aboutpep.ui
-OTHER_FILES += help/images/registeraddresssignals.png
+OTHER_FILES += help/images/registeraddresssignals.png \
+    help/figures/exer1204.pepcpu \
+    help/figures/exer1206.pepcpu
 RESOURCES += pep8cpuresources.qrc \
     helpresources.qrc
