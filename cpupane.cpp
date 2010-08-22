@@ -611,7 +611,7 @@ bool CpuPane::step(QString &errorString)
         quint8 out = 0;
         QString errorString = "";
         if (getMDRMuxOut(out, errorString)) {
-            // getMDRMuxOut sets the MDR - this is because it checks if we're reading from memory
+            setRegister(Enu::MDR, out);
         }
         else {
             return false;
@@ -1147,7 +1147,8 @@ bool CpuPane::getMDRMuxOut(quint8 &out, QString &errorString)
         if (Sim::mainBusState == Enu::MemReadReady) {
             // perform a memRead
             int address = (int)Sim::MARA * 256 + (int)Sim::MARB;
-            setRegister(Enu::MDR, Sim::Mem[address]);
+//            setRegister(Enu::MDR, Sim::Mem[address]);
+            out = Sim::Mem[address];
             emit readByte(address);
             return true;
         }

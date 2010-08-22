@@ -22,7 +22,7 @@ MainMemory::MainMemory(QWidget *parent) :
     ui->tableWidget->setRowCount(1);
     oldRowCount = 1;
 
-    rows << QString("0x000");
+    rows << QString("0x0000");
     ui->tableWidget->setVerticalHeaderLabels(rows);
 
     int address = 0x0000;
@@ -54,7 +54,7 @@ void MainMemory::populateMemoryItems()
 //    qDebug() << "scroll value: " << ui->verticalScrollBar->value();
     int scrollBarValue = ui->verticalScrollBar->value();
     for (int i = scrollBarValue; i < scrollBarValue + ui->tableWidget->rowCount(); i++) {
-        rows << QString("0x%1").arg(i, 4, 16, QLatin1Char('0'));
+        rows << QString("0x") + QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
     }
     ui->tableWidget->setVerticalHeaderLabels(rows);
 
@@ -71,7 +71,8 @@ void MainMemory::refreshMemory()
     for (int i = 0; i < ui->tableWidget->rowCount(); i++) {
         address = ui->tableWidget->verticalHeaderItem(i)->text().toInt(&ok, 16);
         if (ok) {
-            ui->tableWidget->item(i, 0)->setText(QString("0x%1").arg(Sim::readByte(address), 2, 16, QLatin1Char('0')));
+            ui->tableWidget->item(i, 0)->setText(QString("0x") +
+                                                 QString("%1").arg(Sim::readByte(address), 2, 16, QLatin1Char('0')).toUpper());
         }
     }
 
@@ -231,7 +232,7 @@ void MainMemory::resizeEvent(QResizeEvent *)
         int address;
 
         for (int i = oldRowCount; i < newRowCount; i++) {
-            rows << QString("0x%1").arg(i, 4, 16, QLatin1Char('0'));
+            rows << QString("0x") + QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
         }
         ui->tableWidget->setVerticalHeaderLabels(rows);
 
