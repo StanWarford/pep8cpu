@@ -18,6 +18,8 @@ MicrocodePane::MicrocodePane(QWidget *parent) :
     editor = new MicrocodeEditor(this);
 
     editor->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    editor->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    editor->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(ui->label);

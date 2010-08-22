@@ -76,13 +76,19 @@ void MicrocodeEditor::highlightSimulatedLine()
         extraSelections.append(selection);
 
 #warning "this doesn't work yet:"
-        QScrollArea *scrollArea = qobject_cast<QScrollArea*>(this);
-        if (scrollArea &&
+        const QRect &r = cursorRect(cursor); //cursorRect();
+
+        QObject *ancestor = parent();
+        while (ancestor) {
+            QScrollArea *scrollArea = qobject_cast<QScrollArea*>(ancestor);
+            if (scrollArea &&
                 (scrollArea->verticalScrollBarPolicy() != Qt::ScrollBarAlwaysOff &&
                  scrollArea->horizontalScrollBarPolicy() != Qt::ScrollBarAlwaysOff)) {
-            const QRect &r = cursorRect(cursor); //cursorRect();
-            const QPoint &c = mapTo(scrollArea->widget(), r.center());
-            scrollArea->ensureVisible(c.x(), c.y());
+                const QRect &r = cursorRect(cursor); //cursorRect();
+                const QPoint &c = mapTo(scrollArea->widget(), r.center());
+                scrollArea->ensureVisible(c.x(), c.y());
+            }
+            ancestor = ancestor->parent();
         }
     }
 
