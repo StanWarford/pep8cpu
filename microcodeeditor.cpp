@@ -75,12 +75,12 @@ void MicrocodeEditor::highlightSimulatedLine()
         this->setTextCursor(cursor);
         ensureCursorVisible();
 
+        // move the cursor to the end of the line and select it so we can add it to the extra selections
         cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
         cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor); // select to end of line
 
         selection.cursor = cursor;
         extraSelections.append(selection);
-
 
     }
 

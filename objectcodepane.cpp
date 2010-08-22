@@ -45,6 +45,10 @@ void ObjectCodePane::highlightCurrentInstruction()
         cursor.movePosition(QTextCursor::NextBlock);
     }
 
+    // this chunk moves the cursor down and scrolls the text edit to it:
+    ui->plainTextEdit->setTextCursor(cursor);
+    ui->plainTextEdit->ensureCursorVisible();
+
     selection.cursor = cursor;
     selection.cursor.clearSelection();
     extraSelections.append(selection);
