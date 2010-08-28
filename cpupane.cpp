@@ -792,8 +792,6 @@ void CpuPane::singleStepButtonPushed()
 
     if (Sim::atEndOfSim()) { // this shouldn't happen, but let's be defensive:
         emit simulationFinished();
-        Sim::microCodeCurrentLine = 0;
-        Sim::microProgramCounter = 0;
         clearCpuControlSignals();
     }
     else {
@@ -809,8 +807,6 @@ void CpuPane::singleStepButtonPushed()
         if (!code->isMicrocode()) {
             // this will trigger if we're at the end of the simulation and have nothing more to execute
             emit simulationFinished();
-            Sim::microCodeCurrentLine = 0;
-            Sim::microProgramCounter = 0;
             clearCpuControlSignals();
             scene->invalidate();
             return;
@@ -861,8 +857,6 @@ void CpuPane::resumeButtonPushed()
     }
 
     emit simulationFinished();
-    Sim::microCodeCurrentLine = 0;
-    Sim::microProgramCounter = 0;
     clearCpuControlSignals();
 
 }
@@ -1209,4 +1203,10 @@ bool CpuPane::getBBusOut(quint8 &out, QString &errorString)
         errorString.append("Nothing in B line edit\n");
     }
     return false;
+}
+
+void CpuPane::run()
+{
+    // these are really equivalent:
+    resumeButtonPushed();
 }

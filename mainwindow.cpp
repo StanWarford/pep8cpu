@@ -376,7 +376,11 @@ void MainWindow::on_actionSystem_Run_triggered()
         return;
     }
 
-#warning "do run stuff"
+    // initialize these to zero for the purpose of stepping through the codelist
+    Sim::microCodeCurrentLine = 0;
+    Sim::microProgramCounter = 0;
+
+    cpuPane->run();
 }
 
 void MainWindow::on_actionSystem_Start_Debugging_triggered()
@@ -423,6 +427,10 @@ void MainWindow::on_actionSystem_Start_Debugging_triggered()
     Sim::memReadPrevStep = false;
     Sim::memWritePrevStep = false;
 
+    // reinitialize these to zero for this simulation
+    Sim::microCodeCurrentLine = 0;
+    Sim::microProgramCounter = 0;
+
     cpuPane->startDebugging();
 }
 
@@ -438,6 +446,7 @@ void MainWindow::on_actionSystem_Stop_Debugging_triggered()
     ui->actionSystem_Run->setEnabled(true);
     ui->actionSystem_Start_Debugging->setEnabled(true);
     microcodePane->setReadOnly(false);
+
     cpuPane->stopDebugging();
 }
 
@@ -601,6 +610,7 @@ void MainWindow::updateSimulation()
 void MainWindow::simulationFinished()
 {
     QString errorString;
+
     on_actionSystem_Stop_Debugging_triggered();
 
     for (int i = 0; i < Sim::codeList.size(); i++) {

@@ -76,6 +76,9 @@ private slots:
     bool getABusOut(quint8& out, QString& errorString);
     bool getBBusOut(quint8& out, QString& errorString);
 
+public slots:
+    void run();
+
 signals:
     void updateSimulation();
     void simulationFinished();
