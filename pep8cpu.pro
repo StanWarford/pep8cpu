@@ -1,7 +1,6 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-12-01T13:18:25
 # -------------------------------------------------
-TARGET = Pep8CPU
 TEMPLATE = app
 QT += webkit
 CONFIG += x86 \

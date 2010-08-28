@@ -99,6 +99,7 @@
     <addaction name="actionEdit_Copy"/>
     <addaction name="actionEdit_Paste"/>
     <addaction name="separator"/>
+    <addaction name="actionEdit_UnComment_Line"/>
     <addaction name="actionEdit_Format_From_Object_Code"/>
     <addaction name="actionEdit_Remove_Error_Messages"/>
     <addaction name="separator"/>
@@ -455,6 +456,14 @@
   <action name="actionHelp_About_Qt">
    <property name="text">
     <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionEdit_UnComment_Line">
+   <property name="text">
+    <string>Un/Comment Line</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+/</string>
    </property>
   </action>
  </widget>

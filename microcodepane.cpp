@@ -204,6 +204,11 @@ void MicrocodePane::clearSimulationView()
     editor->clearSimulationView();
 }
 
+void MicrocodePane::unCommentSelection()
+{
+    editor->unCommentSelection();
+}
+
 void MicrocodePane::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);

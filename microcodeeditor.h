@@ -26,6 +26,8 @@ public:
     void highlightSimulatedLine();
     void clearSimulationView();
 
+    void unCommentSelection();
+
 protected:
     void resizeEvent(QResizeEvent *event);
 

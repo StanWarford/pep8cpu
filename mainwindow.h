@@ -79,6 +79,7 @@ private slots:
     void on_actionEdit_Cut_triggered();
     void on_actionEdit_Copy_triggered();
     void on_actionEdit_Paste_triggered();
+    void on_actionEdit_UnComment_Line_triggered();
     void on_actionEdit_Format_From_Object_Code_triggered();
     void on_actionEdit_Remove_Error_Messages_triggered();
     void on_actionEdit_Font_triggered();

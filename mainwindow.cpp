@@ -328,6 +328,13 @@ void MainWindow::on_actionEdit_Paste_triggered()
     // other panes should not be able to paste
 }
 
+void MainWindow::on_actionEdit_UnComment_Line_triggered()
+{
+    if (!ui->actionSystem_Stop_Debugging->isEnabled()) { // we are not debugging
+        microcodePane->unCommentSelection();
+    }
+}
+
 void MainWindow::on_actionEdit_Format_From_Object_Code_triggered()
 {
     Sim::setMicrocodeSourceList();

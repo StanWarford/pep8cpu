@@ -61,6 +61,8 @@ public:
     void updateSimulationView();
     void clearSimulationView();
 
+    void unCommentSelection();
+
 protected:
     void changeEvent(QEvent *e);
 

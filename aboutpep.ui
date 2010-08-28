@@ -60,7 +60,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>:/images/Pep8-icon.png</pixmap>
+          <pixmap resource="pep8cpuresources.qrc">:/images/Pep8cpu-icon-about.png</pixmap>
          </property>
         </widget>
        </item>
@@ -188,7 +188,9 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="pep8cpuresources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
