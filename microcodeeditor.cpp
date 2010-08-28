@@ -161,11 +161,12 @@ void MicrocodeEditor::unCommentSelection()
         cursor.setPosition(start);
         cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
         cursor.removeSelectedText();
-    } else if (doCStyleComment) {
-        cursor.setPosition(end);
-        cursor.insertText(QLatin1String("*/"));
-        cursor.setPosition(start);
-        cursor.insertText(QLatin1String("/*"));
+        // commented because we don't want to use block commenting:
+//    } else if (doCStyleComment) {
+//        cursor.setPosition(end);
+//        cursor.insertText(QLatin1String("*/"));
+//        cursor.setPosition(start);
+//        cursor.insertText(QLatin1String("/*"));
     } else {
         endBlock = endBlock.next();
         doCppStyleUncomment = true;
