@@ -790,13 +790,13 @@ void CpuPane::singleStepButtonPushed()
         QMessageBox::warning(0, "Pep/8", errorString);
     }
 
-    if (Sim::atEndOfSim()) {
+    if (Sim::atEndOfSim()) { // this shouldn't happen, but let's be defensive:
         emit simulationFinished();
         Sim::microCodeCurrentLine = 0;
         Sim::microProgramCounter = 0;
         clearCpuControlSignals();
     }
-    else {        
+    else {
         Sim::microProgramCounter++;
         Sim::microCodeCurrentLine++;
         Code *code = Sim::codeList.at(Sim::microCodeCurrentLine);
@@ -825,33 +825,46 @@ void CpuPane::singleStepButtonPushed()
 
 void CpuPane::resumeButtonPushed()
 {
-    while (!Sim::atEndOfSim()) {
-        QString errorString;
+
+    QString errorString;
+    bool notFinished = true;
+
+    while (notFinished) { // we set the flag to false when we're done with simulation, or have errors
         if (!step(errorString)) {
             // simulation had issues.
             QMessageBox::warning(0, "Pep/8", errorString);
+            notFinished = false;
         }
 
-        if (!Sim::atEndOfSim()) {
+        if (Sim::atEndOfSim()) {
+            notFinished = false;
+        }
+        else {
             Sim::microProgramCounter++;
             Sim::microCodeCurrentLine++;
             Code *code = Sim::codeList.at(Sim::microCodeCurrentLine);
-            while (!Sim::atEndOfSim() && !code->isMicrocode()) {
+            while (!code->isMicrocode() && !Sim::atEndOfSim()) {
+                // iterate through the code list until we're at the end of the sim,
+                // or until we're at another line of microcode
                 Sim::microCodeCurrentLine++;
                 code = Sim::codeList.at(Sim::microCodeCurrentLine);
+            }
+            if (!code->isMicrocode()) {
+                // this will trigger if we're at the end of the simulation and have nothing more to execute
+                notFinished = false;
             }
             code->setCpuLabels(cpuPaneItems);
             emit updateSimulation();
         }
+
+        scene->invalidate();
     }
 
-    scene->invalidate();
     emit simulationFinished();
-
     Sim::microCodeCurrentLine = 0;
     Sim::microProgramCounter = 0;
-    stopDebugging();
     clearCpuControlSignals();
+
 }
 
 void CpuPane::on_copyToMicrocodePushButton_clicked()
