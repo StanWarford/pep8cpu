@@ -792,7 +792,6 @@ void CpuPane::singleStepButtonPushed()
 
     if (Sim::atEndOfSim()) {
         emit simulationFinished();
-        Sim::codeList.clear();
         Sim::microCodeCurrentLine = 0;
         Sim::microProgramCounter = 0;
         clearCpuControlSignals();
@@ -810,7 +809,6 @@ void CpuPane::singleStepButtonPushed()
         if (!code->isMicrocode()) {
             // this will trigger if we're at the end of the simulation and have nothing more to execute
             emit simulationFinished();
-            Sim::codeList.clear();
             Sim::microCodeCurrentLine = 0;
             Sim::microProgramCounter = 0;
             clearCpuControlSignals();
@@ -850,7 +848,6 @@ void CpuPane::resumeButtonPushed()
     scene->invalidate();
     emit simulationFinished();
 
-    Sim::codeList.clear();
     Sim::microCodeCurrentLine = 0;
     Sim::microProgramCounter = 0;
     stopDebugging();
