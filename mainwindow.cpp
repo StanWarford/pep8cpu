@@ -29,6 +29,11 @@ MainWindow::MainWindow(QWidget *parent) :
     objectCodePane = new ObjectCodePane(ui->codeSplitter);
     delete ui->objectCodeFrame;
 
+    QList<int> list;
+    list.append(3000);
+    list.append(1);
+    ui->codeSplitter->setSizes(list);
+
     ui->mainSplitter->insertWidget(0, mainMemory);
     ui->mainSplitter->insertWidget(1, cpuPane);
 
