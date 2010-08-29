@@ -53,6 +53,8 @@ public:
     bool isUndoable();
     bool isRedoable();
 
+    void setFont();
+
     void setReadOnly(bool ro);
 
     bool isModified();

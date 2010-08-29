@@ -6,8 +6,7 @@
 
 #include <QGridLayout>
 #include <QDebug>
-
-#include <QScrollArea>
+#include <QFontDialog>
 
 MicrocodePane::MicrocodePane(QWidget *parent) :
         QWidget(parent),
@@ -182,6 +181,15 @@ bool MicrocodePane::isRedoable()
 void MicrocodePane::setReadOnly(bool ro)
 {
     editor->setReadOnly(ro);
+}
+
+void MicrocodePane::setFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, QFont(editor->font()), this, "Set Source Code Font");
+    if (ok) {
+        editor->setFont(font);
+    }
 }
 
 bool MicrocodePane::isModified()

@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+#warning "need more robust saving of preferences"
     resize(1164, 800);
 
     // initialize the read-only registers to the correct values
@@ -355,7 +356,7 @@ void MainWindow::on_actionEdit_Remove_Error_Messages_triggered()
 
 void MainWindow::on_actionEdit_Font_triggered()
 {
-
+    microcodePane->setFont();
 }
 
 // System MainWindow triggers
