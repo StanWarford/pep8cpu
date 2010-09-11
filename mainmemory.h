@@ -51,6 +51,10 @@ protected:
     void changeEvent(QEvent *e);
     void resizeEvent(QResizeEvent *);
 
+    // this is for the table widget, which sends the scroll
+    // event to the scroll bar, which handles scrolling the table widget
+    bool eventFilter(QObject *o, QEvent *e);
+
 private:
     Ui::MainMemory *ui;
 

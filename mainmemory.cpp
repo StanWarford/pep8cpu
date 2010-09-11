@@ -41,6 +41,8 @@ MainMemory::MainMemory(QWidget *parent) :
     connect(ui->lineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToAddress(QString)));
 
     ui->tableWidget->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+
+    ui->tableWidget->viewport()->installEventFilter(this);
 }
 
 MainMemory::~MainMemory()
@@ -267,4 +269,14 @@ void MainMemory::resizeEvent(QResizeEvent *)
         refreshMemory();
     }
 }
+
+bool MainMemory::eventFilter(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::Wheel) {
+        qApp->sendEvent(ui->verticalScrollBar, e);
+        return true;
+    }
+    return false;
+}
+
 
