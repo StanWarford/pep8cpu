@@ -130,7 +130,8 @@ void MainMemory::clearMemory()
 
 void MainMemory::showMemEdited(int address)
 {
-
+#warning "this could be a lot cooler, and show via color which cell was edited, but this will do for now"
+    refreshMemory();
 }
 
 void MainMemory::highlightOnFocus()
