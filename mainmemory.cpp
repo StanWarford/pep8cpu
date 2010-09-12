@@ -35,10 +35,10 @@ MainMemory::MainMemory(QWidget *parent) :
 
     connect(ui->verticalScrollBar, SIGNAL(actionTriggered(int)), this, SLOT(sliderMoved(int)));
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
+    connect(ui->lineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToAddress(QString)));
 
     ui->scrollToLabel->setFont(QFont(ui->scrollToLabel->font().family(), ui->scrollToLabel->font().pointSize() - 2));
     ui->lineEdit->setFont(QFont(ui->lineEdit->font().family(), ui->lineEdit->font().pointSize() - 2));
-    connect(ui->lineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToAddress(QString)));
 
     ui->tableWidget->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
 
@@ -53,8 +53,11 @@ MainMemory::~MainMemory()
 void MainMemory::populateMemoryItems()
 {
     rows.clear();
+
 //    qDebug() << "scroll value: " << ui->verticalScrollBar->value();
+
     int scrollBarValue = ui->verticalScrollBar->value();
+
     for (int i = scrollBarValue; i < scrollBarValue + ui->tableWidget->rowCount(); i++) {
         rows << "0x" + QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
     }
@@ -234,6 +237,13 @@ void MainMemory::resizeEvent(QResizeEvent *)
 {
     int newRowCount = ui->tableWidget->height()/ui->tableWidget->rowHeight(0) - 1;
     // +1 to make it look like we're actually scrolling and not shuffling items
+
+    ui->verticalScrollBar->setMaximum(ui->verticalScrollBar->maximum() - newRowCount);
+
+    if (ui->verticalScrollBar->value() > ui->verticalScrollBar->maximum() - newRowCount) {
+        ui->verticalScrollBar->setValue(0xffff - newRowCount);
+    }
+
     if (newRowCount > oldRowCount) {
         ui->tableWidget->setRowCount(newRowCount);
 
