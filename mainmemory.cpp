@@ -54,10 +54,15 @@ void MainMemory::populateMemoryItems()
 {
     rows.clear();
 
+
+//    qDebug() << "pos: " << QString("%1").arg(pos, 4, 16, QLatin1Char('0'));
+
     qDebug() << "scroll value: " << QString("%1").arg(ui->verticalScrollBar->value(), 4, 16, QLatin1Char('0'));
     int scrollBarValue = ui->verticalScrollBar->value();
 
     for (int i = scrollBarValue; i < scrollBarValue + ui->tableWidget->rowCount(); i++) {
+
+//    for (int i = pos; i < pos + ui->tableWidget->rowCount(); i++) {
         rows << "0x" + QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
     }
     ui->tableWidget->setVerticalHeaderLabels(rows);
@@ -155,7 +160,8 @@ bool MainMemory::hasFocus()
 
 void MainMemory::sliderMoved(int pos)
 {
-    (void)pos;
+    qDebug() << "slider moved: " << pos;
+    pos = ui->verticalScrollBar->value();
     populateMemoryItems();
 }
 
@@ -187,7 +193,7 @@ void MainMemory::cellDataChanged(QTableWidgetItem *item)
         ui->tableWidget->item(row, 0)->setText("0x" + QString("%1").arg(data, 2, 16, QLatin1Char('0')).toUpper().trimmed());
     }
     else if (addrConvOk) { // we have problems, the labels are incorrectly formatted
-        populateMemoryItems();
+        populateMemoryItems(); //ui->verticalScrollBar->value());
     }
 
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
@@ -280,10 +286,10 @@ void MainMemory::resizeEvent(QResizeEvent *)
         refreshMemory();
     }
 }
-
 bool MainMemory::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::Wheel) {
+
         qApp->sendEvent(ui->verticalScrollBar, e);
         return true;
     }
