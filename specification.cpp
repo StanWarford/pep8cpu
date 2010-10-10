@@ -31,7 +31,7 @@ bool MemSpecification::testUnitPost(MainMemory *mainMemory, CpuPane *, QString &
         return false;
     }
     else { // numBytes == 2
-        if ((mainMemory->testMemPostcondition(memAddress, memValue) / 256) && (mainMemory->testMemPostcondition(memAddress + 1, memValue) % 256)) {
+        if ((mainMemory->testMemPostcondition(memAddress, memValue / 256)) && (mainMemory->testMemPostcondition(memAddress + 1, memValue % 256))) {
             return true;
         }
         errorString = "// ERROR: Unit test failed for word Mem[0x" +
