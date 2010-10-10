@@ -54,8 +54,7 @@ void MainMemory::populateMemoryItems()
 {
     rows.clear();
 
-//    qDebug() << "scroll value: " << ui->verticalScrollBar->value();
-
+    qDebug() << "scroll value: " << QString("%1").arg(ui->verticalScrollBar->value(), 4, 16, QLatin1Char('0'));
     int scrollBarValue = ui->verticalScrollBar->value();
 
     for (int i = scrollBarValue; i < scrollBarValue + ui->tableWidget->rowCount(); i++) {
@@ -238,8 +237,10 @@ void MainMemory::resizeEvent(QResizeEvent *)
     int newRowCount = ui->tableWidget->height()/ui->tableWidget->rowHeight(0) - 1;
     // +1 to make it look like we're actually scrolling and not shuffling items
 
+    // Set the maximum row count to be 64k - (num visible rows)
     ui->verticalScrollBar->setMaximum(ui->verticalScrollBar->maximum() - newRowCount);
 
+    // make sure the scroll bar stays at the bottom when resizing
     if (ui->verticalScrollBar->value() > ui->verticalScrollBar->maximum() - newRowCount) {
         ui->verticalScrollBar->setValue(0xffff - newRowCount);
     }

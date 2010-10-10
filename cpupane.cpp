@@ -247,11 +247,11 @@ void CpuPane::setRegisterByte(int reg, quint8 value) {
         break;
     case 4:
         Sim::regBank[4] = value;
-        cpuPaneItems->spRegLineEdit->setText("0x" + QString("%1").arg(value * 256 + Sim::regBank[3], 6, 16, ch).toUpper());
+        cpuPaneItems->spRegLineEdit->setText("0x" + QString("%1").arg(value * 256 + Sim::regBank[3], 4, 16, ch).toUpper());
         break;
     case 5:
         Sim::regBank[5] = value;
-        cpuPaneItems->spRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[4] * 256 + value, 2, 16, ch).toUpper());
+        cpuPaneItems->spRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[4] * 256 + value, 4, 16, ch).toUpper());
         break;
     case 6:
         Sim::regBank[6] = value;
