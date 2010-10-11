@@ -58,6 +58,9 @@ bool MicrocodePane::microAssemble()
             return false;
         }
         Sim::codeList.append(code);
+        if (code->isMicrocode()) {
+            Sim::cycleCount++;
+        }
         lineNum++;
     }
     // we guarantee a \n at the end of our document for single step highlighting

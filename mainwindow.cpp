@@ -362,11 +362,12 @@ void MainWindow::on_actionEdit_Font_triggered()
 // System MainWindow triggers
 void MainWindow::on_actionSystem_Run_triggered()
 {
+    Sim::cycleCount = 0; // this stores the number of cycles in a simulation, reset before assembling
     if (microcodePane->microAssemble()) {
         ui->statusBar->showMessage("MicroAssembly succeeded", 4000);
         objectCodePane->setObjectCode(microcodePane->codeToString());
         bool hasUnitPre = false;
-        for (int i = 0; i < Sim::codeList.size(); i++) {
+        for (int i = 0; i < Sim::codeList.size() && !hasUnitPre; i++) {
             hasUnitPre = hasUnitPre || Sim::codeList.at(i)->hasUnitPre();
         }
         if (hasUnitPre) {
@@ -391,6 +392,7 @@ void MainWindow::on_actionSystem_Run_triggered()
 
 void MainWindow::on_actionSystem_Start_Debugging_triggered()
 {
+    Sim::cycleCount = 0; // this stores the number of cycles in a simulation, reset before assembling
     if (microcodePane->microAssemble()) {
         ui->statusBar->showMessage("MicroAssembly succeeded", 4000);
         objectCodePane->setObjectCode(microcodePane->codeToString());

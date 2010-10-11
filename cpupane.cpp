@@ -790,12 +790,13 @@ void CpuPane::singleStepButtonPushed()
         QMessageBox::warning(0, "Pep/8", errorString);
     }
 
-    if (Sim::atEndOfSim()) { // this shouldn't happen, but let's be defensive:
+    Sim::microProgramCounter++;
+
+    if (Sim::atEndOfSim()) { // this should be detected on the previous step, but let's be defensive:
         emit simulationFinished();
         clearCpuControlSignals();
     }
     else {
-        Sim::microProgramCounter++;
         Sim::microCodeCurrentLine++;
         Code *code = Sim::codeList.at(Sim::microCodeCurrentLine);
         while (!code->isMicrocode() && !Sim::atEndOfSim()) {
