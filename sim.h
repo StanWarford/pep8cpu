@@ -27,6 +27,7 @@ public:
     static bool memWritePrevStep;
 
     static QList<Code *> codeList;
+    static int cycleCount; // used for storing the number of cycles in a simulation
     static int microProgramCounter;
     static int microCodeCurrentLine;
 
