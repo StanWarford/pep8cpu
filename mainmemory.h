@@ -30,6 +30,8 @@ public:
 
     void showMemEdited(int address);
 
+    void scrollToAddress(int address); // used to display the most recently modified cell
+
 public slots:
     // Highlights the label based on the label window color saved in the UI file
     void highlightOnFocus();
@@ -45,7 +47,7 @@ private slots:
     // Fires when the data in an item changes, used to store the value into Sim::Mem[]
     void cellDataChanged(QTableWidgetItem* item);
 
-    void scrollToAddress(QString string);
+    void scrollToChanged(QString string); // used to scroll to the cell corresponding to the line edit at the bottom
 
 protected:
     void changeEvent(QEvent *e);

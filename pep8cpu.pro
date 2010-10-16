@@ -3,8 +3,7 @@
 # -------------------------------------------------
 TEMPLATE = app
 QT += webkit
-CONFIG += x86 \
-    ppc
+CONFIG += x86 #    ppc
 
 # Mac icon/plist
 ICON = images/icon.icns

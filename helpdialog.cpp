@@ -20,12 +20,14 @@ HelpDialog::HelpDialog(QWidget *parent) :
     ui->helpTreeWidget->expandAll();
 
     delete ui->helpTextEdit;
+
     microcodeEditor = new MicrocodeEditor(this, false, true);
     ui->verticalLayout->insertWidget(0, microcodeEditor);
 
     leftHighlighter = new PepHighlighter(microcodeEditor->document());
 
     ui->helpTreeWidget->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+
     microcodeEditor->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 }
 

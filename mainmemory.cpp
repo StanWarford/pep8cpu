@@ -35,7 +35,7 @@ MainMemory::MainMemory(QWidget *parent) :
 
     connect(ui->verticalScrollBar, SIGNAL(actionTriggered(int)), this, SLOT(sliderMoved(int)));
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
-    connect(ui->lineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToAddress(QString)));
+    connect(ui->lineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToChanged(QString)));
 
     ui->scrollToLabel->setFont(QFont(ui->scrollToLabel->font().family(), ui->scrollToLabel->font().pointSize() - 2));
     ui->lineEdit->setFont(QFont(ui->lineEdit->font().family(), ui->lineEdit->font().pointSize() - 2));
@@ -54,15 +54,12 @@ void MainMemory::populateMemoryItems()
 {
     rows.clear();
 
-
 //    qDebug() << "pos: " << QString("%1").arg(pos, 4, 16, QLatin1Char('0'));
 
     qDebug() << "scroll value: " << QString("%1").arg(ui->verticalScrollBar->value(), 4, 16, QLatin1Char('0'));
     int scrollBarValue = ui->verticalScrollBar->value();
 
     for (int i = scrollBarValue; i < scrollBarValue + ui->tableWidget->rowCount(); i++) {
-
-//    for (int i = pos; i < pos + ui->tableWidget->rowCount(); i++) {
         rows << "0x" + QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
     }
     ui->tableWidget->setVerticalHeaderLabels(rows);
@@ -106,7 +103,7 @@ void MainMemory::setMemAddress(int memAddress, int value)
     if (memAddress < firstAddress || lastAddress < memAddress) {
         return;
     }
-    
+
     int lineAddress;
     for (int i = firstAddress; i < lastAddress; i++) {
         lineAddress = ui->tableWidget->verticalHeaderItem(i)->text().toInt();
@@ -139,8 +136,22 @@ void MainMemory::clearMemory()
 
 void MainMemory::showMemEdited(int address)
 {
-#warning "this could be a lot cooler, and show via color which cell was edited, but this will do for now"
-    refreshMemory();
+#warning "this could be a lot cooler, and show via color which cell was edited, but this will do for now:"
+    scrollToAddress(address);
+    populateMemoryItems();
+}
+
+void MainMemory::scrollToAddress(int address)
+{
+    if (address >= 0 && address <= 0xffff) { // defensive programming!
+        if (address > ui->verticalScrollBar->maximum()) { // ensure we only scroll to the bottom, and don't show values larger than 0xffff
+            ui->verticalScrollBar->setValue(ui->verticalScrollBar->maximum());
+        }
+        else { // simple case:
+            ui->verticalScrollBar->setValue(address);
+        }
+    }
+    // else, ignore, we're getting told to do something out of the correct range.
 }
 
 void MainMemory::highlightOnFocus()
@@ -161,7 +172,6 @@ bool MainMemory::hasFocus()
 void MainMemory::sliderMoved(int pos)
 {
     qDebug() << "slider moved: " << pos;
-    pos = ui->verticalScrollBar->value();
     populateMemoryItems();
 }
 
@@ -199,7 +209,7 @@ void MainMemory::cellDataChanged(QTableWidgetItem *item)
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 }
 
-void MainMemory::scrollToAddress(QString string)
+void MainMemory::scrollToChanged(QString string)
 {
     bool ok;
     int byte;
@@ -244,7 +254,7 @@ void MainMemory::resizeEvent(QResizeEvent *)
     // +1 to make it look like we're actually scrolling and not shuffling items
 
     // Set the maximum row count to be 64k - (num visible rows)
-    ui->verticalScrollBar->setMaximum(ui->verticalScrollBar->maximum() - newRowCount);
+    ui->verticalScrollBar->setMaximum(ui->verticalScrollBar->maximum() - newRowCount + 1);
 
     // make sure the scroll bar stays at the bottom when resizing
     if (ui->verticalScrollBar->value() > ui->verticalScrollBar->maximum() - newRowCount) {
