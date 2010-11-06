@@ -69,7 +69,7 @@ private slots:
 
     void ALUTextEdited(QString str);
 
-    bool getALUOut(quint8& out, quint8& a, quint8& b, int& c, int& carry, QString& errorString);
+    bool getALUOut(quint8& result, quint8& a, quint8& b, int& carry, QString& errorString);
     bool getCMuxOut(quint8& out, QString& errorString);
     bool getAMuxOut(quint8& out, QString& errorString);
     bool getMDRMuxOut(quint8& out, QString& errorString);

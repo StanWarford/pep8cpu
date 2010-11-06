@@ -209,6 +209,22 @@ void MainMemory::cellDataChanged(QTableWidgetItem *item)
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 }
 
+void MainMemory::highlightModifiedBytes()
+{
+    if (Sim::modifiedBytes.isEmpty()) {
+        // clear all highlighted cells
+        return;
+    }
+
+    // for each item in the table:
+    for (int i = 0; i < ui->tableWidget->rowCount() - 1; i++) {
+
+    }
+    // if the item is in the sim::modifiedBytes set, highlight it
+    // if not, unhighlight it
+    // end for
+}
+
 void MainMemory::scrollToChanged(QString string)
 {
     bool ok;

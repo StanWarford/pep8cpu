@@ -47,6 +47,9 @@ private slots:
     // Fires when the data in an item changes, used to store the value into Sim::Mem[]
     void cellDataChanged(QTableWidgetItem* item);
 
+    // this is used to highlight modified bytes since the last clock pulse
+    void highlightModifiedBytes();
+
     void scrollToChanged(QString string); // used to scroll to the cell corresponding to the line edit at the bottom
 
 protected:
