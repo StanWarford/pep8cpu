@@ -96,7 +96,8 @@ bool Sim::aluFnIsUnary(int fn)
 
 bool Sim::atEndOfSim()
 {
-    return microProgramCounter >= cycleCount; // we use this because of special cases with
+    return microProgramCounter >= cycleCount;
+    // we use this because of special cases with
     // some simulations being very short (2 lines in particular).
 
 //    return microCodeCurrentLine + 1 >= codeList.size() - 1; // old and tired

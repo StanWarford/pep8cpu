@@ -362,31 +362,7 @@ void MainWindow::on_actionEdit_Font_triggered()
 // System MainWindow triggers
 void MainWindow::on_actionSystem_Run_triggered()
 {
-    Sim::cycleCount = 0; // this stores the number of cycles in a simulation, reset before assembling
-    if (microcodePane->microAssemble()) {
-        ui->statusBar->showMessage("MicroAssembly succeeded", 4000);
-        objectCodePane->setObjectCode(microcodePane->codeToString());
-        bool hasUnitPre = false;
-        for (int i = 0; i < Sim::codeList.size() && !hasUnitPre; i++) {
-            hasUnitPre = hasUnitPre || Sim::codeList.at(i)->hasUnitPre();
-        }
-        if (hasUnitPre) {
-            mainMemory->clearMemory();
-            cpuPane->clearCpu();
-            for (int i = 0; i < Sim::codeList.size(); i++) {
-                Sim::codeList.at(i)->setUnitPre(mainMemory, cpuPane);
-            }
-        }
-    }
-    else {
-        ui->statusBar->showMessage("MicroAssembly failed", 4000);
-        return;
-    }
-
-    // initialize these to zero for the purpose of stepping through the codelist
-    Sim::microCodeCurrentLine = 0;
-    Sim::microProgramCounter = 0;
-
+    on_actionSystem_Start_Debugging_triggered();
     cpuPane->run();
 }
 
@@ -400,6 +376,7 @@ void MainWindow::on_actionSystem_Start_Debugging_triggered()
         for (int i = 0; i < Sim::codeList.size(); i++) {
             hasUnitPre = hasUnitPre || Sim::codeList.at(i)->hasUnitPre();
         }
+        // setup preconditions
         if (hasUnitPre) {
             mainMemory->clearMemory();
             cpuPane->clearCpu();
@@ -413,6 +390,7 @@ void MainWindow::on_actionSystem_Start_Debugging_triggered()
         return;
     }
 
+    // prevent simulation from starting if there's nothing to simulate
     bool hasMicrocode = false;
     for (int i = 0; i < Sim::codeList.size(); i++) {
         if (Sim::codeList.at(i)->isMicrocode()) {
@@ -430,14 +408,6 @@ void MainWindow::on_actionSystem_Start_Debugging_triggered()
     ui->actionSystem_Run->setEnabled(false);
     ui->actionSystem_Start_Debugging->setEnabled(false);
     microcodePane->setReadOnly(true);
-
-    // initialize simulation state variables
-    Sim::memReadPrevStep = false;
-    Sim::memWritePrevStep = false;
-
-    // reinitialize these to zero for this simulation
-    Sim::microCodeCurrentLine = 0;
-    Sim::microProgramCounter = 0;
 
     cpuPane->startDebugging();
 }

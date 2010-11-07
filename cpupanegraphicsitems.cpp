@@ -1160,7 +1160,7 @@ void CpuPaneGraphicsItems::repaintMemWrite(QPainter *painter)
 
         // Draw main bus
         if (isHigh) {
-            qDebug() << "mainBusState: " << Sim::mainBusState;
+            // qDebug() << "mainBusState: " << Sim::mainBusState;
             if (Sim::mainBusState == Enu::None) {
                 // We have not yet memWrite'n, but are about to clock for the first time
                 color = Qt::yellow;

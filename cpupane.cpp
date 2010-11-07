@@ -123,6 +123,7 @@ void CpuPane::startDebugging()
     ui->clockPushButton->setEnabled(false);
     ui->copyToMicrocodePushButton->setEnabled(false);
 
+    // reinitialize these to zero for this simulation
     Sim::microProgramCounter = 0;
     Sim::microCodeCurrentLine = 0;
 
@@ -138,8 +139,6 @@ void CpuPane::startDebugging()
     }
     code->setCpuLabels(cpuPaneItems);
     emit updateSimulation();
-    //    Sim::microProgramCounter++;
-    //    Sim::microCodeCurrentLine++;
 }
 
 void CpuPane::stopDebugging()
@@ -788,6 +787,7 @@ void CpuPane::clockButtonPushed()
 void CpuPane::singleStepButtonPushed()
 {
     QString errorString;
+
     if (!step(errorString)) {
         // simulation had issues.
         QMessageBox::warning(0, "Pep/8", errorString);
@@ -827,34 +827,41 @@ void CpuPane::resumeButtonPushed()
 {
 
     QString errorString;
-    bool notFinished = true;
+    bool finished = false;
 
-    while (notFinished) { // we set the flag to false when we're done with simulation, or have errors
+    while (!finished) { // we set the flag to false when we're done with simulation, or have errors
         if (!step(errorString)) {
             // simulation had issues.
             QMessageBox::warning(0, "Pep/8", errorString);
-            notFinished = false;
+            finished = true;
+            emit simulationFinished();
+            clearCpuControlSignals();
+            return; // we'll just return here instead of letting it fail and go to the bottom
         }
 
+        Sim::microProgramCounter++;
+
         if (Sim::atEndOfSim()) {
-            notFinished = false;
+            finished = true; // this will fail the loop next time and go to the bottom
         }
         else {
-            Sim::microProgramCounter++;
             Sim::microCodeCurrentLine++;
             Code *code = Sim::codeList.at(Sim::microCodeCurrentLine);
             while (!code->isMicrocode() && !Sim::atEndOfSim()) {
                 // iterate through the code list until we're at the end of the sim,
-                // or until we're at another line of microcode
+                // or we're at another line of microcode
                 Sim::microCodeCurrentLine++;
                 code = Sim::codeList.at(Sim::microCodeCurrentLine);
+                qDebug() << code->getSourceCode();
             }
             if (!code->isMicrocode()) {
                 // this will trigger if we're at the end of the simulation and have nothing more to execute
-                notFinished = false;
+                finished = true;
             }
-            code->setCpuLabels(cpuPaneItems);
-            emit updateSimulation();
+            else {
+                code->setCpuLabels(cpuPaneItems);
+                emit updateSimulation();
+            }
         }
 
         scene->invalidate();
@@ -992,8 +999,7 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, QStrin
     carry = 0;
 
     if (cpuPaneItems->ALULineEdit->text() == "") {
-        qDebug() << "no ALU input";
-        errorString.append("No ALU input\n");
+//        errorString.append("No ALU input\n");
         return false;
     }
 
@@ -1211,6 +1217,6 @@ bool CpuPane::getBBusOut(quint8 &out, QString &errorString)
 
 void CpuPane::run()
 {
-    // these are really equivalent:
+    // Run; these are really equivalent:
     resumeButtonPushed();
 }
