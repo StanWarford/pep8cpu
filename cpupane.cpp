@@ -262,15 +262,15 @@ void CpuPane::setRegisterByte(int reg, quint8 value) {
         break;
     case 8:
         Sim::regBank[8] = value;
-        cpuPaneItems->irRegLineEdit->setText("0x" + QString("%1").arg(value * 65536 + Sim::regBank[9] + Sim::regBank[10], 4, 16, ch).toUpper());
+        cpuPaneItems->irRegLineEdit->setText("0x" + QString("%1").arg(value * 65536 + Sim::regBank[9] + Sim::regBank[10], 6, 16, ch).toUpper());
         break;
     case 9:
         Sim::regBank[9] = value;
-        cpuPaneItems->irRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[8] * 65536 + value * 256 + Sim::regBank[10], 4, 16, ch).toUpper());
+        cpuPaneItems->irRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[8] * 65536 + value * 256 + Sim::regBank[10], 6, 16, ch).toUpper());
         break;
     case 10:
         Sim::regBank[10] = value;
-        cpuPaneItems->irRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[8] * 65536 + Sim::regBank[9] * 256 + value, 4, 16, ch).toUpper());
+        cpuPaneItems->irRegLineEdit->setText("0x" + QString("%1").arg(Sim::regBank[8] * 65536 + Sim::regBank[9] * 256 + value, 6, 16, ch).toUpper());
         break;
     case 11:
         Sim::regBank[11] = value;
@@ -725,11 +725,11 @@ void CpuPane::regTextEdited(QString str)
         Sim::regBank[7] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->irRegLineEdit) {
-        Sim::regBank[8] = (regValue & 0xFF00) / 256;
-        Sim::regBank[9] = regValue & 0xFF;
+        Sim::regBank[8] = (regValue & 0xFF0000) / 65536;
+        Sim::regBank[9] = (regValue & 0xFF00) / 256;
+        Sim::regBank[10] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t1RegLineEdit) {
-        Sim::regBank[10] = (regValue & 0xFF00) / 256;
         Sim::regBank[11] = regValue & 0xFF;
     }
     else if (lineEdit == cpuPaneItems->t2RegLineEdit) {
@@ -1169,7 +1169,7 @@ bool CpuPane::getMDRMuxOut(quint8 &out, QString &errorString)
     if (cpuPaneItems->MDRMuxTristateLabel->text() == "0") {
         if (Sim::mainBusState == Enu::MemReadReady) {
             // perform a memRead
-            int address = (int)Sim::MARA * 256 + (int)Sim::MARB;
+            int address = Sim::MARA * 256 + Sim::MARB;
             out = Sim::readByte(address);
             emit readByte(address);
             return true;

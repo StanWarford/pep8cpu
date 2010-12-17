@@ -124,6 +124,7 @@ void MainMemory::setMemAddress(int memAddress, int value)
 
 void MainMemory::setMemPrecondition(int memAddress, int value)
 {
+    Sim::writeByte(memAddress, value);
     setMemAddress(memAddress, value);
 }
 
