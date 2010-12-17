@@ -620,7 +620,7 @@ void MainWindow::helpCopyToMicrocodeButtonClicked()
 
 void MainWindow::updateMemAddress(int address)
 {
-    mainMemory->setMemAddress(address, Sim::Mem[address]);
+    mainMemory->setMemAddress(address, Sim::readByte(address));
     mainMemory->showMemEdited(address);
 }
 

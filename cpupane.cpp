@@ -577,7 +577,7 @@ bool CpuPane::step(QString &errorString)
     else if (Sim::mainBusState == Enu::MemWriteReady) {
         // we are performing a 2nd consecutive MemWrite
         int address = Sim::MARA * 256 + Sim::MARB;
-        Sim::Mem[address] = Sim::MDR;
+        Sim::writeByte(address, Sim::MDR);
         emit writeByte(address);
     }
 
@@ -852,7 +852,6 @@ void CpuPane::resumeButtonPushed()
                 // or we're at another line of microcode
                 Sim::microCodeCurrentLine++;
                 code = Sim::codeList.at(Sim::microCodeCurrentLine);
-                qDebug() << code->getSourceCode();
             }
             if (!code->isMicrocode()) {
                 // this will trigger if we're at the end of the simulation and have nothing more to execute
@@ -1171,8 +1170,7 @@ bool CpuPane::getMDRMuxOut(quint8 &out, QString &errorString)
         if (Sim::mainBusState == Enu::MemReadReady) {
             // perform a memRead
             int address = (int)Sim::MARA * 256 + (int)Sim::MARB;
-//            setRegister(Enu::MDR, Sim::Mem[address]);
-            out = Sim::Mem[address];
+            out = Sim::readByte(address);
             emit readByte(address);
             return true;
         }

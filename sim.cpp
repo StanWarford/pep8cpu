@@ -1,6 +1,8 @@
 #include "sim.h"
 #include "enu.h"
 
+#include <QDebug>
+
 using namespace Enu;
 
 QVector<quint8> Sim::Mem(65536);
@@ -39,6 +41,8 @@ int Sim::readByte(int memAddr)
 
 void Sim::writeByte(int memAddr, int value)
 {
+    qDebug() << "Wrote byte " << memAddr << " with value " << value;
+
     Mem[memAddr & 0xffff] = value;
     modifiedBytes.insert(memAddr & 0xffff);
 }

@@ -28,7 +28,11 @@ public:
     void clearMemory();
     // Post: sets all memory to 0x00;
 
+    // scrolls to modified cell and highlights it
     void showMemEdited(int address);
+
+    // highlights all modified bytes in the current view
+    void hightlightModifiedBytes();
 
     void scrollToAddress(int address); // used to display the most recently modified cell
 
@@ -46,9 +50,6 @@ private slots:
 
     // Fires when the data in an item changes, used to store the value into Sim::Mem[]
     void cellDataChanged(QTableWidgetItem* item);
-
-    // this is used to highlight modified bytes since the last clock pulse
-    void highlightModifiedBytes();
 
     void scrollToChanged(QString string); // used to scroll to the cell corresponding to the line edit at the bottom
 

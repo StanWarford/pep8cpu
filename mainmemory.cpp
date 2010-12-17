@@ -87,6 +87,9 @@ void MainMemory::refreshMemory()
 
 void MainMemory::setMemAddress(int memAddress, int value)
 {
+    // disconnect this signal so that modifying the text of the column next to it doesn't fire this signal; reconnect at the end
+    disconnect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
+
     if (memAddress > 0xffff || memAddress < 0) {
         qDebug() << "invalid address: " << memAddress;
     }
@@ -94,8 +97,6 @@ void MainMemory::setMemAddress(int memAddress, int value)
         value = value & 255;
         qDebug() << "setMemAddr of num larger than 255: val: " << value << ", addr: " << memAddress;
     }
-
-    Sim::Mem[memAddress] = value;
 
     int firstAddress = ui->tableWidget->verticalHeaderItem(0)->text().toInt();
     int lastAddress = firstAddress + ui->tableWidget->rowCount();
@@ -111,17 +112,18 @@ void MainMemory::setMemAddress(int memAddress, int value)
             ui->tableWidget->item(i, 0)->setText("0x" + QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper().trimmed());
         }
     }
+
+    connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 }
 
 void MainMemory::setMemPrecondition(int memAddress, int value)
 {
-//    Sim::Mem[memAddress] = value;
     setMemAddress(memAddress, value);
 }
 
 bool MainMemory::testMemPostcondition(int memAddress, int value)
 {
-    return Sim::Mem[memAddress] == value;
+    return Sim::readByte(memAddress) == value;
 }
 
 void MainMemory::clearMemory()
@@ -136,9 +138,37 @@ void MainMemory::clearMemory()
 
 void MainMemory::showMemEdited(int address)
 {
-#warning "this could be a lot cooler, and show via color which cell was edited, but this will do for now:"
+    // disconnect this signal so that modifying the text of the column next to it doesn't fire this signal; reconnect at the end
+    disconnect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
+
     scrollToAddress(address);
     populateMemoryItems();
+    hightlightModifiedBytes();
+
+    connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
+}
+
+void MainMemory::hightlightModifiedBytes()
+{
+    if (Sim::modifiedBytes.isEmpty()) {
+        // clear all highlighted cells
+        for (int i = 0; i < ui->tableWidget->rowCount(); i++) {
+            ui->tableWidget->itemAt(0, i)->setBackgroundColor(Qt::white);
+        }
+        return;
+    }
+
+    // for each item in the table:
+    for (int i = 0; i < ui->tableWidget->rowCount() - 1; i++) {
+        bool ok;
+        int j = ui->tableWidget->verticalHeaderItem(i)->text().right(4).toInt(&ok, 16);
+        if (ok && Sim::modifiedBytes.contains(j)) {
+            ui->tableWidget->itemAt(0, i)->setBackgroundColor(Qt::green);
+        }
+        else {
+            ui->tableWidget->itemAt(0, i)->setBackgroundColor(Qt::white);
+        }
+    }
 }
 
 void MainMemory::scrollToAddress(int address)
@@ -152,6 +182,8 @@ void MainMemory::scrollToAddress(int address)
         }
     }
     // else, ignore, we're getting told to do something out of the correct range.
+
+    hightlightModifiedBytes();
 }
 
 void MainMemory::highlightOnFocus()
@@ -173,6 +205,7 @@ void MainMemory::sliderMoved(int pos)
 {
     qDebug() << "slider moved: " << pos;
     populateMemoryItems();
+    hightlightModifiedBytes();
 }
 
 void MainMemory::cellDataChanged(QTableWidgetItem *item)
@@ -209,22 +242,6 @@ void MainMemory::cellDataChanged(QTableWidgetItem *item)
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 }
 
-void MainMemory::highlightModifiedBytes()
-{
-    if (Sim::modifiedBytes.isEmpty()) {
-        // clear all highlighted cells
-        return;
-    }
-
-    // for each item in the table:
-    for (int i = 0; i < ui->tableWidget->rowCount() - 1; i++) {
-
-    }
-    // if the item is in the sim::modifiedBytes set, highlight it
-    // if not, unhighlight it
-    // end for
-}
-
 void MainMemory::scrollToChanged(QString string)
 {
     bool ok;
@@ -250,6 +267,9 @@ void MainMemory::scrollToChanged(QString string)
     else {
         ui->lineEdit->setText("0x");
     }
+
+    // make sure the cells are correctly highlighted
+    hightlightModifiedBytes();
 }
 
 void MainMemory::changeEvent(QEvent *e)
