@@ -52,6 +52,9 @@ MainMemory::~MainMemory()
 
 void MainMemory::populateMemoryItems()
 {
+    // disconnect this signal so that modifying the text of the column next to it doesn't fire this signal; reconnect at the end
+    disconnect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
+
     rows.clear();
 
 //    qDebug() << "pos: " << QString("%1").arg(pos, 4, 16, QLatin1Char('0'));
@@ -64,11 +67,14 @@ void MainMemory::populateMemoryItems()
     }
     ui->tableWidget->setVerticalHeaderLabels(rows);
 
+    connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
+
     refreshMemory();
 }
 
 void MainMemory::refreshMemory()
 {
+    // disconnect this signal so that modifying the text of the column next to it doesn't fire this signal; reconnect at the end
     disconnect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 
     bool ok;
@@ -138,18 +144,16 @@ void MainMemory::clearMemory()
 
 void MainMemory::showMemEdited(int address)
 {
-    // disconnect this signal so that modifying the text of the column next to it doesn't fire this signal; reconnect at the end
-    disconnect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
-
     scrollToAddress(address);
     populateMemoryItems();
     hightlightModifiedBytes();
-
-    connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 }
 
 void MainMemory::hightlightModifiedBytes()
 {
+    // disconnect this signal so that modifying the text of the column next to it doesn't fire this signal; reconnect at the end
+    disconnect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
+
     if (Sim::modifiedBytes.isEmpty()) {
         // clear all highlighted cells
         for (int i = 0; i < ui->tableWidget->rowCount(); i++) {
@@ -169,10 +173,15 @@ void MainMemory::hightlightModifiedBytes()
             ui->tableWidget->itemAt(0, i)->setBackgroundColor(Qt::white);
         }
     }
+
+    connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 }
 
 void MainMemory::scrollToAddress(int address)
 {
+    // disconnect this signal so that modifying the text of the column next to it doesn't fire this signal; reconnect at the end
+    disconnect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
+
     if (address >= 0 && address <= 0xffff) { // defensive programming!
         if (address > ui->verticalScrollBar->maximum()) { // ensure we only scroll to the bottom, and don't show values larger than 0xffff
             ui->verticalScrollBar->setValue(ui->verticalScrollBar->maximum());
@@ -182,6 +191,8 @@ void MainMemory::scrollToAddress(int address)
         }
     }
     // else, ignore, we're getting told to do something out of the correct range.
+
+    connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 
     hightlightModifiedBytes();
 }
