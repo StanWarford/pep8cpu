@@ -65,6 +65,8 @@ public:
 
     void unCommentSelection();
 
+    void setFilename(QString fileName);
+
 protected:
     void changeEvent(QEvent *e);
 

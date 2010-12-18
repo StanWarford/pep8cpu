@@ -23,6 +23,7 @@ public:
 
     void highlightOnFocus();
     bool hasFocus();
+    void giveFocus();
 
     void startDebugging();
     void stopDebugging();
@@ -38,6 +39,10 @@ public:
 
     void clearCpu();
     void clearCpuControlSignals();
+
+    // These are used by the main window in order to allow it to use the <enter> key to step.
+    void singleStep();
+    void clock();
 
 protected:
     void changeEvent(QEvent *e);

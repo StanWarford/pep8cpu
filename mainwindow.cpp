@@ -109,8 +109,23 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
-
+        if ((keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter)) {
+            if (cpuPane->hasFocus()) {
+                // single step or clock, depending
+                if (ui->actionSystem_Stop_Debugging->isEnabled()) {
+                    // single step
+                    cpuPane->singleStep();
+                }
+                else {
+                    // clock
+                    cpuPane->clock();
+                }
+                return true;
+            }
+            else if (ui->actionSystem_Stop_Debugging->isEnabled() &&
+                     (microcodePane->hasFocus() || objectCodePane->hasFocus())) {
+                cpuPane->giveFocus();
+            }
         }
     }
     else if (event->type() == QEvent::FileOpen) {
@@ -226,6 +241,7 @@ bool MainWindow::saveFile(const QString &fileName)
 
 void MainWindow::setCurrentFile(const QString &fileName)
 {
+    microcodePane->setFilename(QFileInfo(fileName).fileName());
     curFile = fileName;
     microcodePane->setModifiedFalse();
 

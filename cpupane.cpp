@@ -115,6 +115,11 @@ bool CpuPane::hasFocus()
     return ui->graphicsView->hasFocus() || ui->spinBox->hasFocus();
 }
 
+void CpuPane::giveFocus()
+{
+    ui->graphicsView->setFocus();
+}
+
 void CpuPane::startDebugging()
 {
     ui->resumePushButton->setEnabled(true);
@@ -453,6 +458,16 @@ void CpuPane::clearCpuControlSignals()
     cpuPaneItems->NCkCheckBox->setChecked(false);
     cpuPaneItems->MemReadTristateLabel->setText("");
     cpuPaneItems->MemWriteTristateLabel->setText("");
+}
+
+void CpuPane::singleStep()
+{
+    singleStepButtonPushed();
+}
+
+void CpuPane::clock()
+{
+    clockButtonPushed();
 }
 
 void CpuPane::changeEvent(QEvent *e)

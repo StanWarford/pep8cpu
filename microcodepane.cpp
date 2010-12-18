@@ -220,6 +220,16 @@ void MicrocodePane::unCommentSelection()
     editor->unCommentSelection();
 }
 
+void MicrocodePane::setFilename(QString fileName)
+{
+    if (fileName == "") {
+        ui->label->setText("Microcode");
+    }
+    else {
+        ui->label->setText(QString("Microcode - %1").arg(fileName));
+    }
+}
+
 void MicrocodePane::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
