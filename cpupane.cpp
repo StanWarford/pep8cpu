@@ -581,10 +581,10 @@ bool CpuPane::step(QString &errorString)
     // Status bit calculations
     int aluFn = cpuPaneItems->ALULineEdit->text().toInt();
     int carry;
-    int bitMask = Sim::getAluMask(aluFn);
+    int overflow;
     bool isUnary = Sim::aluFnIsUnary(aluFn);
-    quint8 result, a, b; // 'result' instead of 'out' to mirror the textbook
-    getALUOut(result, a, b, carry, errorString); // ignore boolean returned - error would have been handled earlier
+    quint8 result, a, b;
+    getALUOut(result, a, b, carry, overflow, errorString); // ignore boolean returned - error would have been handled earlier
 
     if (Sim::mainBusState == Enu::MemReadReady) { // we are performing a 2nd consecutive MemRead
         // do nothing - the memread is performed in the getMDRMuxOut fn
@@ -650,7 +650,7 @@ bool CpuPane::step(QString &errorString)
     }
     else {
         // NCk
-        if (cpuPaneItems->NCkCheckBox->isChecked() && (bitMask & Enu::NMask)) {
+        if (cpuPaneItems->NCkCheckBox->isChecked()) {
             setStatusBit(Enu::N, result > 127);
         }
 
@@ -660,26 +660,21 @@ bool CpuPane::step(QString &errorString)
                 errorString.append("ZCk without ANDZ");
                 return false;
             }
-            if (cpuPaneItems->ANDZTristateLabel->text() == "0" && (bitMask & Enu::ZMask)) { // zOut from ALU goes straight through
+            if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
                 setStatusBit(Enu::Z, result == 0);
             }
-            else if (cpuPaneItems->ANDZTristateLabel->text() == "1" && (bitMask & Enu::ZMask)) { // zOut && zCurr
+            else if (cpuPaneItems->ANDZTristateLabel->text() == "1") { // zOut && zCurr
                 setStatusBit(Enu::Z, result == 0 && Sim::zBit);
             }
         }
 
         // VCk
         if (cpuPaneItems->VCkCheckBox->isChecked()) {
-            if (isUnary) {
-                setStatusBit(Enu::V, (result > 127 && a < 128) || (result < 128 && a > 127));
-            }
-            else {
-                setStatusBit(Enu::V, (result > 127 && a < 128 && b < 128) || (result < 128 && a > 127 && b > 127));
-            }
+            setStatusBit(Enu::V, overflow & 0x1);
         }
 
         // CCk
-        if (cpuPaneItems->CCkCheckBox->isChecked() && (bitMask & Enu::CMask)) {
+        if (cpuPaneItems->CCkCheckBox->isChecked()) {
             setStatusBit(Enu::C, carry & 0x1);
         }
     }
@@ -1005,12 +1000,13 @@ void CpuPane::ALUTextEdited(QString str)
     }
 }
 
-bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, QString &errorString)
+bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& overflow, QString &errorString)
 {
     a = 0;
     b = 0;
     int output = 0;
     carry = 0;
+    overflow = 0;
 
     if (cpuPaneItems->ALULineEdit->text() == "") {
 //        errorString.append("No ALU input\n");
@@ -1025,14 +1021,15 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, QStrin
         if (getAMuxOut(a, errorString)) {
             output = a;
             b = 0;
-            carry = 0;
             result = output;
         }
         break;
     case 1: // A plus B
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             output = a + b;
-            carry = (((output & 0x1ff) >> 8 ) & 0x1) == 1;
+//            carry = (((output & 0x1ff) >> 8 ) & 0x1) == 1;
+            carry = (((output & 0x1ff) >> 8 ) & 0x1);
+            overflow = ((((a & 0x7f) + (b & 0x7f)) >> 7) & 0x1) ^ carry;
             result = output;
         }
         break;
@@ -1040,6 +1037,7 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, QStrin
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             output = a + b + !!Sim::cBit;
             carry = ((output & 0x1ff) >> 8) & 0x1;
+            overflow = ((((a & 0x7f) + (b & 0x7f) + !!Sim::cBit) >> 7) & 0x1) ^ carry;
             result = output;
         }
         break;
@@ -1048,6 +1046,7 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, QStrin
             int busVal = (a & 0xff) + (~b & 0xff) + 1;
             output = busVal & 0xff;
             carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
+            overflow = ((((a & 0x7f) + (~b & 0x7f) + 1) >> 7) & 0x1) ^ carry;
             result = output;
         }
         break;
@@ -1056,75 +1055,71 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, QStrin
             int busVal = (a & 0xff) + (~b & 0xff) + !!Sim::cBit;
             output = busVal & 0xff;
             carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
+            overflow = ((((a & 0x7f) + (~b & 0x7f) + !!Sim::cBit) >> 7) & 0x1) ^ carry;
             result = output;
         }
         break;
     case 5: // A and B
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             output = a & b;
-            carry = 0;
             result = output;
         }
         break;
     case 6: // ~(A and B)
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             output = ~(a & b) & 0xff;
-            carry = 0;
             result = output;
         }
         break;
     case 7: // A + B
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             output = a | b;
-            carry = 0;
             result = output;
         }
         break;
     case 8: // ~(A + B)
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             output = ~(a | b);
-            carry = 0;
             result = output;
         }
         break;
     case 9: // A xor B
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
-            output = (a ^ b) & 0xff; // or ((a & ~b) | (~a & b)) & 0xff
-            carry = 0;
+            output = (a ^ b) & 0xff;
             result = output;
         }
         break;
     case 10: // ~A
         if (getAMuxOut(a, errorString)) {
             output = ~a;
-            carry = 0;
             result = output;
         }
         break;
     case 11: // ASL A
         if (getAMuxOut(a, errorString)) {
-            output = (a << 1) & 254; // 254 because 0 gets shifted in
-            carry = a & 128 / 128;
+            output = (a << 1) & 0xfe; // 0xfe because 0 gets shifted in
+            carry = (a & 0x80) >> 7;
+            overflow = ((a & 0x40) >> 6) ^ carry;
             result = output;
         }
         break;
     case 12: // ROL A
         if (getAMuxOut(a, errorString)) {
-            output = ((a << 1) & 254) + !!Sim::cBit;
-            carry = (a & 128) / 128;
-            result = (a >> 1) + Sim::cBit;
+            output = ((a << 1) & 0xfe) + !!Sim::cBit;
+            carry = (a & 0x80) >> 7;
+            result = output;
         }
         break;
     case 13: // ASR A
         if (getAMuxOut(a, errorString)) {
-            output = ((a >> 1) & 127) | (a & 128);
+            output = ((a >> 1) & 0x7f) | (a & 0x80);
             carry = a & 1;
             result = output;
         }
         break;
     case 14: // ROR A
         if (getAMuxOut(a, errorString)) {
-            output = ((a >> 1) & 127) | (!!Sim::cBit * 128);
+            output = ((a >> 1) & 0x7f) | (!!Sim::cBit << 7);
             carry = a & 1;
             result = output;
         }
@@ -1150,8 +1145,8 @@ bool CpuPane::getCMuxOut(quint8 &out, QString &errorString)
     }
     else if (cpuPaneItems->cMuxTristateLabel->text() == "1") {
         quint8 a, b;
-        int carry;
-        return getALUOut(out, a, b, carry, errorString);
+        int carry, overflow;
+        return getALUOut(out, a, b, carry, overflow, errorString);
     }
     else {
         errorString.append("No destination set for C bus\n");
