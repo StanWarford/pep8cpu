@@ -93,7 +93,15 @@ void MicrocodePane::removeErrorMessages()
 void MicrocodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString message)
 {
     QTextCursor cursor(editor->document());
-    if (lineNumber == -1) {
+    if (lineNumber == -2) {
+        cursor.setPosition(editor->textCursor().position());
+        cursor.movePosition(QTextCursor::NextBlock);
+        cursor.clearSelection();
+        editor->setTextCursor(cursor);
+        editor->ensureCursorVisible();
+        message.append("\n");
+    }
+    else if (lineNumber == -1) {
         editor->appendPlainText(message);
         return;
     }

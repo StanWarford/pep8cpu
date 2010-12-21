@@ -37,8 +37,8 @@ MainMemory::MainMemory(QWidget *parent) :
     connect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
     connect(ui->lineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToChanged(QString)));
 
-    ui->scrollToLabel->setFont(QFont(ui->scrollToLabel->font().family(), ui->scrollToLabel->font().pointSize() - 2));
-    ui->lineEdit->setFont(QFont(ui->lineEdit->font().family(), ui->lineEdit->font().pointSize() - 2));
+    ui->scrollToLabel->setFont(QFont(ui->scrollToLabel->font().family(), ui->scrollToLabel->font().pointSize()));
+    ui->lineEdit->setFont(QFont(ui->lineEdit->font().family(), ui->lineEdit->font().pointSize()));
 
     ui->tableWidget->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
 
@@ -56,8 +56,6 @@ void MainMemory::populateMemoryItems()
     disconnect(ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(cellDataChanged(QTableWidgetItem*)));
 
     rows.clear();
-
-//    qDebug() << "pos: " << QString("%1").arg(pos, 4, 16, QLatin1Char('0'));
 
     qDebug() << "scroll value: " << QString("%1").arg(ui->verticalScrollBar->value(), 4, 16, QLatin1Char('0'));
     int scrollBarValue = ui->verticalScrollBar->value();
@@ -264,12 +262,8 @@ void MainMemory::scrollToChanged(QString string)
             if (byte > 65535) {
                 ui->lineEdit->setText("0xFFFF");
             } else {
-#warning "fix this whole thing"
-//                int min = ui->verticalScrollBar->minimum();
-//                int max = ui->verticalScrollBar->maximum();
                 ui->verticalScrollBar->setValue(byte);
                 sliderMoved(0);
-//                ui->verticalScrollBar->setValue(min + static_cast<int>(8 * (byte / 4096 - 8) + ((byte - byte % 8) / 65536.0) * (max - min)));
             }
         }
         else {
@@ -299,14 +293,13 @@ void MainMemory::changeEvent(QEvent *e)
 void MainMemory::resizeEvent(QResizeEvent *)
 {
     int newRowCount = ui->tableWidget->height()/ui->tableWidget->rowHeight(0) - 1;
-    // +1 to make it look like we're actually scrolling and not shuffling items
 
     // Set the maximum row count to be 64k - (num visible rows)
     ui->verticalScrollBar->setMaximum(ui->verticalScrollBar->maximum() - newRowCount + 1);
 
     // make sure the scroll bar stays at the bottom when resizing
     if (ui->verticalScrollBar->value() > ui->verticalScrollBar->maximum() - newRowCount) {
-        ui->verticalScrollBar->setValue(0xffff - newRowCount);
+        ui->verticalScrollBar->setValue(ui->verticalScrollBar->maximum()); //0xffff - newRowCount);
     }
 
     if (newRowCount > oldRowCount) {

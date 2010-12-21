@@ -296,7 +296,7 @@ bool MainWindow::on_actionFile_Save_As_triggered()
             this,
             "Save Microcode",
             curFile.isEmpty() ? curPath + "/untitled.pepcpu" : curPath + "/" + strippedName(curFile),
-            "Pep8 Source (*.pep *.txt)");
+            "Pep8 Source (*.pepcpu *.txt)");
     if (fileName.isEmpty()) {
         return false;
     }
@@ -621,7 +621,7 @@ void MainWindow::simulationFinished()
 
 void MainWindow::appendMicrocodeLine(QString line)
 {
-    microcodePane->appendMessageInSourceCodePaneAt(-1, line);
+    microcodePane->appendMessageInSourceCodePaneAt(-2, line);
 }
 
 void MainWindow::helpCopyToMicrocodeButtonClicked()
