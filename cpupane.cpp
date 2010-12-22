@@ -1027,8 +1027,7 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& o
     case 1: // A plus B
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             output = a + b;
-//            carry = (((output & 0x1ff) >> 8 ) & 0x1) == 1;
-            carry = (((output & 0x1ff) >> 8 ) & 0x1);
+            carry = (((output & 0x1ff) >> 8) & 0x1);
             overflow = ((((a & 0x7f) + (b & 0x7f)) >> 7) & 0x1) ^ carry;
             result = output;
         }
@@ -1043,19 +1042,17 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& o
         break;
     case 3: // A plus ~B plus 1
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
-            int busVal = (a & 0xff) + (~b & 0xff) + 1;
-            output = busVal & 0xff;
-            carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
-            overflow = ((((a & 0x7f) + (~b & 0x7f) + 1) >> 7) & 0x1) ^ carry;
+            output = a + ((~b) & 0xff) + 1;
+            carry = ((output & 0x1ff) >> 8) & 0x1;
+            overflow = ((((a & 0x7f) + ((~b) & 0x7f) + 1) >> 7) & 0x1) ^ carry;
             result = output;
         }
         break;
     case 4: // A plus ~B plus Cin
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
-            int busVal = (a & 0xff) + (~b & 0xff) + !!Sim::cBit;
-            output = busVal & 0xff;
-            carry = ((busVal & 0x1ff) >> 8 ) & 0x1;
-            overflow = ((((a & 0x7f) + (~b & 0x7f) + !!Sim::cBit) >> 7) & 0x1) ^ carry;
+            output = a + ((~b) & 0xff) + !!Sim::cBit;
+            carry = ((output & 0x1ff) >> 8) & 0x1;
+            overflow = ((((a & 0x7f) + ((~b) & 0x7f) + !!Sim::cBit) >> 7) & 0x1) ^ carry;
             result = output;
         }
         break;
