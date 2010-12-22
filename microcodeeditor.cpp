@@ -161,7 +161,7 @@ void MicrocodeEditor::unCommentSelection()
         cursor.setPosition(start);
         cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
         cursor.removeSelectedText();
-        // commented because we don't want to use block commenting:
+// commented because we don't want to use block commenting:
 //    } else if (doCStyleComment) {
 //        cursor.setPosition(end);
 //        cursor.insertText(QLatin1String("*/"));
@@ -178,6 +178,16 @@ void MicrocodeEditor::unCommentSelection()
             }
         }
         for (QTextBlock block = startBlock; block != endBlock; block = block.next()) {
+            QString text = block.text();
+            if ((text.trimmed() == "")) {
+                doCppStyleUncomment = true;
+            }
+            else if (!text.trimmed().startsWith(QLatin1String("//"))) {
+                doCppStyleUncomment = false;
+            }
+            else {
+                doCppStyleUncomment = true;
+            }
             if (doCppStyleUncomment) {
                 QString text = block.text();
                 int i = 0;
@@ -201,20 +211,22 @@ void MicrocodeEditor::unCommentSelection()
     }
 
     // adjust selection when commenting out
-    if (hasSelection && !doCStyleUncomment && !doCppStyleUncomment) {
-        cursor = textCursor();
-        if (!doCStyleComment)
-            start = startBlock.position(); // move the double slashes into the selection
-        int lastSelPos = anchorIsStart ? cursor.position() : cursor.anchor();
-        if (anchorIsStart) {
-            cursor.setPosition(start);
-            cursor.setPosition(lastSelPos, QTextCursor::KeepAnchor);
-        } else {
-            cursor.setPosition(lastSelPos);
-            cursor.setPosition(start, QTextCursor::KeepAnchor);
-        }
-        setTextCursor(cursor);
-    }
+//    if (hasSelection && !doCStyleUncomment && !doCppStyleUncomment) {
+//        cursor = textCursor();
+//        if (!doCStyleComment)
+//            start = startBlock.position(); // move the double slashes into the selection
+//        int lastSelPos = anchorIsStart ? cursor.position() : cursor.anchor();
+//        if (anchorIsStart) {
+////            cursor.setPosition(start);
+//            cursor.setPosition(lastSelPos, QTextCursor::MoveAnchor);
+//        } else {
+//            cursor.setPosition(lastSelPos);
+////            cursor.setPosition(start, QTextCursor::MoveAnchor);
+//        }
+//        setTextCursor(cursor);
+//    }
+    cursor.clearSelection();
+    setTextCursor(cursor);
 
     cursor.endEditBlock();
 }
