@@ -306,7 +306,7 @@ bool MainWindow::on_actionFile_Save_As_triggered()
 // Edit MainWindow triggers
 void MainWindow::on_actionEdit_Undo_triggered()
 {
-    if (microcodePane->hasFocus()) {
+    if (microcodePane->hasFocus() && ui->actionSystem_Start_Debugging->isEnabled()) {
         microcodePane->undo();
     }
     // other panes should not be able to undo
@@ -314,7 +314,7 @@ void MainWindow::on_actionEdit_Undo_triggered()
 
 void MainWindow::on_actionEdit_Redo_triggered()
 {
-    if (microcodePane->hasFocus()) {
+    if (microcodePane->hasFocus() && ui->actionSystem_Start_Debugging->isEnabled()) {
         microcodePane->redo();
     }
     // other panes should not be able to redo
@@ -322,7 +322,7 @@ void MainWindow::on_actionEdit_Redo_triggered()
 
 void MainWindow::on_actionEdit_Cut_triggered()
 {
-    if (microcodePane->hasFocus()) {
+    if (microcodePane->hasFocus() && ui->actionSystem_Start_Debugging->isEnabled()) {
         microcodePane->cut();
     }
     // other panes should not be able to cut
@@ -344,7 +344,7 @@ void MainWindow::on_actionEdit_Copy_triggered()
 
 void MainWindow::on_actionEdit_Paste_triggered()
 {
-    if (microcodePane->hasFocus()) {
+    if (microcodePane->hasFocus() && ui->actionSystem_Start_Debugging->isEnabled()) {
         microcodePane->paste();
     }
     // other panes should not be able to paste
