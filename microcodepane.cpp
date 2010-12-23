@@ -29,6 +29,8 @@ MicrocodePane::MicrocodePane(QWidget *parent) :
 
     highlighter = new PepHighlighter(editor->document());
 
+    connect(editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setLabelToModified(bool)));
+
     connect(editor->document(), SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(editor->document(), SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
@@ -235,6 +237,18 @@ void MicrocodePane::setFilename(QString fileName)
     }
     else {
         ui->label->setText(QString("Microcode - %1").arg(fileName));
+    }
+}
+
+void MicrocodePane::setLabelToModified(bool modified)
+{
+    QString temp = ui->label->text();
+    if (modified) {
+        ui->label->setText(temp.append(temp.endsWith(QChar('*')) ? "" : "*"));
+    }
+    else if (temp.endsWith(QChar('*'))) {
+        temp.chop(1);
+        ui->label->setText(temp);
     }
 }
 

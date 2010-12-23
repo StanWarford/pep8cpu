@@ -76,6 +76,9 @@ private:
     PepHighlighter *highlighter;
     MicrocodeEditor *editor;
 
+private slots:
+    void setLabelToModified(bool modified);
+
 signals:
     void undoAvailable(bool);
     void redoAvailable(bool);

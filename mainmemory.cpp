@@ -22,7 +22,7 @@ MainMemory::MainMemory(QWidget *parent) :
     ui->tableWidget->setRowCount(1);
     oldRowCount = 1;
 
-    rows << QString("0x0000");
+    rows << QString("0000");
     ui->tableWidget->setVerticalHeaderLabels(rows);
 
     int address = 0x0000;
@@ -61,7 +61,7 @@ void MainMemory::populateMemoryItems()
     int scrollBarValue = ui->verticalScrollBar->value();
 
     for (int i = scrollBarValue; i < scrollBarValue + ui->tableWidget->rowCount(); i++) {
-        rows << "0x" + QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
+        rows << QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
     }
     ui->tableWidget->setVerticalHeaderLabels(rows);
 
@@ -309,7 +309,7 @@ void MainMemory::resizeEvent(QResizeEvent *)
         int address;
 
         for (int i = oldRowCount; i < newRowCount; i++) {
-            rows << "0x" + QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
+            rows << QString("%1").arg(i, 4, 16, QLatin1Char('0')).toUpper();
         }
         ui->tableWidget->setVerticalHeaderLabels(rows);
 
