@@ -104,7 +104,14 @@ void MicrocodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString mess
         message.append("\n");
     }
     else if (lineNumber == -1) {
-        editor->appendPlainText(message);
+        cursor.setPosition(0);
+        cursor.movePosition(QTextCursor::End);
+        if (cursor.block().text() == "") {
+            cursor.insertText(message);
+        }
+        else{
+            editor->appendPlainText(message);
+        }
         return;
     }
     else {
