@@ -1027,7 +1027,7 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& o
     case 1: // A plus B
         if (getAMuxOut(a, errorString) && getBBusOut(b, errorString)) {
             output = a + b;
-            carry = (((output & 0x1ff) >> 8) & 0x1);
+            carry = ((output & 0x1ff) >> 8) & 0x1;
             overflow = ((((a & 0x7f) + (b & 0x7f)) >> 7) & 0x1) ^ carry;
             result = output;
         }
