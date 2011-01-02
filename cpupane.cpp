@@ -1146,7 +1146,7 @@ bool CpuPane::getCMuxOut(quint8 &out, QString &errorString)
         return getALUOut(out, a, b, carry, overflow, errorString);
     }
     else {
-        errorString.append("No destination set for C bus\n");
+        errorString.append("No destination set for CBus\n");
     }
     return false;
 }
@@ -1166,7 +1166,7 @@ bool CpuPane::getAMuxOut(quint8 &out, QString &errorString)
         }
     }
     else {
-        errorString.append("Nothing on A bus\n");
+        errorString.append("Nothing on ABus\n");
     }
     return false;
 }

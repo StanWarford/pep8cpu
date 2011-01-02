@@ -43,6 +43,7 @@ private:
 
         eCPU = 0,
         eMICROCODE = 1,
+        eDEBUGGING = 2,
 
         eFIG1205 = 0,
         eFIG1205B = 1,

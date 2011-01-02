@@ -125,6 +125,11 @@
          <string>Microcode Use</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Debugging Use</string>
+        </property>
+       </item>
       </item>
       <item>
        <property name="text">

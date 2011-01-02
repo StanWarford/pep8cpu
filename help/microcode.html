@@ -2,7 +2,7 @@
 
 <html>
 <head>
- <title> Pep/8 CPU: Microcode Mode </title>
+ <title> Pep/8 CPU: Microcode Use </title>
   <style type="text/css" media="all">
    img { vertical-align:text-top; }
    code { font-family:Courier, 'Courier New', monospace; font-size:11pt }
@@ -17,13 +17,11 @@ Microcode Use
 </td></tr>
 </table>
 <p>
-Reference: <i>Computer Systems</i>, Chapter 12, Section 12.1.
-<p>
 A microprogram consists of a sequence of microcode statements, which, when executed, implement
 a single ISA3 instruction.
 To test an implementation of an ISA3 instruction, you can manually set initial values
-in memory and the CPU in interactive mode, set the control signals for each individual cycle,
-then inspect the state of the machine after the last cycle.
+in memory and the CPU interactively, set the control signals for each individual cycle,
+then inspect the state of the machine after the last cycle as described in the section Interactive Use.
 <p>
 Alternatively, you can write a microprogram in the Microcode pane, invoke the microassembler
 to translate the microprogram to binary, then execute the sequence.
@@ -39,6 +37,7 @@ There are two ways to write a microprogram.
 One way is to enter the text in the Microcode pane.
 When you write a microprogram the editor automatically numbers the statements that correspond to CPU cycles.
 <p>
+<h4>Automatic code generation</h4>
 Another way to enter a single microcode statement is to set the control signals with the input widgets in the CPU pane
 and then click the Copy to Microcode button.
 For example, suppose you are at the following point writing your program.
@@ -50,11 +49,11 @@ You could enter this text on the keyboard
 A=6, B=7; MARCk
 </pre>
 for the next cycle.
-However, instead of typing the text you can experiment with the CPU pane to see the effect of the next cycle.
+However, instead of typing the text you can interactively make the settings in the CPU pane.
 In the following figure, the user has entered 6 for control signal A, 7 for control signal B, and checked the MARCk
 check box.
-After clicking the Clock button in interactive mode, the user sees that the content of the program counter (PC)
-has been correctly transferred to MARA and MARB.
+The user can see that data is on the ABus and BBus because they are colored solid red, and that data from them will be clocked into the MAR because the
+line from the MARCk checkbox is solid black instead of gray.
 <p>
 <img src="qrc:/help/images/copycode2.png" alt="copycode2" hspace=10 vspace=10>
 <p>
@@ -67,6 +66,7 @@ in the microcode pane as the following figure shows.
 <p>
 <img src="qrc:/help/images/copycode4.png" alt="copycode4" hspace=10 vspace=10>
 <p>
+<h4>Automatic formatting</h4>
 Once you execute your program so that an object code listing appears in the Object Code pane,
 you can select Edit->Format From Object Code from the menu.
 Your source code will be replaced with a standard formatted source code extracted from the object code.

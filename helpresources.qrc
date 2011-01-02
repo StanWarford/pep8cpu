@@ -75,5 +75,6 @@
         <file>help/images/byteconverter.png</file>
         <file>help/figures/exer1204.pepcpu</file>
         <file>help/figures/exer1206.pepcpu</file>
+        <file>help/debugging.html</file>
     </qresource>
 </RCC>

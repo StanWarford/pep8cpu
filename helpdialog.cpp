@@ -81,15 +81,20 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
         ui->helpTopWebView->show();
         ui->helpTopWebView->load(QUrl("qrc:/help/usingpep8cpu.html"));
     }
-    else if (isHelpSubCat && parentRow == eUSINGPEP8CPU && row == eCPU) { // Interactive mode
+    else if (isHelpSubCat && parentRow == eUSINGPEP8CPU && row == eCPU) { // Interactive use
         ui->helpSplitter->widget(1)->hide();
         ui->helpTopWebView->show();
         ui->helpTopWebView->load(QUrl("qrc:/help/cpu.html"));
     }
-    else if (isHelpSubCat && parentRow == eUSINGPEP8CPU && row == eMICROCODE) { // Microcode mode
+    else if (isHelpSubCat && parentRow == eUSINGPEP8CPU && row == eMICROCODE) { // Microcode use
         ui->helpSplitter->widget(1)->hide();
         ui->helpTopWebView->show();
         ui->helpTopWebView->load(QUrl("qrc:/help/microcode.html"));
+    }
+    else if (isHelpSubCat && parentRow == eUSINGPEP8CPU && row == eDEBUGGING) { // Debugging use
+        ui->helpSplitter->widget(1)->hide();
+        ui->helpTopWebView->show();
+        ui->helpTopWebView->load(QUrl("qrc:/help/debugging.html"));
     }
     else if (!isHelpSubCat && row == ePEP8REFERENCE) { // Pep/8 Reference
         ui->helpSplitter->widget(1)->hide();

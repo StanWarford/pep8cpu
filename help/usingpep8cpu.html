@@ -23,21 +23,25 @@ It is designed to be used with the textbook, <i>Computer Systems</i>, J. Stanley
 The goal of the book is to teach the fundamentals of the classic von Neumann machine.
 You should use the Pep/8 system in conjunction with the textbook to write microcode programs.
 <p>
+Reference: <i>Computer Systems</i>, Chapter 12, Section 12.1.
+<p>
  <a name = "Topics">Topics:</a>
- <a href="#Modes">Interactive and microcode use</a>,
+ <a href="#Modes">Interactive, microcode, and debugging use</a>,
  <a href="#File">Microcode files</a>,
  <a href="#Byte">Byte converter</a>.
 
-<h3><a name="Modes">Interactive and microcode use</a></h3>
+<h3><a name="Modes">Interactive, microcode, and debugging use</a></h3>
 
- There are two ways to use the Pep/8 CPU simulator &mdash; interactive and microcode.
+ There are three ways to use the Pep/8 CPU simulator &mdash; interactive, microcode, and debugging.
  When the application starts up, the two buttons Clock and Copy to Microcode are enabled
  and the two buttons Single Step and Resume are disabled.
  <p>
  <img src="qrc:/help/images/fourbuttonsinteractivemode.png" alt="fourbuttonsinteractivemode" hspace=10 vspace=10>
  <p>
- In this state, you can experiment with the CPU one cycle at a time interactively.
- You can set individual control signals via the GUI widgets on the right side of the CPU pane.
+ In this state, the system is available for interactive use and for microcode use.
+ <p>
+ <h4>Interactive use</h4>
+ With interactive use, you can set individual control signals via the GUI widgets on the right side of the CPU pane.
  For example, in the following figure the user has set register address A to 6, register address B to 7,
  and clicked the MARCk check box.
  <p>
@@ -46,7 +50,8 @@ You should use the Pep/8 system in conjunction with the textbook to write microc
 The A bus and B bus are colored red to indicate that the A and B adresses are set.
 When the user clicks the Clock button, the CPU pane shows the effect of this single CPU cycle.
 <p>
-Alternatively, you can write a microprogram in the microcode pane.
+<h4>Microcode use</h4>
+With microcode use, you can write a microprogram in the microcode pane.
 The following figure shows the first few lines of a microprogram.
  <p>
  <img src="qrc:/help/images/microcodeuse.png" alt="microcodeuse" hspace=10 vspace=10>
@@ -57,26 +62,29 @@ The keywords <code>UnitPre</code> and <code>UnitPost</code> in the above figure 
 <p>
 After writing a microprogram the user can either run the program or use the debugger to see the effect of each
 cycle in the CPU pane.
-<!--
- To switch from interactive to microcode mode enter a microcode program in the Microcode pane and select
+<p>
+<h4>Debugging use</h4>
+To use the debugger enter a microcode program in the Microcode pane and select
 System->Start Debugging from the menu or click the corresponding Start Debugging icon on the toolbar.
 <p>
 <img src="qrc:/help/images/startdebuggingmenu.png" alt="startdebuggingmenu" hspace=10 vspace=10>
 <img src="qrc:/help/images/startdebuggingicon.png" alt="startdebuggingicon" hspace=10 vspace=10>
 <p>
-When you are in microcode mode, the two buttons Clock and Copy to Microcode are disabled and the
+When you are using the debugger, the two buttons Clock and Copy to Microcode are disabled and the
 two buttons Single Step and Resume are enabled.
 <p>
 <img src="qrc:/help/images/fourbuttonsmicrocodemode.png" alt="fourbuttonsmicrocodemode" hspace=10 vspace=10>
 <p>
-To exit the microcode mode, run a microcode sequence to completion by clicking the Resume button,
+To exit the debugger, run a microcode sequence to completion by clicking the Resume button,
 select System->Stop Debugging from the menu, or click the corresponding Stop Debugging icon on the toolbar.
 <p>
 <img src="qrc:/help/images/resumebutton.png" alt="resumebutton" hspace=10 vspace=10>
 <img src="qrc:/help/images/stopdebuggingmenu.png" alt="stopdebuggingmenu" hspace=10 vspace=10>
 <img src="qrc:/help/images/stopdebuggingicon.png" alt="stopdebuggingicon" hspace=10 vspace=10>
 <p>
--->
+<h4>More details</h4>
+For more details about how to use Pep/8 CPU in each of these three ways, see the sections Interactive Use, Microcode Use,
+and Debugging Use in this Help system.
 <p>
 <a href="#Topics">Scroll to topics</a>.
 
@@ -93,23 +101,23 @@ Comments and unit test specifications are excluded from the numbering.
 When you save a microprogram the editor includes the cycle numbers in the text.
 For example, here are the first few lines of text from the file that is saved from the above figure.
 <pre>
-// File: fig1205.pepcpu
+// File: fig1210.pepcpu
 // Computer Systems, Fourth Edition
-// Figure 12.5
-// Fetch the instruction specifier and increment PC by 1
+// Figure 12.10
+// LDX this,n
+// RTL: X <- Oprnd; N <- X<0, Z <- X=0
+// Indirect addressing: Oprnd = Mem[Mem[OprndSpec]]
+// Shortest known implementation: 17 cycles
 
-UnitPre: IR=0x000000, PC=0x00ff, Mem[0x00ff]=0xab
-UnitPre: N=1, Z=0, V=1, C=0
-UnitPost: IR=0xab0000, PC=0x0100
-UnitPost: N=1, Z=0, V=1, C=0, T1=0x0a // T1 stores NZVC=1010
+UnitPre: IR=0xCA0012, Mem[0x0012]=0x26D1, Mem[0x26D1]=0x53AC
+UnitPre: N=1, Z=1, V=0, C=1, T1=0x05 // NZVC=1101 stored in von Neumann step
+UnitPost: X=0x53AC, N=0, Z=0, V=0, C=1
 
-// Save the status bits in T1
-1. CMux=0, C=11; LoadCk
-
-// MAR <- PC, fetch instruction specifier.
-2. A=6, B=7; MARCk
-3. MemRead
-4. MemRead, MDRMux=0; MDRCk
+// T3<high> <- Mem[OprndSpec].
+1. A=9, B=10; MARCk
+2. MemRead
+3. MemRead, MDRMux=0; MDRCk
+4. AMux=0, ALU=0, CMux=1, C=14; LoadCk
 </pre>
 When you open a previously saved microprogram the editor strips any cycle numbers in the text and auto-renumbers them.
 <p>

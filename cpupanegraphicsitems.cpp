@@ -571,7 +571,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     scene->addRect(175, 132, 69, 19);
     scene->addRect(175, 202, 69, 19);
 
-    // MAR bus
+    // MARBus
     QPolygonF poly;
     poly << QPoint(205,151) << QPoint(205,167) << QPoint(173-70,167) << QPoint(173-70,162)
             << QPoint(158-70,177) << QPoint(173-70,192) << QPoint(173-70,187) << QPoint(205,187)
@@ -584,7 +584,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     // MDR
     rectItem = scene->addRect(175, 254, 69, 19);
 
-    // MDR Bus
+    // MDRBus
     scene->addRect(244,258, 36,10, QPen(Qt::black), QBrush(Qt::yellow));
     poly.clear();
     poly << QPoint(290,258) << QPoint(326,258) << QPoint(326,280) << QPoint(331,280)
@@ -689,9 +689,11 @@ void CpuPaneGraphicsItems::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
     painter->drawText(368,388, "ALU");
 
-    painter->drawText(372,132, "A Bus");
-    painter->drawText(433,132, "B Bus");
-    painter->drawText(300,132, "C Bus");
+    painter->drawText(372,132, "ABus");
+    painter->drawText(433,132, "BBus");
+    painter->drawText(300,132, "CBus");
+    painter->drawText(138,215, "MARA");
+    painter->drawText(138,145, "MARB");
 
     repaintLoadCk(painter);
     repaintCSelect(painter);
@@ -786,7 +788,7 @@ void CpuPaneGraphicsItems::repaintBSelect(QPainter *painter)
 
     painter->drawRect(290, 136, 67, 11);
 
-    // Bbus
+    // BBus
     poly.clear();
     poly << QPoint(417, 118) << QPoint(417, 136) << QPoint(366, 136) << QPoint(366, 146)
             << QPoint(417, 146) << QPoint(417, 331) << QPoint(412, 331) << QPoint(422, 341)
@@ -826,7 +828,7 @@ void CpuPaneGraphicsItems::repaintASelect(QPainter *painter)
 
     painter->setPen(QPen(QBrush(Qt::black), 1));
     painter->setBrush(color);
-    // Abus
+    // ABus
     poly.clear();
     poly << QPoint(356,118) << QPoint(356,207) << QPoint(290,207) << QPoint(290,217) << QPoint(356,217) << QPoint(356,280)
             << QPoint(351,280) << QPoint(361,290) << QPoint(371,280) << QPoint(366,280) << QPoint(366,118);
@@ -1106,7 +1108,7 @@ void CpuPaneGraphicsItems::repaintMemRead(QPainter *painter)
     painter->setPen(QPen(QBrush(Qt::black), 1));
     painter->setBrush(color);
 
-    // Main Bus
+    // MainBus
     poly.clear();
     poly << QPoint(145-70, 132) << QPoint(155-70, 132) << QPoint(155-70, 334) << QPoint(180, 334)
             << QPoint(180, 326) << QPoint(175, 326) << QPoint(185, 316) << QPoint(195, 326) << QPoint(190, 326)
@@ -1375,7 +1377,7 @@ void CpuPaneGraphicsItems::repaintALUSelect(QPainter *painter)
         painter->setBrush(Qt::white);
     }
 
-    // Cbus
+    // CBus
     poly.setPoints(11, 346,394, 346,414, 314,414, 314,407,
                    319,407, 309,397, 299,407, 304,407, 304,424,
                    356,424, 356,394);
@@ -1473,7 +1475,7 @@ void CpuPaneGraphicsItems::repaintMDRMuxSelect(QPainter *painter)
         painter->setBrush(Qt::white);
     }
 
-    // MDRMux Bus
+    // MDRMuxBus
     poly.setPoints(7, 205,293, 205,286, 200,286, 210,276, 220,286, 215,286, 215,293); // arrow
     painter->drawPolygon(poly);
 }
