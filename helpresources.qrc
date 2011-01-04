@@ -76,5 +76,23 @@
         <file>help/figures/exer1204.pepcpu</file>
         <file>help/figures/exer1206.pepcpu</file>
         <file>help/debugging.html</file>
+        <file>help/images/comment1.png</file>
+        <file>help/images/comment2.png</file>
+        <file>help/images/comment3.png</file>
+        <file>help/images/comment4.png</file>
+        <file>help/images/comment5.png</file>
+        <file>help/images/comment6.png</file>
+        <file>help/images/formatfromobject2.png</file>
+        <file>help/images/formatfromobject3.png</file>
+        <file>help/images/formatfromobject4.png</file>
+        <file>help/images/postconditionerror.png</file>
+        <file>help/images/debugger1.png</file>
+        <file>help/images/debugger2.png</file>
+        <file>help/images/debugger3.png</file>
+        <file>help/images/debugger4.png</file>
+        <file>help/images/debugger5.png</file>
+        <file>help/images/debugger6.png</file>
+        <file>help/images/debugger7.png</file>
+        <file>help/images/debugger8.png</file>
     </qresource>
 </RCC>

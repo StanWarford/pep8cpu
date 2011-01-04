@@ -64,30 +64,16 @@ After writing a microprogram the user can either run the program or use the debu
 cycle in the CPU pane.
 <p>
 <h4>Debugging use</h4>
-To use the debugger enter a microcode program in the Microcode pane and select
-System->Start Debugging from the menu or click the corresponding Start Debugging icon on the toolbar.
-<p>
-<img src="qrc:/help/images/startdebuggingmenu.png" alt="startdebuggingmenu" hspace=10 vspace=10>
-<img src="qrc:/help/images/startdebuggingicon.png" alt="startdebuggingicon" hspace=10 vspace=10>
-<p>
 When you are using the debugger, the two buttons Clock and Copy to Microcode are disabled and the
 two buttons Single Step and Resume are enabled.
 <p>
 <img src="qrc:/help/images/fourbuttonsmicrocodemode.png" alt="fourbuttonsmicrocodemode" hspace=10 vspace=10>
 <p>
-To exit the debugger, run a microcode sequence to completion by clicking the Resume button,
-select System->Stop Debugging from the menu, or click the corresponding Stop Debugging icon on the toolbar.
-<p>
-<img src="qrc:/help/images/resumebutton.png" alt="resumebutton" hspace=10 vspace=10>
-<img src="qrc:/help/images/stopdebuggingmenu.png" alt="stopdebuggingmenu" hspace=10 vspace=10>
-<img src="qrc:/help/images/stopdebuggingicon.png" alt="stopdebuggingicon" hspace=10 vspace=10>
-<p>
+You can click the Single Step button to see the effect of each cycle on the state of the Pep/8 CPU.
 <h4>More details</h4>
 For more details about how to use Pep/8 CPU in each of these three ways, see the sections Interactive Use, Microcode Use,
 and Debugging Use in this Help system.
 <p>
-<a href="#Topics">Scroll to topics</a>.
-
 <h3><a name="File">Microcode files</a></h3>
 The Pep/8 CPU system uses the file extension <code>.pepcpu</code> to store microcode programs.
 The files are text files that you can modify with your favorite text editor or word processor outside the Pep/8 CPU application.
@@ -121,8 +107,6 @@ UnitPost: X=0x53AC, N=0, Z=0, V=0, C=1
 </pre>
 When you open a previously saved microprogram the editor strips any cycle numbers in the text and auto-renumbers them.
 <p>
-<a href="#Topics">Scroll to topics</a>.
-<p>
 <h3><a name="Byte">Byte converter</a></h3>
 
 Any time the Pep/8 CPU application is running, the byte converter is available in the tool bar.
@@ -131,8 +115,6 @@ Simply enter any value in any input field and the other fields will show the sam
 Here is the result of entering the letter <code>P</code> in the ASCII field.
  <p>
 <img src="qrc:/help/images/byteconverter.png" alt="byteconverter" hspace=10 vspace=10>
-<p>
-<a href="#Topics">Scroll to topics</a>.
 <p>
 
 </body>
