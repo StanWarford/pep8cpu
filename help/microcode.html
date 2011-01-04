@@ -30,7 +30,7 @@ One advantage of writing a microprogram is the built-in unit test facility of th
 <a name = "Topics">Topics:</a>
 <a href="#Writing">Writing a microprogram</a>,
 <a href="#Unit">Unit tests</a>,
-<a href="#Executing">Executing a microprogram</a>,
+<a href="#Running">Running a microprogram</a>,
 
 <h3><a name="Writing">Writing a microprogram</a></h3>
 Three features of Pep/8 CPU help you write microprograms &mdash; automatic code generation, automatic un/commenting,
@@ -38,7 +38,8 @@ and automatic formatting.
 <p>
 <h4>Automatic code generation</h4>
 One way to write a microprogram is to simply enter the text in the Microcode pane.
-Another way to enter a single microcode statement is to set the control signals with the input widgets in the CPU pane
+However, you may prefer to enter a microcode statement with a minimum of typing.
+Simply set the control signals for the statement with the input widgets in the CPU pane
 and then click the Copy to Microcode button.
 For example, suppose you are at the following point writing your program.
 <p>
@@ -67,17 +68,59 @@ in the microcode pane as the following figure shows.
 <img src="qrc:/help/images/copycode4.png" alt="copycode4" hspace=10 vspace=10>
 <p>
 <h4>Automatic un/commenting</h4>
-
-
+The automatic un/commenting feature allows you comment and uncomment a group of contiguous lines of code.
+For example, suppose you have entered the follwing lines of code in the Microcode pane.
+<p>
+<img src="qrc:/help/images/comment1.png" alt="comment1" hspace=10 vspace=10>
+<p>
+To comment the first two lines of code, first select them with the editor.
+Any line that is partially selected will be affected by the operation.
+In the following figure, the first line is completely selected and the second line is partially selected.
+The second line will also be affected by the automatic comment operation.
+<p>
+<img src="qrc:/help/images/comment2.png" alt="comment2" hspace=10 vspace=10>
+<p>
+Now, select Edit->Un/Comment from the main menu, or press the equivalent keyboard shortcut for your platform.
+<p>
+<img src="qrc:/help/images/comment3.png" alt="comment3" hspace=10 vspace=10>
+<p>
+Any selected lines that are uncommented will be commented, and any selected lines that are commented will be uncommented.
+<p>
+<img src="qrc:/help/images/comment4.png" alt="comment4" hspace=10 vspace=10>
+<p>
+A handy feature of this tool is when a microprogram has more than one unit test.
+In such cases, the first unit test is usually uncommented and the remaining tests are commented.
+You can comment the first unit test and uncomment the second unit test in one operation by selecting <i>both</i> tests.
+<p>
+<img src="qrc:/help/images/comment5.png" alt="comment5" hspace=10 vspace=10>
+<p>
+When you perform the operation, the first test is commented and the second test is uncommented.
+<p>
+<img src="qrc:/help/images/comment6.png" alt="comment6" hspace=10 vspace=10>
 <p>
 <h4>Automatic formatting</h4>
-Once you execute your program so that an object code listing appears in the Object Code pane,
-you can select Edit->Format From Object Code from the menu.
-Your source code will be replaced with a standard formatted source code extracted from the object code.
+Once you run your program so that an object code listing appears in the Object Code pane,
+you can format your code with a standard formatting style.
+For example, suppose you write the following microcode program in the editor.
+<p>
+<img src="qrc:/help/images/formatfromobject2.png" alt="formatfromobject2" hspace=10 vspace=10>
+<p>
+After you run the program and determine that it is correct, the binary object code shows in the Object Code pane.
+<i>[We have an alignment problem here.
+The 1's should be aligned with MemWrite.]</i>
+<p>
+<img src="qrc:/help/images/formatfromobject3.png" alt="formatfromobject3" hspace=10 vspace=10>
+<p>
+Now, select Edit->Format From Object Code from the menu.
+<i>Why do we have Special Charcters... menu item?</i>
 <p>
 <img src="qrc:/help/images/formatfromobject.png" alt="formatfromobject" hspace=10 vspace=10>
 <p>
-
+Your source code will be replaced with standard formatted source code extracted from the object code.
+<i>[We lost the asterisk * in the source code title bar here.]</i>
+<p>
+<img src="qrc:/help/images/formatfromobject4.png" alt="formatfromobject4" hspace=10 vspace=10>
+<p>
 <a href="#Topics">Scroll to topics</a>.
 <p>
 <h3><a name="Unit">Unit tests</a></h3>
@@ -90,9 +133,10 @@ The <code>UnitPost</code> statement tests whether a memory cell or CPU register 
 after the last microcode statement executes.
 If a unit test fails, an error message is displayed in the Microcode pane, as in the following figure.
 <p>
-<i>Figure with postcondition failure error message</i>
+<img src="qrc:/help/images/postconditionerror.png" alt="postconditionerror" hspace=10 vspace=10>
 <p>
-There can be as many keywords as you like placed anywhere in the microprogram listing without affecting the unit test.
+There can be as many <code>UnitPre</code> and <code>UnitPost</code> statements as you like placed anywhere in the microprogram
+listing without affecting the unit test.
 However, the convention is to place the <code>UnitPre</code> statements followed by the <code>UnitPost</code> statements
 before the first cycle statement in the microprogram.
 <h4>Specifying register values</h4>
@@ -141,9 +185,10 @@ Mem[0xabcd]=0x1122
 </pre>
 <a href="#Topics">Scroll to topics</a>.
 <p>
-<h3><a name="Executing">Executing a microprogram</a></h3>
+<h3><a name="Running">Running a microprogram</a></h3>
 After writing a microcode program in the Micorocode pane, there are two ways to execute the program.
 You can run the program or you can debug it step by step.
+See the section Debugging Use for how to debug your microprogram.
 <h4>Running a program</h4>
 The first way to execute a program is to select System->Run from the menu or click the corresponding Run icon on the toolbar.
 <p>
@@ -152,6 +197,7 @@ The first way to execute a program is to select System->Run from the menu or cli
 <p>
 Pep/8 CPU will attempt to microassemble your microcode program.
 If there are errors, they will appear in red in the Microcode pane, as in the following figure.
+<i>[OOPS! As seen below, it appears that execution was attempted because of the unit test failure message!]</i>
 <p>
 <img src="qrc:/help/images/errormessage.png" alt="errormessage" hspace=10 vspace=10>
 <p>
@@ -167,29 +213,6 @@ execute.
 The following figure shows the Object Code pane from the above corrected program.
 <p>
 <img src="qrc:/help/images/objectcode.png" alt="objectcode" hspace=10 vspace=10>
-<p>
-<i>Describe unit test success and failure here.</i>
-<h4>Debugging a program</h4>
-The second way to execute a program is to select System->Start Debugging from the menu
-or click the corresponding Start Debugging icon on the toolbar.
-<p>
-<img src="qrc:/help/images/startdebuggingmenu.png" alt="startdebuggingmenu" hspace=10 vspace=10>
-<img src="qrc:/help/images/startdebuggingicon.png" alt="startdebuggingicon" hspace=10 vspace=10>
-<p>
-Pep/8 CPU will attempt to microassemble your microcode program.
-If there are errors, they will appear in red in the Microcode pane, as shown in the previous section.
-Otherwise, the object code will appear in the Object Code pane and Pep/8 CPU will enter Debugging Mode
-with the two buttons Clock and Copy to Microcode disabled and the
-two buttons Single Step and Resume enabled.
-<p>
-<img src="qrc:/help/images/fourbuttonsmicrocodemode.png" alt="fourbuttonsmicrocodemode" hspace=10 vspace=10>
-<p>
-<i>Describe debugging mode here.</i>
-<p>
-<img src="qrc:/help/images/debugging.png" alt="debugging" hspace=10 vspace=10>
-<p>
-
-
 <p>
 <a href="#Topics">Scroll to topics</a>.
 <p>
