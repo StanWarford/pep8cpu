@@ -61,6 +61,7 @@ private:
 
 private slots:
     void regTextEdited(QString str);
+    void regTextFinishedEditing();
 
     void zoomFactorChanged(int factor);
 

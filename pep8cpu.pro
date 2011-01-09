@@ -72,6 +72,14 @@ OTHER_FILES += help/images/registeraddresssignals.png \
     help/figures/exer1204.pepcpu \
     help/figures/exer1206.pepcpu \
     images/Pep8cpu-icon.png \
-    images/Pep8cpu-icon-about.png
+    images/Pep8cpu-icon-about.png \
+    help/usingpep8cpu.html \
+    help/pep8reference.html \
+    help/pep8os.txt \
+    help/microcode.html \
+    help/exercises.html \
+    help/examples.html \
+    help/debugging.html \
+    help/cpu.html
 RESOURCES += pep8cpuresources.qrc \
     helpresources.qrc

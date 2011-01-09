@@ -89,6 +89,18 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(cpuPaneItems->t5RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
     connect(cpuPaneItems->t6RegLineEdit, SIGNAL(textEdited(QString)), this, SLOT(regTextEdited(QString)));
 
+    connect(cpuPaneItems->aRegLineEdit, SIGNAL(editingFinished()), this, SLOT(regTextFinishedEditing()));
+    connect(cpuPaneItems->xRegLineEdit, SIGNAL(editingFinished()), this, SLOT(regTextFinishedEditing()));
+    connect(cpuPaneItems->spRegLineEdit, SIGNAL(editingFinished()), this, SLOT(regTextFinishedEditing()));
+    connect(cpuPaneItems->pcRegLineEdit, SIGNAL(editingFinished()), this, SLOT(regTextFinishedEditing()));
+    connect(cpuPaneItems->irRegLineEdit, SIGNAL(editingFinished()), this, SLOT(regTextFinishedEditing()));
+    connect(cpuPaneItems->t1RegLineEdit, SIGNAL(editingFinished()), this, SLOT(regTextFinishedEditing()));
+    connect(cpuPaneItems->t2RegLineEdit, SIGNAL(editingFinished()), this, SLOT(regTextFinishedEditing()));
+    connect(cpuPaneItems->t3RegLineEdit, SIGNAL(editingFinished()), this, SLOT(regTextFinishedEditing()));
+    connect(cpuPaneItems->t4RegLineEdit, SIGNAL(editingFinished()), this, SLOT(regTextFinishedEditing()));
+    connect(cpuPaneItems->t5RegLineEdit, SIGNAL(editingFinished()), this, SLOT(regTextFinishedEditing()));
+    connect(cpuPaneItems->t6RegLineEdit, SIGNAL(editingFinished()), this, SLOT(regTextFinishedEditing()));
+
     connect(cpuPaneItems->ALULineEdit, SIGNAL(textChanged(QString)), this, SLOT(ALUTextEdited(QString)));
 
     ui->spinBox->hide();
@@ -762,6 +774,32 @@ void CpuPane::regTextEdited(QString str)
         Sim::regBank[20] = (regValue & 0xFF00) / 256;
         Sim::regBank[21] = regValue & 0xFF;
     }
+}
+
+void CpuPane::regTextFinishedEditing()
+{
+    QLineEdit *lineEdit = qobject_cast<QLineEdit *>(sender());
+
+    QString str = lineEdit->text();
+    qDebug() << "str: " << str;
+
+    // Get the hex value of the string
+    int regValue = 0;
+    bool ok;
+    regValue = str.toInt(&ok, 16);
+
+    qDebug() << "reg val: " << regValue;
+
+    if (lineEdit == cpuPaneItems->irRegLineEdit) {
+        lineEdit->setText(QString("0x%1").arg(regValue, 6, 16, QLatin1Char('0')).toUpper());
+    }
+    else if (lineEdit == cpuPaneItems->t1RegLineEdit) {
+        lineEdit->setText(QString("0x") + QString("%1").arg(regValue, 2, 16, QLatin1Char('0')).toUpper());
+    }
+    else {
+        lineEdit->setText(QString("0x") + QString("%1").arg(regValue, 4, 16, QLatin1Char('0')).toUpper());
+    }
+
 }
 
 void CpuPane::zoomFactorChanged(int factor)
