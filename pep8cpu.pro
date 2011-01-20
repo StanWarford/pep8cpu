@@ -3,11 +3,15 @@
 # -------------------------------------------------
 TEMPLATE = app
 QT += webkit
-CONFIG += x86 #    ppc
+CONFIG += x86 #    ppc # commented because it causes build issues?
 
 # Mac icon/plist
 ICON = images/icon.icns
 QMAKE_INFO_PLIST = app.plist
+
+#Windows RC file for icon:
+RC_FILE = pep8resources.rc
+
 SOURCES += main.cpp \
     mainwindow.cpp \
     byteconverterhex.cpp \
