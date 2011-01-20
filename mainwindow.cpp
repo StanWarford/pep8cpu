@@ -8,6 +8,8 @@
 #include <QTextStream>
 #include <QTextCodec>
 #include <QFileDialog>
+#include <QDesktopServices>
+#include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -462,6 +464,11 @@ void MainWindow::on_actionHelp_triggered()
 void MainWindow::on_actionHelp_About_Pep8CPU_triggered()
 {
     aboutPepDialog->show();
+}
+
+void MainWindow::on_actionHelp_About_Qt_triggered()
+{
+    QDesktopServices::openUrl(QUrl("http://www.qtsoftware.com/"));
 }
 
 // Byte Converter slots

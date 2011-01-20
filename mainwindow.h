@@ -92,6 +92,7 @@ private slots:
     // Help
     void on_actionHelp_triggered();
     void on_actionHelp_About_Pep8CPU_triggered();
+    void on_actionHelp_About_Qt_triggered();
 
     // Byte converter
     void slotByteConverterDecEdited(const QString &);
