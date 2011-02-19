@@ -380,11 +380,12 @@ void MainWindow::on_actionEdit_Font_triggered()
 // System MainWindow triggers
 void MainWindow::on_actionSystem_Run_triggered()
 {
-    on_actionSystem_Start_Debugging_triggered();
-    cpuPane->run();
+    if (on_actionSystem_Start_Debugging_triggered()) {
+        cpuPane->run();
+    }
 }
 
-void MainWindow::on_actionSystem_Start_Debugging_triggered()
+bool MainWindow::on_actionSystem_Start_Debugging_triggered()
 {
     Sim::cycleCount = 0; // this stores the number of cycles in a simulation, reset before assembling
     if (microcodePane->microAssemble()) {
@@ -405,7 +406,7 @@ void MainWindow::on_actionSystem_Start_Debugging_triggered()
     }
     else {
         ui->statusBar->showMessage("MicroAssembly failed", 4000);
-        return;
+        return false;
     }
 
     // prevent simulation from starting if there's nothing to simulate
@@ -416,7 +417,7 @@ void MainWindow::on_actionSystem_Start_Debugging_triggered()
         }
     }
     if (!hasMicrocode) {
-        return;
+        return false;
     }
 
     // enable the actions available while we're debugging
@@ -428,6 +429,7 @@ void MainWindow::on_actionSystem_Start_Debugging_triggered()
     microcodePane->setReadOnly(true);
 
     cpuPane->startDebugging();
+    return true;
 }
 
 void MainWindow::on_actionSystem_Stop_Debugging_triggered()

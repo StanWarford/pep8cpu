@@ -141,6 +141,8 @@ void MicrocodePane::setMicrocode(QString microcode)
     }
     microcode = sourceCodeList.join("\n");
     editor->setPlainText(microcode);
+
+    setLabelToModified(true);
 }
 
 QString MicrocodePane::getMicrocode()

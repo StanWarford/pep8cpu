@@ -85,7 +85,7 @@ private slots:
     void on_actionEdit_Font_triggered();
     // System
     void on_actionSystem_Run_triggered();
-    void on_actionSystem_Start_Debugging_triggered();
+    bool on_actionSystem_Start_Debugging_triggered();
     void on_actionSystem_Stop_Debugging_triggered();
     void on_actionSystem_Clear_CPU_triggered();
     void on_actionSystem_Clear_Memory_triggered();
