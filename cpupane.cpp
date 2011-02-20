@@ -596,7 +596,9 @@ bool CpuPane::step(QString &errorString)
     int overflow;
     bool isUnary = Sim::aluFnIsUnary(aluFn);
     quint8 result, a, b;
-    getALUOut(result, a, b, carry, overflow, errorString); // ignore boolean returned - error would have been handled earlier
+
+    QString errtemp;
+    getALUOut(result, a, b, carry, overflow, errtemp); // ignore boolean returned - error would have been handled earlier
 
     if (Sim::mainBusState == Enu::MemReadReady) { // we are performing a 2nd consecutive MemRead
         // do nothing - the memread is performed in the getMDRMuxOut fn
@@ -1047,12 +1049,18 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& o
     overflow = 0;
 
     if (cpuPaneItems->ALULineEdit->text() == "") {
-//        errorString.append("No ALU input\n");
+        errorString.append("No ALU input\n");
         return false;
     }
 
     int ALUFn;
     ALUFn = cpuPaneItems->ALULineEdit->text().toInt();
+
+    if (!isCorrectALUInput(ALUFn)) {
+        qDebug() << "Incorrect ALU input";
+        errorString.append("Incorrect ALU input\n");
+        return false;
+    }
 
     switch(ALUFn) {
     case 0: // A
@@ -1168,6 +1176,42 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& o
         return false;
     }
 
+    return true;
+}
+
+bool CpuPane::isCorrectALUInput(int ALUFn) {
+    switch(ALUFn) {
+    case 0:
+        if (cpuPaneItems->aLineEdit->text() == "") {
+            return false;
+        }
+        break;
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+        if (cpuPaneItems->aLineEdit->text() == "" || cpuPaneItems->bLineEdit->text() == "") {
+            return false;
+        }
+        break;
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+        if (cpuPaneItems->aLineEdit->text() == "") {
+            return false;
+        }
+        break;
+    default:
+        break;
+    }
     return true;
 }
 
