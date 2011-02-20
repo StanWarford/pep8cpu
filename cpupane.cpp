@@ -634,6 +634,9 @@ bool CpuPane::step(QString &errorString)
         if (getCMuxOut(out, errorString)) {
             setRegisterByte(cDest, out);
         }
+        else {
+            return false;
+        }
     }
 
     // MDRCk
@@ -1061,7 +1064,7 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& o
 
     if (!isCorrectALUInput(ALUFn)) {
         qDebug() << "Incorrect ALU input";
-        errorString.append("Incorrect ALU input\n");
+        errorString.append("Incorrect ALU input.\n");
         return false;
     }
 
@@ -1183,7 +1186,8 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& o
 }
 
 bool CpuPane::isCorrectALUInput(int ALUFn) {
-    bool abus, bbus;
+    bool abus = false;
+    bool bbus = false;
 
     if (cpuPaneItems->aMuxTristateLabel->text() == "") {
         abus = false;
