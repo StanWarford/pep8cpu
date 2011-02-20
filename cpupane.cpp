@@ -639,7 +639,6 @@ bool CpuPane::step(QString &errorString)
     // MDRCk
     if (cpuPaneItems->MDRCk->isChecked()) {
         quint8 out = 0;
-        QString errorString = "";
         if (getMDRMuxOut(out, errorString)) {
             setRegister(Enu::MDR, out);
         }
@@ -837,7 +836,7 @@ void CpuPane::clockButtonPushed()
 
 void CpuPane::singleStepButtonPushed()
 {
-    QString errorString;
+    QString errorString = "";
 
     if (!step(errorString)) {
         // simulation had issues.
@@ -1292,7 +1291,7 @@ bool CpuPane::getMDRMuxOut(quint8 &out, QString &errorString)
             return true;
         }
         else {
-
+            errorString.append("Not ready for mem read.\n");
         }
     }
     else if (cpuPaneItems->MDRMuxTristateLabel->text() == "1") {
@@ -1301,7 +1300,7 @@ bool CpuPane::getMDRMuxOut(quint8 &out, QString &errorString)
         }
     }
     else {
-        errorString.append("MDRCk is checked, but MDRMux isn't set");
+        errorString.append("MDRCk is checked, but MDRMux isn't set.\n");
     }
     return false;
 }
