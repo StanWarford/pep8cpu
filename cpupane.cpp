@@ -627,12 +627,12 @@ bool CpuPane::step(QString &errorString)
     if (cpuPaneItems->loadCk->isChecked()) {
         int cDest = cpuPaneItems->cLineEdit->text().toInt();
         quint8 out;
+        if (cpuPaneItems->cLineEdit->text() == "") {
+            errorString.append("No destination register specified.");
+            return false;
+        }
         if (getCMuxOut(out, errorString)) {
             setRegisterByte(cDest, out);
-        }
-        else {
-            // error: nothing on the C line edit
-            return false;
         }
     }
 
