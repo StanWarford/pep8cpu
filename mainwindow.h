@@ -106,6 +106,7 @@ private slots:
     void setRedoability(bool b);
 
     void updateSimulation();
+    void stopSimulation();
     void simulationFinished();
     void appendMicrocodeLine(QString string);
 

@@ -66,7 +66,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(cpuPane, SIGNAL(updateSimulation()), this, SLOT(updateSimulation()));
     connect(cpuPane, SIGNAL(simulationFinished()), this, SLOT(simulationFinished()));
-
+    connect(cpuPane, SIGNAL(stopSimulation()), this, SLOT(stopSimulation()));
     connect(cpuPane, SIGNAL(writeByte(int)), this, SLOT(updateMemAddress(int)));
 
     Pep::initEnumMnemonMaps();
@@ -608,6 +608,11 @@ void MainWindow::updateSimulation()
 {
     microcodePane->updateSimulationView();
     objectCodePane->highlightCurrentInstruction();
+}
+
+void MainWindow::stopSimulation()
+{
+    on_actionSystem_Stop_Debugging_triggered();
 }
 
 void MainWindow::simulationFinished()

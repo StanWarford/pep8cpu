@@ -88,6 +88,7 @@ public slots:
 
 signals:
     void updateSimulation();
+    void stopSimulation();
     void simulationFinished();
     void appendMicrocodeLine(QString line);
     void readByte(int address);

@@ -829,6 +829,7 @@ void CpuPane::clockButtonPushed()
     if (!step(errorString)) {
         // simulation had issues.
         QMessageBox::warning(0, "Pep/8", errorString);
+        emit stopSimulation();
     }
     scene->invalidate();
     clearCpuControlSignals();
@@ -841,6 +842,8 @@ void CpuPane::singleStepButtonPushed()
     if (!step(errorString)) {
         // simulation had issues.
         QMessageBox::warning(0, "Pep/8", errorString);
+        emit stopSimulation();
+
     }
 
     Sim::microProgramCounter++;
@@ -884,7 +887,8 @@ void CpuPane::resumeButtonPushed()
             // simulation had issues.
             QMessageBox::warning(0, "Pep/8", errorString);
             finished = true;
-            emit simulationFinished();
+            emit stopSimulation();
+//            emit simulationFinished();
             clearCpuControlSignals();
             return; // we'll just return here instead of letting it fail and go to the bottom
         }
@@ -1180,9 +1184,33 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& o
 }
 
 bool CpuPane::isCorrectALUInput(int ALUFn) {
+    bool abus, bbus;
+
+    if (cpuPaneItems->aMuxTristateLabel->text() == "") {
+        abus = false;
+    }
+    else if (cpuPaneItems->aMuxTristateLabel->text() == "0") {
+        abus = true;
+    }
+    else if (cpuPaneItems->aMuxTristateLabel->text() == "1") {
+        if (cpuPaneItems->aLineEdit->text() == "") {
+            abus = false;
+        }
+        else {
+            abus = true;
+        }
+    }
+
+    if (cpuPaneItems->bLineEdit->text() == "") {
+        bbus = false;
+    }
+    else {
+        bbus = true;
+    }
+
     switch(ALUFn) {
     case 0:
-        if (cpuPaneItems->aLineEdit->text() == "") {
+        if (!abus) {
             return false;
         }
         break;
@@ -1195,7 +1223,7 @@ bool CpuPane::isCorrectALUInput(int ALUFn) {
     case 7:
     case 8:
     case 9:
-        if (cpuPaneItems->aLineEdit->text() == "" || cpuPaneItems->bLineEdit->text() == "") {
+        if (!abus || !bbus) {
             return false;
         }
         break;
@@ -1205,7 +1233,7 @@ bool CpuPane::isCorrectALUInput(int ALUFn) {
     case 13:
     case 14:
     case 15:
-        if (cpuPaneItems->aLineEdit->text() == "") {
+        if (!abus) {
             return false;
         }
         break;
