@@ -12,7 +12,11 @@ ObjectCodePane::ObjectCodePane(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->plainTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    QFont font(Pep::codeFont);
+    font.setPointSize(Pep::codeFontSize);
+    font.setStyleHint(QFont::TypeWriter);
+
+    ui->plainTextEdit->setFont(font);
 
     cpuLabel = new ObjectCodeLabel(this);
     ui->verticalLayout->insertWidget(1, cpuLabel);

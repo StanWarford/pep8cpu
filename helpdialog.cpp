@@ -18,6 +18,7 @@ HelpDialog::HelpDialog(QWidget *parent) :
 
     ui->helpSplitter->widget(1)->hide();
     ui->helpTreeWidget->expandAll();
+    ui->helpTreeWidget->itemAt(0,0)->setSelected(true);
 
     delete ui->helpTextEdit;
 
