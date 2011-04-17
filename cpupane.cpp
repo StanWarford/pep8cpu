@@ -1057,7 +1057,7 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& o
     overflow = 0;
 
     if (cpuPaneItems->ALULineEdit->text() == "") {
-        errorString.append("No ALU input.\n");
+        errorString.append("ALU function not specified.\n");
         return false;
     }
 
@@ -1065,8 +1065,8 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& o
     ALUFn = cpuPaneItems->ALULineEdit->text().toInt();
 
     if (!isCorrectALUInput(ALUFn)) {
-        qDebug() << "Incorrect ALU input";
-        errorString.append("Incorrect ALU input.\n");
+//        qDebug() << "Incorrect or no ALU input";
+        errorString.append("Incorrect or no ALU input.\n");
         return false;
     }
 
