@@ -630,7 +630,7 @@ bool CpuPane::step(QString &errorString)
         int cDest = cpuPaneItems->cLineEdit->text().toInt();
         quint8 out;
         if (cpuPaneItems->cLineEdit->text() == "") {
-            errorString.append("No destination register specified.");
+            errorString.append("No destination register specified for LoadCk.");
             return false;
         }
         if (getCMuxOut(out, errorString)) {
@@ -675,7 +675,7 @@ bool CpuPane::step(QString &errorString)
         // ZCk
         if (cpuPaneItems->ZCkCheckBox->isChecked()) {
             if (cpuPaneItems->ANDZTristateLabel->text() == ""){
-                errorString.append("ZCk without ANDZ");
+                errorString.append("ZCk without ANDZ.");
                 return false;
             }
             if (cpuPaneItems->ANDZTristateLabel->text() == "0") { // zOut from ALU goes straight through
@@ -1057,7 +1057,7 @@ bool CpuPane::getALUOut(quint8 &result, quint8& a, quint8& b, int& carry, int& o
     overflow = 0;
 
     if (cpuPaneItems->ALULineEdit->text() == "") {
-        errorString.append("No ALU input\n");
+        errorString.append("No ALU input.\n");
         return false;
     }
 
@@ -1261,7 +1261,7 @@ bool CpuPane::getCMuxOut(quint8 &out, QString &errorString)
         return getALUOut(out, a, b, carry, overflow, errorString);
     }
     else {
-        errorString.append("No destination set for CBus\n");
+        errorString.append("No destination set for CMux out.\n"); // Should not be reachable.
     }
     return false;
 }
@@ -1281,7 +1281,7 @@ bool CpuPane::getAMuxOut(quint8 &out, QString &errorString)
         }
     }
     else {
-        errorString.append("Nothing on ABus\n");
+        errorString.append("Nothing on A bus.\n");
     }
     return false;
 }
@@ -1297,7 +1297,7 @@ bool CpuPane::getMDRMuxOut(quint8 &out, QString &errorString)
             return true;
         }
         else {
-            errorString.append("Not ready for mem read.\n");
+            errorString.append("Not ready for memread.\n");
         }
     }
     else if (cpuPaneItems->MDRMuxTristateLabel->text() == "1") {
@@ -1318,7 +1318,7 @@ bool CpuPane::getABusOut(quint8 &out, QString &errorString)
         return true;
     }
     else {
-        errorString.append("Nothing in A line edit\n");
+        errorString.append("Nothing on A bus.\n");
     }
     return false;
 }
@@ -1330,7 +1330,7 @@ bool CpuPane::getBBusOut(quint8 &out, QString &errorString)
         return true;
     }
     else {
-        errorString.append("Nothing in B line edit\n");
+        errorString.append("Nothing on B bus.\n");
     }
     return false;
 }
