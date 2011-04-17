@@ -55,7 +55,7 @@ private:
     CpuPaneGraphicsItems *cpuPaneItems;
 
     //simulation helper
-    void updateMainBusState(QString& errorString);
+    void updateMainBusState();
     // called by the push buttons to simulate a single step; returns true if there were no issues
     bool step(QString& errorString);
 
