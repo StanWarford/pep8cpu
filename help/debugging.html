@@ -47,6 +47,7 @@ two buttons Single Step and Resume are enabled.
 <p>
 <img src="qrc:/help/images/fourbuttonsmicrocodemode.png" alt="fourbuttonsmicrocodemode" hspace=10 vspace=10>
 <p>
+The following scenario shows the process of debugging Figure 12.5.
 When you enter the debugger, the first statement that is <i>about to be</i> executed is highlighted
 in the Source Code pane.
 <p>
@@ -82,13 +83,12 @@ and the values of the status bits are NZVC = 1010.
 <p>
 <img src="qrc:/help/images/debugger7.png" alt="debugger7" hspace=10 vspace=10>
 <p>
-<i>[We have a problem with runtime errors.
-I deleted the B=23 from cycle 6 as shown in the figure below.
-The cycle executes, and the only way you can tell if there is a problem is if it fails the unit test.]</i>
+Clicking Single Step one more time results in the following figure.
+The MemRead signal is set as specified by the MemRead statement in the next microcode line.
 <p>
 <img src="qrc:/help/images/debugger8.png" alt="debugger8" hspace=10 vspace=10>
 <p>
-<p>
+Each additional click of the Single Step button executes the next cycle of the microprogram.
 <h3><a name="Stopping">Stopping the debugger</a></h3>
 To exit the debugger, run a microcode sequence to completion by clicking the Resume button,
 select System->Stop Debugging from the menu, or click the corresponding Stop Debugging icon on the toolbar.
