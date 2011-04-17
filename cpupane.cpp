@@ -494,16 +494,18 @@ void CpuPane::changeEvent(QEvent *e)
     }
 }
 
-void CpuPane::updateMainBusState(QString& errorString)
+void CpuPane::updateMainBusState()
 {
     bool marUnchanged = true;
     if (cpuPaneItems->MARCk->isChecked()) {
         quint8 a, b;
+        QString errorString; // temporary, any errors here will be caught in the MARCk section of step()
         if (getABusOut(a, errorString) && getBBusOut(b, errorString)) {
             marUnchanged = (a == Sim::MARA) && (b == Sim::MARB);
         }
         else {
-            // error: MARCk is checked but we have incorrect input
+            // error: MARCk is checked but we have incorrect input.
+            // This will be caught in step() under the MARCk section
         }
     }
 
@@ -588,7 +590,7 @@ bool CpuPane::step(QString &errorString)
     Sim::modifiedBytes.clear();
 
     // Update Bus State
-    updateMainBusState(errorString); // FSM that sets Sim::mainBusState to Enu::BusState - 5 possible states
+    updateMainBusState(); // FSM that sets Sim::mainBusState to Enu::BusState - 5 possible states
 
     // Status bit calculations
     int aluFn = cpuPaneItems->ALULineEdit->text().toInt();
