@@ -596,7 +596,6 @@ bool CpuPane::step(QString &errorString)
     int aluFn = cpuPaneItems->ALULineEdit->text().toInt();
     int carry;
     int overflow;
-    bool isUnary = Sim::aluFnIsUnary(aluFn);
     quint8 result, a, b;
 
     QString errtemp;
@@ -1261,7 +1260,7 @@ bool CpuPane::getCMuxOut(quint8 &out, QString &errorString)
         return getALUOut(out, a, b, carry, overflow, errorString);
     }
     else {
-        errorString.append("No destination set for CMux out.\n"); // Should not be reachable.
+        errorString.append("CMux control signal not specified.\n");
     }
     return false;
 }

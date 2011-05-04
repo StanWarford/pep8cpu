@@ -17,9 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-#warning "need more robust saving of preferences"
-    resize(1164, 800);
-
     // initialize the read-only registers to the correct values
     Sim::initMRegs();
 

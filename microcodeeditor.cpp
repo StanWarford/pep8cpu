@@ -103,7 +103,7 @@ void MicrocodeEditor::unCommentSelection()
     int anchor = cursor.anchor();
     int start = qMin(anchor, pos);
     int end = qMax(anchor, pos);
-    bool anchorIsStart = (anchor == start);
+//    bool anchorIsStart = (anchor == start);
 
     QTextBlock startBlock = doc->findBlock(start);
     QTextBlock endBlock = doc->findBlock(end);
