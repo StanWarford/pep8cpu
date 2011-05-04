@@ -625,7 +625,8 @@ void MainWindow::simulationFinished()
             return;
         }
     }
-#warning "need a case for when we don't have unit tests"
+    // feature, not a bug: we will display the "passed unit test" even
+    // on the empty case - no postconditions
 
     ui->statusBar->showMessage("Passed unit test", 4000);
 }
