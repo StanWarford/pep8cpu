@@ -29,7 +29,7 @@ ByteConverterHex::ByteConverterHex(QWidget *parent) :
     m_ui->setupUi(this);
     // Regular expression to validate 0x00 - 0xff
     QRegExp hexRx("0x([0-9]|[a-f]|[A-F])([0-9]|[a-f]|[A-F])");
-    hexValidator = new QRegExpValidator(hexRx, 0);
+    hexValidator = new QRegExpValidator(hexRx, this);
     m_ui->lineEdit->setValidator(hexValidator);
     // Forward the textEdited() signal from m_ui->lineEdit up to the main window
     connect(m_ui->lineEdit, SIGNAL(textEdited(const QString &)), this, SIGNAL(textEdited(const QString &)));

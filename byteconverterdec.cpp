@@ -28,7 +28,7 @@ ByteConverterDec::ByteConverterDec(QWidget *parent) :
     m_ui->setupUi(this);
     // Regular expression to validate 0-255
     QRegExp decRx("^(25[0-5])|(2[0-4][0-9])|([0-1][0-9][0-9])|([0-9]{0,2})$");
-    decValidator = new QRegExpValidator(decRx, 0);
+    decValidator = new QRegExpValidator(decRx, this);
     m_ui->lineEdit->setValidator(decValidator);
     // Forward the textEdited() signal from m_ui->lineEdit up to the main window
     QObject::connect(m_ui->lineEdit, SIGNAL(textEdited(const QString &)), this,

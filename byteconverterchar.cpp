@@ -28,7 +28,7 @@ ByteConverterChar::ByteConverterChar(QWidget *parent) :
     m_ui->setupUi(this);
     // Regular expression to validate a single character
     QRegExp charRx("(.){0,1}");
-    charValidator = new QRegExpValidator(charRx, 0);
+    charValidator = new QRegExpValidator(charRx, this);
     m_ui->lineEdit->setValidator(charValidator);
     // Forward the textEdited() signal from m_ui->lineEdit up to the main window
     QObject::connect(m_ui->lineEdit, SIGNAL(textEdited(const QString &)), this,

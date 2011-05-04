@@ -44,13 +44,13 @@ MainWindow::MainWindow(QWidget *parent) :
     aboutPepDialog = new AboutPep(this);
 
     // Byte converter setup
-    byteConverterDec = new ByteConverterDec();
+    byteConverterDec = new ByteConverterDec(this);
     ui->byteConverterToolBar->addWidget(byteConverterDec);
-    byteConverterHex = new ByteConverterHex();
+    byteConverterHex = new ByteConverterHex(this);
     ui->byteConverterToolBar->addWidget(byteConverterHex);
-    byteConverterBin = new ByteConverterBin();
+    byteConverterBin = new ByteConverterBin(this);
     ui->byteConverterToolBar->addWidget(byteConverterBin);
-    byteConverterChar = new ByteConverterChar();
+    byteConverterChar = new ByteConverterChar(this);
     ui->byteConverterToolBar->addWidget(byteConverterChar);
     ui->byteConverterToolBar->setWindowTitle("Byte Converter");
     connect(byteConverterDec, SIGNAL(textEdited(const QString &)), this, SLOT(slotByteConverterDecEdited(const QString &)));
