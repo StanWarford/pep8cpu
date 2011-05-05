@@ -13,7 +13,7 @@ public:
     ByteConverterInstr(QWidget *parent = 0);
     ~ByteConverterInstr();
 
-    void setValue(int data);
+//    void setValue(int data);
 
 protected:
     void changeEvent(QEvent *e);

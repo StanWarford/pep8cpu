@@ -59,7 +59,7 @@ protected:
 
     // this is for the table widget, which sends the scroll
     // event to the scroll bar, which handles scrolling the table widget
-    bool eventFilter(QObject *o, QEvent *e);
+    bool eventFilter(QObject *, QEvent *e);
 
 private:
     Ui::MainMemory *ui;

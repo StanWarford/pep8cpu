@@ -337,7 +337,7 @@ void MainMemory::resizeEvent(QResizeEvent *)
         refreshMemory();
     }
 }
-bool MainMemory::eventFilter(QObject *o, QEvent *e)
+bool MainMemory::eventFilter(QObject *, QEvent *e)
 {
     if (e->type() == QEvent::Wheel) {
 
