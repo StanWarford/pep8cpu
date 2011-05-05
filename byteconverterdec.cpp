@@ -1,9 +1,9 @@
 // File: byteconverterdec.cpp
 /*
-    Pep8-1 is a virtual machine for writing machine language and assembly
-    language programs.
-    
-    Copyright (C) 2009  J. Stanley Warford, Pepperdine University
+    Pep8CPU is a CPU simulator for executing microcode sequences to
+    implement instructions in the instruction set of the Pep/8 computer.
+
+    Copyright (C) 2010  J. Stanley Warford, Pepperdine University
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "byteconverterdec.h"
 #include "ui_byteconverterdec.h"
 
