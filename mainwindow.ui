@@ -73,7 +73,7 @@
      <x>0</x>
      <y>0</y>
      <width>1035</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -121,8 +121,8 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionHelp_CPU"/>
-    <addaction name="actionHelp_Microcode"/>
+    <addaction name="actionHelp_UsingPep8CPU"/>
+    <addaction name="actionHelp_Pep8Reference"/>
     <addaction name="separator"/>
     <addaction name="actionHelp_About_Pep8CPU"/>
     <addaction name="actionHelp_About_Qt"/>
@@ -343,21 +343,21 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionHelp_CPU">
+  <action name="actionHelp_UsingPep8CPU">
    <property name="icon">
     <iconset resource="pep8cpuresources.qrc">
      <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
    </property>
    <property name="text">
-    <string>CPU</string>
+    <string>Using Pep/8 CPU</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionHelp_Microcode">
+  <action name="actionHelp_Pep8Reference">
    <property name="text">
-    <string>Microcode</string>
+    <string>Pep/8 Reference</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>

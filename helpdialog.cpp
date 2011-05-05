@@ -37,6 +37,19 @@ HelpDialog::~HelpDialog()
     delete ui;
 }
 
+void HelpDialog::selectItem(QString string) {
+    QTreeWidgetItemIterator it(ui->helpTreeWidget);
+    while (*it) {
+        if ((*it)->text(0) == string) {
+            (*it)->setSelected(true);
+            ui->helpTreeWidget->setCurrentItem((*it));
+        } else {
+            (*it)->setSelected(false);
+        }
+        ++it;
+    }
+}
+
 QString HelpDialog::getExampleText()
 {
     return microcodeEditor->toPlainText();
@@ -51,19 +64,6 @@ void HelpDialog::changeEvent(QEvent *e)
         break;
     default:
         break;
-    }
-}
-
-void HelpDialog::selectItem(QString string) {
-    QTreeWidgetItemIterator it(ui->helpTreeWidget);
-    while (*it) {
-        if ((*it)->text(0) == string) {
-            (*it)->setSelected(true);
-            ui->helpTreeWidget->setCurrentItem((*it));
-        } else {
-            (*it)->setSelected(false);
-        }
-        ++it;
     }
 }
 

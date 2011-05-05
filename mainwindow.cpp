@@ -460,6 +460,18 @@ void MainWindow::on_actionHelp_triggered()
     helpDialog->show();
 }
 
+void MainWindow::on_actionHelp_UsingPep8CPU_triggered()
+{
+    helpDialog->show();
+    helpDialog->selectItem("Using Pep/8 CPU");
+}
+
+void MainWindow::on_actionHelp_Pep8Reference_triggered()
+{
+    helpDialog->show();
+    helpDialog->selectItem("Pep/8 Reference");
+}
+
 void MainWindow::on_actionHelp_About_Pep8CPU_triggered()
 {
     aboutPepDialog->show();

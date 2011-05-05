@@ -91,6 +91,8 @@ private slots:
     void on_actionSystem_Clear_Memory_triggered();
     // Help
     void on_actionHelp_triggered();
+    void on_actionHelp_UsingPep8CPU_triggered();
+    void on_actionHelp_Pep8Reference_triggered();
     void on_actionHelp_About_Pep8CPU_triggered();
     void on_actionHelp_About_Qt_triggered();
 

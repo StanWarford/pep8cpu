@@ -24,13 +24,13 @@ public:
     bool hasFocus();
     // Returns if the webview or the textedit has focus
 
+    void selectItem(QString string);
+
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::HelpDialog *ui;
-
-    void selectItem(QString string);
 
     MicrocodeEditor *microcodeEditor;
     PepHighlighter *leftHighlighter;
