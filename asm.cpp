@@ -121,9 +121,9 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
     QString tokenString; // Passed to getToken.
     QString localIdentifier = ""; // Saves identifier for processing in the following state.
     int localValue;
-    int localAddressValue;
-    Enu::EMnemonic localEnumMnemonic; // Key to Pep:: table lookups.
-    bool processingPrecondition; // To distinguish between a precondition and a postcondition.
+    int localAddressValue = 0; // = 0 to suppress compiler warning
+    Enu::EMnemonic localEnumMnemonic = Enu::LoadCk; // Key to Pep:: table lookups. = Enu::LoadCk to suppress compiler warning
+    bool processingPrecondition = false; // To distinguish between a precondition and a postcondition. = false to suppress compiler warning
 
     // The concrete code objects asssigned to code.
     MicroCode *microCode = NULL;
