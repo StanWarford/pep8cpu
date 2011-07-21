@@ -73,7 +73,7 @@
      <x>0</x>
      <y>0</y>
      <width>1035</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -122,7 +122,11 @@
      <string>Help</string>
     </property>
     <addaction name="actionHelp_UsingPep8CPU"/>
+    <addaction name="actionHelp_InteractiveUse"/>
+    <addaction name="actionHelp_MicrocodeUse"/>
+    <addaction name="actionHelp_DebuggingUse"/>
     <addaction name="actionHelp_Pep8Reference"/>
+    <addaction name="actionHelp_Examples"/>
     <addaction name="separator"/>
     <addaction name="actionHelp_About_Pep8CPU"/>
     <addaction name="actionHelp_About_Qt"/>
@@ -355,9 +359,9 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionHelp_Pep8Reference">
+  <action name="actionHelp_InteractiveUse">
    <property name="text">
-    <string>Pep/8 Reference</string>
+    <string>Interactive Use</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
@@ -470,6 +474,26 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+/</string>
+   </property>
+  </action>
+  <action name="actionHelp_MicrocodeUse">
+   <property name="text">
+    <string>Microcode Use</string>
+   </property>
+  </action>
+  <action name="actionHelp_DebuggingUse">
+   <property name="text">
+    <string>Debugging Use</string>
+   </property>
+  </action>
+  <action name="actionHelp_Pep8Reference">
+   <property name="text">
+    <string>Pep/8 Reference</string>
+   </property>
+  </action>
+  <action name="actionHelp_Examples">
+   <property name="text">
+    <string>Examples</string>
    </property>
   </action>
  </widget>

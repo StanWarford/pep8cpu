@@ -476,21 +476,45 @@ void MainWindow::on_actionSystem_Clear_Memory_triggered()
     mainMemory->clearMemory();
 }
 
-void MainWindow::on_actionHelp_triggered()
-{
-    helpDialog->show();
-}
-
 void MainWindow::on_actionHelp_UsingPep8CPU_triggered()
 {
     helpDialog->show();
     helpDialog->selectItem("Using Pep/8 CPU");
 }
 
+void MainWindow::on_actionHelp_InteractiveUse_triggered()
+{
+    helpDialog->show();
+    helpDialog->selectItem("Interactive Use");
+}
+
+void MainWindow::on_actionHelp_MicrocodeUse_triggered()
+{
+    helpDialog->show();
+    helpDialog->selectItem("Microcode Use");
+}
+
+void MainWindow::on_actionHelp_DebuggingUse_triggered()
+{
+    helpDialog->show();
+    helpDialog->selectItem("Debugging Use");
+}
+
 void MainWindow::on_actionHelp_Pep8Reference_triggered()
 {
     helpDialog->show();
     helpDialog->selectItem("Pep/8 Reference");
+}
+
+void MainWindow::on_actionHelp_Examples_triggered()
+{
+    helpDialog->show();
+    helpDialog->selectItem("Examples");
+}
+
+void MainWindow::on_actionHelp_triggered()
+{
+    helpDialog->show();
 }
 
 void MainWindow::on_actionHelp_About_Pep8CPU_triggered()
