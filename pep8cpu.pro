@@ -2,8 +2,10 @@
 # Project created by QtCreator 2009-12-01T13:18:25
 # -------------------------------------------------
 TEMPLATE = app
+TARGET = Pep8CPU
+
 QT += webkit
-CONFIG += x86 #    ppc # commented because it causes build issues?
+# CONFIG += x86 #    ppc # commented because it causes build issues?
 
 # Mac icon/plist
 ICON = images/icon.icns
