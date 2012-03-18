@@ -91,7 +91,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     readSettings();
 
-    installEventFilter(this);
+    qApp->installEventFilter(this);
 
     connect(cpuPane, SIGNAL(appendMicrocodeLine(QString)), this, SLOT(appendMicrocodeLine(QString)));
 }
