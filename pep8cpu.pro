@@ -5,7 +5,9 @@ TEMPLATE = app
 TARGET = Pep8CPU
 
 QT += webkit
-# CONFIG += x86 #    ppc # commented because it causes build issues?
+QT += webkitwidgets
+QT += widgets
+QT += printsupport
 
 # Mac icon/plist
 ICON = images/icon.icns

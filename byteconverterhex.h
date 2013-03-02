@@ -22,7 +22,7 @@
 #ifndef BYTECONVERTERHEX_H
 #define BYTECONVERTERHEX_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QRegExpValidator>
 
 namespace Ui {
