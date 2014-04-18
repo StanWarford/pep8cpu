@@ -29,7 +29,7 @@ using namespace Enu;
 
 // Fonts
 const QString Pep::codeFont = getSystem() == "Windows" ? "Courier" : (getSystem() == "Mac" ? "Courier" : "Courier 10 Pitch");
-const int Pep::codeFontSize = getSystem() == "Mac" ? 11 : 9;
+const int Pep::codeFontSize = getSystem() == "Mac" ? 11 : 10;
 const QString Pep::labelFont = getSystem() == "Mac" ? "Lucida Grande" : "Verdana";
 const int Pep::labelFontSize = getSystem() == "Mac" ? 11 : 8;
 const QString Pep::cpuFont = getSystem() == "Mac" ? "Lucida Grande" : "Verdana";
@@ -46,6 +46,10 @@ QString Pep::getSystem() {
 
     #ifdef Q_WS_QWS
     return QString("Embedded Linux");
+    #endif
+
+    #ifdef Q_OS_WIN32
+    return QString("Windows");
     #endif
 
     #ifdef Q_WS_WIN
