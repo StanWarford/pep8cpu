@@ -47,39 +47,40 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     loadCk->setGeometry(550, 18, 80, 20);
     scene->addWidget(loadCk);
 
+    // Note: the line edits must be added first, otherwise they cover the labels that go with them.
     QRegExp cbaRegExp("^((3[0-1])|([0-2][0-9])|([0-9]))$");
-    cLabel = new QLabel("C");
-    cLabel->setPalette(QPalette(Qt::white));
-    cLabel->setGeometry(579, 41, 20, 21);
-    scene->addWidget(cLabel);
     cLineEdit = new QLineEdit();
     cLineEdit->setAlignment(Qt::AlignCenter);
     cLineEdit->setGeometry(550, 39, 25, 21);
     cLineEdit->setValidator(new QRegExpValidator(cbaRegExp, cLineEdit));
     cLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(cLineEdit);
+    cLabel = new QLabel("C");
+    cLabel->setPalette(QPalette(Qt::white));
+    cLabel->setGeometry(579, 41, 20, 21);
+    scene->addWidget(cLabel);
 
-    bLabel = new QLabel("B");
-    bLabel->setGeometry(579, 63, 20, 21);
-    bLabel->setPalette(QPalette(Qt::white));
-    scene->addWidget(bLabel);
     bLineEdit = new QLineEdit();
     bLineEdit->setAlignment(Qt::AlignCenter);
     bLineEdit->setGeometry(550, 61, 25, 21);
     bLineEdit->setValidator(new QRegExpValidator(cbaRegExp, bLineEdit));
     bLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(bLineEdit);
+    bLabel = new QLabel("B");
+    bLabel->setGeometry(579, 63, 20, 21);
+    bLabel->setPalette(QPalette(Qt::white));
+    scene->addWidget(bLabel);
 
-    aLabel = new QLabel("A");
-    aLabel->setGeometry(579, 85, 20, 21);
-    aLabel->setPalette(QPalette(Qt::white));
-    scene->addWidget(aLabel);
     aLineEdit = new QLineEdit();
     aLineEdit->setAlignment(Qt::AlignCenter);
     aLineEdit->setGeometry(550,83, 25, 21);
     aLineEdit->setValidator(new QRegExpValidator(cbaRegExp, aLineEdit));
     aLineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(aLineEdit);
+    aLabel = new QLabel("A");
+    aLabel->setGeometry(579, 85, 20, 21);
+    aLabel->setPalette(QPalette(Qt::white));
+    scene->addWidget(aLabel);
 
     MARCk = new QCheckBox("MARCk");
     MARCk->setGeometry(550, 169, 80, 20);
@@ -155,16 +156,17 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     scene->addWidget(cMuxTristateLabel);
     scene->addRect(550, 348, 25, 20, QPen(Qt::gray));
 
-    ALULabel = new QLabel("ALU");
-    ALULabel->setGeometry(579, 370, 31, 20);
-    ALULabel->setPalette(QPalette(Qt::white));
-    scene->addWidget(ALULabel);
+    // keep this before the label that goes with it, or the line edit appears on top of the label
     ALULineEdit = new QLineEdit();
     ALULineEdit->setAlignment(Qt::AlignCenter);
     ALULineEdit->setGeometry(550, 368, 26, 20);
     ALULineEdit->setValidator(new QRegExpValidator(QRegExp("^((1[0-5])|(0[0-9])|[0-9])$"), ALULineEdit));
     ALULineEdit->setPalette(QPalette(Qt::white));
     scene->addWidget(ALULineEdit);
+    ALULabel = new QLabel("ALU");
+    ALULabel->setGeometry(579, 370, 31, 20);
+    ALULabel->setPalette(QPalette(Qt::white));
+    scene->addWidget(ALULabel);
 
     ALUFunctionLabel = new QLabel("");
     ALUFunctionLabel->setGeometry(332, 355, 98, 20);
@@ -257,7 +259,6 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     scene->addRect(550, 596, 25, 20, QPen(Qt::gray));
 
     // Registers
-    QGraphicsRectItem *rectItem;
     scene->addRect(5, 5, 491, 113, QPen(QBrush(QColor(Qt::red), Qt::SolidPattern), 2, Qt::DotLine, Qt::SquareCap, Qt::BevelJoin),
                    QBrush(seqCircuitColor));
 
@@ -603,7 +604,7 @@ CpuPaneGraphicsItems::CpuPaneGraphicsItems(QWidget *widgetParent, QGraphicsItem 
     lineItem->setZValue(1); // make sure this line appears above the bus
 
     // MDR
-    rectItem = scene->addRect(175, 254, 69, 19);
+    scene->addRect(175, 254, 69, 19);
 
     // MDRBus
     scene->addRect(244,258, 36,10, QPen(Qt::black), QBrush(Qt::yellow));
