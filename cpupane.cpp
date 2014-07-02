@@ -533,10 +533,10 @@ void CpuPane::updateMainBusState()
 
     switch (Sim::mainBusState) {
     case Enu::None:
-        if (cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (1st)
+        if (marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead (1st)
             Sim::mainBusState = Enu::MemReadWait;
         }
-        else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (1st)
+        else if (marUnchanged && cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (1st)
             Sim::mainBusState = Enu::MemWriteWait;
         }
         //else: mainBusState = None, but it already is.
@@ -547,6 +547,7 @@ void CpuPane::updateMainBusState()
         }
         else if (!marUnchanged && cpuPaneItems->MemReadTristateLabel->text() == "1") { // MemRead
             // do nothing, already MemReadWait - need another MemRead because the MAR changed
+            qDebug() << "MAR changed - don't read yet";
         }
         else if (cpuPaneItems->MemWriteTristateLabel->text() == "1") { // MemWrite (after a sinle MemRead)
             Sim::mainBusState = Enu::MemWriteWait;
