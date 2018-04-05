@@ -31,6 +31,7 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QFontDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -86,7 +87,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(cpuPane, SIGNAL(simulationFinished()), this, SLOT(simulationFinished()));
     connect(cpuPane, SIGNAL(stopSimulation()), this, SLOT(stopSimulation()));
     connect(cpuPane, SIGNAL(writeByte(int)), this, SLOT(updateMemAddress(int)));
-
+    connect(this,SIGNAL(fontChanged(QFont)),microcodePane,SLOT(onFontChanged(QFont)));
+    connect(this,SIGNAL(fontChanged(QFont)),helpDialog,SLOT(onFontChanged(QFont)));
     Pep::initEnumMnemonMaps();
 
     readSettings();
@@ -161,12 +163,13 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
 void MainWindow::readSettings()
 {
-    QSettings settings("Pep8CPU", "MainWindow");
+    QSettings settings("cslab.pepperdine","Pep8CPU");
     QDesktopWidget *desktop = QApplication::desktop();
     int width = static_cast<int>(desktop->width() * 0.80);
     int height = static_cast<int>(desktop->height() * 0.70);
     int screenWidth = desktop->width();
     int screenHeight = desktop->height();
+    settings.beginGroup("MainWindow");
     QPoint pos = settings.value("pos", QPoint((screenWidth - width) / 2, (screenHeight - height) / 2)).toPoint();
     QSize size = settings.value("size", QSize(width, height)).toSize();
     if (Pep::getSystem() == "Mac") {
@@ -180,15 +183,25 @@ void MainWindow::readSettings()
     }
     resize(size);
     move(pos);
+    QVariant val = settings.value("font",codeFont);
+    if(val.canConvert<QFont>())
+    {
+        codeFont = qvariant_cast<QFont>(val);
+    }
+    emit fontChanged(codeFont);
     curPath = settings.value("filePath", QDir::homePath()).toString();
+    settings.endGroup();
 }
 
 void MainWindow::writeSettings()
 {
-    QSettings settings("Pep8CPU", "MainWindow");
+    QSettings settings("cslab.pepperdine","Pep8CPU");
+    settings.beginGroup("MainWindow");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
     settings.setValue("filePath", curPath);
+    settings.setValue("font",codeFont);
+    settings.endGroup();
 }
 
 // Save methods
@@ -392,7 +405,18 @@ void MainWindow::on_actionEdit_Remove_Error_Messages_triggered()
 
 void MainWindow::on_actionEdit_Font_triggered()
 {
-    microcodePane->setFont();
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, codeFont, this, "Set Source Code Font");
+    if (ok) {
+        codeFont = font;
+        emit fontChanged(codeFont);
+    }
+}
+
+void MainWindow::on_actionReset_Fonts_to_Defaults_triggered()
+{
+    codeFont = QFont(Pep::codeFont,Pep::codeFontSize);
+    emit fontChanged(codeFont);
 }
 
 // System MainWindow triggers

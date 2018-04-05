@@ -102,6 +102,8 @@ private:
         eEX1208 = 27,
     };
 
+public slots:
+    void onFontChanged(QFont font);
 private slots:
     void onCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*);
 

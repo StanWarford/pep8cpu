@@ -56,7 +56,7 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-
+    QFont codeFont;
     // Byte converter
     ByteConverterDec *byteConverterDec;
     ByteConverterHex *byteConverterHex;
@@ -103,6 +103,7 @@ private slots:
     void on_actionEdit_Format_From_Object_Code_triggered();
     void on_actionEdit_Remove_Error_Messages_triggered();
     void on_actionEdit_Font_triggered();
+    void on_actionReset_Fonts_to_Defaults_triggered();
     // System
     void on_actionSystem_Run_triggered();
     bool on_actionSystem_Start_Debugging_triggered();
@@ -139,6 +140,8 @@ private slots:
     void helpCopyToMicrocodeButtonClicked();
 
     void updateMemAddress(int address);
+signals:
+    void fontChanged(QFont font);
 };
 
 #endif // MAINWINDOW_H
