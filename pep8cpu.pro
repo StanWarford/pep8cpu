@@ -90,3 +90,20 @@ OTHER_FILES += help/images/registeraddresssignals.png \
     help/cpu.html
 RESOURCES += pep8cpuresources.qrc \
     helpresources.qrc
+
+DISTFILES += \
+    ProjectDefs.pri \
+    Installer/config/control.js \
+    Installer/packages/pep8/installscript.js \
+    Installer/InstallerConfig.pri \
+    Installer/config/configlinux.xml \
+    Installer/config/configwin32.xml \
+    Installer/packages/pep8/package.xml \
+    Installer/packages/pep8/License.txt
+
+#Add this include to the bottom of your project to enable automated installer creation
+#Include the definitions file that sets all variables needed for the InstallerConfig Script
+include("ProjectDefs.pri")
+
+#Lastly, include and run the installer config script
+include("Installer/InstallerConfig.pri")
