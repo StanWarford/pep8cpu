@@ -73,8 +73,6 @@ public:
     bool isUndoable();
     bool isRedoable();
 
-    void setFont();
-
     void setReadOnly(bool ro);
 
     bool isModified();
@@ -86,7 +84,8 @@ public:
     void unCommentSelection();
 
     void setFilename(QString fileName);
-
+public slots:
+    void onFontChanged(QFont font);
 protected:
     void changeEvent(QEvent *e);
 

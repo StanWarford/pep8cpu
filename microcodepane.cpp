@@ -226,13 +226,9 @@ void MicrocodePane::setReadOnly(bool ro)
     editor->setReadOnly(ro);
 }
 
-void MicrocodePane::setFont()
+void MicrocodePane::onFontChanged(QFont font)
 {
-    bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(editor->font()), this, "Set Source Code Font");
-    if (ok) {
-        editor->setFont(font);
-    }
+    editor->setFont(font);
 }
 
 bool MicrocodePane::isModified()

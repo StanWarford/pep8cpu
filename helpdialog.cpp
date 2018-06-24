@@ -297,3 +297,8 @@ bool HelpDialog::hasFocus()
     return microcodeEditor->hasFocus() || ui->helpTopWebView->hasFocus();
 }
 
+void HelpDialog::onFontChanged(QFont font)
+{
+    microcodeEditor->setFont(font);
+}
+
