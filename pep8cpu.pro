@@ -94,12 +94,12 @@ RESOURCES += pep8cpuresources.qrc \
 DISTFILES += \
     ProjectDefs.pri \
     Installer/config/control.js \
-    Installer/packages/pep8/installscript.js \
+    Installer/packages/pep8cpu/installscript.js \
     Installer/InstallerConfig.pri \
     Installer/config/configlinux.xml \
     Installer/config/configwin32.xml \
-    Installer/packages/pep8/package.xml \
-    Installer/packages/pep8/License.txt
+    Installer/packages/pep8cpu/package.xml \
+    Installer/packages/pep8cpu/License.txt
 
 #Add this include to the bottom of your project to enable automated installer creation
 #Include the definitions file that sets all variables needed for the InstallerConfig Script
