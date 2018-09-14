@@ -54,7 +54,7 @@ private:
 
     MicrocodeEditor *microcodeEditor;
     PepHighlighter *leftHighlighter;
-
+    static const int defaultHelpTreeWidth;
     enum Row {
         eUSINGPEP8CPU = 0,
         ePEP8REFERENCE = 1,

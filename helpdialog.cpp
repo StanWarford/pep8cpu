@@ -25,7 +25,7 @@
 #include "pep.h"
 #include <QClipboard>
 #include <QDebug>
-
+const int HelpDialog::defaultHelpTreeWidth = 200;
 HelpDialog::HelpDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::HelpDialog)
@@ -46,6 +46,13 @@ HelpDialog::HelpDialog(QWidget *parent) :
     microcodeEditor = new MicrocodeEditor(this, false, true);
     ui->verticalLayout->insertWidget(0, microcodeEditor);
 
+    QList<int> list, list2;
+    list.append(HelpDialog::defaultHelpTreeWidth);
+    list.append(size().width()-HelpDialog::defaultHelpTreeWidth);
+    ui->splitter_3->setSizes(list);
+    list2.append(1);
+    list2.append(ui->helpCopyToMicrocodeButton->height()+10);
+    ui->helpSplitter->setSizes(list);
     leftHighlighter = new PepHighlighter(microcodeEditor->document());
 
     ui->helpTreeWidget->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
