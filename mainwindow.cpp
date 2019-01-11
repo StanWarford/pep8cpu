@@ -35,7 +35,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
-        ui(new Ui::MainWindow)
+        ui(new Ui::MainWindow), codeFont(Pep::codeFont, Pep::codeFontSize)
 {
     ui->setupUi(this);
 
@@ -164,31 +164,14 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 void MainWindow::readSettings()
 {
     QSettings settings("cslab.pepperdine","Pep8CPU");
-    QDesktopWidget *desktop = QApplication::desktop();
-    int width = static_cast<int>(desktop->width() * 0.80);
-    int height = static_cast<int>(desktop->height() * 0.70);
-    int screenWidth = desktop->width();
-    int screenHeight = desktop->height();
-    settings.beginGroup("MainWindow");
-    QPoint pos = settings.value("pos", QPoint((screenWidth - width) / 2, (screenHeight - height) / 2)).toPoint();
-    QSize size = settings.value("size", QSize(width, height)).toSize();
-    if (Pep::getSystem() == "Mac") {
-        pos.setY(pos.y() + 20); // Every time the app launches, it seems OSX moves the window 20 pixels up the screen, so we compensate here.
-    }
-    else if (Pep::getSystem() == "Linux") { // Linux has a similar issue, so compensate here.
-        pos.setY(pos.y() - 20);
-    }
-    if (pos.x() > width || pos.x() < 0 || pos.y() > height || pos.y() < 0) {
-        pos = QPoint(0, 0);
-    }
-    resize(size);
-    move(pos);
-    QVariant val = settings.value("font",codeFont);
-    if(val.canConvert<QFont>())
-    {
-        codeFont = qvariant_cast<QFont>(val);
-    }
+    QByteArray readGeometry = settings.value("geometry", saveGeometry()).toByteArray();
+    restoreGeometry(readGeometry);
+
+    // Restore last used font
+    QVariant val = settings.value("font", codeFont);
     emit fontChanged(codeFont);
+
+    //Restore last used file path
     curPath = settings.value("filePath", QDir::homePath()).toString();
     settings.endGroup();
 }
@@ -197,8 +180,7 @@ void MainWindow::writeSettings()
 {
     QSettings settings("cslab.pepperdine","Pep8CPU");
     settings.beginGroup("MainWindow");
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
+    settings.setValue("geometry", saveGeometry());
     settings.setValue("filePath", curPath);
     settings.setValue("font",codeFont);
     settings.endGroup();
