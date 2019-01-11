@@ -1,6 +1,6 @@
 #Installer Configuration
 #Pep8 CPU Version
-PEPVER=81
+PEPVER=82
 #Name of the installation tool
 OUTPUT_INSTALLER_NAME=$$TARGET"-Installer-"$$PEPVER
 #Internal version number, unused as of 5/2/2018
