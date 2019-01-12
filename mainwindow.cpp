@@ -164,6 +164,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 void MainWindow::readSettings()
 {
     QSettings settings("cslab.pepperdine","Pep8CPU");
+    settings.beginGroup("MainWindow");
     QByteArray readGeometry = settings.value("geometry", saveGeometry()).toByteArray();
     restoreGeometry(readGeometry);
 
